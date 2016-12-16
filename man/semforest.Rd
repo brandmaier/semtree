@@ -11,7 +11,7 @@ Grows a SEM Forest from a template model and a dataset. This may take some time.
 }
 \usage{
 semforest(model, data, control = NULL, predictors = NULL,
-                 constraints = NULL, ...)
+                 constraints = NULL, cluster=NULL, ...)
 }
 % print.semforest(forest)
 %- maybe also 'usage' for other objects documented here.
@@ -30,6 +30,9 @@ An optional list of covariates. See semtree code example.
 }
   \item{constraints}{
 An optional list of covariates. See semtree code example.
+}
+\item{cluster}{
+ An object of class "cluster" representing a parallel socket cluster. See package \link[parallel]{makeCluster}.
 }
 
   \item{\dots}{

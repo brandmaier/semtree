@@ -13,7 +13,7 @@ Imports:
     digest,
     rpart,
     rpart.plot,
-    snowfall
+    parallel
 Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision

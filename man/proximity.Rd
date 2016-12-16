@@ -10,7 +10,7 @@ SEM Forest Case Proximity
 A \code{\link{semforest}} process to represent proportion of trees where each case are in the same leaf nodes. The values are bounded (0,1), where higher values are closer in proximity. 
 }
 \usage{
-proximity(forest, dataset = NULL, type = 0, aggregate = T, snowfall = FALSE)
+proximity(forest, dataset = NULL, type = 0, aggregate = T, cluster = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 % plot.proximity(prox, main = "Principal Coordinates", xlim = NULL, ylim = NULL, col = "black", pch = NULL, axes = c(1, 2), type = "mds", cex = 2, ...)
@@ -28,9 +28,10 @@ Missingness accounted for. (0 = no, 1 = yes)
   \item{aggregate}{
 Boolean marker to compute aggregate proximity scores.
 }
-  \item{snowfall}{
-Use parallel computing for calculations.
+\item{cluster}{
+ An object of class "cluster" representing a parallel socket cluster. See package \link[parallel]{makeCluster}.
 }
+\item{\ldots}{Optional arguments.}
 }
 
 \value{

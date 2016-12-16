@@ -18,7 +18,7 @@ export("subtree")
 #export("manvarOrder")
 #export("recodeAllSubsets")
 #export("recodeOrdered")
-export("sfMapply")
+
 #export("fairSplit")
 #export("naiveSplit")
 
@@ -63,7 +63,7 @@ export("getTerminalNodes")
 
 export("proximity")
 export("outliers")
-export("availableCpus")
+#export("availableCpus")
 export("evaluateTree")
 export("getNodeById")
 #export("get.children.map")
@@ -98,17 +98,11 @@ export("partialDependencePlot")
 import("OpenMx")
 import("bitops")
 importFrom("sets","as.set")
-#import("rpart.plot")
-#import("snowfall")
 import("rpart")
-
-
-importFrom("utils", "str")
-#importFrom("base", "summary")
-
 importFrom("grDevices", "heat.colors", "rainbow")
   importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
              "plot", "strwidth", "text")
   importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov",
              "logLik", "median", "pchisq", "qnorm", "runif", "var")
-  importFrom("utils", "flush.console", "getS3method", "sessionInfo")
+  importFrom("utils", "flush.console", "getS3method", "sessionInfo","str")
+importFrom("parallel","parLapply","clusterMap")

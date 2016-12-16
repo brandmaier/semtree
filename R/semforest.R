@@ -1,5 +1,5 @@
 semforest <- function(model, data, control=NULL,
-                       predictors=NULL, constraints=NULL , ...)
+                       predictors=NULL, constraints=NULL , cluster=NULL, ...)
 {
   
   arguments <- list(...)
@@ -109,15 +109,22 @@ semforest <- function(model, data, control=NULL,
 	#browser()
 	start.time <- proc.time()
 
-# applyfun <- mapply;
-#  if (sfParallel()) {
-#    applyfun <- sfMapply
-#  }
+  if (is.null(cluster)) {
+    trees <- mapply(FUN=semtreeApplyWrapper, 
+                      forest.data, seeds, skip, 
+                      MoreArgs=list(model,semforest.control$semtree.control,
+                                    with.error.handler, covariates, constraints),SIMPLIFY=FALSE)
+  } else {
+    trees <- clusterMap(cl=cluster, fun=semtreeApplyWrapper, 
+               forest.data, seeds, skip, 
+               MoreArgs=list(model,semforest.control$semtree.control,
+                             with.error.handler, covariates, constraints),
+               SIMPLIFY=FALSE)
+  }
 	
-	trees <- sfMapply(FUN=semtreeApplyWrapper, 
-                    forest.data, seeds, skip, 
-                    MoreArgs=list(model,semforest.control$semtree.control,
-                                  with.error.handler, covariates, constraints),SIMPLIFY=FALSE)
+
+ 
+ 
 	elapsed <- proc.time()-start.time
 	
   # postprocess to correct any erroneous trees

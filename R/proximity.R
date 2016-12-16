@@ -1,5 +1,9 @@
-proximity <- function(forest, dataset=NULL, type=0, aggregate=T, snowfall=FALSE)
+proximity <- function(forest, dataset=NULL, type=0, aggregate=T, cluster=NULL, ...)
 {
+  if ("snowfall" %in% list(...)) {
+    warning("Use of snowfall is deprecated and must be replaced with cluster argument from package 'parallel'! See manual")
+  }
+  
   if (is.null(dataset)) {
     dataset <- forest$data
   }
@@ -17,10 +21,10 @@ proximity <- function(forest, dataset=NULL, type=0, aggregate=T, snowfall=FALSE)
   }
 	
 	#quasi map-reduce-step here:
-  if (snowfall) 
-	  bool.matrix <- snowfall::sfLapply(forest$forest, FUN=prox.fun, dataset)	
+  if (is.null(cluster)) 
+	  bool.matrix <- lapply(forest$forest, FUN=prox.fun, dataset)
   else
-    bool.matrix <- lapply(forest$forest, FUN=prox.fun, dataset)
+    bool.matrix <- parLapply(cl=cluster,forest$forest, FUN=prox.fun, dataset)
   
   for (i in 1:K)
 	{

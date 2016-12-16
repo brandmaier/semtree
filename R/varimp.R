@@ -64,28 +64,37 @@ varimpTree <- function( tree, data, var.names=NULL,
 #}
 
 varimp <- function(forest, var.names=NULL, verbose=F, 
-                   main.effects=F, parallel=TRUE, 
-                   eval.fun=evaluateTree)
+                   main.effects=F, cluster=NULL, 
+                   eval.fun=evaluateTree, ...)
 {
 
+  if ("parallel" %in% list(...)) {
+    warning("Use of snowfall is deprecated and must be replaced with cluster argument from package 'parallel'! See manual")
+  }
+  
 	if (is.null(var.names)) {
 		var.names <- forest$covariates
 	}
 
 	result <- list()
-
-  if (parallel) {
-    fun <- sfMapply
+	start.time <- proc.time()
+	
+  if (is.null(cluster)) {
+    temp <- mapply(FUN=varimpTree, forest$forest, forest$forest.data,
+                MoreArgs=list(var.names=var.names, verbose=verbose,
+                              max.level=NA, eval.fun=eval.fun
+                ),
+                SIMPLIFY=FALSE, USE.NAMES=TRUE)
   } else {
-    fun <- mapply
+    temp <- parallel::clusterMap(cl=cluster, fun=varimpTree, forest$forest, forest$forest.data,
+                MoreArgs=list(var.names=var.names, verbose=verbose,
+                              max.level=NA, eval.fun=eval.fun
+                ),
+                SIMPLIFY=FALSE, USE.NAMES=TRUE)
   }
 
-  start.time <- proc.time()
-	temp <- fun(FUN=varimpTree, forest$forest, forest$forest.data,
-                  MoreArgs=list(var.names=var.names, verbose=verbose,
-                                max.level=NA, eval.fun=eval.fun
-                                ),
-              SIMPLIFY=FALSE, USE.NAMES=T)
+
+
   elapsed <- proc.time()-start.time
 
   # extract results and put them into result-object

@@ -15,9 +15,17 @@ merge.internal <- function(forest.list){
     
     # some checks
     c1 <- digest::digest(forest$model)==digest::digest(forest.list[[i]]$model)
-    c2 <- digest::digest(forest$control)==digest::digest(forest.list[[i]]$control)
-    if (!c1 || !c2) {
-      stop("Cannot merge forests! Models or control objects differ");
+    tmp1 <- forest$control
+    tmp1$num.trees <- NA
+    tmp2 <- forest.list[[i]]$control
+    tmp2$num.trees <- NA
+    c2 <- digest::digest(tmp1)==digest::digest(tmp2)
+    if (!c1) {
+      stop("Cannot merge forests! Models differ.");
+    }
+    
+    if (!c2) {
+      warning("Merging forests with different control objects!");
     }
     
     forest$forest <- c(forest$forest,forest.list[[i]]$forest)

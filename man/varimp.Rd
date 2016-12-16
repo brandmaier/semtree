@@ -13,7 +13,7 @@ a \code{\link{semforest}} object.
 }
 \usage{
 varimp(forest, var.names = NULL, verbose = F, main.effects = F, 
-	parallel = TRUE, eval.fun = evaluateTree)
+	cluster = NULL, eval.fun = evaluateTree)
 }
 
 
@@ -31,12 +31,13 @@ Boolean to print messages while function is running.
   \item{main.effects}{
 Boolean to only examine the first split in all trees.
 }
-  \item{parallel}{
-Boolean to toggle parallel computing of variable importance measures.
-}
   \item{eval.fun}{
 Default is \code{\link{evaluateTree}} function. The value of the -2LL of the leaf nodes is compared to baseline overall model.
 }
+\item{cluster}{
+ An object of class "cluster" representing a parallel socket cluster. See package \link[parallel]{makeCluster}.
+}
+\item{\ldots}{Optional arguments.}
 }
 
 \references{
