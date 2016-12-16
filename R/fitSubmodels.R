@@ -1,0 +1,178 @@
+#
+# Fit multigroup model for evaluating a candidate split
+# 
+# @param model A model specification that is used as template for each of the two groups
+# @param subset1 Dataset for the first group model
+# @param subset2 Dataset for the second group model
+# @param control a \code{semtree.control} object
+#
+# returns NA if fit fails
+
+fitSubmodels <- function(model, subset1, subset2, control=NULL, invariance=NULL,  return.models=F)
+{
+	# this is to trick the strict CRAN check
+	group1.objective <- NULL
+	group2.objective <- NULL
+	h12 <- NULL
+	#
+	
+	
+	 if(!is.null(control$min.N)){
+	    if(nrow(subset1)<control$min.N ||  nrow(subset2)<control$min.N){
+        if (control$verbose) {
+          message("Minimum number of cases reached!");
+        }
+		if (control$report.level > 3) {
+			report(paste("Minimum number of cases reached! Left tree has ",nrow(subset1), " and right tree has ",nrow(subset2)),2)
+		}
+        return(NA)}
+	  }
+   #browser()
+   
+	if (is.null(invariance)) {
+	  if(inherits(model,"MxModel") || inherits(model,"MxRAMModel")){
+	    ###########################################################
+	    ###               OPENMX USED HERE                      ###
+	    ###########################################################
+	    model1 <- mxModel(model,mxData(observed=subset1,type="raw"))
+	    run1 <- safeRunAndEvaluate(model1, return.model=T)
+	    ##################################################
+	    suppressWarnings(if (is.na(run1)) return(NA))
+	    if (!checkModel(run1$model, control)) return(NA);
+	    LL.sum <- run1$LL
+	    #other groups are compared to the chosen value and LL stored
+	    model2 <- mxModel(model,mxData(observed=subset2,type="raw"))		
+	    run2 <- safeRunAndEvaluate(model2, return.model=T)
+	    suppressWarnings(if (is.na(run2)) return(NA))
+	    if (!checkModel(run2$model, control)) return(NA);
+	    if(!is.na(run2$LL)){LL.sum <- LL.sum + run2$LL}
+	    if (return.models) {
+	      result <- c()
+	      result$LL.sum <- LL.sum
+	      result$model1 <- run1$model
+	      result$model2 <- run2$model
+	      return(result)
+	    } else {
+	      return(LL.sum)
+	    }
+	  }
+    else {
+      # check subgroups for empty columns in modeled variables...
+      modelcheck <- unlist(model@Data@ov.names)
+      for(i in 1:length(modelcheck)){
+        if(is.nan(mean(subset1[,modelcheck[i]],na.rm=TRUE))){
+          if(control$verbose){message("Empty model variable found(",modelcheck[i],") in subset1, cannot estimate model")}
+          return(NA)}
+        if(is.nan(mean(subset2[,modelcheck[i]],na.rm=TRUE))){
+          if(control$verbose){message("Empty model variable found(",modelcheck[i],") in subset2, cannot estimate model")}
+          return(NA)}
+      }
+      
+      ###########################################################
+      ###               lavaan USED HERE                      ###
+      ###########################################################
+      if (control$verbose) {message("Evaluating Subset 1")}
+      model1 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=subset1,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
+      #model1 <- try(suppressWarnings(lavaan(parTable(model),data=subset1,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
+      if (class(model1)=="try-error") {
+        if(control$verbose){message("try error found 1...")}
+        return(NA)
+      }
+      run1 <- safeRunAndEvaluate(model1, return.model=T)
+      ##################################################
+      if (is.na(run1)[1]) {return(NA)}
+      if (!checkModel(run1$model, control)) return(NA);
+      LL.sum <- run1$LL
+      #other groups are compared to the chosen value and LL stored
+      if (control$verbose) {message("Evaluating Subset 2")}
+      model2 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=subset2,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
+      #model2 <- try(suppressWarnings(lavaan(parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
+      if (class(model2)=="try-error") {
+        if(control$verbose){message("try error found 2...")}
+        return(NA)
+      }
+      run2 <- safeRunAndEvaluate(model2, return.model=T)
+      if (is.na(run2)[1]) {return(NA)}
+      if (!checkModel(run2$model, control)) return(NA);
+      if(!is.na(run2$LL)){LL.sum <- LL.sum + run2$LL}
+      if (return.models) {
+        result <- c()
+        result$LL.sum <- LL.sum
+        result$model1 <- run1$model
+        result$model2 <- run2$model
+        return(result)
+      } else {
+        return(LL.sum)
+      }
+#      browser()
+    }
+	  
+	  
+	} 
+	else {
+	   ###########################################################
+	   ###               OPENMX USED HERE                      ###
+	   ###########################################################
+	   model1 <- mxModel(model,mxData(observed=subset1,type="raw"))
+	   model2 <- mxModel(model,mxData(observed=subset2,type="raw"))	
+	   
+	   model1@name = "group1"
+	   model2@name = "group2"
+	   
+	   
+	   newlabels1 <- names(omxGetParameters(model1))
+	   newlabels2 <- names(omxGetParameters(model2))
+	   
+	   # replace labels
+	   eqids <- which(newlabels1 %in% invariance)
+	   
+	   if (length(eqids) != length(invariance)) {
+	     warning("Not all invarianceparameters were found when evaluating sub models!")
+	   }
+	   
+	   if (control$report.level > 20) {
+	    report(paste("invariance vector ids:",eqids," corresponding to labels ",invariance),1)
+	   }
+	     
+	   if (length(eqids)== 0) {
+	     uneqids <- 1:length(newlabels1)	
+	   } else {
+	     uneqids <- (1:length(newlabels1))[-eqids]
+	   }
+	   
+	   if (length(uneqids) == 0) {
+	     warning("fitSubmodels was called with all parameters equal. Possible bug warning!")
+	   } else {
+	   
+	   newlabels1[uneqids] <- paste("__yc90wr3jdv9234jtt__",newlabels1[uneqids],sep="")
+	   newlabels2[uneqids] <- paste("__934jfvu35thi9g823__",newlabels2[uneqids],sep="")
+	   
+	   model1 <- omxSetParameters( model1, labels=names(omxGetParameters(model1)), newlabels=newlabels1)
+	   model2 <- omxSetParameters( model2, labels=names(omxGetParameters(model2)), newlabels=newlabels2)
+	   
+	   }
+	   
+
+	   
+	   sharedModel <- mxModel("sharedModel", model1, model2,
+	                          mxAlgebra(group1.objective + group2.objective, name="h12"), 
+	                          mxFitFunctionAlgebra('h12'))
+	   
+	   sharedRun <- mxRun(sharedModel, silent=T)
+	   
+	   LL.sum <-  mxEval(h12, sharedRun)
+	   
+	   if (return.models) {
+	     result <- c()
+	     result$model1 <- sharedRun$group1
+	     result$model2 <- sharedRun$group2
+	     result$LL.sum <- LL.sum
+	     
+	     return(result)
+	   } else {
+	     return(LL.sum)
+	   }
+	   
+	   return(NA)		
+	 }
+}

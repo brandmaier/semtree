@@ -1,0 +1,1 @@
+toLatex <- function(object, ... ) UseMethod("toLatex")

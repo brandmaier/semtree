@@ -1,0 +1,31 @@
+Package: semtree
+Type: Package
+Title: Recursive Partitioning for Structural Equation Models
+Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")))
+Author: Andreas M. Brandmaier [aut, cre],
+    John J. Prindle [aut]
+Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
+Depends:
+    OpenMx (>= 2.6.9),
+Imports:
+    bitops,
+    sets,
+    digest,
+    rpart,
+    rpart.plot,
+    snowfall
+Suggests:
+    lavaan
+Description: SEM Trees and SEM Forests -- an extension of model-based decision
+    trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
+    split empirical data into homogeneous groups sharing similar data patterns
+    with respect to a SEM by recursively selecting optimal predictors of these
+    differences. SEM forests are an extension of SEM trees. They are ensembles of 
+    SEM trees each built on a random sample of the original data. By aggregating over 
+    a forest, we obtain measures of variable importance that are more robust than 
+    measures from single trees.
+License: GPL-3
+Encoding: UTF-8
+LazyLoad: yes
+Version: 0.9.9
+Date: 2016-12-15

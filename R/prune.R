@@ -1,0 +1,1 @@
+prune <- function(object, ... ) UseMethod("prune")
