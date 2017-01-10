@@ -111,8 +111,8 @@ growTree <- function(model=NULL, mydata=NULL,
     #read in estimated parameters
     #browser()
     parameters <- data.frame(lavaan::parameterEstimates(node$model))[!is.na(data.frame(lavaan::parameterEstimates(node$model))[,"z"]),]
-    node$params <- coef(node$model) # put parameters into node 
-    names(node$params) <- names(coef(node$model)) # parameter names are stored as well
+    node$params <- lavaan::coef(node$model) # put parameters into node 
+    names(node$params) <- names(lavaan::coef(node$model)) # parameter names are stored as well
     for(i in 1:nrow(parameters)){ # if any labels are missing (some labels provided), then put default labels in the label col.
       if(!is.null(parameters$label)){
         if(parameters$label[i]==""){parameters$label[i]<-paste(parameters$lhs[i],parameters$op[i],parameters$rhs[i],sep="")}
@@ -130,7 +130,7 @@ growTree <- function(model=NULL, mydata=NULL,
       }
     }
     node$params_sd <- se
-    node$param_names <- names(coef(node$model))
+    node$param_names <- names(lavaan::coef(node$model))
   }
 
   # df
@@ -237,11 +237,14 @@ growTree <- function(model=NULL, mydata=NULL,
   # cov.name	: name of best candidate
   
   # store the value of the selected test statistic
-  node$lr <- result$LL.max
-  node$result <- result
+  node$lr <- NA
+  if (!is.null(result)) {
+   node$lr <- result$LL.max
+   node$result <- result
+  }
   
   # if no split found, exit node without continuing growth
-  if (is.null(result$LL.max)) {
+  if (is.null(result) || is.null(result$LL.max)) {
     if (control$verbose) {
       message("Best Likelihood Ratio was NULL. Stop splitting")
     }
@@ -249,7 +252,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$verbose) {
-    message("Best LR ",round(result$LL.max,7)," : ",result$name.max," at covariate column ",
+    message("Best LR ",round(node$lr,7)," : ",result$name.max," at covariate column ",
             result$col.max,"\n");
   }
   

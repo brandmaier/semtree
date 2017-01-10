@@ -32,10 +32,10 @@ safeRunAndEvaluate <- function(model, return.model=F)
       if (return.model) {
         result <- c()
         result$model <- modelrun
-        result$LL <- -2*logLik(modelrun)
+        result$LL <- -2*lavaan::logLik(modelrun)
         return(result)
       } else {
-        return(-2*logLik(modelrun))
+        return(-2*lavaan::logLik(modelrun))
       }
     }
     else { return(NA)}

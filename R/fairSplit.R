@@ -96,6 +96,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
             subset2 <- subset (cross1, as.numeric(vec) == 1)
             
             # refit baseline model with focus parameters @TAGX
+            # for each new potential split
             if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
               LL.baseline <- fitSubmodels(model, subset1, subset2, 
                                           control, invariance=constraints$focus.parameters)
@@ -258,7 +259,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
   #Baseline model to compare subgroup fits to
   modelnew <- mxAddNewModelData(model,cross2,name="BASE MODEL C2")
   LL.overall <- safeRunAndEvaluate(modelnew)
-  suppressWarnings(if (is.na(LL.baseline)) return(NA))
+  suppressWarnings(if (is.na(LL.overall)) {
+    warning("Baseline likelihood is N/A; Aborting!"); 
+    return(NULL)}
+    )
   n.comp <- ncol(LL.btn)
   
   LL.max <- NULL
@@ -322,9 +326,15 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         if (control$report.level > 10) {
           report(paste("Reestimating baseline likelihood with focus parameters: ",LL.baseline),2)
         }
-        LL.baseline <- result$LL.sum
-        num.rows <- nrow(subset1)+nrow(subset2) # THIS DEFINITELY IS A HACK. SHOULD BE
+        if (!all(is.na(result))) {
+          LL.baseline <- result$LL.sum
+          num.rows <- nrow(subset1)+nrow(subset2) # THIS DEFINITELY IS A HACK. SHOULD BE
           # DEFINED BY THE RETURNED MODEL
+        } else {
+          warning("LL.sum is NA after reestimation with focus parameter")
+          LL.baseline <- NA
+          num.rows <- nrow(subset1)+nrow(subset2)
+        }
       }
       
       # evaluate split  
@@ -397,7 +407,11 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     # run full data on model for overall model fit
     modelnew <- mxAddNewModelData(model,mydata,name="BASE MODEL FULL")
     LL.overall <- safeRunAndEvaluate(modelnew)
-    suppressWarnings(if (is.na(LL.overall)) return(NULL))
+    suppressWarnings(if (is.na(LL.overall)) {
+      warning("Overall likelihood is N/A; Aborting!");
+      return(NULL)
+      }
+      )
     n.comp <- 0
     
     # iterate over all splits in col.max

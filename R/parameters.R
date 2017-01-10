@@ -1,10 +1,17 @@
 parameters <- function(tree, leafs.only=TRUE) {
 	
 	data <- parameters.rec(tree, leafs.only, 0)
+
+	if (nrow(data) > 1) {
+	 data <- round(data.frame(data[,-1], row.names=data[,1]),digits=3)
+	 names(data) <- tree$param_names;
+	 data <- t(data)
+	} else {
+	  data <- round(data.frame(data[,-1]),digits=3)
+	}
 	
-	data <- round(data.frame(data[,-1], row.names=data[,1]),digits=3)
-	names(data) <- tree$param_names;
-    data <- t(data)
+
+   
 	
 
 	return(data);

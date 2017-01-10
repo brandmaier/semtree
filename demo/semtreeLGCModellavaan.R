@@ -20,7 +20,7 @@ lgcm$noise <- as.numeric(lgcm$noise)
 # LOAD IN LAVAAN MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
 
-lgcModel <- '
+lgcModelstr <- '
 	g0 =~ 1*o1 + 1*o2 + 1*o3 + 1*o4 + 1*o5;
 	g1 =~ 0*o1 + 1*o2 + 2*o3 + 3*o4 + 4*o5;
 	g0 ~~ g0; g0 ~ 1;
@@ -32,7 +32,7 @@ lgcModel <- '
 	o4 ~~ o4; o4 ~ 0*1;
 	o5 ~~ o5; o5 ~ 0*1;
 '
-lgcModel <- lavaan(lgcModel, lgcm, do.fit=FALSE)
+lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:

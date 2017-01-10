@@ -13,7 +13,7 @@ a \code{\link{semforest}} object.
 }
 \usage{
 varimp(forest, var.names = NULL, verbose = F, main.effects = F, 
-	cluster = NULL, eval.fun = evaluateTree)
+	cluster = NULL, eval.fun = evaluateTree, ...)
 }
 
 

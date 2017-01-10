@@ -29,7 +29,7 @@ function(v, name="unknown",id=NA, growbool=F, use.levels=F) {
 		for (j in 1:length(values_set))
 		{
 			#print(paste(i,j,bitAnd(i,j)))
-			if (bitAnd(i,2**(j-1)) > 0) {
+			if (bitops::bitAnd(i,2**(j-1)) > 0) {
 				#print(values_set[j])
 				temp_set <- append(temp_set, values_set[j])
 			}	else {
