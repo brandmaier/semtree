@@ -33,8 +33,8 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
   
   if (isfac) {
     
-    xgrid <- levels(refVar)
-    
+    xgrid <- unclass(refVar)
+    xlabs <- levels(refVar)
     
   } else {
     
@@ -45,7 +45,9 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
     start <- min(refVar, na.rm=TRUE)
     end <- max(refVar, na.rm=TRUE)
     
-    xgrid <- seq(start, end, length=support)   
+    xgrid <- seq(start, end, length=support)  
+    
+    xlabs <- xgrid
   }
 
   
@@ -75,6 +77,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
 
   result$dict <- dict
   result$xgrid <- xgrid
+  result$xlabs <- xlabs
   
   class(result) <- "partialDependence"
   

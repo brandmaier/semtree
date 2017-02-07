@@ -12,7 +12,7 @@ require("semtree")
 data(lgcm)
 
 lgcm$agegroup <- as.ordered(lgcm$agegroup)
-lgcm$training <- as.factor(lgcm$training)
+lgcm$training <- factor(lgcm$training, levels=c("0","1"),labels=c("YES","NO"))
 lgcm$noise <- as.numeric(lgcm$noise)
 
 #resample noise, add missingness
@@ -88,13 +88,13 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 
 tree <- semtree(lgcModel, lgcm)
 
-# create second, larger forest with 20 trees (still a small forest)
+# create a tiny forest
 
-control <- semforest.control(num.trees = 40)
+control <- semforest.control(num.trees = 14)
 
 cl <- parallel::makeCluster(7)
 
-#forest <- semforest(model=lgcModel, data=lgcm, control=control, cluster=cl)
+forest <- semforest(model=lgcModel, data=lgcm, control=control, cluster=cl)
 
 tdep <- partialDependence(forest, reference.var="training", reference.par="means")
 depnoise <- partialDependence(forest, reference.var="noise", reference.par="means")

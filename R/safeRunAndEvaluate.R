@@ -1,6 +1,7 @@
 safeRunAndEvaluate <- function(model, return.model=F)
 {
-	# this is to trick the strict CRAN check
+	# this is to trick the strict CRAN check which hates
+  # OpenMx style, actually this can be removed in future
 	objective <- NULL
 	#
 	
@@ -41,7 +42,3 @@ safeRunAndEvaluate <- function(model, return.model=F)
     else { return(NA)}
   }
 }
-
-#saferun <- safeRunAndEvaluate(fit,return.model=TRUE)
-#saferun$LL
-#summary(saferun$model)

@@ -1,7 +1,8 @@
 getLikelihood<-function(model)
 {
-  # this seems not generic
-#  return(OpenMx::mxEval(objective, model));
+  # this seems to be not generic enough
+  #  return(OpenMx::mxEval(objective, model));
+  
   msm <- getS3method("summary","MxModel")
   # alternative:
   if (is.null(model)) {
