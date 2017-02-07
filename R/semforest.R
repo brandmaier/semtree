@@ -112,13 +112,13 @@ semforest <- function(model, data, control=NULL,
   if (is.null(cluster)) {
     trees <- mapply(FUN=semtreeApplyWrapper, 
                       forest.data, seeds, skip, 
-                      MoreArgs=list(model,semforest.control$semtree.control,
-                                    with.error.handler, covariates, constraints),SIMPLIFY=FALSE)
+                      MoreArgs=list(model=model,semtree.control=semforest.control$semtree.control,
+                                    with.error.handler, predictors=covariates, constraints),SIMPLIFY=FALSE)
   } else {
     trees <- clusterMap(cl=cluster, fun=semtreeApplyWrapper, 
                forest.data, seeds, skip, 
                MoreArgs=list(model,semforest.control$semtree.control,
-                             with.error.handler, covariates, constraints),
+                             with.error.handler, predictors=covariates, constraints),
                SIMPLIFY=FALSE)
   }
 	

@@ -1,4 +1,11 @@
 
+partialDependencePlot <- function(forest, reference.var, reference.param, support=10, xlab=NULL, ylab=NULL,...)  {
+  .Deprecated("partialDependence")
+  pd <- partialDependence(forest, reference.var, reference.param, support)
+  plot(pd, xlab, ylab, ...)
+  return(pd)
+}
+
 partialDependence <- function(forest, reference.var, reference.param, support=NULL) 
 {
   

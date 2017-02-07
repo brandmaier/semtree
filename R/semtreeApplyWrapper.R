@@ -1,6 +1,6 @@
 
 semtreeApplyWrapper <- function(data, seed, skip,
-                                model, semtree.control, with.error.handler=TRUE, covariates, constraints, ...)
+                                model, semtree.control, with.error.handler=TRUE, predictors, constraints, ...)
 {
  # browser()
 	if(!is.na(seed)) {
@@ -17,8 +17,8 @@ semtreeApplyWrapper <- function(data, seed, skip,
 	
 	tryCatch({
 
-		result <- semtree(model=model,dataset=data$bootstrap.data,
-                      control=semtree.control, predictors=covariates, constraints=constraints, ...)
+		result <- semtree(model=model,data=data$bootstrap.data,
+                      control=semtree.control, predictors=predictors, constraints=constraints, ...)
 		
 		}, error=function(err) {
 			errmsg <- paste(date(),paste(err), paste(traceback()),sep="\n")
@@ -29,8 +29,8 @@ semtreeApplyWrapper <- function(data, seed, skip,
 		
 	} else {
 		
-		result <- semtree(model=model,dataset=data$bootstrap.data,control=semtree.control, 
-                      predictors=covariates, constraints=constraints, ...)
+		result <- semtree(model=model,data=data$bootstrap.data,control=semtree.control, 
+                      predictors=predictors, constraints=constraints, ...)
 	}
 	
 	return(result)
