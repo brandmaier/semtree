@@ -1,6 +1,9 @@
 
-partialDependencePlot <- function(forest, reference.var, reference.param, support=10, xlab=NULL, ylab=NULL,...) 
+partialDependence <- function(forest, reference.var, reference.param, support=NULL) 
 {
+  
+  result <- list()
+  
   if (!reference.var %in% names(forest$data)) {
     stop("Reference variable is not in the dataset")
   }
@@ -13,10 +16,33 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
   param.id <- which(model.params==reference.param)
   
   refVar <- forest$data[, reference.var]
-  start <- min(refVar)
-  end <- max(refVar)
-  xgrid <- seq(start, end, length=support)
-  fd <- partialDependenceDataset(forest$data, reference.var, support)
+  
+  # factors are mapped onto their levels
+  isfac <- FALSE
+  if (is.factor(refVar)) {
+    #refVar <- levels(refVar)
+    isfac <- TRUE
+  } 
+  
+  if (isfac) {
+    
+    xgrid <- levels(refVar)
+    
+    
+  } else {
+    
+    if (is.null(support)) {
+      support <- 10
+    }
+    
+    start <- min(refVar, na.rm=TRUE)
+    end <- max(refVar, na.rm=TRUE)
+    
+    xgrid <- seq(start, end, length=support)   
+  }
+
+  
+  fd <- partialDependenceDataset(forest$data, reference.var, xgrid)
   
   dict <- list()
   for (elem in xgrid) {
@@ -25,7 +51,6 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
   
   # traverse
   for (i in 1:length(forest$forest)) {
-    #i <-1
     tree <- forest$forest[[i]]
     leaf.ids <- traverse( tree, fd)
     for (j in 1:length(leaf.ids)) {
@@ -37,24 +62,39 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
     }
   }
   
+
+  result$reference.var <- reference.var
+  result$reference.param <- reference.param
+
+  result$dict <- dict
+  result$xgrid <- xgrid
+  
+  class(result) <- "partialDependence"
+  
+  return(result)
+}
+
+
+plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, xlim=NULL, ylim=NULL, ...)
+{
+  #if (!(x inherits ("partialDependence"))) {
+  #  stop("Invalid x object not of class partialDependence");
+  #}
+  
   if (is.null(xlab)) {
-    xlab <- reference.var
+    xlab <- x$reference.var
   }
   
   if (is.null(ylab)) {
-    ylab <- reference.param
+    ylab <- x$reference.param
   }
   
   # collect
-  col1 <- xgrid
+  col1 <- x$xgrid
   col2 <- rep(NA, length(col1))
   for (i in 1: length(col1)) {
-    col2[i] <- mean(dict[[as.character(col1[i])]], na.rm=TRUE)
+    col2[i] <- mean(x$dict[[as.character(col1[i])]], na.rm=TRUE)
   }
-  plot(col1, col2, type="l", xlab=xlab,ylab=ylab, ...)
-
+  plot(col1, col2, type=type, xlab=xlab,ylab=ylab, xlim=xlim, ylim=ylim, ...)
   
-  class(dict) <- "partialDependence"
-  
-  return(dict)
 }

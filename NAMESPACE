@@ -81,7 +81,8 @@ export("subforest")
 #export("modelEstimates")
 #export("getHeight")
 
-export("partialDependencePlot")
+export("partialDependence")
+S3method("plot","partialDependence")
 
 # only temporary export; remove for shipping
 #export("crossvalidatedSplit")

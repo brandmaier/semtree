@@ -1,5 +1,6 @@
-\name{partialDependencePlot}
-\alias{partialDependencePlot}
+\name{partialDependence}
+\alias{partialDependence}
+\alias{plot.partialDependence}
 \title{Partial Dependence Plot}
 \usage{
 partialDependencePlot(forest, reference.var, reference.param,
