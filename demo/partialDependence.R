@@ -12,7 +12,8 @@ require("semtree")
 data(lgcm)
 
 lgcm$agegroup <- as.ordered(lgcm$agegroup)
-lgcm$training <- factor(lgcm$training, levels=c("0","1"),labels=c("YES","NO"))
+#lgcm$training <- factor(lgcm$training, levels=c("0","1"),labels=c("YES","NO"))
+lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
 
 #resample noise, add missingness
@@ -21,9 +22,9 @@ lgcm$noise <- ifelse(
   rnorm(n = length(lgcm$noise),0,1)>1
   ,NA,1) * lgcm$noise
 
-lgcm$agegroup <- ifelse(
-  rnorm(n = length(lgcm$noise),0,1)>1
-  ,NA,1) * lgcm$agegroup
+#lgcm$agegroup <- ifelse(
+#  rnorm(n = length(lgcm$agegroup),0,1)>1
+#  ,NA,1) * lgcm$agegroup
 
 # LOAD IN OPENMX MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
@@ -90,14 +91,16 @@ tree <- semtree(lgcModel, lgcm)
 
 # create a tiny forest
 
-control <- semforest.control(num.trees = 14)
+control <- semforest.control(num.trees = 7)
 
 cl <- parallel::makeCluster(7)
 
 forest <- semforest(model=lgcModel, data=lgcm, control=control, cluster=cl)
 
-tdep <- partialDependence(forest, reference.var="training", reference.par="means")
+#tdep <- partialDependence(forest, reference.var="training", reference.par="means")
 depnoise <- partialDependence(forest, reference.var="noise", reference.par="means")
+depage <- partialDependence(forest, reference.var="agegroup", reference.par="means")
+
 
 opar <- par(no.readonly = TRUE)
 par(mfrow=c(2,2))

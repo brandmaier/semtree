@@ -33,7 +33,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
   
   if (isfac) {
     
-    xgrid <- unclass(refVar)
+    xgrid <- levels(refVar) #unique(unclass(refVar))
     xlabs <- levels(refVar)
     
   } else {
