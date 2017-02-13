@@ -6,7 +6,7 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
   return(pd)
 }
 
-partialDependence <- function(forest, reference.var, reference.param, support=NULL) 
+partialDependence <- function(forest, reference.var, reference.param, support=NULL, cluster=NULL) 
 {
   
   result <- list()
@@ -52,26 +52,57 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
 
   
   fd <- partialDependenceDataset(forest$data, reference.var, xgrid)
-  
-  dict <- list()
-  for (elem in xgrid) {
-    dict[[as.character(elem)]] <- NA
-  }
+
   
   # traverse
-  for (i in 1:length(forest$forest)) {
-    tree <- forest$forest[[i]]
+#  for (i in 1:length(forest$forest)) {
+  mapreduce <- function(tree) {
+    #tree <- forest$forest[[i]]
+
     leaf.ids <- traverse( tree, fd)
+    ret <- vector("list", length(leaf.ids))
     for (j in 1:length(leaf.ids)) {
-      model <-getNodeById(tree, leaf.ids[j])
-      p <- model$params[param.id]    
+      node <-getNodeById(tree, leaf.ids[j])
+      p.estimate <- node$params[param.id]    
       yvalue <- fd[j, reference.var]
       
-      dict[[as.character(yvalue)]] <- c(dict[[as.character(yvalue)]],p)
+      #dict[[as.character(yvalue)]] <- c(dict[[as.character(yvalue)]],p)
+      ret[[j]] <- (list(key=as.character(yvalue), value=p.estimate))
+    }
+    return(ret)
+  }
+  
+  if (is.null(cluster)) {
+    mapresult <- lapply(FUN=mapreduce,X=forest$forest)
+  } else {
+    mapresult <- parallel::parLapply(cl=cluster,fun=mapreduce,X=forest$forest)
+  }
+  
+  
+  dict <- list()
+  cnt <- list()
+  for (elem in xgrid) {
+    dict[[as.character(elem)]] <- 0
+    cnt[[as.character(elem)]] <- 0
+  }
+  
+  
+  for (i in 1:length(mapresult)) {
+    mr <- simplify2array(mapresult[[i]])
+    for (j in 1:dim(mr)[2]) {
+      key <- mr[,j]$key
+      val <- mr[,j]$value
+      dict[[key]] <- dict[[key]]+ val
+      cnt[[key]] <- cnt[[key]]+1
     }
   }
   
-
+  
+  
+  for (elem in xgrid) {
+    dict[[as.character(elem)]] <- dict[[as.character(elem)]] / cnt[[as.character(elem)]]
+  }
+  
   result$reference.var <- reference.var
   result$reference.param <- reference.param
 
@@ -79,13 +110,15 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
   result$xgrid <- xgrid
   result$xlabs <- xlabs
   
+  result$is.factor <- isfac
+  
   class(result) <- "partialDependence"
   
   return(result)
 }
 
 
-plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, xlim=NULL, ylim=NULL, ...)
+plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, ...)
 {
   #if (!(x inherits ("partialDependence"))) {
   #  stop("Invalid x object not of class partialDependence");
@@ -103,8 +136,14 @@ plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, xlim=NULL, 
   col1 <- x$xgrid
   col2 <- rep(NA, length(col1))
   for (i in 1: length(col1)) {
-    col2[i] <- mean(x$dict[[as.character(col1[i])]], na.rm=TRUE)
+#    col2[i] <- mean(x$dict[[as.character(col1[i])]], na.rm=TRUE)
+    col2[i] <- x$dict[[as.character(col1[i])]]
+    
   }
-  plot(col1, col2, type=type, xlab=xlab,ylab=ylab, xlim=xlim, ylim=ylim, ...)
   
+  if (x$is.factor) {
+    barplot(col2, names.arg=col1,xlab = xlab,ylab = ylab, ...)
+  } else {
+    plot(col1, col2, type=type, xlab=xlab,ylab=ylab, ...)
+  }
 }
