@@ -2,3 +2,4 @@ semtreeLGCModelOpenMx	A simple SEM Tree using OpenMx
 semtreeLGCModellavaan	A simple SEM Tree using lavaan
 semforestLGCModelOpenMx A simple SEM Forest using OpenMx
 semforestLGCModelOpenMxParallel A simple SEM Forest using OpenMx and parallel execution
+reproducibility	Reproducible research with seeds on clusters

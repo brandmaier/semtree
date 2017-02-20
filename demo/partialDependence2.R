@@ -62,31 +62,40 @@ model <- mxModel("Unnamed_Model",
 result <- mxRun(model)
 summary(result)
 
+## - single tree -
+tree<-semtree(model, data)
 
 cl <- parallel::makeCluster(7)
 ctrl <- semforest.control(num.trees = 210)
 
-constraints1 <- semtree.constraints(focus.parameters = "mux1")
-constraints2 <- semtree.constraints(focus.parameters = "VAR_x1")
+constraints <- semtree.constraints(focus.parameters = "mux1")
 
+forest <- semforest(model = model, data = data, control = ctrl, cluster = cl)
 
-forest <- semforest(model = model, data = data, 
-                    constraints=NULL, cluster=cl,control = ctrl)
+#semforest(model = model, data = data, constraints=constraints)
 
-forest.constrained1 <- semforest(model = model, data = data, 
-                                constraints=constraints1, cluster=cl,control = ctrl)
-forest.constrained2 <- semforest(model = model, data = data, 
-                                 constraints=constraints2, cluster=cl,control = ctrl)
+vim <- varimp(forest,cluster =  cl)
 
+print(vim, aggregate="median")
+print(vim, aggregate="mean")
 
-vim.constrained1 <- varimp(forest.constrained1, cluster = cl)
-vim.constrained2 <- varimp(forest.constrained2, cluster = cl)
-
-vim <- varimp(forest, cluster = cl)
+pd1.mu <- partialDependence(forest, "p1", "mux1", cluster=cl)
+pd1.var <- partialDependence(forest, "p1", "VAR_x1", cluster=cl)
+pd3.mu <- partialDependence(forest, "p3", "mux1", cluster=cl)
+pd3.var <- partialDependence(forest, "p3", "VAR_x1", cluster=cl)
+plot(pd)
 
 opar <- par(no.readonly = TRUE)
-par(mfrow=c(3,1))
-plot(vim)
-plot(vim.constrained1)
-plot(vim.constrained2)
+
+par(mfrow=c(2,2))
+plot(pd1.mu)
+title("Mu pred1")
+plot(pd1.var)
+title("Var pred1")
+plot(pd3.mu)
+title("Mu pred3")
+plot(pd3.var)
+title("Var pred3")
+
 par(opar)
+

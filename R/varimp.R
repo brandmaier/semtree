@@ -149,9 +149,9 @@ aggregateVarimp <- function(vimp, aggregate="mean", scale="absolute", omit.na=TR
   }
   
   if (aggregate=="mean") {
-    x <- colMeans(data, na.rm=T)
+    x <- colMeans(data, na.rm=TRUE)
   } else if (aggregate=="median") {
-    x <- colMedians(data, na.rm=T)
+    x <- colMedians(data, na.rm=TRUE)
   } else {
     stop("Unknown aggregation function. Use mean or median");
   }
@@ -160,7 +160,7 @@ aggregateVarimp <- function(vimp, aggregate="mean", scale="absolute", omit.na=TR
 }
 
 
-colMedians <- function(x, na.rm=F)
+colMedians <- function(x, na.rm=TRUE)
 {
-  return(apply(x,FUN=median, 2, na.rm=na.rm))
+  return(apply(X=x,FUN=function(x){median(x,na.rm=na.rm)}, MARGIN=2))
 }
