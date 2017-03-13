@@ -106,8 +106,8 @@ opar <- par(no.readonly = TRUE)
 par(mfrow=c(2,2))
 plot(depnoise)
 plot(depnoise, lwd=3,ylim=c(-0.5,0), type="b", ylab="Mean Slope")
-plot(tdep)
-plot(tdep, lwd=3,ylim=c(-0.5,0), type="b", ylab="Mean Slope")
+plot(depage)
+plot(depage, lwd=3,ylim=c(-0.5,0), type="b", ylab="Mean Slope")
 par(opar)
 
 reference.var <- "training"

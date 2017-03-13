@@ -12,7 +12,8 @@ varimpConvergencePlot <- function( x, lty=NULL, idx=NULL,
                                      cex.lab=1,
                                      xlim=NULL, xlab=NULL,
                                      ylab=NULL, legend.bg=NULL, 
-                                     legend.bty="n", na.omit=FALSE, ...) {
+                                     legend.bty="n", na.omit=FALSE,
+                                     extra.legend=NULL, ...) {
 
 vim <- x
 
@@ -78,6 +79,11 @@ if (is.null(ylab)) {
  ylab<-"Absolute Increase in Misfit"
 }
 
+if (!is.null(extra.legend)) {
+  #par(mar=par()$mar-c(0,0,0,-4))
+  par(mar=c(5.1,4.1,4.1,4+extra.legend))
+}
+
 plot(0,0,xlim=xlim,ylim=ylim , 
      xlab=xlab,ylab=ylab,cex.lab=cex.lab,cex.axis=1.2,type="n",...)
 
@@ -87,7 +93,6 @@ pdata[N,is.na(pdata[N,])] <- 0
 
 # sort by last value
 xs <- sort(pdata[N,],index.return=T)
-
 
 for (j in 1:M) {
 	i <- xs$ix[j]
@@ -99,10 +104,21 @@ leg <- rev(vim$var.names[xs$ix]) #[max(xs$ix)-xs$ix+1]
 
 rix <- rev(xs$ix)
 if (!is.null(legend.x)) {
-  legend( legend.x,
+  
+  if (!is.null(extra.legend)) {
+    par(xpd=TRUE)
+    legend.x <- xlim[2]+ (xlim[2]-xlim[1])*0.05
+    legend.y <- ylim[2] * 1.05
+  } else {
+    legend.y <- NULL
+  }
+  
+  legend( x=legend.x,y=legend.y,
           leg,
           col=colors[rix],lwd=mylw, lty=lty[rix], 
           cex=legend.cex,bty=legend.bty, bg=legend.bg)
+    
+  
   #legend( legend.x,legend=vim$var.names[rix], col=colors[rix],lw=mylw, lty=lty[rix], cex=legend.cex,bty="n")
 }
 
