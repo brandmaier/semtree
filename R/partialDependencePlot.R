@@ -78,11 +78,18 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
     mapresult <- parallel::parLapply(cl=cluster,fun=mapreduce,X=forest$forest)
   }
   
+  #result <- list()
+  #for (i in 1:10) {
+  #  result <- mapreduce(forest$forest[[i]])
+  #}
+  
   
   dict <- list()
+  dictsq <- list()
   cnt <- list()
   for (elem in xgrid) {
     dict[[as.character(elem)]] <- 0
+    dictsq[[as.character(elem)]] <- 0
     cnt[[as.character(elem)]] <- 0
   }
   
@@ -93,6 +100,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
       key <- mr[,j]$key
       val <- mr[,j]$value
       dict[[key]] <- dict[[key]]+ val
+      dictsq[[key]] <- dictsq[[key]]+ val**2
       cnt[[key]] <- cnt[[key]]+1
     }
   }
@@ -101,12 +109,14 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
   
   for (elem in xgrid) {
     dict[[as.character(elem)]] <- dict[[as.character(elem)]] / cnt[[as.character(elem)]]
+    dictsq[[as.character(elem)]] <- dictsq[[as.character(elem)]] / cnt[[as.character(elem)]]
   }
   
   result$reference.var <- reference.var
   result$reference.param <- reference.param
 
   result$dict <- dict
+  result$dictsq <- dictsq
   result$xgrid <- xgrid
   result$xlabs <- xlabs
   

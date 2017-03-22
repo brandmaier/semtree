@@ -19,6 +19,7 @@ if (is.na(value)) return(tree$node_id);
 log.val <- NA
 
 if (tree$rule$relation==">=") {
+  if (is.ordered(value)) { value <- as.numeric(as.character(value)) }
 	log.val <- value >= tree$rule$value
 } else if (tree$rule$relation=="%in%") {
 	log.val <- value %in% tree$rule$value
