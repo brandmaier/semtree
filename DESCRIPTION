@@ -27,5 +27,5 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.9
-Date: 2016-12-15
+Version: 0.9.10
+Date: 2017-03-04

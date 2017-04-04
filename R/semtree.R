@@ -232,6 +232,11 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   ###########################################################
 	# global constraints - estimate once and then regarded fixed in the tree
 	if (!is.null(global.constraints)) {
+	  
+	  if (control$sem.prog != "OpenMx") {
+	    stop("Global constraints are not yet supported!")
+	  }
+	  
 	  run.global <- OpenMx::mxRun(model, silent=T, useOptimizer=T, suppressWarnings=T);
 	  labels <- names(OpenMx::omxGetParameters(model))
 	  eqids <- which(labels %in% global.constraints)
