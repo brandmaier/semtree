@@ -57,3 +57,8 @@ forest <- semforest(model=lgcModel, data=lgcm,control = controlOptions)
 vim <- varimp(forest)
 
 plot(vim)
+
+# PARTIAL DEPENDENCE
+
+pd <- partialDependence(forest, "agegroup", "g0~1")  # g0 ~1
+plot(pd)
