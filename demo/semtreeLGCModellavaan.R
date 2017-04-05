@@ -91,3 +91,9 @@ treeSub <- subtree(tree, startNode=3)
 
 plot(treeSub)
 
+# ALTERNATIVE SPLIT RULE
+
+controlOptions$method <- "fair"
+tree2 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+
+plot(tree2)
