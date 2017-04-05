@@ -1,0 +1,97 @@
+# DEMO FOR SEMTREE
+
+
+require("semtree")
+require("lavaan")
+
+# ORGANIZE DATA BY TYPE FOR COVARIATES.
+# SOME COVARIATES ARE ORGANIZED IN THE DATA. MODEL VARIABLES AND 
+# CAOVARIATES DO NOT NEED TO BE ORDERED IN THE DATASET. ONLY VARIABLE
+# TYPE NEEDS TO BE DEFINED FOR THE COVARIATES (FACTOR/ORDERED/NUMERIC)
+# BE AWARE OF THE EXPONENTIAL GROWTH OF MODEL COMPARISON WITH INCREASES
+# IN NUMBER OF FACTORS PER A COVARIATE.
+
+data(lgcm)
+
+lgcm$agegroup <- as.ordered(lgcm$agegroup)
+lgcm$training <- as.factor(lgcm$training)
+lgcm$noise <- as.numeric(lgcm$noise)
+
+# LOAD IN LAVAAN MODEL.
+# A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
+
+lgcModelstr <- '
+g0 =~ 1*o1 + 1*o2 + 1*o3 + 1*o4 + 1*o5;
+g1 =~ 0*o1 + 1*o2 + 2*o3 + 3*o4 + 4*o5;
+g0 ~~ g0; g0 ~ 1;
+g1 ~~ g1; g1 ~ 1;
+g0 ~~ g1;
+o1 ~~ o1; o1 ~ 0*1;
+o2 ~~ o2; o2 ~ 0*1;
+o3 ~~ o3; o3 ~ 0*1;
+o4 ~~ o4; o4 ~ 0*1;
+o5 ~~ o5; o5 ~ 0*1;
+'
+lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
+
+# TREE CONTROL OPTIONS.
+# TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
+
+controlOptions <- semtree.control()
+
+# THE CONTENTS OF THE DEFAULT CONTROLS CAN THEN BE VIEWED.
+
+controlOptions
+
+# AND MODEL OPTIONS CAN BE CHANGED BY REDEFINING ELEMENTS OF THE 
+# CONTROL OBJECT.
+
+controlOptions$alpha <- 0.01
+
+# RUN TREE.
+
+tree <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+
+# SEE PLOT.
+# THE PLOT FUNCTION WILL SHOW ALL FREE PARAMETERS AT EACH TERMINAL NODE.
+# THIS CAN CREATE UNREADABLE FIGURES FOR MODELS WITH MANY FREE PARAMETERS.
+
+plot(tree)
+
+# SEE SUMMARY.
+# OVERALL MODEL FACTS ARE GIVEN WITH THE SUMMARY FUNCTION.
+
+summary(tree)
+
+# summary(treeConstrained)
+
+# USING THE PRINT FUNCTION WILL PROVIDE AN OVERVIEW OF THE MODEL
+# SPLITS, LR TESTS WITH DF, AND SUBGROUP SIZES (N).
+
+print(tree)
+
+# GET NODE PARAMETERS (leafs only as default).
+# THE DEFAULT IS ONLY DISPLAYING LEAF NODE PARAMETER ESTIMATES.
+
+parameters(tree)
+
+# TO GET ALL PARAMETER ESTIMATES FOR EVERY NODE CHANGE THE DEFAULT TO.
+
+parameters(tree, leafs.only=FALSE)
+
+# SUBTREE FUNCTION.
+# IF ONLY A SUBSET OF THE TREE IS TO BE EXAMINED, THEN THE TREE CAN 
+# BE PARED. THIS IS DONE WITH A SUBSET FUNCTION WHICH STORES THE TREE
+# FROM A GIVEN NODE ON. IF THE TREE FROM NODE 2 ON IS DESIRED, THEN:
+
+treeSub <- subtree(tree, startNode=3)
+
+
+# ALTERNATIVE SPLIT RULE
+
+controlOptions$method <- "fair"
+tree2 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+
+
+controlOptions$method <- "cv"
+tree3 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
