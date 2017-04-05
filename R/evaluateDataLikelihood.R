@@ -1,7 +1,8 @@
 evaluateDataLikelihood <-
 function(model, data, data_type="raw")
 {
-	
+  if(inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
+  
 	# this is to trick the strict CRAN check
 	objective <- NULL
 	#
@@ -58,4 +59,9 @@ function(model, data, data_type="raw")
 		
 	
 		return(result);
+		
+		
+  } else {
+    stop("The chosen combination of parameters for semtree is not yet supported with lavaan! Please use OpenMx model specification!")
+  }
 }

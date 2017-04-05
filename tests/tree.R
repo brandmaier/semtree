@@ -110,3 +110,12 @@ treeSub <- subtree(tree, startNode=3)
 plot(treeSub)
 
 toTable(tree)
+
+
+controlOptions <- semtree.control(method = "fair")
+
+tree2 <- semtree(lgcModel, lgcm, control=controlOptions)
+
+
+controlOptions <- semtree.control(method = "cv")
+tree3 <- semtree(lgcModel, lgcm, control=controlOptions)

@@ -12,7 +12,7 @@ crossvalidatedSplit <- function(model=NULL, mydata=NULL, control=NULL,
 
  
 
-	mvars <- length(model@manifestVars)
+	#mvars <- length(model@manifestVars)
 	n.comp <- 0
 
 	LL.btn <- c()
@@ -28,7 +28,8 @@ crossvalidatedSplit <- function(model=NULL, mydata=NULL, control=NULL,
 
 	LL.baseline <- cvLikelihood(model, mydata, NULL, fold_association, NULL, control, invariance)
 
-for(c in (mvars+1):ncol(mydata)) {
+#for(c in (mvars+1):ncol(mydata)) {
+for (c in meta$covariate.ids)  {
 	#case for factored covariates##############################
 	if(is.factor(mydata[,c])) {
 		#unordered factors#####################################

@@ -24,7 +24,10 @@ cvLikelihood <- function( model, subset1, subset2, fold_association1,fold_associ
       } 
       else {
  			#return(NA)
-        model1 <- mxModel(model,mxData(observed=training_subset1,type="raw"),name=paste("MODEL",fold,sep=" "))
+        ##model1 <- mxModel(model,mxData(observed=training_subset1,type="raw"),
+        #                  name=paste("MODEL",fold,sep=" "))
+        model1 <- mxAddNewModelData(model=model, data=training_subset1, name=paste("MODEL",fold,sep=" "))
+        
 			  out1 <- safeRunAndEvaluate(model1,return.model=T)
         ll1 <- evaluateDataLikelihood(out1$model, test_subset1) 			
   	    ll2 <- 0	
@@ -33,7 +36,6 @@ cvLikelihood <- function( model, subset1, subset2, fold_association1,fold_associ
 		
 		lrs[fold] <- (ll1+ll2)
   	}
-  	#cat("AVG LL",mean(lrs)," of fold LLs: ", lrs,  "\n")
   	return(mean(lrs,na.rm=T))
 
 }
