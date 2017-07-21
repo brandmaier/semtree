@@ -23,8 +23,8 @@ lgcm$noise <- as.numeric(lgcm$noise)
 lgcModelstr <- '
 g0 =~ 1*o1 + 1*o2 + 1*o3 + 1*o4 + 1*o5;
 g1 =~ 0*o1 + 1*o2 + 2*o3 + 3*o4 + 4*o5;
-g0 ~~ g0; g0 ~ 1;
-g1 ~~ g1; g1 ~ 1;
+g0 ~~ g0; g0 ~ mui*1;
+g1 ~~ g1; g1 ~ sli*1;
 g0 ~~ g1;
 o1 ~~ o1; o1 ~ 0*1;
 o2 ~~ o2; o2 ~ 0*1;

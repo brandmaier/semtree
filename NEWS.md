@@ -2,6 +2,7 @@
 
 - semforests support for lavaan models including variable importance and partial dependence
 - crossvalidated likelihood supported with lavaan
+- plots of semtrees show correct #df when using focus parameters
 
 # semtree 0.9.10
 

@@ -40,7 +40,7 @@ plot.semtree<-function(x, type=2, no.plot=FALSE, ...) {
     #  	  	if(x$p<.001){crit <- paste("p<0.001")}
     #  		else{crit <- paste("p=",round(x$p,3),sep="")}
 		#} else {
-			crit <- paste( "LR=",round(x$lr,1),"(ddf=",length(x$param_names),")",sep="")
+			crit <- paste( "LR=",round(x$lr,1),"(df=",x$df,")",sep="")
 		#}
 		
 		row <- c(x$caption,x$N,x$N,0,x$node_id,0,0,0, num, NA,crit)
