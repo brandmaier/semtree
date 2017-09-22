@@ -13,7 +13,9 @@ Imports:
     digest,
     rpart,
     rpart.plot,
-    parallel
+    parallel,
+    plotrix,
+    cluster
 Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision

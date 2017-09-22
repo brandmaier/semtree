@@ -10,6 +10,11 @@ S3method("merge","semforest")
 
 export("subtree")
 
+export("diversityMatrix")
+export("hellinger")
+export("klsym")
+S3method("plot","diversityMatrix")
+
 #S3method("check","semtree.control")
 #S3method("check","semforest.control")
 #export("check.semtree.control")
