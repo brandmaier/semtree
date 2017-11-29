@@ -12,8 +12,8 @@ A function to calculate relative variable importance for selecting node splits o
 a \code{\link{semforest}} object. 
 }
 \usage{
-varimp(forest, var.names = NULL, verbose = F, main.effects = F, 
-	cluster = NULL, eval.fun = evaluateTree, ...)
+varimp(forest, var.names = NULL, verbose = F,  
+	cluster = NULL, eval.fun = evaluateTree, method = "permutation", ...)
 }
 
 
@@ -28,8 +28,8 @@ Covariates used in the forest creation process. NULL value will be automatically
   \item{verbose}{
 Boolean to print messages while function is running.
 }
-  \item{main.effects}{
-Boolean to only examine the first split in all trees.
+  \item{method}{
+Experimental. Some alternative methods to compute importance. Default is "permutation".
 }
   \item{eval.fun}{
 Default is \code{\link{evaluateTree}} function. The value of the -2LL of the leaf nodes is compared to baseline overall model.

@@ -1,3 +1,8 @@
+importFrom("stats", "dist", "rnorm")
+importFrom("utils", "setTxtProgressBar")
+import("OpenMx")
+import("lavaan")
+
 export("semtree")
 export("semforest")
 export("semtree.control")

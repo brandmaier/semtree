@@ -30,9 +30,20 @@ References
 
 Theory and method:
 
+Brandmaier, A. M., Driver, C., & Voelkle, M. C. (in press). Recursive
+partitioning in continuous time analysis. In K. van Montfort, J. Oud, &
+M. C. Voelkle (Eds.), Continuous time modeling in the behavioral and
+related sciences. New York: Springer.
+
 Brandmaier, A. M., Prindle, J. J., McArdle, J. J., & Lindenberger, U.
 (2016). Theory-guided exploration with structural equation model
 forests. Psychological Methods, 21, 566-582. <doi:10.1037/met0000090>
+
+Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
+(2014). Exploratory data mining with structural equation model trees. In
+J. J. McArdle & G. Ritschard (Eds.), Contemporary issues in exploratory
+data mining in the behavioral sciences (pp. 96-127). New York:
+Routledge.
 
 Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
 (2013). Structural equation model trees. Psychological Methods, 18,

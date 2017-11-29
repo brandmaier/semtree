@@ -6,3 +6,5 @@ semtreeLGCModelOpenMx	A simple SEM Tree using OpenMx
 semtreeLGCModellavaan	A simple SEM Tree using lavaan
 semforestLGCModelOpenMx A simple SEM Forest using OpenMx
 semforestLGCModelOpenMxParallel A simple SEM Forest using OpenMx and parallel execution
+semforestLGCModellavaan	A simple SEM Forest using lavaan
+semtreeLGCModelOpenMxInvariance	Invariance constraints in SEM Tree using OpenMx

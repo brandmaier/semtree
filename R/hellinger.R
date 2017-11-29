@@ -15,5 +15,5 @@ hellinger <- function(mu1, cov1, mu2, cov2) {
   )
   
   
-  result(diff)
+  return(diff)
 }

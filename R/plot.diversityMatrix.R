@@ -36,6 +36,6 @@ plot.diversityMatrix <- function(x, num.cluster=2, col.area = "gray",
   
   
   #points(x[result$medoids], y[result$medoids],pch="o",col="green")
-  text(x,y,labels=1:length(trees))
+  text(x,y,labels=1:nrow(x))
   
 }

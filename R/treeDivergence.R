@@ -4,8 +4,8 @@ treeDivergence <- function(tree1, tree2, data, divergence=klsym) {
   # similarity of two trees, sampling-based
   person.row <- data[sample(1:nrow(data),size = 1),]
   
-  trav1<-semtree:::traverse(tree1, data)
-  trav2<-semtree:::traverse(tree2,data)
+  trav1<-traverse(tree1, data)
+  trav2<-traverse(tree2,data)
   
   precomputeDist <- list()
   
