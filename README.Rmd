@@ -8,8 +8,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# semtree
-
 [![cran version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 
 ## What is this?
