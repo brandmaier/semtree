@@ -37,7 +37,7 @@ related sciences. New York: Springer.
 
 Brandmaier, A. M., Prindle, J. J., McArdle, J. J., & Lindenberger, U.
 (2016). Theory-guided exploration with structural equation model
-forests. Psychological Methods, 21, 566-582. <doi:10.1037/met0000090>
+forests. Psychological Methods, 21, 566-582.
 
 Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
 (2014). Exploratory data mining with structural equation model trees. In
@@ -47,7 +47,7 @@ Routledge.
 
 Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
 (2013). Structural equation model trees. Psychological Methods, 18,
-71-86. <doi:10.1037/a0030001>
+71-86.
 
 Applied examples:
 

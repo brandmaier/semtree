@@ -2,7 +2,7 @@
 \alias{hellinger}
 \alias{klsym}
 \title{Distances}
-\description{}
+\description{Divergence measures for multivariate normal distributions as used in the diversityMatrix function.}
 \usage{
  klsym(mu1, cov1, mu2, cov2)
  hellinger(mu1, cov1, mu2, cov2)

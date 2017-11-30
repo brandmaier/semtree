@@ -98,3 +98,7 @@ vim <- varimp(bigforest)
 # plot importance
 print(vim)
 plot(vim)
+
+# diversity matrix
+df <- diversityMatrix(forest = forest)
+plot(df)

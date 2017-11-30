@@ -15,7 +15,8 @@ Imports:
     rpart.plot,
     parallel,
     plotrix,
-    cluster,
+    cluster
+Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically

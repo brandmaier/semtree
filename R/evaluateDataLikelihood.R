@@ -65,10 +65,10 @@ function(model, data, data_type="raw")
     
     # rerun model
     #modelrun <- try(suppressWarnings(
-    #  eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=data,missing=\'',
+    #  eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',
     #                        model@Options$missing,'\')',sep="")))),silent=FALSE)
     
-    modelrun <- lavaan(parTable(model), data=data,
+    modelrun <- lavaan::lavaan(lavaan::parTable(model), data=data,
     control = list(optim.method="none", optim.force.converged=TRUE))
     
     # evaluate likelihood
