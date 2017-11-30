@@ -72,8 +72,8 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
       ###               lavaan USED HERE                      ###
       ###########################################################
       if (control$verbose) {message("Evaluating Subset 1")}
-      model1 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=subset1,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
-      #model1 <- try(suppressWarnings(lavaan(parTable(model),data=subset1,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
+      model1 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=subset1,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
+      #model1 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset1,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
       if (class(model1)=="try-error") {
         if(control$verbose){message("try error found 1...")}
         return(NA)
@@ -85,8 +85,8 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
       LL.sum <- run1$LL
       #other groups are compared to the chosen value and LL stored
       if (control$verbose) {message("Evaluating Subset 2")}
-      model2 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=subset2,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
-      #model2 <- try(suppressWarnings(lavaan(parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
+      model2 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=subset2,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
+      #model2 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
       if (class(model2)=="try-error") {
         if(control$verbose){message("try error found 2...")}
         return(NA)
@@ -191,8 +191,8 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
 	    names(joinset)[length(names(joinset))] <- "yc90wr3jdv9234jtt"
 	    
 	    # TODO - change user parameter labels!
-	    jpart <- rbind(partable(model),partable(model))
-	    pgrp <- c(rep(1,nrow(partable(model))),rep(2,nrow(partable(model))) )
+	    jpart <- rbind(lavaan::partable(model),lavaan::partable(model))
+	    pgrp <- c(rep(1,nrow(lavaan::partable(model))),rep(2,nrow(lavaan::partable(model))) )
 	    jpart$group <- pgrp
 	    jpart$block <- pgrp
 	    
@@ -204,7 +204,7 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
 	    ind <- !(jpart$label %in% invariance) & (jpart$label != "") & (1:length(jpart$label) <= dim(jpart)[1]/2)
 	    jpart$label[ind] <- paste0("yc90wr3jdv9234jtt_",jpart$label[ind])
 	    
-	    modelrun <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=data,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
+	    modelrun <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
 	    LL.sum <- -2*lavaan::logLik(modelrun)
 	 #   stop("Not yet implemented!") 
 	    
