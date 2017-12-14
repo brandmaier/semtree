@@ -1,6 +1,7 @@
 semtree
 =======
 
+[![DOI](https://zenodo.org/badge/76649538.svg)](https://zenodo.org/badge/latestdoi/76649538)
 [![cran
 version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror
