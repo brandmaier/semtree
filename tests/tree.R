@@ -107,7 +107,8 @@ parameters(tree, leafs.only=FALSE)
 
 treeSub <- subtree(tree, startNode=3)
 
-plot(treeSub)
+if (!is.null(treeSub))
+	plot(treeSub)
 
 toTable(tree)
 

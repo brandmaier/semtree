@@ -1,12 +1,23 @@
-importFrom("stats", "dist", "rnorm")
-importFrom("utils", "setTxtProgressBar")
+
 import("OpenMx")
+import("bitops")
+import("rpart")
+importFrom("grDevices", "heat.colors", "rainbow")
+importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
+             "plot", "strwidth", "text")
+importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov",
+             "logLik", "median", "pchisq", "qnorm", "runif", "var")
+importFrom("stats", "dist", "rnorm")
+importFrom("utils", "flush.console", "getS3method", "sessionInfo","str")
+importFrom("utils", "setTxtProgressBar")
+importFrom("parallel","parLapply","clusterMap")
+importFrom("sets","as.set")
+
 
 export("semtree")
 export("semforest")
 export("semtree.control")
 export("semforest.control")
-#export("checkControl") # main check function for sub functions below.
 
 export("semtree.constraints")
 
@@ -18,18 +29,6 @@ export("diversityMatrix")
 export("hellinger")
 export("klsym")
 S3method("plot","diversityMatrix")
-
-#S3method("check","semtree.control")
-#S3method("check","semforest.control")
-#export("check.semtree.control")
-#export("check.semforest.control")
-#export("createBinaries")
-#export("manvarOrder")
-#export("recodeAllSubsets")
-#export("recodeOrdered")
-
-#export("fairSplit")
-#export("naiveSplit")
 
 export("prune")
 
@@ -56,14 +55,15 @@ export("varimp")
 
 S3method("plot","semtree")
 
-#export("plot.semforest.proximity")
 S3method("plot","semforest.proximity")
 S3method("plot","semforest.varimp")
 
 export("varimpConvergencePlot")
 
-export("toLatex")
+
+#export("toLatex")
 S3method("toLatex","semtree")
+importFrom("utils","toLatex")
 
 
 
@@ -105,15 +105,4 @@ S3method("plot","partialDependence")
 #export("plot.predictions")
 
 
-
-import("OpenMx")
-import("bitops")
-importFrom("sets","as.set")
-import("rpart")
-importFrom("grDevices", "heat.colors", "rainbow")
-  importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
-             "plot", "strwidth", "text")
-  importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov",
-             "logLik", "median", "pchisq", "qnorm", "runif", "var")
-  importFrom("utils", "flush.console", "getS3method", "sessionInfo","str")
-importFrom("parallel","parLapply","clusterMap")
+#importFrom("utils","toLatex")

@@ -3,6 +3,7 @@
 \alias{plot.semtree}
 \alias{print.semtree}
 \alias{summary.semtree}
+\alias{toLatex.semtree}
 \alias{nodeFunSemtree}
 %plot.semtree(x, type = 2, no.plot = FALSE, ...)
 
