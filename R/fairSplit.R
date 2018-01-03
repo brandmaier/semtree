@@ -38,10 +38,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
   #
   
   # iterate over all variables
-  for (c in meta$covariate.ids) { 
+  for (cur_col in meta$covariate.ids) { 
     
     LL.baseline <- LL.overall
-    missingModel <- missingDataModel(modelnew, cross1, c)
+    missingModel <- missingDataModel(modelnew, cross1, cur_col)
     if(!is.null(missingModel)){ LL.baseline <- safeRunAndEvaluate(missingModel)}
     if (control$report.level > 10) {
       report(paste("Estimating baseline likelihood: ",LL.baseline),2)
@@ -49,33 +49,33 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     
     
    # if (control$verbose)
-  #    message("Testing ",c,"/",ncol(cross1), " (",colnames(cross1)[c],")" )
+  #    message("Testing ",c,"/",ncol(cross1), " (",colnames(cross1)[cur_col],")" )
     
     if (control$report.level>=1 || control$verbose) {
-      report(paste("Testing predictor",colnames(cross1)[c]," (#", c,"/",ncol(cross1),")"), 2)
+      report(paste("Testing predictor",colnames(cross1)[cur_col]," (#", cur_col,"/",ncol(cross1),")"), 2)
     }
     
     LL.within <- base::c()
     within.split <- base::c()
     
     #case for factored covariates##############################
-    if(is.factor(cross1[,c])) {
+    if(is.factor(cross1[,cur_col])) {
       #unordered factors#####################################
-      if(!is.ordered(cross1[,c])) {
+      if(!is.ordered(cross1[,cur_col])) {
         var.type = 1
-        v <- as.numeric(cross1[,c])
+        v <- as.numeric(cross1[,cur_col])
         val.sets <- sort(union(v,v))
         #cat("Length", length(val.sets),":",paste(v),"\n")
         if(length(val.sets) > 1) {
           #create binaries for comparison of all combinations
-          result <- recodeAllSubsets(cross1[,c],colnames(cross1)[c], use.levels=T)
-          test1 <- rep(0,length(cross1[,c]))#base::c()
-          test2 <- rep(NA, length(cross1[,c]))
+          result <- recodeAllSubsets(cross1[,cur_col],colnames(cross1)[cur_col], use.levels=T)
+          test1 <- rep(0,length(cross1[,cur_col]))#base::c()
+          test2 <- rep(NA, length(cross1[,cur_col]))
           
           for(j in 1:ncol(result$columns)) {
             #cat("RUN",j,"\n")
-            test1 <- rep(0,length(cross1[,c]))
-            for(i in 1:length(cross1[,c])) {
+            test1 <- rep(0,length(cross1[,cur_col]))
+            for(i in 1:length(cross1[,cur_col])) {
               if(isTRUE(result$columns[i,j])) {test1[i] <- 1}
               else {test1[i] <- 0}
             }
@@ -124,16 +124,16 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       
       
       #ordered factors#########################################
-      if(is.ordered(cross1[,c])) {
+      if(is.ordered(cross1[,cur_col])) {
         var.type = 2
-        v <- as.numeric(as.character(cross1[,c]))
+        v <- as.numeric(as.character(cross1[,cur_col]))
         val.sets <- sort(union(v,v))
         if(length(val.sets) > 1) {
           for(i in 2:(length(val.sets))) {
             LL.temp <- base::c()
             #subset data for chosen value and store LL
-            subset1 <- subset (cross1, as.numeric(as.character(cross1[,c])) > (val.sets[i]+val.sets[(i-1)])/2)
-            subset2 <- subset (cross1, as.numeric(as.character(cross1[,c])) < (val.sets[i]+val.sets[(i-1)])/2)
+            subset1 <- subset (cross1, as.numeric(as.character(cross1[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
+            subset2 <- subset (cross1, as.numeric(as.character(cross1[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
 
             # refit baseline model with focus parameters @TAGX
             if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -157,17 +157,17 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     }
     
     #numeric (continuous) covariates################################
-    if(is.numeric(cross1[,c])) {
+    if(is.numeric(cross1[,cur_col])) {
       var.type = 2
-      v <- as.numeric(cross1[,c])
+      v <- as.numeric(cross1[,cur_col])
       val.sets <- sort(union(v,v))
       #if(length(val.sets) < 30|!isTRUE(control$shortcut)){
       if(length(val.sets) > 1) {
         for(i in 2:(length(val.sets))) {
           LL.temp <- base::c()
           #subset data for chosen value and store LL
-          subset1 <- subset (cross1, as.numeric(cross1[,c]) > (val.sets[i]+val.sets[(i-1)])/2)
-          subset2 <- subset (cross1, as.numeric(cross1[,c]) < (val.sets[i]+val.sets[(i-1)])/2)
+          subset1 <- subset (cross1, as.numeric(cross1[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
+          subset2 <- subset (cross1, as.numeric(cross1[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
           
           # refit baseline model with focus parameters @TAGX
           if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -215,7 +215,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     if (!is.null(LL.within)) {
       max.LL.within <- LL.within[1]
       max.within.split <- within.split[1]
-      max.within.cov <- c
+      max.within.cov <- cur_col
       
       if(length(LL.within)>1){
         for(i in 2:length(LL.within)) {
@@ -234,7 +234,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       
       LL.btn <- cbind(LL.btn, max.LL.within)
       split.btn <- cbind(split.btn, max.within.split)
-      #cov.btn.names <- cbind(cov.btn.names, colnames(mydata[c]))
+      #cov.btn.names <- cbind(cov.btn.names, colnames(mydata[cur_col]))
       cov.btn.cols <- cbind(cov.btn.cols, max.within.cov)
       cov.type <- cbind(cov.type, var.type)
       
@@ -268,19 +268,19 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
   LL.max <- NULL
 
   if(!is.null(LL.btn)) {
-    for(c in 1:length(LL.btn)) {
+    for(cur_col in 1:length(LL.btn)) {
       LL.temp <- base::c()
       num.rows <- nrow(cross2)
       LL.baseline <- LL.overall
-      missingModel <- missingDataModel(modelnew, cross2, cov.btn.cols[c])
+      missingModel <- missingDataModel(modelnew, cross2, cov.btn.cols[cur_col])
       if(!is.null(missingModel)){
         LL.baseline <- safeRunAndEvaluate(missingModel)
         num.rows <- dim(missingModel@data@observed)[1]
       }
       
-      if(cov.type[c]==1) {
-        if(!is.ordered(cross2[,cov.btn.cols[c]])) {	
-          result <- recodeAllSubsets(cross2[,(cov.btn.cols[c])],colnames(cross2)[(cov.btn.cols[c])],use.levels=T)
+      if(cov.type[cur_col]==1) {
+        if(!is.ordered(cross2[,cov.btn.cols[cur_col]])) {	
+          result <- recodeAllSubsets(cross2[,(cov.btn.cols[cur_col])],colnames(cross2)[(cov.btn.cols[cur_col])],use.levels=T)
           test1 <- base::c()
           clen <- dim(cross2)[1]
           test2 <- rep(NA, clen)
@@ -303,7 +303,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
             #  subset2 <- subset (cross2, as.numeric(test2) == 1)
           }
           else {
-            vec <- test2[[split.btn[c]]]
+            vec <- test2[[split.btn[cur_col]]]
           }
           
           # if (length(unique(vec))==1) browser();
@@ -313,9 +313,9 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
           
         }
       }
-      else if(cov.type[c]==2) {
-        subset1 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[c]])) > split.btn[c])
-        subset2 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[c]])) <= split.btn[c])
+      else if(cov.type[cur_col]==2) {
+        subset1 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) > split.btn[cur_col])
+        subset2 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) <= split.btn[cur_col])
       }
       
       # refit baseline model with focus parameters @TAGX
@@ -348,19 +348,19 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         #browser()
         message(
           paste("SERIOUS INCONSISTENCY ERROR. Numbers of rows do not match. Type="),
-          cov.type[c]," Nums=",
+          cov.type[cur_col]," Nums=",
           nrow(subset1),"+",nrow(subset2)," != ",num.rows)
         LL.cur <- NA
       }
       
       if (control$verbose)
-        message(paste(c,":",names(mydata[cov.btn.cols[c]])," ", LL.cur,"\n"))
+        message(paste(c,":",names(mydata[cov.btn.cols[cur_col]])," ", LL.cur,"\n"))
       # browser()
       
       #browser() 
       
       
-      if(c == 1) {
+      if(cur_col == 1) {
         LL.max <- LL.cur
         LL.btn <- LL.cur
         split.max <- split.btn[1]
@@ -373,16 +373,16 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         if (!is.na(LL.cur) & !is.null(LL.cur)) {
           if (is.na(LL.max) || is.na(LL.cur) || LL.max < LL.cur) {
             LL.max <- LL.cur
-            split.max <- split.btn[c]
-            name.max <- names(mydata[cov.btn.cols[c]])
-            col.max <-cov.btn.cols[c]
-            type.max <- cov.type[c]
+            split.max <- split.btn[cur_col]
+            name.max <- names(mydata[cov.btn.cols[cur_col]])
+            col.max <-cov.btn.cols[cur_col]
+            type.max <- cov.type[cur_col]
           }
         }
       }
       
       if (control$report.level > 2) {
-        report(paste("Name",names(mydata[cov.btn.cols[c]]),"LL:",LL.cur),2)
+        report(paste("Name",names(mydata[cov.btn.cols[cur_col]]),"LL:",LL.cur),2)
       }
       
     }
@@ -415,39 +415,39 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     n.comp <- 0
     
     # iterate over all splits in col.max
-    c <- col.max
+    cur_col <- col.max
     LL.baseline <- LL.overall
     missingModel <- missingDataModel(modelnew, mydata, col.max)
     if(!is.null(missingModel)){ LL.baseline <- safeRunAndEvaluate(missingModel)}
     
     if (control$verbose)
-      message("Testing ",c,"/",ncol(mydata), " (",colnames(mydata)[c],")" )
+      message("Testing ",cur_col,"/",ncol(mydata), " (",colnames(mydata)[cur_col],")" )
     
     if (control$report.level>=1) {
-      report(paste("Testing predictor",colnames(mydata)[c]), 1)
+      report(paste("Testing predictor",colnames(mydata)[cur_col]), 1)
     }
     
     LL.within <- base::c()
     within.split <- base::c()
     
     #case for factored covariates##############################
-    if(is.factor(mydata[,c])) {
+    if(is.factor(mydata[,cur_col])) {
       #unordered factors#####################################
-      if(!is.ordered(mydata[,c])) {
+      if(!is.ordered(mydata[,cur_col])) {
         var.type = 1
-        v <- as.numeric(mydata[,c])
+        v <- as.numeric(mydata[,cur_col])
         val.sets <- sort(union(v,v))
         #cat("Length", length(val.sets),":",paste(v),"\n")
         if(length(val.sets) > 1) {
           #create binaries for comparison of all combinations
-          result <- recodeAllSubsets(mydata[,c],colnames(mydata)[c], use.levels=T)
-          test1 <- rep(0,length(mydata[,c]))#base::c()
-          test2 <- rep(NA, length(mydata[,c]))
+          result <- recodeAllSubsets(mydata[,cur_col],colnames(mydata)[cur_col], use.levels=T)
+          test1 <- rep(0,length(mydata[,cur_col]))#base::c()
+          test2 <- rep(NA, length(mydata[,cur_col]))
           
           for(j in 1:ncol(result$columns)) {
             #cat("RUN",j,"\n")
-            test1 <- rep(0,length(mydata[,c]))
-            for(i in 1:length(mydata[,c])) {
+            test1 <- rep(0,length(mydata[,cur_col]))
+            for(i in 1:length(mydata[,cur_col])) {
               if(isTRUE(result$columns[i,j])) {test1[i] <- 1}
               else {test1[i] <- 0}
             }
@@ -485,16 +485,16 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       
       
       #ordered factors#########################################
-      if(is.ordered(mydata[,c])) {
+      if(is.ordered(mydata[,cur_col])) {
         var.type = 2
-        v <- as.numeric(as.character(mydata[,c]))
+        v <- as.numeric(as.character(mydata[,cur_col]))
         val.sets <- sort(union(v,v))
         if(length(val.sets) > 1) {
           for(i in 2:(length(val.sets))) {
             LL.temp <- base::c()
             #subset data for chosen value and store LL
-            subset1 <- subset (mydata, as.numeric(as.character(mydata[,c])) > (val.sets[i]+val.sets[(i-1)])/2)
-            subset2 <- subset (mydata, as.numeric(as.character(mydata[,c])) < (val.sets[i]+val.sets[(i-1)])/2)
+            subset1 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
+            subset2 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
             #catch LLR for each comparison
             LL.return<-fitSubmodels(model, subset1, subset2, control, invariance=NULL)
             if(!is.na(LL.return)){
@@ -507,16 +507,16 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     }
     
     #numeric (continuous) covariates################################
-    if(is.numeric(mydata[,c])) {
+    if(is.numeric(mydata[,cur_col])) {
       var.type = 2
-      v <- as.numeric(mydata[,c])
+      v <- as.numeric(mydata[,cur_col])
       val.sets <- sort(union(v,v))
       if(length(val.sets) > 1) {
         for(i in 2:(length(val.sets))) {
           LL.temp <- base::c()
           #subset data for chosen value and store LL
-          subset1 <- subset (mydata, as.numeric(mydata[,c]) > (val.sets[i]+val.sets[(i-1)])/2)
-          subset2 <- subset (mydata, as.numeric(mydata[,c]) < (val.sets[i]+val.sets[(i-1)])/2)
+          subset1 <- subset (mydata, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
+          subset2 <- subset (mydata, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
           #catch LLR for each comparison
           LL.return<-fitSubmodels(model, subset1, subset2, control, invariance=NULL)
           if(!is.na(LL.return)){
@@ -552,7 +552,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     if (!is.null(LL.within)) {
       max.LL.within <- LL.within[1]
       max.within.split <- within.split[1]
-      max.within.cov <- c
+      max.within.cov <- cur_col
       
       if(length(LL.within)>1){
         for(i in 2:length(LL.within)) {
