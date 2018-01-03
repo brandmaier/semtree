@@ -29,22 +29,22 @@ crossvalidatedSplit <- function(model=NULL, mydata=NULL, control=NULL,
 	LL.baseline <- cvLikelihood(model, mydata, NULL, fold_association, NULL, control, invariance)
 
 #for(c in (mvars+1):ncol(mydata)) {
-for (c in meta$covariate.ids)  {
+for (cur_col in meta$covariate.ids)  {
 	#case for factored covariates##############################
-	if(is.factor(mydata[,c])) {
+	if(is.factor(mydata[,cur_col])) {
 		#unordered factors#####################################
-		if(!is.ordered(mydata[,c])) {
+		if(!is.ordered(mydata[,cur_col])) {
 			var.type = 1
-			v <- as.numeric(mydata[,c])
+			v <- as.numeric(mydata[,cur_col])
 			val.sets <- sort(union(v,v))
 			if(length(val.sets) > 1) {
 				#create binaries for comparison of all combinations
-				result <- recodeAllSubsets(mydata[,c],colnames(mydata)[c])
+				result <- recodeAllSubsets(mydata[,cur_col],colnames(mydata)[cur_col])
 				test1 <- c()
-				test2 <- rep(NA, length(mydata[,c]))
+				test2 <- rep(NA, length(mydata[,cur_col]))
 	
 				for(j in 1:ncol(result$columns)) {
-					for(i in 1:length(mydata[,c])) {
+					for(i in 1:length(mydata[,cur_col])) {
 						if(isTRUE(result$columns[i,j])) {test1[i] <- 1}
 						else {test1[i] <- 0}
 					}
@@ -79,8 +79,8 @@ for (c in meta$covariate.ids)  {
 					if(!is.na(LL.temp)){
 					  LL.within <- cbind(LL.within, (LL.baseline-sum(LL.temp)))
 					  within.split <- cbind(within.split, i)
-					  cov.col <- cbind(cov.col, c)
-					  cov.name <- cbind(cov.name, colnames(mydata[c]))
+					  cov.col <- cbind(cov.col, cur_col)
+					  cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 					  cov.type <- cbind(cov.type, var.type)
 					  n.comp <- n.comp + 1
 					}
@@ -92,9 +92,9 @@ for (c in meta$covariate.ids)  {
 			#within.split
 		}
 		#ordered factors#########################################
-		if(is.ordered(mydata[,c])) {
+		if(is.ordered(mydata[,cur_col])) {
 			var.type = 2
-			v <- as.numeric(as.character(mydata[,c]))
+			v <- as.numeric(as.character(mydata[,cur_col]))
 			val.sets <- sort(union(v,v))
 			if(length(val.sets) > 1) {
 				for(i in 2:(length(val.sets))) {
@@ -102,7 +102,7 @@ for (c in meta$covariate.ids)  {
 					subset1 <- subset (mydata, v > (val.sets[i]+val.sets[(i-1)])/2)					
 					fa1 <- subset (fold_association, v > (val.sets[i]+val.sets[(i-1)])/2)
 					fa2 <- subset (fold_association, v < (val.sets[i]+val.sets[(i-1)])/2)	
-					subset2 <- subset (mydata, as.numeric(as.character(mydata[,c])) < (val.sets[i]+val.sets[(i-1)])/2)
+					subset2 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
 					if((nrow(subset1)>control$min.N)&(nrow(subset2)>control$min.N)){
 					  LL.temp <- cvLikelihood(model, subset1, subset2, fa1, fa2, control, invariance)
 					}
@@ -114,8 +114,8 @@ for (c in meta$covariate.ids)  {
 					if(!is.na(LL.temp)){
 					  LL.within <- cbind(LL.within, (LL.baseline-sum(LL.temp)))
 					  within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
-					  cov.col <- cbind(cov.col, c)
-					  cov.name <- cbind(cov.name, colnames(mydata[c]))
+					  cov.col <- cbind(cov.col, cur_col)
+					  cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 					  cov.type <- cbind(cov.type, var.type)
 					  n.comp <- n.comp + 1
 					}
@@ -125,18 +125,18 @@ for (c in meta$covariate.ids)  {
 	}
 	
 	#numeric (continuous) covariates################################
-	if(is.numeric(mydata[,c])) {
+	if(is.numeric(mydata[,cur_col])) {
 		var.type = 2
-		v <- as.numeric(mydata[,c])
+		v <- as.numeric(mydata[,cur_col])
 		val.sets <- sort(union(v,v))
 		#if(length(val.sets) < 30|!isTRUE(control$shortcut)){
 		  if(length(val.sets) > 1) {
 		    for(i in 2:(length(val.sets))) {
 		      #subset data for chosen value and store LL
-		      subset1 <- subset (mydata, as.numeric(mydata[,c]) > (val.sets[i]+val.sets[(i-1)])/2)
-		      subset2 <- subset (mydata, as.numeric(mydata[,c]) < (val.sets[i]+val.sets[(i-1)])/2)
-		      fa1 <- subset (fold_association, as.numeric(mydata[,c]) > (val.sets[i]+val.sets[(i-1)])/2)
-		      fa2 <- subset (fold_association, as.numeric(mydata[,c]) < (val.sets[i]+val.sets[(i-1)])/2)
+		      subset1 <- subset (mydata, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
+		      subset2 <- subset (mydata, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
+		      fa1 <- subset (fold_association, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
+		      fa2 <- subset (fold_association, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
 		      if((nrow(subset1)>control$min.N)&(nrow(subset2)>control$min.N)){
 		        LL.temp <- cvLikelihood(model, subset1, subset2, fa1, fa2, control, invariance)
 		      }
@@ -148,8 +148,8 @@ for (c in meta$covariate.ids)  {
 		      if(!is.na(LL.temp)){
 		        LL.within <- cbind(LL.within, (LL.baseline-sum(LL.temp)))
 		        within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
-		        cov.col <- cbind(cov.col, c)
-		        cov.name <- cbind(cov.name, colnames(mydata[c]))
+		        cov.col <- cbind(cov.col, cur_col)
+		        cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 		        cov.type <- cbind(cov.type, var.type)
 		        n.comp <- n.comp + 1
 		      }
@@ -168,19 +168,19 @@ if(is.null(LL.within)){return(NULL)}
  rownames(btn.matrix) <- c("LR","variable","column","split val")
 for(c in 1:ncol(LL.within)) {
 	if(c == 1) {
-		LL.max <- LL.within[c]
-		split.max <- within.split[c]
-		name.max <- cov.name[c]
-		col.max <-cov.col[c]
-		type.max <- cov.type[c]
+		LL.max <- LL.within[cur_col]
+		split.max <- within.split[cur_col]
+		name.max <- cov.name[cur_col]
+		col.max <-cov.col[cur_col]
+		type.max <- cov.type[cur_col]
 	}
 	else {
-		if (LL.max < LL.within[c]) {
-			LL.max <- LL.within[c]
-			split.max <- within.split[c]
-			name.max <- cov.name[c]
-			col.max <-cov.col[c]
-			type.max <- cov.type[c]
+		if (LL.max < LL.within[cur_col]) {
+			LL.max <- LL.within[cur_col]
+			split.max <- within.split[cur_col]
+			name.max <- cov.name[cur_col]
+			col.max <-cov.col[cur_col]
+			type.max <- cov.type[cur_col]
 		}
 	}
 }
