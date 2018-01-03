@@ -35,12 +35,12 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	#for(c in (mvars+1):ncol(mydata)) {
   if(pp) {comparedData <- max(meta$model.ids+1)}
   else {comparedData <- meta$covariate.ids}
-  for (c in comparedData) {
+  for (cur_col in comparedData) {
     
     # parent model's likelihood (LL.baseline) is adjusted
     # for each split if there is missing data
     LL.baseline <- LL.overall
-	    missingModel <- missingDataModel(modelnew, mydata, c)
+	    missingModel <- missingDataModel(modelnew, mydata, cur_col)
 	    if(!is.null(missingModel)){ LL.baseline <- safeRunAndEvaluate(missingModel)}
 	    if (control$report.level > 10) {
 	      report(paste("Estimating baseline likelihood: ",LL.baseline),1)
@@ -48,25 +48,25 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    
 	  
 	  # tell the user a little bit about where we are right now
-	  if (control$verbose){message("Testing Covariate: ",c,"/",ncol(mydata), " (",colnames(mydata)[c],")" )}
+	  if (control$verbose){message("Testing Covariate: ",cur_col,"/",ncol(mydata), " (",colnames(mydata)[cur_col],")" )}
     ############################################################
 	  #case for factored covariates##############################
-	  if(is.factor(mydata[,c])) {
+	  if(is.factor(mydata[,cur_col])) {
 	    #unordered factors#####################################
-	    if(!is.ordered(mydata[,c])) {
+	    if(!is.ordered(mydata[,cur_col])) {
 	      var.type = 1
-	      v <- as.numeric(mydata[,c])
-	      #v <- as.numeric(mydata[,c])
+	      v <- as.numeric(mydata[,cur_col])
+	      #v <- as.numeric(mydata[,cur_col])
 	      val.sets <- sort(union(v,v))
 	      if(length(val.sets) > 1) {
 	        
 	        #create binaries for comparison of all combinations
-	        result <- recodeAllSubsets(mydata[,c],colnames(mydata)[c])
+	        result <- recodeAllSubsets(mydata[,cur_col],colnames(mydata)[cur_col])
 	        test1 <- c()
-	        test2 <- rep(NA, length(mydata[,c]))
+	        test2 <- rep(NA, length(mydata[,cur_col]))
 	        
 	        for(j in 1:ncol(result$columns)) {
-	          for(i in 1:length(mydata[,c])) {
+	          for(i in 1:length(mydata[,cur_col])) {
 	            if(isTRUE(result$columns[i,j])) {test1[i] <- 1}
 	            else if(!is.na(result$columns[i,j])){test1[i] <- 0}
 	            else{test1[i]<-NA}
@@ -100,8 +100,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	          if(!is.na(LL.return)){
 	            LL.within <- cbind(LL.within, (LL.baseline-LL.return))
 	            within.split <- cbind(within.split, i)
-	            cov.col <- cbind(cov.col, c)
-	            cov.name <- cbind(cov.name, colnames(mydata[c]))
+	            cov.col <- cbind(cov.col, cur_col)
+	            cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 	            cov.type <- cbind(cov.type, var.type)
 	            n.comp <- n.comp + 1
 	          }
@@ -109,9 +109,9 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	      }
 	    }
 	    #ordered factors#########################################
-	    if(is.ordered(mydata[,c])) {
+	    if(is.ordered(mydata[,cur_col])) {
 	      var.type = 2
-	      v <- as.numeric(as.character(mydata[,c]))
+	      v <- as.numeric(as.character(mydata[,cur_col]))
 	      val.sets <- sort(union(v,v))
         #browser()
         #cat("number of categories:",length(val.sets),"\n")
@@ -120,8 +120,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
-	          subset1 <- subset (mydata, as.numeric(as.character(mydata[,c])) > (val.sets[i]+val.sets[(i-1)])/2)
-	          subset2 <- subset (mydata, as.numeric(as.character(mydata[,c])) < (val.sets[i]+val.sets[(i-1)])/2)
+	          subset1 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
+	          subset2 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
 
 	          # refit baseline model with focus parameters @TAGX
 	          if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -136,8 +136,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	          if(!is.na(LL.return)){
 	            LL.within <- cbind(LL.within, (LL.baseline-LL.return))
 	            within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
-	            cov.col <- cbind(cov.col, c)
-	            cov.name <- cbind(cov.name, colnames(mydata[c]))
+	            cov.col <- cbind(cov.col, cur_col)
+	            cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 	            cov.type <- cbind(cov.type, var.type)
 	            n.comp <- n.comp + 1
 	          }
@@ -147,9 +147,9 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	  }
 	  #cat("length of comparison LL:",length(LL.within),"\n")
 	  #numeric (continuous) covariates################################
-	  if(is.numeric(mydata[,c])) {
+	  if(is.numeric(mydata[,cur_col])) {
 	    var.type = 2
-	    v <- as.numeric(mydata[,c])
+	    v <- as.numeric(mydata[,cur_col])
 	    val.sets <- sort(union(v,v))
 	    if(length(val.sets) < 30|!isTRUE(control$shortcut)){
 	      if(length(val.sets) > 1) {
@@ -157,8 +157,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
-	          subset1 <- subset (mydata, as.numeric(mydata[,c]) > (val.sets[i]+val.sets[(i-1)])/2)
-	          subset2 <- subset (mydata, as.numeric(mydata[,c]) < (val.sets[i]+val.sets[(i-1)])/2)
+	          subset1 <- subset (mydata, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
+	          subset2 <- subset (mydata, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
 	          
 	          #catch LLR for each comparison
 	          
@@ -176,8 +176,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	          if(!is.na(LL.return)){
 	            LL.within <- cbind(LL.within, (LL.baseline-LL.return))
 	            within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
-	            cov.col <- cbind(cov.col, c)
-	            cov.name <- cbind(cov.name, colnames(mydata[c]))
+	            cov.col <- cbind(cov.col, cur_col)
+	            cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 	            cov.type <- cbind(cov.type, var.type)
 	            n.comp <- n.comp + 1
 	          }
@@ -218,40 +218,40 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	name.max <- NA
 	col.max <-NA
 	type.max <- NA
-	for(c in 1:ncol(LL.within)) {
+	for(cur_col in 1:ncol(LL.within)) {
 	  if(!is.null(filter)){
-	    if(!is.na(filter[1,c])) {
+	    if(!is.na(filter[1,cur_col])) {
 	      if(is.na(LL.max)){
-	        LL.max <- LL.within[c]
-	        split.max <- within.split[c]
-	        name.max <- cov.name[c]
-	        col.max <-cov.col[c]
-	        type.max <- cov.type[c]
+	        LL.max <- LL.within[cur_col]
+	        split.max <- within.split[cur_col]
+	        name.max <- cov.name[cur_col]
+	        col.max <-cov.col[cur_col]
+	        type.max <- cov.type[cur_col]
 	      }
-	      else if(LL.within[c]>LL.max){
-	        LL.max <- LL.within[c]
-	        split.max <- within.split[c]
-	        name.max <- cov.name[c]
-	        col.max <-cov.col[c]
-	        type.max <- cov.type[c]
+	      else if(LL.within[cur_col]>LL.max){
+	        LL.max <- LL.within[cur_col]
+	        split.max <- within.split[cur_col]
+	        name.max <- cov.name[cur_col]
+	        col.max <-cov.col[cur_col]
+	        type.max <- cov.type[cur_col]
 	      }
 	    }
 	  }
     else {
-      if(!is.na(LL.within[c])) {
+      if(!is.na(LL.within[cur_col])) {
         if(is.na(LL.max)){
-          LL.max <- LL.within[c]
-          split.max <- within.split[c]
-          name.max <- cov.name[c]
-          col.max <-cov.col[c]
-          type.max <- cov.type[c]
+          LL.max <- LL.within[cur_col]
+          split.max <- within.split[cur_col]
+          name.max <- cov.name[cur_col]
+          col.max <-cov.col[cur_col]
+          type.max <- cov.type[cur_col]
         }
-        else if(LL.within[c]>LL.max){
-          LL.max <- LL.within[c]
-          split.max <- within.split[c]
-          name.max <- cov.name[c]
-          col.max <-cov.col[c]
-          type.max <- cov.type[c]
+        else if(LL.within[cur_col]>LL.max){
+          LL.max <- LL.within[cur_col]
+          split.max <- within.split[cur_col]
+          name.max <- cov.name[cur_col]
+          col.max <-cov.col[cur_col]
+          type.max <- cov.type[cur_col]
         }
       }
     }
