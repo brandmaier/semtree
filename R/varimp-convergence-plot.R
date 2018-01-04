@@ -17,7 +17,8 @@ varimpConvergencePlot <- function( x, lty=NULL, idx=NULL,
 
 vim <- x
 
-if (na.omit) {
+# na.omit means ignoring all NAs, otherwise count them as zero importance
+if (!na.omit) {
   vim$importance
   vim$importance[is.na(vim$importance)] <- 0
 }

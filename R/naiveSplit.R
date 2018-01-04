@@ -120,8 +120,10 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
-	          subset1 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
-	          subset2 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
+	          cond1 <- as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
+	          cond2 <- as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
+	          subset1 <- subset (mydata, cond1)
+	          subset2 <- subset (mydata, cond2)
 
 	          # refit baseline model with focus parameters @TAGX
 	          if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -157,8 +159,10 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
-	          subset1 <- subset (mydata, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
-	          subset2 <- subset (mydata, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
+	          cond1 <- as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2
+	          cond2 <- as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2
+	          subset1 <- subset (mydata, cond1)
+	          subset2 <- subset (mydata, cond2)
 	          
 	          #catch LLR for each comparison
 	          

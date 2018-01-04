@@ -1,7 +1,7 @@
 # semtree 0.9.12
 
 - bugfix in split evaluation procedure for cases where variables are named 'c', which crashed semtree
-
+- bugfix in varimpConvergencePlot: na.omit command logic was inverted
 # semtree 0.9.11
 
 - semforests support for lavaan models including variable importance and partial dependence

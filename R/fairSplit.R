@@ -132,8 +132,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
           for(i in 2:(length(val.sets))) {
             LL.temp <- base::c()
             #subset data for chosen value and store LL
-            subset1 <- subset (cross1, as.numeric(as.character(cross1[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
-            subset2 <- subset (cross1, as.numeric(as.character(cross1[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
+            cond1 <- as.numeric(as.character(cross1[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
+            cond2 <- as.numeric(as.character(cross1[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
+            subset1 <- subset (cross1, cond1)
+            subset2 <- subset (cross1, cond2)
 
             # refit baseline model with focus parameters @TAGX
             if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -166,8 +168,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         for(i in 2:(length(val.sets))) {
           LL.temp <- base::c()
           #subset data for chosen value and store LL
-          subset1 <- subset (cross1, as.numeric(cross1[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
-          subset2 <- subset (cross1, as.numeric(cross1[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
+          cond1 <- as.numeric(cross1[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2
+          cond2 <- as.numeric(cross1[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2
+          subset1 <- subset (cross1, cond1)
+          subset2 <- subset (cross1, cond2)
           
           # refit baseline model with focus parameters @TAGX
           if (!is.null(constraints) & (!is.null(constraints$focus.parameters))) {
@@ -314,8 +318,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         }
       }
       else if(cov.type[cur_col]==2) {
-        subset1 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) > split.btn[cur_col])
-        subset2 <- subset(cross2, as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) <= split.btn[cur_col])
+        cond1 <- as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) > split.btn[cur_col]
+        cond2 <- as.numeric(as.character(cross2[,cov.btn.cols[cur_col]])) <= split.btn[cur_col]
+        subset1 <- subset(cross2, cond1)
+        subset2 <- subset(cross2, cond2)
       }
       
       # refit baseline model with focus parameters @TAGX
@@ -493,8 +499,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
           for(i in 2:(length(val.sets))) {
             LL.temp <- base::c()
             #subset data for chosen value and store LL
-            subset1 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2)
-            subset2 <- subset (mydata, as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2)
+            cond1 <- as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
+            cond2 <- as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
+            subset1 <- subset (mydata, cond1)
+            subset2 <- subset (mydata, cond2)
             #catch LLR for each comparison
             LL.return<-fitSubmodels(model, subset1, subset2, control, invariance=NULL)
             if(!is.na(LL.return)){
@@ -515,8 +523,10 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
         for(i in 2:(length(val.sets))) {
           LL.temp <- base::c()
           #subset data for chosen value and store LL
-          subset1 <- subset (mydata, as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2)
-          subset2 <- subset (mydata, as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2)
+          cond1 <- as.numeric(mydata[,cur_col]) > (val.sets[i]+val.sets[(i-1)])/2
+          cond2 <- as.numeric(mydata[,cur_col]) < (val.sets[i]+val.sets[(i-1)])/2
+          subset1 <- subset (mydata, cond1)
+          subset2 <- subset (mydata, cond2)
           #catch LLR for each comparison
           LL.return<-fitSubmodels(model, subset1, subset2, control, invariance=NULL)
           if(!is.na(LL.return)){
