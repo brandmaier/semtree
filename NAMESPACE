@@ -14,6 +14,10 @@ importFrom("parallel","parLapply","clusterMap")
 importFrom("sets","as.set")
 
 
+export("evaluate")
+S3method("evaluate","semforest")
+
+
 export("semtree")
 export("semforest")
 export("semtree.control")
@@ -25,6 +29,7 @@ S3method("merge","semforest")
 
 export("subtree")
 
+export("biodiversity")
 export("diversityMatrix")
 export("hellinger")
 export("klsym")
