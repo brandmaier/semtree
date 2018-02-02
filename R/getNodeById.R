@@ -5,15 +5,21 @@ function(tree, id)
 		return(tree);
 	}
 	
-	result <- c();
+	#result <- c();
 	if (tree$caption != "TERMINAL")
 	{
 		l <- getNodeById(tree$left_child, id);
 		r <- getNodeById(tree$right_child ,id);
-		result <- append(result,c(l,r));
+		
+		# slow solution
+		#result <- append(result,c(l,r));
+	  result <- NULL
+	  if (!is.null(l)) result <- l
+	  if (!is.null(r)) result <- r
+			
 		return(result);	
 	} else{
-		return(c());
+		return(NULL);
 		
 	}
 	

@@ -32,12 +32,12 @@ semforest <- function(model, data, control=NULL,
     seeds <- NULL
   }
   
-  if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
-  not.npsol <- (mxOption(NULL,"Default optimizer")!="NPSOL")
-  if (not.npsol) {
-    warning("semtree recommends the use of NPSOL optimizer!")
-  }
-  }
+  #if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
+  #not.npsol <- (mxOption(NULL,"Default optimizer")!="NPSOL")
+  #if (not.npsol) {
+  #  warning("semtree recommends the use of NPSOL optimizer!")
+  #}
+  #}
   
   if ("with.error.handler" %in% names(arguments)) {
     with.error.handler <- arguments$with.error.handle

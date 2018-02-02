@@ -1,14 +1,6 @@
 getExpectedMean<- function(model) {
   
   
-  #if (inherits(model,"semper")) {  
-  #  omx <- getOpenMxRepresentation(model)
-  #} else if (inherits(model,"MxRAMModel")) {
-  #  omx <- model
-  #} else {
-  #  stop("Unknown model type!")
-  #}
-  
   # data <- simulateData(omx,10)
   # orsome fake data
   if (is.null(attr(model$fitfunction$result,"expMean"))) {
