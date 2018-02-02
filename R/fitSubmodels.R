@@ -37,13 +37,13 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
 	    model1 <- mxModel(model,mxData(observed=subset1,type="raw"))
 	    run1 <- safeRunAndEvaluate(model1, return.model=T)
 	    ##################################################
-	    suppressWarnings(if (is.na(run1)) return(NA))
+	    suppressWarnings(if (any(is.na(run1))) return(NA))
 	    if (!checkModel(run1$model, control)) return(NA);
 	    LL.sum <- run1$LL
 	    #other groups are compared to the chosen value and LL stored
 	    model2 <- mxModel(model,mxData(observed=subset2,type="raw"))		
 	    run2 <- safeRunAndEvaluate(model2, return.model=T)
-	    suppressWarnings(if (is.na(run2)) return(NA))
+	    suppressWarnings(if (any(is.na(run2))) return(NA))
 	    if (!checkModel(run2$model, control)) return(NA);
 	    if(!is.na(run2$LL)){LL.sum <- LL.sum + run2$LL}
 	    if (return.models) {

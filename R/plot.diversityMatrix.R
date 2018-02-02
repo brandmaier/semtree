@@ -1,6 +1,8 @@
 plot.diversityMatrix <- function(x, num.cluster=2, col.area = "gray",
-                     col.medoids = "blue", ...)
+                     col.medoids = "blue", type="mds",...)
 {
+  if (type=="mds") {
+  
   distmat <- x
   
   result <- cluster::pam(dist(distmat), num.cluster, TRUE, "euclidean")
@@ -38,4 +40,19 @@ plot.diversityMatrix <- function(x, num.cluster=2, col.area = "gray",
   #points(x[result$medoids], y[result$medoids],pch="o",col="green")
   text(x,y,labels=1:nrow(distmat))
   
+  } else if (type=="hist") {
+     xlab="Diversity"
+     main="Forest diversities"
+     values <- x[lower.tri(x)]
+    hist(x,main=main,xlab=xlab,...)
+  } else {
+    stop("Type not supported!")
+  }
+  
 }
+
+
+#plot.diversityMatrix <- function(x, xlab="Diversity", main="Forest diversities", ...) {
+#  values <- x[lower.tri(x)]
+#  hist(x,main=main,xlab=xlab,...)
+#}
