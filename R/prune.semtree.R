@@ -22,6 +22,10 @@ pruneSemtreeRec <- function(tree, max.depth, cur.depth)
 		}
 		
 	}
+  
+  tree$traverse.fun <- NULL
+  tree$traverseRow.fun <- NULL
+  
 	
 	return(tree);
 }

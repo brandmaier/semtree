@@ -35,6 +35,10 @@ if (!log.val)
 
 traverse <- function(tree, dataset)
 {
+  if (!is.null(tree$traverse.fun)) {
+    return(tree$traverse.fun(dataset))
+  }
+  
   if (class(dataset)=="data.frame") {
     result <- rep(NA, dim(dataset)[1])
     for (i in 1:dim(dataset)[1]) {
