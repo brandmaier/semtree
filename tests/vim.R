@@ -77,3 +77,6 @@ print(vimp, na.omit=TRUE)
 
 
 vimp2 <- varimp(fr, method="permutationInteraction") 
+
+
+D <- diversityMatrix(fr)
