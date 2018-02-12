@@ -9,7 +9,14 @@ evaluate.semforest <- function(x, data=NULL, ...)
   }
   
   eval.result <- simplify2array(
-    lapply(X =forest$forest ,FUN=evaluateTree,test_set = data,data_type = "raw")
+    lapply(X =x$forest ,FUN=evaluateTree,test_set = data,data_type = "raw")
   )
-  return(mean(unlist(eval.result[1,])))
+  
+  if (is.null(x$weights)) {
+    return(mean(unlist(eval.result[1,])))
+  } else {
+    return( sum(x$weights * unlist(eval.result[1,])) )
+  }
+  
+
 }
