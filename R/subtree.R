@@ -13,6 +13,8 @@ subtree <-
     if(tree$caption!="TERMINAL"){
       if(tree$node_id==startNode){
         foundNode <- TRUE
+        tree$traverse.fun <- NULL
+        tree$traverseRow.fun <- NULL
         return(tree)
       }
       else{

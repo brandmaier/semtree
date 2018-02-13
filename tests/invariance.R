@@ -99,3 +99,10 @@ cnst <- semtree.constraints(local.invariance = c("l2","l3","l4"))
 tree2 <- semtree(model = result, data=fulldata, control=ctr, constraints = cnst )
 
 plot(tree2)
+
+ctr <- semtree.control(method="fair")
+tree3 <- semtree(model = result, data=fulldata, control=ctr)
+
+
+ctr <- semtree.control(method="cv")
+tree4 <- semtree(model = result, data=fulldata, control=ctr)

@@ -166,15 +166,15 @@ if(is.null(LL.within)){return(NULL)}
  btn.matrix <- rbind(LL.within,cov.name,cov.col,within.split)
  colnames(btn.matrix) <- c(paste("var",seq(1,ncol(btn.matrix)),sep=""))
  rownames(btn.matrix) <- c("LR","variable","column","split val")
-for(c in 1:ncol(LL.within)) {
-	if(c == 1) {
+ LL.max <- NA
+ for(cur_col in 1:ncol(LL.within)) {
+	if(cur_col == 1 | is.na(LL.max)) {
 		LL.max <- LL.within[cur_col]
 		split.max <- within.split[cur_col]
 		name.max <- cov.name[cur_col]
 		col.max <-cov.col[cur_col]
 		type.max <- cov.type[cur_col]
-	}
-	else {
+	} else {
 		if (LL.max < LL.within[cur_col]) {
 			LL.max <- LL.within[cur_col]
 			split.max <- within.split[cur_col]
