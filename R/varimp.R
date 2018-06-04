@@ -4,7 +4,8 @@ varimpTree <- function(tree,
                        verbose = FALSE,
                        max.level = NA,
                        eval.fun = evaluateTree,
-                       method="permutation") {
+                       method="permutation", 
+                       conditional=FALSE) {
   # prune tree back to given level if "max.level" is specified
   if (!is.na(max.level)) {
     tree <- prune(tree, max.level)
@@ -39,10 +40,24 @@ varimpTree <- function(tree,
       # permute variable with name "cov.name" in data and store result in "oob.data.permuted"
       permutation.idx <- which(cov.name == names(data$oob.data))
       oob.data.permuted <- oob.data
+      
+     # browser()
+      
+      # random permutation
+      if (!conditional) {
       col.data <- oob.data.permuted[, permutation.idx]
       oob.data.permuted[, permutation.idx] <-
         sample(col.data, length(col.data), replace = F)
-      
+      } else {
+        oob.data.permuted <- conditionalSample(tree, oob.data.permuted, permutation.idx)
+        
+        if (all(oob.data.permuted == oob.data)) {
+          print("Warning! OOB DATA RESAMPLING HAD NO EFFECT")
+        }
+        
+        #browser()
+       # stop("Not implemented yet!")
+      }
      
       # obtain likelihood of permuted data
       if (method=="permutation") {
@@ -84,6 +99,7 @@ varimp <- function(forest,
                    cluster = NULL,
                    eval.fun = evaluateTree,
                    method="permutation",
+                   conditional=FALSE,
                    ...)
 {
   if ("parallel" %in% list(...)) {
@@ -109,7 +125,8 @@ varimp <- function(forest,
         verbose = verbose,
         max.level = NA,
         eval.fun = eval.fun,
-        method = method
+        method = method,
+        conditional = conditional
       ),
       SIMPLIFY = FALSE,
       USE.NAMES = TRUE

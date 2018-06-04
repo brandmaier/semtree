@@ -360,7 +360,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       }
       
       if (control$verbose)
-        message(paste(c,":",names(mydata[cov.btn.cols[cur_col]])," ", LL.cur,"\n"))
+        message(paste(cur_col,":",names(mydata[cov.btn.cols[cur_col]])," ", LL.cur,"\n"))
       # browser()
       
       #browser() 

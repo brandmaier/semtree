@@ -1,4 +1,4 @@
-evaluate <- function (x, data, ...) {
+evaluate <- function (x, data=NULL, ...) {
   UseMethod("evaluate", x)
 }
 
