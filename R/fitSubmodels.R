@@ -130,6 +130,9 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
 	   newlabels1 <- names(omxGetParameters(model1))
 	   newlabels2 <- names(omxGetParameters(model2))
 	   
+	   newlabels1 <- stringr::str_replace_all(newlabels1,"\\[|\\]|,|\\.","_")
+	   newlabels2 <- stringr::str_replace_all(newlabels2,"\\[|\\]|,|\\.","_")
+	   
 	   # replace labels
 	   eqids <- which(newlabels1 %in% invariance)
 	   
