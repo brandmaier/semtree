@@ -15,7 +15,8 @@ Imports:
     rpart.plot,
     parallel,
     plotrix,
-    cluster
+    cluster,
+    stringr
 Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
@@ -29,6 +30,6 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.12
+Version: 0.9.13
 Date: 2018-02-13
 RoxygenNote: 5.0.1

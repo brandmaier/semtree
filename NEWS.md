@@ -1,3 +1,8 @@
+# semtree 0.9.13
+
+- bugfix in invariance testing 
+- fix to remove warning from rpart plot (version 3.0.0 and above)
+
 # semtree 0.9.12
 
 - bugfix in split evaluation procedure for cases where variables are named 'c', which crashed semtree
