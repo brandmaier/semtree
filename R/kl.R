@@ -1,9 +1,10 @@
 
+# symmetric version of kl divergence
 klsym <- function(mu1, cov1, mu2, cov2) {
   return( kl(mu1, cov1, mu2, cov2)+kl(mu2, cov2,mu1, cov1))
 }
 
-# compute similarity between two models
+# compute dissimilarity between two models
 kl <- function(mu1, cov1, mu2, cov2) {
   
   d <- nrow(cov1)

@@ -16,7 +16,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$verbose) {
-    message("Growing level ",depth);
+    message("Growing level ",depth," n=",nrow(mydata));
   }
   
   if (control$report.level>0) {
@@ -154,7 +154,7 @@ growTree <- function(model=NULL, mydata=NULL,
   # determine whether we should skip splitting
   # 1. minimum cases in node
   if (!is.na(control$min.N)) {
-    if (node$N <= 2*control$min.N) {
+    if (node$N <= control$min.N) {
       if(control$verbose){
         message("Minimum user defined N for leaf node.")
       }
@@ -177,6 +177,9 @@ growTree <- function(model=NULL, mydata=NULL,
   result <- NULL
   # 1. unbalanced selection method
   if (control$method == "naive") {
+    
+    if (control$test.type=="ml") {
+    
     result <- tryCatch(
       ################################################
       naiveSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)	
@@ -184,6 +187,24 @@ growTree <- function(model=NULL, mydata=NULL,
       ,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
     );
+    
+    } else if (control$test.type=="dm") {
+      
+     # result <- tryCatch(
+        ################################################
+        result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
+        ################################################
+     #   ,
+     #   error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
+     # );     
+      
+    } else {
+      
+      stop("Unknown Test Type.")
+      
+    }
+    
+    
   } 
   # 2a. split half data to determine best split then use hold out set to compare one split per covariate
   else if (control$method == "fair") {
@@ -254,6 +275,13 @@ growTree <- function(model=NULL, mydata=NULL,
   if (control$verbose) {
     message("Best LR ",round(node$lr,7)," : ",result$name.max," at covariate column ",
             result$col.max,"\n");
+  }
+ 
+  # compute p value
+  if (!is.null(result$p.max)) {
+    node$p <- result$p.max
+  } else {
+    node$p <- pchisq(node$lr,df=node$df, lower.tail=F)
   }
   
   # ---------	determine whether to continue splitting	--------------

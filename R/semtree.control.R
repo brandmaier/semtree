@@ -2,11 +2,13 @@ semtree.control <-
 function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=NA,
          folds=5, exclude.heywood=TRUE, progress.bar=TRUE, 
          verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, custom.stopping.rule=NA,
-		 mtry=NA, report.level=0, exclude.code=NA )
+		 mtry=NA, report.level=0, exclude.code=NA, test.type="ml", min.bucket=10 )
 {
 	options <- list()
 	# verbose output during generation of SEMTree
 	options$verbose <- verbose
+	# test type
+	options$test.type <- test.type
 	# number of cross validation folds
 	options$num.folds <- folds
 	# individual CV folds for data under missingess (should be no option in the long run)
@@ -15,6 +17,8 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	options$exclude.heywood <- exclude.heywood
 	# minimum number of cases for SEM evaluation
 	options$min.N <- min.N
+	# minimum number of cases in leaf
+	options$min.bucket <- min.bucket
 	# method
 	options$method <- method
 	# maximal depth of the tree , set to NA for unrestricted trees

@@ -3,7 +3,8 @@ Type: Package
 Title: Recursive Partitioning for Structural Equation Models
 Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")))
 Author: Andreas M. Brandmaier [aut, cre],
-    John J. Prindle [aut]
+    John J. Prindle [aut],
+	Manuel Arnold [aut]
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     OpenMx (>= 2.6.9)
@@ -12,11 +13,13 @@ Imports:
     sets,
     digest,
     rpart,
-    rpart.plot,
+    rpart.plot (>= 3.0.6),
     parallel,
     plotrix,
     cluster,
-    stringr
+    stringr,
+	matrixcalc,
+	expm
 Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
@@ -30,6 +33,6 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.13
-Date: 2018-02-13
+Version: 0.9.14
+Date: 2019-03-19
 RoxygenNote: 5.0.1
