@@ -359,14 +359,14 @@ growTree <- function(model=NULL, mydata=NULL,
     }
     else if (result$type.max==2){
       # ordered factor splitting of data
-      node$caption <- paste(result$name.max,">=", result$split.max,sep=" ")
+      node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)])) >result$split.max)
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
     }
     else {
       # continuous variables splitting
-      node$caption <- paste(result$name.max,">=", result$split.max,sep=" ")
+      node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, as.numeric(mydata[, (result$col.max)]) >result$split.max)
       sub2 <- subset( mydata, as.numeric(mydata[, (result$col.max)])<=result$split.max)

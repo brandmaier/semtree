@@ -126,7 +126,9 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
       {max(abs(x),na.rm = TRUE)}))
     
     # Split point
-    max_cov <- covariate_sorted[which(abs(CSP_tp) == DM, arr.ind = TRUE)[1]]
+    max.id <- which(abs(CSP_tp) == DM, arr.ind = TRUE)[1]
+    max_cov <- (covariate_sorted[max.id]+
+                covariate_sorted[max.id+1])/2
     
     # Parameter with maximum cumulative scores
     max_par <- parameter[which(abs(CSP_tp) == DM, arr.ind = TRUE)[2]]

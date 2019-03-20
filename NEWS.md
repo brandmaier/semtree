@@ -3,6 +3,7 @@
 - added requirement rpart.plot > 3.0.6 to avoid error w.r.t. to missing round.int
 - Manuel Arnold joined the team to work on a score-test implementation
 - fixed behavior of min.N in semtree.control()
+- semtree captions uses signif for truncating decision thresholds to three significant digits
 
 # semtree 0.9.13
 
