@@ -88,5 +88,15 @@ controlOptions <- semtree.control(method = "naive",
 
 # grow tree and plot
 
+start_time <- Sys.time()
 tree <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+end_time <- Sys.time()
 plot(tree)
+
+start_time2 <- Sys.time()
+controlOptions$test.type<-"ml"
+tree2 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+end_time2 <- Sys.time()
+
+end_time-start_time
+end_time2-start_time2

@@ -5,6 +5,7 @@ print.semtreeControl <- function(x, ...)
 	cat("SEM-Tree control\n----------------\n")
 
 	cat("Splitting Method: ", x$method,"\n")
+	cat("Test Type: ",x$test.type,"\n")
 	cat("Alpha Level: ", x$alpha,"\n");
 	cat("Bonferroni Correction:", x$bonferroni,"\n")
 	cat("Minimum Number of Cases: ", x$min.N,"\n")

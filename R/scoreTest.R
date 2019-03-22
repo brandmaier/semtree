@@ -22,7 +22,8 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   ##############
 
   # Information from the fit object
-  data_obs <- as.matrix(fit$data$observed[, fit$manifestVars, drop = FALSE])
+  data_obs <- as.matrix(
+    fit$data$observed[, fit$manifestVars, drop = FALSE])
   N <- fit$output$data[[1]][[1]]
   N <- nrow(data_obs)
   p <- length(fit$manifestVars)
@@ -31,7 +32,8 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   p_star_means <- p * (p + 3) / 2
   q <- length(fit$output$estimate)
   param_names <- names(omxGetParameters(fit))
-  exp_cov <- mxGetExpected(model = fit, component = "covariance")
+  exp_cov <- OpenMx::mxGetExpected(model = fit, 
+                                   component = "covariance")
   exp_cov_inv <- solve(exp_cov)
   mean_stru <- any(fit$M$free)
   
@@ -50,11 +52,11 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   if (p == 1) {
     Dup <-  matrix(data = 1)
   } else {
-    Dup <- duplication.matrix(n = p)
+    Dup <- matrixcalc::duplication.matrix(n = p)
   }
   
   # Calculate Jacobian matrix
-  jacobian <- omxManifestModelByParameterJacobian(model = fit)
+  jacobian <- OpenMx::omxManifestModelByParameterJacobian(model = fit)
   if (mean_structure == FALSE) {
     jacobian <- jacobian[1:p_star, ]
   }
@@ -76,7 +78,7 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
                      byrow = TRUE, nrow = N, ncol = p_star)
   md <- mc - vech_cov
   if (mean_structure) {
-    exp_means <- mxGetExpected(model = fit, component = "means")
+    exp_means <- OpenMx::mxGetExpected(model = fit, component = "means")
     means <- matrix(data = rep(x = exp_means, times = N), byrow = TRUE,
                     nrow = N, ncol = p)
     mean_dev <- data_obs - means
@@ -88,7 +90,7 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   
   # Variance of the individual scores
   fisher <- t(jacobian) %*% V %*% jacobian
-  fisher_inv_sqr <- solve(sqrtm(fisher))
+  fisher_inv_sqr <- solve(expm::sqrtm(fisher))
   
   # Create output object
   output <- c()
@@ -104,7 +106,7 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   for (i in 1:N) {
     CSP[i, ] <- n_inv_sqr * fisher_inv_sqr %*% colSums(scores[1:i, , drop = F])
   }
-  colnames(CSP) <- names(omxGetParameters(fit))
+  colnames(CSP) <- names(OpenMx::omxGetParameters(fit))
   
   # Cumulative scores of target parameters
   CSP_tp <- CSP[, parameter, drop = FALSE]
@@ -119,7 +121,10 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   
   if (method == "DM" | method == "both") {
     
-    CSP_tp[c(1:min.bucket, nrow(CSP_tp):(nrow(CSP_tp)-min.bucket)),]<-NA
+    
+    # set min_bucket entries to zero to avoid splits
+    # with too small sample size
+    CSP_tp[c(1:min.bucket, (nrow(CSP_tp)-min.bucket):nrow(CSP_tp)),]<-NA
     
     # Test statistic
     DM <- max(apply(X = CSP_tp, MARGIN = 2, FUN = function(x) 

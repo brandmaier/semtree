@@ -74,7 +74,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
          stop("Focus parameters are only supported with OpenMx!")
        }
       
-       num.match <- length(constraints$focus.parameters %in% OpenMx::omxGetParameters(model))
+       num.match <- length(constraints$focus.parameters %in% 
+                             OpenMx::omxGetParameters(model))
       if (num.match != length(constraints$focus.parameters)) {
         stop("Error! Not all focus parameters are free parameters in the model!")
       }
@@ -209,15 +210,28 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
 		  }
   }
 	
+	# check test type
+	testtype.int <- pmatch(control$test.type, c("ml","dm"))
+	if (is.na(testtype.int)) {
+	  stop("Unknown test type in control object! Try either 'ml', or 'dm'.")
+	}	
+	
   # correct method selection check
 	method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
 	if (is.na(method.int)) {
 		stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
 	}	
+	
+	# further checks on test stat
+	if (control$test.type=="dm" & control$method!="naive") {
+	  stop("Only naive splitting is implemented yet for DM test statistic!")
+	}
+	
 	# if this is still null, we have a problem
 	if (is.null(dataset)) {
 	  stop("No data were provided!")
 	}
+	
 	# sanity checks, duplicated col names?
 	if (any(duplicated(names(dataset))))
 	{

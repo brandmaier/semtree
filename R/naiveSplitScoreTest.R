@@ -32,11 +32,22 @@ for (cur_col in cmp.column.ids) {
 #	browser()
 	test.result <- scoretest(fit=fit,
 	                         covariate=covariate,
-	                         alpha=control$alpha)
+	                         alpha=control$alpha,
+	                         min.bucket = control$min.bucket)
+	
+	if (control$test.type=="dm") {
 	
 	ts <- test.result$`DM.Test statistic`
 	splt <- test.result$`DM.Split point`
 	pval <- test.result$`DM.p value`
+	
+	} else if (control$test.type=="cvm") {
+
+	  ts <- test.result$`CvM.Test statistic`
+	  splt <- test.result$`DM.Split point`
+	  pval <- NULL
+	  	  
+	}
 	
 	cur.name <- colnames(mydata)[cur_col]
 	
