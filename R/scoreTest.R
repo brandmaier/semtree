@@ -114,7 +114,6 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   # Number of target parameters
   q_target <- length(parameter)
   
-  
   #####################################
   ### Double Maximum Test Statistic ###
   #####################################
@@ -124,8 +123,11 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
     
     # set min_bucket entries to zero to avoid splits
     # with too small sample size
-    CSP_tp[c(1:min.bucket, (nrow(CSP_tp)-min.bucket):nrow(CSP_tp)),]<-NA
-    
+    if (min.bucket*2 > nrow(CSP_tp)) 
+      CSP_Tp[,]<-NA
+    else if (min.bucket>0)
+      CSP_tp[c(1:min.bucket, (nrow(CSP_tp)-min.bucket+1):nrow(CSP_tp)),]<-NA
+   
     # Test statistic
     DM <- max(apply(X = CSP_tp, MARGIN = 2, FUN = function(x) 
       {max(abs(x),na.rm = TRUE)}))
@@ -137,6 +139,9 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
     
     # Parameter with maximum cumulative scores
     max_par <- parameter[which(abs(CSP_tp) == DM, arr.ind = TRUE)[2]]
+    
+    # Contributions of individual parameters
+    max_contrib <- CSP_tp[max.id,]
     
     # Approximate p value (100 terms used)
     h <- 1:100
@@ -216,7 +221,8 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
                  DM = list(Parameter = max_par,
                            "Split point" = max_cov,
                            "Test statistic" = DM,
-                           "p value" = DM_p_value))
+                           "p value" = DM_p_value,
+                           "Contributions" = max_contrib))
   }
   if (method == "CvM" | method == "both") {
     results <- c(results,

@@ -84,7 +84,8 @@ lgcModel <- mxRun(lgcModel)
 # naive splitting (biased) with DM test statistic
 
 controlOptions <- semtree.control(method = "naive",
-                                  test.type="dm")
+                                  test.type="dm",
+                                  min.bucket = 1)
 
 # grow tree and plot
 
