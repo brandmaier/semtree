@@ -71,6 +71,8 @@ export("varimpConvergencePlot")
 S3method("toLatex","semtree")
 importFrom("utils","toLatex")
 
+S3method("plot","contributions")
+export("contributions")
 
 
 export("toTable")

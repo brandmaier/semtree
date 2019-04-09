@@ -18,10 +18,11 @@ col.max <- NA
 name.max <- NA
 type.max <- NA
 p.max <- NA
+contrib.max <- NA
     
 # fit model once to complete data
 fit <- mxAddNewModelData(model,mydata,name="BASE MODEL")
-fit <- mxRun(fit)
+fit <- mxRun(fit,silent = TRUE)
 #LL.overall <- safeRunAndEvaluate(fit) 
 #suppressWarnings(if (is.na(LL.overall)) return(NULL))
 	
@@ -76,6 +77,7 @@ for (cur_col in cmp.column.ids) {
 		name.max <- cur.name
 		type.max <- cur.type
 		p.max <- pval
+		contrib.max <- test.result$DM.Contributions
 	}
 }
 
@@ -84,6 +86,6 @@ n.comp <- length(cmp.column.ids)
 # format results
 return(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
             col.max=col.max, type.max=type.max, n.comp=n.comp, btn.matrix=NULL, 
-            invariance.filter=NULL, p.max = p.max))
+            invariance.filter=NULL, p.max = p.max, contrib.max=contrib.max))
 					   
 }
