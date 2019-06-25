@@ -8,9 +8,10 @@ plot.contributions <- function(x, normalize=TRUE)
                                 x = id, fill = parameter), 
                             data = xdat,
                             stat="identity")+
-    xlab("Node ID")+
-    ylab("Contribution [%]")+
-    theme_light()
+    ggplot2::xlab("Node ID")+
+    ggplot2::ylab("Contribution [%]")+
+    ggplot2::theme_light()
+  
   (p4)
   return(p4)
 }

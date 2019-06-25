@@ -1,46 +1,74 @@
-# Load packages
+# Last updated: 11.06.2019
+
+
+####################
+### Dependencies ###
+####################
+
 #require(expm)
 #require(matrixcalc)
-#require(OpenMx) 
+#require(mvtnorm)
+#require(OpenMx)
+#require(matrixStats)
+
+
+#####################
+### Documentation ###
+#####################
 
 # fit: a RAM-type OpenMx model
 # covariate: covariate used to sort the data. Only a single covariate is
 #            implemented.
-# method: - DM: double maximum statistic
-#         - CvM: Cramér-von Mises type statistic
-#         - both: DM & CvM (default)
-# parameter: target parameter(s). A joint test of all parameters is the default.
-#            CvM can only test up to 20 parameters.
-# alpha: approximated significance level for the CvM test. Needs to be between
-#        0.01 and 0.2.
+# scale: level of measurement of the covariate. Each level comes with its own
+#        methods.
+#        - nominal
+#        - ordinal
+#        - metric (default)
+# method: Different test statistics. By default all methods suitable for the
+#         level of measurement of the covariate are used.
+#         - DM: double maximum test statistic (ordinal, metric)
+#         - CvM: Cram?r-von Mises type test statistic (metric)
+#         - maxLM: maximum Lagrange multiplier test statistic (ordinal, metric)
+#         - LM: Lagrange multiplier (nominal)
+#         - all: all methods suitable for the level of measurement of the
+#           covariate are used (default).
+# parameter: single or several target parameters. A joint test of all parameters
+#            is the default.
+# alpha: level of significance. Default is a significance level of 5%.
+#        Currently, only levels of 0.1%, 0.5%, 1%, 2.5%, 5%, 7.5%, 10%, 15%,
+#        20%, and 25% are implemented.
 
-scoretest <- function(fit, covariate, method = "both", parameter = "all",
-                      alpha = 0.05, min.bucket=7) {
+
+scoretest <- function(fit, covariate, scale = "metric", method = "all",
+                      parameter = NULL, alpha = .05) {
   
-  ##############
-  ### Set Up ###
-  ##############
-
+  # compatibility with semtree TODO: fix this somewhere else
+  alpha <- alpha*100
+  
+  #####################
+  ### Prepare Input ###
+  #####################
+  
   # Information from the fit object
-  data_obs <- as.matrix(
-    fit$data$observed[, fit$manifestVars, drop = FALSE])
-  N <- fit$output$data[[1]][[1]]
+  data_obs <- as.matrix(fit$data$observed[, fit$manifestVars, drop = FALSE])
   N <- nrow(data_obs)
   p <- length(fit$manifestVars)
   mean_structure <- any(fit$M$free)
   p_star <- p * (p + 1) / 2
   p_star_means <- p * (p + 3) / 2
   q <- length(fit$output$estimate)
-  param_names <- names(omxGetParameters(fit))
-  exp_cov <- OpenMx::mxGetExpected(model = fit, 
-                                   component = "covariance")
+  param_names <- names(OpenMx::omxGetParameters(fit))
+  exp_cov <- OpenMx::mxGetExpected(model = fit, component = "covariance")
   exp_cov_inv <- solve(exp_cov)
   mean_stru <- any(fit$M$free)
   
-  # Get parameters
-  if (parameter == "all") {
+  # Get target parameters
+  if (is.null(parameter)) {
     parameter <- param_names
   }
+  
+  # Number of target parameters
+  q_target <- length(parameter)
   
   # Sort the coariate
   covariate_sorted <- covariate[order(covariate)]
@@ -48,17 +76,28 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   # Sort the data by the covariate
   data_obs <- data_obs[order(covariate), ]
   
-  # Duplication matrix
-  if (p == 1) {
-    Dup <-  matrix(data = 1)
-  } else {
-    Dup <- matrixcalc::duplication.matrix(n = p)
-  }
+  # Create output object
+  output <- c()
+  output[length(output) + 1] <- "Structural Change Tests"
+  output[length(output) + 1] <- paste("Level of measurement of the covariate:",
+                                      scale)
+  
+  
+  #########################
+  ### Individual Scores ###
+  #########################
   
   # Calculate Jacobian matrix
   jacobian <- OpenMx::omxManifestModelByParameterJacobian(model = fit)
   if (mean_structure == FALSE) {
     jacobian <- jacobian[1:p_star, ]
+  }
+  
+  # Duplication matrix
+  if (p == 1) {
+    Dup <-  matrix(data = 1)
+  } else {
+    Dup <- matrixcalc::duplication.matrix(n = p)
   }
   
   # Calculate weight matrix
@@ -92,145 +131,383 @@ scoretest <- function(fit, covariate, method = "both", parameter = "all",
   fisher <- t(jacobian) %*% V %*% jacobian
   fisher_inv_sqr <- solve(expm::sqrtm(fisher))
   
-  # Create output object
-  output <- c()
   
-  
-  ################################
-  ### Cumulative Score Process ###
-  ################################
+  ######################################
+  ### Cumulative Score Process (CSP) ###
+  ######################################
   
   n_inv_sqr <- sqrt(1 / N)
-  CSP <- matrix(NA, nrow = N, ncol = q)
-  
-  for (i in 1:N) {
-    CSP[i, ] <- n_inv_sqr * fisher_inv_sqr %*% colSums(scores[1:i, , drop = F])
-  }
-  colnames(CSP) <- names(OpenMx::omxGetParameters(fit))
+  CSP <- n_inv_sqr * colCumsums(scores) %*% t(fisher_inv_sqr)
+  colnames(CSP) <- param_names
   
   # Cumulative scores of target parameters
   CSP_tp <- CSP[, parameter, drop = FALSE]
   
-  # Number of target parameters
-  q_target <- length(parameter)
   
-  #####################################
-  ### Double Maximum Test Statistic ###
-  #####################################
+  #########################
+  ### Nominal Covariate ###
+  #########################
   
-  if (method == "DM" | method == "both") {
+  if (scale == "nominal") {
     
+    # Levels of covariate minus one
+    cov_level <- length(table(covariate_sorted))
     
-    # set min_bucket entries to zero to avoid splits
-    # with too small sample size
-    if (min.bucket*2 > nrow(CSP_tp)) 
-      CSP_Tp[,]<-NA
-    else if (min.bucket>0)
-      CSP_tp[c(1:min.bucket, (nrow(CSP_tp)-min.bucket+1):nrow(CSP_tp)),]<-NA
-   
-    # Test statistic
-    DM <- max(apply(X = CSP_tp, MARGIN = 2, FUN = function(x) 
-      {max(abs(x),na.rm = TRUE)}))
+    # Cumulative proportions
+    cum_prop <- cumsum(table(covariate_sorted)) / N
     
-    # Split point
-    max.id <- which(abs(CSP_tp) == DM, arr.ind = TRUE)[1]
-    max_cov <- (covariate_sorted[max.id]+
-                covariate_sorted[max.id+1])/2
+    # Last individual of each bin
+    bin_index <- round(N * cum_prop)[1:(cov_level)]
     
-    # Parameter with maximum cumulative scores
-    max_par <- parameter[which(abs(CSP_tp) == DM, arr.ind = TRUE)[2]]
+    # Cumulative scores from each group
+    CSP_bin <- CSP_tp[bin_index, ]
     
-    # Contributions of individual parameters
-    max_contrib <- CSP_tp[max.id,]
+    # Shifted Bins
+    CSP_bin_shifted <- rbind(matrix(data = 0, nrow = 1, ncol = q),
+                             CSP_bin[-cov_level, , drop = FALSE])
     
-    # Approximate p value (100 terms used)
-    h <- 1:100
-    DM_p_value <- 1 - (1 + 2 * sum( (-1)^h * exp(-2 * h^2 * DM^2)))^q_target
+    # Squared deviations 
+    SD <- (CSP_bin - CSP_bin_shifted)^2
     
-    # Add results to output
-    output[length(output) + 1] <- "Double Maximum Test"
-    output[length(output) + 1] <- paste("Parameters under investigation:",
-                                        paste(parameter, collapse = ", "))
-    output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
-                                        max_par)
-    output[length(output) + 1] <- paste("Split point on covariate:", max_cov)
-    output[length(output) + 1] <- paste("Test statistic:", DM)
-    output[length(output) + 1] <- paste("p value:", DM_p_value)
+    # Lagrange multiplier test statistic
+    LM_test <- sum(SD)
     
-  }
-  
-  
-  #######################################
-  ### Cramér-von Mises test statistic ###
-  #######################################
-  
-  if (method == "CvM" | method == "both") {
+    # Parameter with maximum CSP
+    LM_par <- parameter[which.max(colMeans(SD))]
     
-    # Cramér-von Mises test statistic
-    CvM <- 1 / N * sum(as.numeric(CSP_tp^2))
-    
-    # Tables with criticial values from Hansen (1992, page 524)
-    crit <- matrix(data = c(0.748, 0.593, 0.470, 0.398, 0.353, 0.243,
-                            1.07, 0.898, 0.749, 0.670, 0.610, 0.469,
-                            1.35, 1.16, 1.01, 0.913, 0.846, 0.679,
-                            1.60, 1.39, 1.24, 1.14, 1.07, 0.883,
-                            1.88, 1.63, 1.47, 1.36, 1.28, 1.08,
-                            2.12, 1.89, 1.68, 1.58, 1.49, 1.28,
-                            2.35, 2.10, 1.90, 1.78, 1.69, 1.46,
-                            2.59, 2.33, 2.11, 1.99, 1.89, 1.66,
-                            2.82, 2.55, 2.32, 2.19, 2.10, 1.85,
-                            3.05, 2.76, 2.54, 2.40, 2.29, 2.03,
-                            3.27, 2.99, 2.75, 2.60, 2.49, 2.22,
-                            3.51, 3.18, 2.96, 2.81, 2.69, 2.41,
-                            3.69, 3.39, 3.15, 3.00, 2.89, 2.59,
-                            3.90, 3.60, 3.34, 3.19, 3.08, 2.77,
-                            4.07, 3.81, 3.54, 3.38, 3.26, 2.95,
-                            4.30, 4.01, 3.75, 3.58, 3.46, 3.14,
-                            4.51, 4.21, 3.95, 3.77, 3.64, 3.32,
-                            4.73, 4.40, 4.14, 3.96, 3.83, 3.50,
-                            4.92, 4.60, 4.33, 4.16, 4.03, 3.69,
-                            5.13, 4.79, 4.52, 4.36, 4.22, 3.86),
-                   nrow = 20, ncol = 6, byrow = TRUE)
-    rownames(crit) <- 1:20
-    colnames(crit) <- c(0.01, 0.025, 0.05, 0.075, 0.1, 0.2)
-    
-    # Critical value
-    CvM_crit <- stats::approx(x = c(0.01, 0.025, 0.05, 0.075, 0.1, 0.2),
-                              y = crit[q_target, ], xout = alpha)$y
+    # Get critical value
+    load("crit_nominal_LM.Rda")
+    LM_crit <- crit_nominal_LM[[paste(cov_level)]][q_target, paste(alpha)]
     
     # Test decision
-    CvM_decision <- CvM > CvM_crit
+    LM_decision <- LM_test > LM_crit
     
     # Add results to output
     output[length(output) + 1] <- "---"
-    output[length(output) + 1] <- "Cramér-von Mises type test"
+    output[length(output) + 1] <- "Lagrange multiplier test"
     output[length(output) + 1] <- paste("Parameters under investigation:",
                                         paste(parameter, collapse = ", "))
-    output[length(output) + 1] <- paste("CvM test statistic:", CvM)
-    output[length(output) + 1] <- paste("CvM critical value:", CvM_crit)
-    output[length(output) + 1] <- paste("H0 rejected:", CvM_decision)
+    output[length(output) + 1] <- paste("Test statistic:", LM_test)
+    output[length(output) + 1] <- paste("H0 rejected:", LM_decision)
+    output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                        LM_par)
+    output[length(output) + 1] <- paste("Cut point is not available for nominal covariate")
+  
+  }
+  
+  
+  #########################
+  ### Ordinal Covariate ###
+  #########################
+  
+  if (scale == "ordinal") {
+    
+    # Levels of the ordinal covariate minus one
+    cov_level <- length(unique(covariate)) - 1
+    
+    # Cumulative proportions
+    cum_prop <- cumsum(table(covariate_sorted)) / N
+    
+    # Last individual of each bin
+    bin_index <- round(N * cum_prop)[1:(cov_level)]
+    
+    # From the brownian bridge
+    weight <- bin_index / N * (1 - bin_index / N) 
+    
+    # Cumulative proportions associated with the levels of the covariate
+    CSP_ord <- CSP_tp[bin_index, ]
+    
+    
+    #######################
+    # Double maximum test #
+    #######################
+    
+    if (method ==  "DM" | method == "all") {
+      
+      # Double maximum test statistic
+      DM_test <- max(weight^(-0.5) * apply(abs(CSP_ord), MARGIN = 1,
+                                           FUN = function(x)
+                                           {max(x, na.rm = TRUE)}))
+      
+      # Bin with maximum CSP
+      DM_cut <- which.max(weight^(-0.5) *
+                                apply(abs(CSP_ord),
+                                      MARGIN = 1,FUN = function(x)
+                                      {max(x, na.rm = TRUE)}))
+      
+      # Parameter with maximum CSP
+      DM_par <- apply(X = abs(CSP_ord), MARGIN = 1,
+                          FUN = which.max)[DM_cut]
+      DM_par <- parameter[DM_par]
+      
+      ### Approximate critical value
+      # Covariance matrix of multivariate normal (Merkle et al., 2014)
+      Corr <- matrix(data = 0, nrow = cov_level, ncol = cov_level)
+      for (i in 1:cov_level) {
+        for (j in i:cov_level) {
+          Corr[j, i] <- Corr[i, j] <- sqrt(cum_prop[i] * (1 - cum_prop[j])) /
+            sqrt(cum_prop[j] * (1 - cum_prop[i]))        
+        }
+      }
+      bonf_cor <- (alpha / 100) / q_target
+      DM_crit <- qmvnorm(p = 1 - bonf_cor / 2, mean = rep(0, cov_level),
+                         corr = Corr)$quantile
+      
+      # Test decision
+      DM_decision <- DM_test > DM_crit
+      
+      output[length(output) + 1] <- "---"
+      output[length(output) + 1] <- "Double Maximum Test"
+      output[length(output) + 1] <- paste("Parameter(s) under investigation:",
+                                          paste(parameter, collapse = ", "))
+      output[length(output) + 1] <- paste("Test statistic:", DM_test)
+      output[length(output) + 1] <- paste("Critical value:", DM_crit)
+      output[length(output) + 1] <- paste("H0 rejected:", DM_decision)
+      output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                          DM_par)
+      output[length(output) + 1] <- paste("Cut point on covariate:", DM_cut)
+    }
+    
+    
+    ###################################
+    # Maximum Lagrange mutiplier test #
+    ###################################
+    
+    if (method == "maxLM" | method == "all") {
+      
+      # Weightet CSP bins
+      weighted_CSP2 <- weight^(-1) * CSP_ord^2
+      
+      # Bin sums
+      bin_sums <- rowSums(weighted_CSP2)
+      
+      # Test statistic
+      maxLM_test <- max(bin_sums)
+      
+      # Bin with maximum CSP
+      maxLM_cut <- which.max(bin_sums)
+      
+      # Parameter with maximum CSP
+      maxLM_par <- parameter[which.max(colSums(weighted_CSP2))]
+      
+      # Directory needs to be set
+      load("crit_ordinal_maxLM.Rda")
+      maxLM_crit <- crit_ordinal_maxLM[[paste(cov_level + 1)]][q_target, paste(alpha)]
+      
+      # Test decision
+      maxLM_decision <- maxLM_test > maxLM_crit
+      
+      output[length(output) + 1] <- "---"
+      output[length(output) + 1] <- "Maximum Lagrange Multiplier Test"
+      output[length(output) + 1] <- paste("Parameter(s) under investigation:",
+                                          paste(parameter, collapse = ", "))
+      output[length(output) + 1] <- paste("Test statistic:", maxLM_test)
+      output[length(output) + 1] <- paste("Critical value:", maxLM_crit)
+      output[length(output) + 1] <- paste("H0 rejected:", maxLM_decision)
+      output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                          maxLM_par)
+      output[length(output) + 1] <- paste("Cut point on covariate:", maxLM_cut)
+    }
+  }
+  
+  
+  ########################
+  ### Metric Covariate ###
+  ########################
+  
+  if (scale == "metric") {
+    
+    
+    #################################
+    # Double Maximum Test Statistic #
+    #################################
+    
+    if (method == "DM" | method == "all") {
+      
+      # Absolute values
+      abs_CSP <- abs(CSP_tp)
+      
+      # Test statistic
+      DM_test <- max(abs_CSP)
+      
+      # Cut point on covariate
+      DM_split <- which(abs_CSP == DM_test, arr.ind = TRUE)
+      DM_cut <- DM_split[1, 1]
+      
+      # Parameter with maximum cumulative scores
+      DM_par <- parameter[DM_split[1, 2]]
+      
+      # Approximate p value (100 terms used)
+      h <- 1:100
+      DM_p <- 1 - (1 + 2 * sum( (-1)^h * exp(-2 * h^2 * DM_test^2)))^q_target
+      
+      # Test decision
+      DM_decision <- DM_p < alpha / 100
+      
+      # Add results to output
+      output[length(output) + 1] <- "---"
+      output[length(output) + 1] <- "Double Maximum Test"
+      output[length(output) + 1] <- paste("Parameters under investigation:",
+                                          paste(parameter, collapse = ", "))
+      output[length(output) + 1] <- paste("Test statistic:", DM_test)
+      output[length(output) + 1] <- paste("p value:", DM_p)
+      output[length(output) + 1] <- paste("H0 rejected:", DM_decision)
+      output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                          DM_par)
+      output[length(output) + 1] <- paste("Cut point on covariate:", DM_cut)
+    }
+    
+    
+    ###################################
+    # Cram?r-von Mises Test Statistic #
+    ###################################
+    
+    if (method == "CvM" | method == "all") {
+      
+      # Squared CSP
+      CSP2 <- CSP_tp^2
+      
+      # Cram?r-von Mises test statistic
+      CvM_test <- 1 / N * sum(CSP2)
+      
+      # Cut point
+      CvM_cut <- which.max(rowSums(CSP2))
+      
+      # Contributions of individual parameters
+      CvM_par <- parameter[which.max(colSums(CSP2))]
+      
+      # Parameter with maximum CSP
+      CvM_max_contrib <- colSums(CSP2)
+      
+      # Critical value
+      # Directory needs to be set
+      load("crit_metric_CvM.Rda")
+      CvM_crit <- crit_metric_CvM[q_target, paste(alpha)]
+      
+      # Test decision
+      CvM_decision <- CvM_test > CvM_crit
+      
+      # Add results to output
+      output[length(output) + 1] <- "---"
+      output[length(output) + 1] <- "Cram?r-von Mises type test"
+      output[length(output) + 1] <- paste("Parameters under investigation:",
+                                          paste(parameter, collapse = ", "))
+      output[length(output) + 1] <- paste("CvM test statistic:", CvM_test)
+      output[length(output) + 1] <- paste("CvM critical value:", CvM_crit)
+      output[length(output) + 1] <- paste("H0 rejected:", CvM_decision)
+      output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                          CvM_par)
+      output[length(output) + 1] <- paste("Cut point on covariate:", CvM_cut)
+      output[length(output) + 1] <- paste("Max contrib:", CvM_max_contrib)
+      
+    }
+    
+    
+    ###################################
+    # Maximum Lagrange Test Statistic #
+    ###################################
+    
+    if (method == "LM" | method == "all") {
+      
+      # Weightet CSP bins
+      weighted_CSP2 <- ((1:N) / N * (1 - (1:N) / N))^(-1) * CSP_tp^2
+      weighted_CSP2[N, ] <- 0
+      
+      # Cut lower and upper 10% off
+      low_bound <- round(N / 100 * 10)
+      upp_bound <- round(N / 100 * 90)
+      weighted_CSP2[c(1:low_bound, upp_bound:N), ] <- NA
+      
+      # Row sums
+      row_sums <- rowSums(weighted_CSP2)
+      
+      # Test statistic
+      maxLM_test <- max(row_sums, na.rm = TRUE)
+      
+      # Cut point
+      maxLM_cut <- which.max(row_sums)
+      
+      # Parameter with maximum CSP
+      maxLM_par <- parameter[which.max(colSums(weighted_CSP2, na.rm = TRUE))]
+      
+      # Approximate critical value
+      # Directory needs to be set
+      load("crit_metric_maxLM.Rda")
+      maxLM_crit <- crit_metric_maxLM[q_target, paste(alpha)]
+      
+      # Test decision
+      maxLM_decision <- maxLM_test > maxLM_crit
+      
+      output[length(output) + 1] <- "---"
+      output[length(output) + 1] <- "Maximum Lagrange Multiplier Test"
+      output[length(output) + 1] <- paste("Parameter(s) under investigation:",
+                                          paste(parameter, collapse = ", "))
+      output[length(output) + 1] <- paste("Test statistic:", maxLM_test)
+      output[length(output) + 1] <- paste("Critical value:", maxLM_crit)
+      output[length(output) + 1] <- paste("H0 rejected:", maxLM_decision)
+      output[length(output) + 1] <- paste("Parameter with maximal cumulative scores:",
+                                          maxLM_par)
+      output[length(output) + 1] <- paste("Cut point on covariate:", maxLM_cut)
+    }
     
   }
+  
+  
+  ##############
+  ### Output ###
+  ##############
   
   # List with results
   results <- list(output = output,
                   "Target parameters" = parameter,
-                  "Number of target parameters" = q_target)
-  if (method == "DM" | method == "both") {
+                  "Number of target parameters" = q_target,
+                  "Level of measurement" = scale)
+  
+  if (method == "LM" | (method == "all" & scale == "nominal")) {
     results <- c(results,
-                 DM = list(Parameter = max_par,
-                           "Split point" = max_cov,
-                           "Test statistic" = DM,
-                           "p value" = DM_p_value,
-                           "Contributions" = max_contrib))
+                 LM = list("Test statistic" = LM_test,
+                           "Critical value" = LM_crit,
+                           "H0 rejected" = LM_decision,
+                           "Max parameter" = LM_par,
+                           "Cut point" = "not availabe for nominal variables"))
   }
-  if (method == "CvM" | method == "both") {
+  
+  if ( (method == "DM" | method == "all") & scale == "ordinal") {
     results <- c(results,
-                 CvM = list("Test statistic" = CvM,
+                 DM = list("Test statistic" = DM_test,
+                           "Critical value" = DM_crit,
+                           "H0 rejected" = DM_decision,
+                           "Max parameter" = DM_par,
+                           "Cut point" = DM_cut))
+  }
+  
+  if (method == "maxLM" | (method == "all" & (scale == "metric" | scale == "ordinal"))) {
+    results <- c(results,
+                 maxLM = list("Test statistic" = maxLM_test,
+                              "Critical value" = maxLM_crit,
+                              "H0 rejected" = maxLM_decision,
+                              "Max parameter" = maxLM_par,
+                              "Cut point" = maxLM_cut))
+  }
+  
+  if ( (method == "DM" | method == "all") & scale == "metric") {
+    results <- c(results,
+                 DM = list("Test statistic" = DM_test,
+                           "p-value" = DM_p,
+                           "H0 rejected" = DM_decision,
+                           "Max parameter" = DM_par,
+                           "Cut point" = DM_cut))
+  }
+  
+  if (method == "CvM" | (method == "all" & scale == "metric")) {
+    results <- c(results,
+                 CvM = list("Test statistic" = CvM_test,
                             "Critical value" = CvM_crit,
-                            "H0 rejected" = CvM_decision))
+                            "H0 rejected" = CvM_decision,
+                            "Max parameter"= CvM_par,
+                            "Cut point" = CvM_cut))
   }
+  
   
   return(results)
 }
-

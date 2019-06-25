@@ -46,7 +46,7 @@ summary(result)
 omxGetParameters(result)
 # create SEM tree
 
-ctrl <- semtree.control(test.type="dm",method = "naive",verbose=TRUE)
+ctrl <- semtree.control(test.type="score",method = "naive",verbose=TRUE)
 ctrl$min.bucket<-0
 tree <- semtree(model = result, dat=modelData,control = ctrl)
 

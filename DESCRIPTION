@@ -21,7 +21,8 @@ Imports:
 	  matrixcalc,
 	  expm,
 	  ggplot2,
-	  tidyr
+	  tidyr,
+	  matrixStats
 Suggests:
     lavaan
 Description: SEM Trees and SEM Forests -- an extension of model-based decision

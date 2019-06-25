@@ -7,8 +7,10 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	options <- list()
 	# verbose output during generation of SEMTree
 	options$verbose <- verbose
-	# test type
+	# test type ('ml' or 'score')
 	options$test.type <- test.type
+	# score tests for each scale type
+	options$score.tests <- list(metric='CvM', ordinal='maxLM', nominal='LM')
 	# number of cross validation folds
 	options$num.folds <- folds
 	# individual CV folds for data under missingess (should be no option in the long run)

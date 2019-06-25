@@ -30,11 +30,30 @@ fit <- mxRun(fit,silent = TRUE)
 for (cur_col in cmp.column.ids) {					   
 	
 	covariate <- mydata[,cur_col]
-#	browser()
+	
+	# defaults
+	# TODO: implement semtrees focus parameter interface (AB)
+	parameter <- NULL
+
+  if (!is.factor(covariate)) {
+    method <- control$score.test["metric"]  # default: CvM
+  } else {
+    if (is.ordered(covariate)) {
+      method <- control$score.test["ordinal"] # default: "maxLM" 
+    } else {
+      method <- control$score.test["nominal"] # default: "LM" 
+    }
+  }
+	
+	# main call to score test
 	test.result <- scoretest(fit=fit,
 	                         covariate=covariate,
+	                         scale=scale,
+	                         method=method,
 	                         alpha=control$alpha,
 	                         min.bucket = control$min.bucket)
+	
+	#######TODO Für einhetlichen Output
 	
 	if (control$test.type=="dm") {
 	
@@ -64,8 +83,8 @@ for (cur_col in cmp.column.ids) {
 	
 	if (control$verbose) {
 	cat("Testing: ", cur.name,"\n")
-	cat("Test statistic: ",ts,
-	    " best so far: ",name.max," with ",LL.max, " at ",
+	cat("Test statistic: ",ts, "(CvM",test.result$`CvM.Test statistic`,")",
+	    " best so far: ",name.max," with ",LL.max, " at ", splt," as split point",
 	    "\n")
 	cat("p value: ",pval,"\n")
 	}
