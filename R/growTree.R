@@ -188,7 +188,7 @@ growTree <- function(model=NULL, mydata=NULL,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
     );
     
-    } else if (control$test.type=="dm") {
+    } else if (control$test.type=="score") {
       
      # result <- tryCatch(
         ################################################
