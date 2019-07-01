@@ -18,7 +18,7 @@
 # fit: a RAM-type OpenMx model
 # covariate: covariate used to sort the data. Only a single covariate is
 #            implemented.
-# scale: level of measurement of the covariate. Each level comes with its own
+# level: level of measurement of the covariate. Each level comes with its own
 #        methods.
 #        - nominal
 #        - ordinal
@@ -35,7 +35,7 @@
 #        0.15, & 0.2 are implemented.
 
 
-scoretest <- function(fit, covariate, scale, method, parameter = NULL,
+scoretest <- function(fit, covariate, level, method, parameter = NULL,
                       alpha) {
   
   # compatibility with semtree TODO: fix this somewhere else
@@ -79,7 +79,7 @@ scoretest <- function(fit, covariate, scale, method, parameter = NULL,
   
   # Create output object
   output <- list("Target parameters" = parameter,
-                  "Level of measurement" = scale)
+                  "Level of measurement" = level)
   
   
   #########################
@@ -109,7 +109,7 @@ scoretest <- function(fit, covariate, scale, method, parameter = NULL,
   }
   
   # Individual deviations from the sample moments
-  cd <- scale(x = data_obs, center = TRUE, scale = FALSE)
+  cd <- level(x = data_obs, center = TRUE, level = FALSE)
   mc <- t(apply(X = cd, MARGIN = 1,
                 FUN = function (x){matrixcalc::vech(x %*% t(x))}))
   vech_cov <- matrix(data = rep(x = matrixcalc::vech(exp_cov), times = N),
@@ -147,7 +147,7 @@ scoretest <- function(fit, covariate, scale, method, parameter = NULL,
   ### Nominal Covariate ###
   #########################
   
-  if (scale == "nominal") {
+  if (level == "nominal") {
     
     if (method[[1]] == "LM") {
       
@@ -206,7 +206,7 @@ scoretest <- function(fit, covariate, scale, method, parameter = NULL,
   ### Ordinal Covariate ###
   #########################
   
-  if (scale == "ordinal") {
+  if (level == "ordinal") {
     
     # Levels of the ordinal covariate minus one
     cov_level <- length(unique(covariate)) - 1
@@ -320,7 +320,7 @@ scoretest <- function(fit, covariate, scale, method, parameter = NULL,
   ### Metric Covariate ###
   ########################
   
-  if (scale == "metric") {
+  if (level == "metric") {
     
     
     #################################
