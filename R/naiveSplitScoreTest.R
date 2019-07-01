@@ -50,8 +50,8 @@ for (cur_col in cmp.column.ids) {
 	                         covariate=covariate,
 	                         scale=scale,
 	                         method=method,
-	                         alpha=control$alpha,
-	                         min.bucket = control$min.bucket)
+	                         alpha=control$alpha)
+	                         #min.bucket = control$min.bucket)
 	
 	#######TODO Für einhetlichen Output
 	
