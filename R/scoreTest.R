@@ -148,7 +148,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
   ######################################
   
   n_inv_sqr <- sqrt(1 / N)
-  CSP <- n_inv_sqr * colCumsums(scores) %*% t(fisher_inv_sqr)
+  CSP <- n_inv_sqr * matrixStats:::colCumsums(scores) %*% t(fisher_inv_sqr)
   colnames(CSP) <- param_names
   
   # Cumulative scores of target parameters
