@@ -35,42 +35,37 @@ for (cur_col in cmp.column.ids) {
 	# TODO: implement semtrees focus parameter interface (AB)
 	parameter <- NULL
 
-  if (!is.factor(covariate)) {
-    level <- "metric"
-    method <- control$score.tests["metric"]  # default: CvM
-  } else {
-    if (is.ordered(covariate)) {
-      level <- "ordinal"
-      method <- control$score.tests["ordinal"] # default: "maxLM" 
-    } else {
-      level <- "nominal"
-      method <- control$score.tests["nominal"] # default: "LM" 
-    }
-  }
+#   if (!is.factor(covariate)) {
+#     level <- "metric"
+#     method <- control$score.tests["metric"]  # default: CvM
+#   } else {
+#     if (is.ordered(covariate)) {
+#       level <- "ordinal"
+#       method <- control$score.tests["ordinal"] # default: "maxLM" 
+#     } else {
+#       level <- "nominal"
+#       method <- control$score.tests["nominal"] # default: "LM" 
+#     }
+#   }
+# 	
+# 	if (!all(c(complete.cases(fit$data$observed)), complete.cases(covariate))) {
+# 	stop("Incomplete data")
+# 	}
+	
+	print("Call")
 	
 	# main call to score test
 	test.result <- scoretest(fit=fit,
 	                         covariate=covariate,
-	                         level=level,
-	                         method=method,
+	                         score_tests=control$score.tests,
 	                         alpha=control$alpha)
 	                         #min.bucket = control$min.bucket)
 	
 	#######TODO Für einhetlichen Output
 	
-	if (control$test.type=="dm") {
-	
-	ts <- test.result$`DM.Test statistic`
-	splt <- test.result$`DM.Split point`
-	pval <- test.result$`DM.p value`
-	
-	} else if (control$test.type=="cvm") {
-
-	  ts <- test.result$`CvM.Test statistic`
-	  splt <- test.result$`DM.Split point`
-	  pval <- NULL
-	  	  
-	}
+	  ts <- test.result$`Test statistic`
+	  splt <- test.result$`Cut point`
+	  pval <- test.result$`p-value`
 	
 	cur.name <- colnames(mydata)[cur_col]
 	

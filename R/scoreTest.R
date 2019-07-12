@@ -35,11 +35,7 @@
 #        0.15, & 0.2 are implemented.
 
 
-scoretest <- function(fit, covariate, level, method, parameter = NULL,
-                      alpha) {
-  
-  # compatibility with semtree TODO: fix this somewhere else
-  alpha <- alpha*100
+scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
   
   #####################
   ### Prepare Input ###
@@ -71,6 +67,21 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
   # Number of target parameters
   q_target <- length(parameter)
   
+  # Level of measurement and test statistic
+  if (!is.factor(covariate)) {
+    level <- "metric"
+    test <- score_tests["metric"]  # default: CvM
+  } else {
+    cov_levels <- nlevels(x = covariate)
+    if (is.ordered(covariate)) {
+      level <- "ordinal"
+      test <- score_tests["ordinal"] # default: "maxLM"
+    } else {
+      level <- "nominal"
+      test <- score_tests["nominal"] # default: "LM" 
+    }
+  }
+  
   # Sort the coariate
   covariate_sorted <- covariate[order(covariate)]
   
@@ -79,7 +90,8 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
   
   # Create output object
   output <- list("Target parameters" = parameter,
-                  "Level of measurement" = level)
+                 "Level of measurement" = level,
+                 "Score test method" = test)
   
   
   #########################
@@ -94,7 +106,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
   
   # Duplication matrix
   if (p == 1) {
-    Dup <-  matrix(data = 1)
+    Dup <- matrix(data = 1)
   } else {
     Dup <- matrixcalc::duplication.matrix(n = p)
   }
@@ -109,7 +121,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
   }
   
   # Individual deviations from the sample moments
-  cd <- level(x = data_obs, center = TRUE, level = FALSE)
+  cd <- scale(x = data_obs, center = TRUE, scale = FALSE)
   mc <- t(apply(X = cd, MARGIN = 1,
                 FUN = function (x){matrixcalc::vech(x %*% t(x))}))
   vech_cov <- matrix(data = rep(x = matrixcalc::vech(exp_cov), times = N),
@@ -148,24 +160,20 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
   #########################
   
   if (level == "nominal") {
-    
-    if (method[[1]] == "LM") {
-      
-      # Levels of covariate minus one
-      cov_level <- length(table(covariate_sorted))
+    if (test == "LM") {
       
       # Cumulative proportions
       cum_prop <- cumsum(table(covariate_sorted)) / N
       
       # Last individual of each bin
-      bin_index <- round(N * cum_prop)[1:(cov_level)]
+      bin_index <- round(N * cum_prop)[1:(cov_levels)]
       
       # Cumulative scores from each group
       CSP_bin <- CSP_tp[bin_index, ]
       
       # Shifted Bins
       CSP_bin_shifted <- rbind(matrix(data = 0, nrow = 1, ncol = q),
-                               CSP_bin[-cov_level, , drop = FALSE])
+                               CSP_bin[-cov_levels, , drop = FALSE])
       
       # Squared deviations 
       SD <- (CSP_bin - CSP_bin_shifted)^2
@@ -177,8 +185,9 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       LM_par <- parameter[which.max(colMeans(SD))]
       
       # Load simulated critical values
-      LM_crit_values <- crit_nominal_LM[[paste(cov_level)]][q_target, ]
-      LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_level)]]))
+      data("crit_nominal_LM")
+      LM_crit_values <- crit_nominal_LM[[paste(cov_levels)]][q_target, ]
+      LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_levels)]]))
       
       # Interpolate approximated p-value
       LM_p <- stats::approx(x = LM_crit_values, y = LM_alpha, xout = LM_test)
@@ -201,27 +210,26 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
     }
   }
   
-  
   #########################
   ### Ordinal Covariate ###
   #########################
   
   if (level == "ordinal") {
     
-    # Levels of the ordinal covariate minus one
-    cov_level <- length(unique(covariate)) - 1
+    # # Levels of the ordinal covariate minus one
+    # cov_level <- length(unique(covariate)) - 1
     
     # Cumulative proportions
     cum_prop <- cumsum(table(covariate_sorted)) / N
     
-    # Last individual of each bin
-    bin_index <- round(N * cum_prop)[1:(cov_level)]
+    # Last individual of each bin except the last bin
+    bin_index <- round(N * cum_prop)[1:(cov_levels - 1)]
     
     # From the brownian bridge
     weight <- bin_index / N * (1 - bin_index / N) 
     
     # Cumulative proportions associated with the levels of the covariate
-    CSP_ord <- CSP_tp[bin_index, ]
+    CSP_ord <- CSP_tp[bin_index, , drop = FALSE]
     
     
     #######################
@@ -247,8 +255,9 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       DM_par <- parameter[DM_par]
       
       # Load simulated critical values
-      DM_crit_values <- crit_ordinal_DM[[paste(cov_level + 1)]][q_target, ]
-      DM_alpha <- as.numeric(colnames(crit_ordinal_DM[[paste(cov_level + 1)]]))
+      data("crit_ordinal_DM")
+      DM_crit_values <- crit_ordinal_DM[[paste(cov_levels)]][q_target, ]
+      DM_alpha <- as.numeric(colnames(crit_ordinal_DM[[paste(cov_levels)]]))
       
       # Interpolate approximated p-value
       DM_p <- stats::approx(x = DM_crit_values, y = DM_alpha, xout = DM_test)
@@ -277,7 +286,11 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       weighted_CSP2 <- weight^(-1) * CSP_ord^2
       
       # Bin sums
-      bin_sums <- rowSums(weighted_CSP2)
+      if (dim(weighted_CSP2)[1] == 1) {
+        bin_sums <- weighted_CSP2
+      } else {
+        bin_sums <- rowSums(weighted_CSP2)
+      }
       
       # Test statistic
       maxLM_test <- max(bin_sums)
@@ -289,8 +302,9 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2))]
       
       # Load simulated critical values
-      maxLM_crit_values <- crit_ordinal_maxLM[[paste(cov_level + 1)]][q_target, ]
-      maxLM_alpha <- as.numeric(colnames(crit_ordinal_maxLM[[paste(cov_level + 1)]]))
+      data("crit_ordinal_maxLM")
+      maxLM_crit_values <- crit_ordinal_maxLM[[paste(cov_levels)]][q_target, ]
+      maxLM_alpha <- as.numeric(colnames(crit_ordinal_maxLM[[paste(cov_levels)]]))
       
       # Interpolate approximated p-value
       maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
@@ -309,7 +323,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       
     } else{
       
-      stop("Error! Use double maximum (DM) test or maxim Lagrange multiplier
+      stop("Error! Use double maximum (DM) test or maximum Lagrange multiplier
            (maxLM) test for ordinal covariates.")
       
     }
@@ -364,7 +378,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
     # Cramér-von Mises Test Statistic #
     ###################################
     
-    if (method == "CvM") {
+    else if (method == "CvM") {
       
       # Squared CSP
       CSP2 <- CSP_tp^2
@@ -382,6 +396,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       CvM_max_contrib <- colSums(CSP2)
       
       # Load simulated critical values
+      data("crit_metric_CvM")
       CvM_crit_values <- crit_metric_CvM[q_target, ]
       CvM_alpha <- as.numeric(colnames(crit_metric_CvM))
       
@@ -407,7 +422,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
     # Maximum Lagrange Test Statistic #
     ###################################
     
-    if (method == "LM") {
+    else if (method == "maxLM") {
       
       # Weightet CSP bins
       weighted_CSP2 <- ((1:N) / N * (1 - (1:N) / N))^(-1) * CSP_tp^2
@@ -431,13 +446,14 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2, na.rm = TRUE))]
       
       # Load simulated critical values
+      data("crit_metric_maxLM")
       maxLM_crit_values <- crit_metric_maxLM[q_target, ]
       maxLM_alpha <- as.numeric(colnames(crit_metric_maxLM))
       
       
       # Interpolate approximated p-value
       maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
-                             xout = maxLM_test)
+                               xout = maxLM_test)
       
       # Test decision
       maxLM_decision <- CvM_p$y < alpha
@@ -453,7 +469,7 @@ scoretest <- function(fit, covariate, level, method, parameter = NULL,
     } else {
       
       stop("Error! Use double maximum (DM) test, Cramér von Mises (CvM) test, or
-      maximum Lagrange multiplier (maxLM) for ordinal covariates.")
+      maximum Lagrange multiplier (maxLM) for metric covariates.")
       
     }
   }
