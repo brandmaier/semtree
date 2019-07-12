@@ -22,12 +22,12 @@
 #        methods.
 #        - nominal
 #        - ordinal
-# method: list with different test statistics. The default is
-#         list(nominal='LM',ordinal='maxLM',metric='CvM').
-#         - DM: double maximum test statistic (ordinal, metric)
-#         - CvM: Cramér-von Mises type test statistic (metric)
-#         - maxLM: maximum Lagrange multiplier test statistic (ordinal, metric)
-#         - LM: Lagrange multiplier (nominal)
+# score_tests: list with different test statistics. The default is
+#              list(nominal='LM',ordinal='maxLM',metric='CvM').
+#              - DM: double maximum test statistic (ordinal, metric)
+#              - CvM: Cramér-von Mises type test statistic (metric)
+#              - maxLM: maximum Lagrange multiplier test statistic (ordinal, metric)
+#              - LM: Lagrange multiplier (nominal)
 # parameter: single or several target parameters. A joint test of all parameters
 #            is the default.
 # alpha: level of significance. Default is a significance level is alpha = 0.05
@@ -236,7 +236,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
     # Double maximum test #
     #######################
     
-    if (method ==  "DM") {
+    if (test ==  "DM") {
       
       # Double maximum test statistic
       DM_test <- max(weight^(-0.5) * apply(abs(CSP_ord), MARGIN = 1,
@@ -280,7 +280,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
     # Maximum Lagrange mutiplier test #
     ###################################
     
-    if (method == "maxLM") {
+    if (test == "maxLM") {
       
       # Weightet CSP bins
       weighted_CSP2 <- weight^(-1) * CSP_ord^2
@@ -341,7 +341,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
     # Double Maximum Test Statistic #
     #################################
     
-    if (method == "DM") {
+    if (test == "DM") {
       
       # Absolute values
       abs_CSP <- abs(CSP_tp)
@@ -378,7 +378,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
     # Cramér-von Mises Test Statistic #
     ###################################
     
-    else if (method == "CvM") {
+    else if (test == "CvM") {
       
       # Squared CSP
       CSP2 <- CSP_tp^2
@@ -422,7 +422,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
     # Maximum Lagrange Test Statistic #
     ###################################
     
-    else if (method == "maxLM") {
+    else if (test == "maxLM") {
       
       # Weightet CSP bins
       weighted_CSP2 <- ((1:N) / N * (1 - (1:N) / N))^(-1) * CSP_tp^2
