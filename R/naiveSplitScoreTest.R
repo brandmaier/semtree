@@ -35,23 +35,6 @@ for (cur_col in cmp.column.ids) {
 	# TODO: implement semtrees focus parameter interface (AB)
 	parameter <- NULL
 
-#   if (!is.factor(covariate)) {
-#     level <- "metric"
-#     method <- control$score.tests["metric"]  # default: CvM
-#   } else {
-#     if (is.ordered(covariate)) {
-#       level <- "ordinal"
-#       method <- control$score.tests["ordinal"] # default: "maxLM" 
-#     } else {
-#       level <- "nominal"
-#       method <- control$score.tests["nominal"] # default: "LM" 
-#     }
-#   }
-# 	
-# 	if (!all(c(complete.cases(fit$data$observed)), complete.cases(covariate))) {
-# 	stop("Incomplete data")
-# 	}
-	
 	print("Call")
 	
 	# main call to score test

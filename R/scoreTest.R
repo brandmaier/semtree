@@ -70,15 +70,15 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
   # Level of measurement and test statistic
   if (!is.factor(covariate)) {
     level <- "metric"
-    test <- score_tests["metric"]  # default: CvM
+    test <- score_tests["metric"][[1]]  # default: CvM
   } else {
     cov_levels <- nlevels(x = covariate)
     if (is.ordered(covariate)) {
       level <- "ordinal"
-      test <- score_tests["ordinal"] # default: "maxLM"
+      test <- score_tests["ordinal"][[1]] # default: "maxLM"
     } else {
       level <- "nominal"
-      test <- score_tests["nominal"] # default: "LM" 
+      test <- score_tests["nominal"][[1]] # default: "LM" 
     }
   }
   
@@ -184,21 +184,29 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Parameter with maximum CSP
       LM_par <- parameter[which.max(colMeans(SD))]
       
-      # Load simulated critical values
+      # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_nominal_LM")
       LM_crit_values <- crit_nominal_LM[[paste(cov_levels)]][q_target, ]
-      LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_levels)]]))
-      
-      # Interpolate approximated p-value
-      LM_p <- stats::approx(x = LM_crit_values, y = LM_alpha, xout = LM_test)
+       if (LM_test > max(LM_crit_values)) {
+         LM_p <- 0.001
+         LM_p_region <- "< 0.001"
+       } else if (LM_test < min(LM_crit_values)) {
+         LM_p <- 0.25
+         LM_p_region <- "> 0.25"
+       } else {
+         LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_levels)]]))
+         LM_p <- stats::approx(x = LM_crit_values, y = LM_alpha, xout = LM_test)$y
+         LM_p_region <- "inside"
+       }
       
       # Test decision
-      LM_decision <- LM_p$y < alpha
+      LM_decision <- LM_p < alpha
       
       # Add results to output
       output <- append(x = output,
                        values = list("Test statistic" = LM_test,
-                                     "p-value" = LM_p$y,
+                                     "p-value" = LM_p,
+                                     "p-value region" = LM_p_region,
                                      "H0 rejected" = LM_decision,
                                      "Max parameter" = LM_par,
                                      "Cut point" = NA))
@@ -215,9 +223,6 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
   #########################
   
   if (level == "ordinal") {
-    
-    # # Levels of the ordinal covariate minus one
-    # cov_level <- length(unique(covariate)) - 1
     
     # Cumulative proportions
     cum_prop <- cumsum(table(covariate_sorted)) / N
@@ -254,21 +259,29 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
                       FUN = which.max)[DM_cut]
       DM_par <- parameter[DM_par]
       
-      # Load simulated critical values
+      # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_ordinal_DM")
       DM_crit_values <- crit_ordinal_DM[[paste(cov_levels)]][q_target, ]
-      DM_alpha <- as.numeric(colnames(crit_ordinal_DM[[paste(cov_levels)]]))
-      
-      # Interpolate approximated p-value
-      DM_p <- stats::approx(x = DM_crit_values, y = DM_alpha, xout = DM_test)
+      if (DM_test > max(DM_crit_values)) {
+        DM_p <- 0.001
+        DM_p_region <- "< 0.001"
+      } else if (LM_test < min(DM_crit_values)) {
+        DM_p <- 0.25
+        DM_p_region <- "> 0.25"
+      } else {
+        DM_alpha <- as.numeric(colnames(crit_ordinal_DM[[paste(cov_levels)]]))
+        DM_p <- stats::approx(x = DM_crit_values, y = DM_alpha, xout = DM_test)$y
+        DM_p_region <- "inside"
+      }
       
       # Test decision
-      DM_decision <- DM_p$y < alpha
+      DM_decision <- DM_p < alpha
       
       # Add results to output
       output <- append(x = output,
                        values = list("Test statistic" = DM_test,
-                                     "p-value" = DM_p$y,
+                                     "p-value" = DM_p,
+                                     "p-value region" = DM_p_region,
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_par,
                                      "Cut point" = DM_cut))
@@ -301,22 +314,31 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Parameter with maximum CSP
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2))]
       
-      # Load simulated critical values
+      
+      # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_ordinal_maxLM")
       maxLM_crit_values <- crit_ordinal_maxLM[[paste(cov_levels)]][q_target, ]
-      maxLM_alpha <- as.numeric(colnames(crit_ordinal_maxLM[[paste(cov_levels)]]))
-      
-      # Interpolate approximated p-value
-      maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
-                               xout = maxLM_test)
+      if (maxLM_test > max(maxLM_crit_values)) {
+        maxLM_p <- 0.001
+        maxLM_p_region <- "< 0.001"
+      } else if (LM_test < min(maxLM_crit_values)) {
+        maxLM_p <- 0.25
+        maxLM_p_region <- "> 0.25"
+      } else {
+        maxLM_alpha <- as.numeric(colnames(crit_ordinal_maxLM[[paste(cov_levels)]]))
+        maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
+                              xout = maxLM_test)$y
+        maxLM_p_region <- "inside"
+      }
       
       # Test decision
-      maxLM_decision <- maxLM_p$y < alpha
+      maxLM_decision <- maxLM_p < alpha
       
       # Add results to output
       output <- append(x = output,
                        values = list("Test statistic" = maxLM_test,
-                                     "p-value" = maxLM_p$y,
+                                     "p-value" = maxLM_p,
+                                     "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_par,
                                      "Cut point" = maxLM_cut))
@@ -367,6 +389,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       output <- append(x = output,
                        values = list("Test statistic" = DM_test,
                                      "p-value" = DM_p,
+                                     "p-value region" = "inside",
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_par,
                                      "Cut point" = DM_cut))
@@ -395,22 +418,32 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Parameter with maximum CSP
       CvM_max_contrib <- colSums(CSP2)
       
-      # Load simulated critical values
+      
+      
+      # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_metric_CvM")
       CvM_crit_values <- crit_metric_CvM[q_target, ]
-      CvM_alpha <- as.numeric(colnames(crit_metric_CvM))
-      
-      # Interpolate approximated p-value
-      CvM_p <- stats::approx(x = CvM_crit_values, y = CvM_alpha,
-                             xout = CvM_test)
+      if (CvM_test > max(CvM_crit_values)) {
+        CvM_p <- 0.001
+        CvM_p_region <- "< 0.001"
+      } else if (LM_test < min(CvM_crit_values)) {
+        CvM_p <- 0.25
+        CvM_p_region <- "> 0.25"
+      } else {
+        CvM_alpha <- as.numeric(colnames(crit_metric_CvM))
+        CvM_p <- stats::approx(x = CvM_crit_values, y = CvM_alpha,
+                                 xout = CvM_test)$y
+        CvM_p_region <- "inside"
+      }
       
       # Test decision
-      CvM_decision <- CvM_p$y < alpha
+      CvM_decision <- CvM_p < alpha
       
       # Add results to output
       output <- append(x = output,
                        values = list("Test statistic" = CvM_test,
-                                     "p-value" = CvM_p$y,
+                                     "p-value" = CvM_p,
+                                     "p-value region" = CvM_p_region,
                                      "H0 rejected" = CvM_decision,
                                      "Max parameter" = CvM_par,
                                      "Cut point" = CvM_cut))
@@ -445,23 +478,31 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Parameter with maximum CSP
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2, na.rm = TRUE))]
       
-      # Load simulated critical values
+      
+      # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_metric_maxLM")
       maxLM_crit_values <- crit_metric_maxLM[q_target, ]
-      maxLM_alpha <- as.numeric(colnames(crit_metric_maxLM))
-      
-      
-      # Interpolate approximated p-value
-      maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
-                               xout = maxLM_test)
+      if (maxLM_test > max(maxLM_crit_values)) {
+        maxLM_p <- 0.001
+        maxLM_p_region <- "< 0.001"
+      } else if (LM_test < min(maxLM_crit_values)) {
+        maxLM_p <- 0.25
+        maxLM_p_region <- "> 0.25"
+      } else {
+        maxLM_alpha <- as.numeric(colnames(crit_metric_maxLM))
+        maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
+                               xout = maxLM_test)$y
+        maxLM_p_region <- "inside"
+      }
       
       # Test decision
-      maxLM_decision <- CvM_p$y < alpha
+      maxLM_decision <- maxLM_p < alpha
       
       # Add results to output
       output <- append(x = output,
                        values = list("Test statistic" = maxLM_test,
-                                     "p-value" = maxLM_p$y,
+                                     "p-value" = maxLM_p,
+                                     "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_par,
                                      "Cut point" = maxLM_cut))
