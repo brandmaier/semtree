@@ -265,7 +265,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       if (DM_test > max(DM_crit_values)) {
         DM_p <- 0.001
         DM_p_region <- "< 0.001"
-      } else if (LM_test < min(DM_crit_values)) {
+      } else if (DM_test < min(DM_crit_values)) {
         DM_p <- 0.25
         DM_p_region <- "> 0.25"
       } else {
@@ -321,7 +321,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       if (maxLM_test > max(maxLM_crit_values)) {
         maxLM_p <- 0.001
         maxLM_p_region <- "< 0.001"
-      } else if (LM_test < min(maxLM_crit_values)) {
+      } else if (maxLM_test < min(maxLM_crit_values)) {
         maxLM_p <- 0.25
         maxLM_p_region <- "> 0.25"
       } else {
@@ -426,7 +426,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       if (CvM_test > max(CvM_crit_values)) {
         CvM_p <- 0.001
         CvM_p_region <- "< 0.001"
-      } else if (LM_test < min(CvM_crit_values)) {
+      } else if (CvM_test < min(CvM_crit_values)) {
         CvM_p <- 0.25
         CvM_p_region <- "> 0.25"
       } else {
@@ -485,7 +485,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       if (maxLM_test > max(maxLM_crit_values)) {
         maxLM_p <- 0.001
         maxLM_p_region <- "< 0.001"
-      } else if (LM_test < min(maxLM_crit_values)) {
+      } else if (maxLM_test < min(maxLM_crit_values)) {
         maxLM_p <- 0.25
         maxLM_p_region <- "> 0.25"
       } else {
