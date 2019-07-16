@@ -380,9 +380,10 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Test statistic
       DM_test <- max(abs_CSP)
       
-      # Cut point on covariate
-      DM_split <- which(abs_CSP == DM_test, arr.ind = TRUE)
-      DM_cut <- DM_split[1, 1]
+      # Cut point for seemtree
+      DM_max_obs <- which(abs_CSP == DM_test, arr.ind = TRUE)[1, 1]
+      DM_cut <- (covariate_sorted[DM_max_obs] +
+                    covariate_sorted[DM_max_obs + 1]) / 2
       
       # Parameter with maximum cumulative scores
       DM_par <- parameter[DM_split[1, 2]]
@@ -418,16 +419,16 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Cram?r-von Mises test statistic
       CvM_test <- 1 / N * sum(CSP2)
       
-      # Cut point
-      CvM_cut <- which.max(rowSums(CSP2))
+      # Cut point for seemtree
+      CvM_max_obs <- which.max(rowSums(CSP2))
+      CvM_cut <- (covariate_sorted[CvM_max_obs] +
+                    covariate_sorted[CvM_max_obs + 1]) / 2
       
       # Contributions of individual parameters
       CvM_par <- parameter[which.max(colSums(CSP2))]
       
       # Parameter with maximum CSP
       CvM_max_contrib <- colSums(CSP2)
-      
-      
       
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_metric_CvM")
@@ -481,12 +482,13 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Test statistic
       maxLM_test <- max(row_sums, na.rm = TRUE)
       
-      # Cut point
-      maxLM_cut <- which.max(row_sums)
+      # Cut point for seemtree
+      maxLM_max_obs <- which.max(row_sums)
+      maxLM_cut <- (covariate_sorted[maxLM_max_obs] +
+                    covariate_sorted[maxLM_max_obs + 1]) / 2
       
       # Parameter with maximum CSP
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2, na.rm = TRUE))]
-      
       
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_metric_maxLM")
