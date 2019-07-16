@@ -23,7 +23,7 @@
 #        - nominal
 #        - ordinal
 # score_tests: list with different test statistics. The default is
-#              list(nominal='LM',ordinal='maxLM',metric='CvM').
+#              list(nominal = 'LM', ordinal = 'maxLM', metric = 'CvM').
 #              - DM: double maximum test statistic (ordinal, metric)
 #              - CvM: Cramér-von Mises type test statistic (metric)
 #              - maxLM: maximum Lagrange multiplier test statistic (ordinal, metric)
@@ -224,6 +224,13 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
   
   if (level == "ordinal") {
     
+    # Name of the levels of the covariate
+    if (all(!is.na(suppressWarnings(as.numeric(levels(x = covariate_sorted)))))) {
+      ordinal_levels <- as.numeric(levels(x = covariate_sorted))
+    } else {
+      ordinal_levels <- 1:nlevels(x = covariate_sorted)
+    }
+    
     # Cumulative proportions
     cum_prop <- cumsum(table(covariate_sorted)) / N
     
@@ -248,8 +255,16 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
                                            FUN = function(x)
                                            {max(x, na.rm = TRUE)}))
       
-      # Bin with maximum CSP
-      DM_cut <- which.max(weight^(-0.5) *
+      # Cut point for seemtree
+      DM_max_bin <- which.max(weight^(-0.5) * apply(abs(CSP_ord),
+                                                    MARGIN = 1,FUN = function(x)
+                                                    {max(x, na.rm = TRUE)}))
+      DM_cut <- (ordinal_levels[DM_max_bin] +
+                      ordinal_levels[DM_max_bin + 1]) / 2 
+      
+      # Cut point on covariate
+      # semtree cut point ()
+      DM_ <- which.max(weight^(-0.5) *
                             apply(abs(CSP_ord),
                                   MARGIN = 1,FUN = function(x)
                                   {max(x, na.rm = TRUE)}))
@@ -308,12 +323,13 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       # Test statistic
       maxLM_test <- max(bin_sums)
       
-      # Bin with maximum CSP
-      maxLM_cut <- which.max(bin_sums)
+      # Cut point for seemtree
+      maxLM_max_bin <- which.max(bin_sums)
+      maxLM_cut <- (ordinal_levels[maxLM_max_bin] +
+                      ordinal_levels[maxLM_max_bin + 1]) / 2 
       
       # Parameter with maximum CSP
       maxLM_par <- parameter[which.max(colSums(weighted_CSP2))]
-      
       
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_ordinal_maxLM")
