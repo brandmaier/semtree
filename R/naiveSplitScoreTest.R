@@ -30,6 +30,7 @@ fit <- mxRun(fit,silent = TRUE)
 for (cur_col in cmp.column.ids) {					   
 	
 	covariate <- mydata[,cur_col]
+	cur.name <- colnames(mydata)[cur_col]
 	
 	# defaults
 	# TODO: implement semtrees focus parameter interface (AB)
@@ -41,8 +42,26 @@ for (cur_col in cmp.column.ids) {
 	test.result <- scoretest(fit=fit,
 	                         covariate=covariate,
 	                         score_tests=control$score.tests,
-	                         alpha=control$alpha)
-	                         #min.bucket = control$min.bucket)
+	                         alpha=control$alpha,
+	                         min_obs_left=control$min.bucket,
+	                         min_obs_right=control$min.bucket)
+	
+	# TODO AB: What to do if a structural break occured after the first or
+	# the last values of the sorted covariate.
+	# Warning message
+	if (test.result$`Groups too small` == "left" & test.result$`H0 rejected`) {
+	  warning(paste("Structural break occured within the first", min.bucket,
+	              "observations! Covariate used:", cur.name), call. = FALSE)
+	}
+	if (test.result$`Groups too small` == "right" & test.result$`H0 rejected`) {
+	  warning(paste("Structural break occured within the last", min.bucket,
+	              "observations! Covariate used:", cur.name), call. = FALSE)
+	}
+	
+	# TODO AB: If the covariate is nominal and has three levels or more, use
+	# likelihood ratio semtree implementation to determine cut point.
+
+
 	
 	#######TODO Für einhetlichen Output
 	
@@ -50,7 +69,7 @@ for (cur_col in cmp.column.ids) {
 	  splt <- test.result$`Cut point`
 	  pval <- test.result$`p-value`
 	
-	cur.name <- colnames(mydata)[cur_col]
+	
 	
 	# determine type
 	cur.type <- 2
