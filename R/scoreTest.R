@@ -262,14 +262,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha) {
       DM_cut <- (ordinal_levels[DM_max_bin] +
                       ordinal_levels[DM_max_bin + 1]) / 2 
       
-      # Cut point on covariate
-      # semtree cut point ()
-      DM_ <- which.max(weight^(-0.5) *
-                            apply(abs(CSP_ord),
-                                  MARGIN = 1,FUN = function(x)
-                                  {max(x, na.rm = TRUE)}))
-      
-      # Parameter with maximum CSP
+     # Parameter with maximum CSP
       DM_par <- apply(X = abs(CSP_ord), MARGIN = 1,
                       FUN = which.max)[DM_cut]
       DM_par <- parameter[DM_par]
