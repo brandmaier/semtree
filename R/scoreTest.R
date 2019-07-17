@@ -35,16 +35,15 @@
 #        0.15, & 0.2 are implemented.
 
 
-scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
-                      min_obs_left, min_obs_right) {
+scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
+                      parameter = NULL, alpha, min_bucket, bin_control) {
   
   #####################
   ### Prepare Input ###
   #####################
   
   # Information from the fit object
-  data_obs <- as.matrix(fit$data$observed[, fit$manifestVars, drop = FALSE])
-  N <- nrow(data_obs)
+  N <- nrow(data_sorted)
   p <- length(fit$manifestVars)
   mean_structure <- any(fit$M$free)
   p_star <- p * (p + 1) / 2
@@ -54,11 +53,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   exp_cov <- OpenMx::mxGetExpected(model = fit, component = "covariance")
   exp_cov_inv <- solve(exp_cov)
   mean_stru <- any(fit$M$free)
-  
-  # Check for complete data
-  if(!all(complete.cases(cbind(data_obs, covariate)))) {
-    stop("Incomplete data detected. Score tests require complete data.")
-  }
+  cov_level <- 0 # This prevents an error
+  bin_control$small_bin <- FALSE # reset this value
   
   # Get target parameters
   if (is.null(parameter)) {
@@ -67,27 +63,6 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   
   # Number of target parameters
   q_target <- length(parameter)
-  
-  # Level of measurement and test statistic
-  if (!is.factor(covariate)) {
-    level <- "metric"
-    test <- score_tests["metric"][[1]]  # default: CvM
-  } else {
-    cov_levels <- nlevels(x = covariate)
-    if (is.ordered(covariate)) {
-      level <- "ordinal"
-      test <- score_tests["ordinal"][[1]] # default: "maxLM"
-    } else {
-      level <- "nominal"
-      test <- score_tests["nominal"][[1]] # default: "LM" 
-    }
-  }
-  
-  # Sort the coariate
-  covariate_sorted <- covariate[order(covariate)]
-  
-  # Sort the data by the covariate
-  data_obs <- data_obs[order(covariate), ]
   
   # Create output object
   output <- list("Target parameters" = parameter,
@@ -122,7 +97,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   }
   
   # Individual deviations from the sample moments
-  cd <- scale(x = data_obs, center = TRUE, scale = FALSE)
+  cd <- scale(x = data_sorted, center = TRUE, scale = FALSE)
   mc <- t(apply(X = cd, MARGIN = 1,
                 FUN = function (x){matrixcalc::vech(x %*% t(x))}))
   vech_cov <- matrix(data = rep(x = matrixcalc::vech(exp_cov), times = N),
@@ -132,7 +107,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
     exp_means <- OpenMx::mxGetExpected(model = fit, component = "means")
     means <- matrix(data = rep(x = exp_means, times = N), byrow = TRUE,
                     nrow = N, ncol = p)
-    mean_dev <- data_obs - means
+    mean_dev <- data_sorted - means
     md <- cbind(md, mean_dev)
   }
   
@@ -163,8 +138,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   if (level == "nominal") {
     if (test == "LM") {
       
-      # Set max_obs to NULL
-      max_obs <- NA
+      # Levels of covariate
+      cov_levels <- nlevels(covariate_sorted)
       
       # Cumulative proportions
       cum_prop <- cumsum(table(covariate_sorted)) / N
@@ -182,6 +157,19 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       # Squared deviations 
       SD <- (CSP_bin - CSP_bin_shifted)^2
       
+      # Cut point for seemtree (only for nominal covariate with 2 levels)
+      if (cov_levels == 2) {
+        max_obs <- bin_index[1]
+        if (all(!is.na(suppressWarnings(as.numeric(levels(x = covariate_sorted)))))) {
+          cut_point <- sum(as.numeric(levels(x = covariate_sorted)))/ 2
+        } else {
+          cut_point <- 0.5
+        } 
+      } else {
+        max_obs <- NA
+        cut_point <- NA
+      }
+      
       # Lagrange multiplier test statistic
       LM_test <- sum(SD)
       
@@ -191,17 +179,17 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
       data("crit_nominal_LM")
       LM_crit_values <- crit_nominal_LM[[paste(cov_levels)]][q_target, ]
-       if (LM_test > max(LM_crit_values)) {
-         LM_p <- 0.001
-         LM_p_region <- "< 0.001"
-       } else if (LM_test < min(LM_crit_values)) {
-         LM_p <- 0.25
-         LM_p_region <- "> 0.25"
-       } else {
-         LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_levels)]]))
-         LM_p <- stats::approx(x = LM_crit_values, y = LM_alpha, xout = LM_test)$y
-         LM_p_region <- "inside"
-       }
+      if (LM_test > max(LM_crit_values)) {
+        LM_p <- 0.001
+        LM_p_region <- "< 0.001"
+      } else if (LM_test < min(LM_crit_values)) {
+        LM_p <- 0.25
+        LM_p_region <- "> 0.25"
+      } else {
+        LM_alpha <- as.numeric(colnames(crit_nominal_LM[[paste(cov_levels)]]))
+        LM_p <- stats::approx(x = LM_crit_values, y = LM_alpha, xout = LM_test)$y
+        LM_p_region <- "inside"
+      }
       
       # Test decision
       LM_decision <- LM_p < alpha
@@ -213,7 +201,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = LM_p_region,
                                      "H0 rejected" = LM_decision,
                                      "Max parameter" = LM_max_par,
-                                     "Cut point" = NA))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
     } else {
       
@@ -227,6 +216,9 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   #########################
   
   if (level == "ordinal") {
+    
+    # Levels of covariate
+    cov_levels <- nlevels(covariate_sorted)
     
     # Name of the levels of the covariate
     if (all(!is.na(suppressWarnings(as.numeric(levels(x = covariate_sorted)))))) {
@@ -260,15 +252,15 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                            {max(x, na.rm = TRUE)}))
       
       # Cut point for seemtree
-      DM_max_bin <- which.max(weight^(-0.5) * apply(abs(CSP_ord),
-                                                    MARGIN = 1,FUN = function(x)
-                                                    {max(x, na.rm = TRUE)}))
-      cut_point <- (ordinal_levels[DM_max_bin] +
-                      ordinal_levels[DM_max_bin + 1]) / 2 
+      max_obs <- which.max(weight^(-0.5) * apply(abs(CSP_ord),
+                                                 MARGIN = 1,FUN = function(x)
+                                                 {max(x, na.rm = TRUE)}))
+      cut_point <- (ordinal_levels[max_obs] +
+                      ordinal_levels[max_obs + 1]) / 2 
       
-     # Parameter with maximum CSP
+      # Parameter with maximum CSP
       DM_max_par <- apply(X = abs(CSP_ord), MARGIN = 1,
-                      FUN = which.max)[DM_max_bin]
+                          FUN = which.max)[max_obs]
       DM_max_par <- parameter[DM_max_par]
       
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
@@ -296,7 +288,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = DM_p_region,
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_max_par,
-                                     "Cut point" = cut_point))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
     }
     
@@ -321,9 +314,9 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       maxLM_test <- max(bin_sums)
       
       # Cut point for seemtree
-      maxLM_max_bin <- which.max(bin_sums)
-      cut_point <- (ordinal_levels[maxLM_max_bin] +
-                      ordinal_levels[maxLM_max_bin + 1]) / 2 
+      max_obs <- which.max(bin_sums)
+      cut_point <- (ordinal_levels[max_obs] +
+                      ordinal_levels[max_obs + 1]) / 2 
       
       # Parameter with maximum CSP
       maxLM_max_par <- parameter[which.max(colSums(weighted_CSP2))]
@@ -340,7 +333,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       } else {
         maxLM_alpha <- as.numeric(colnames(crit_ordinal_maxLM[[paste(cov_levels)]]))
         maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
-                              xout = maxLM_test)$y
+                                 xout = maxLM_test)$y
         maxLM_p_region <- "inside"
       }
       
@@ -354,9 +347,10 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_max_par,
-                                     "Cut point" = cut_point))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
-    } else{
+    } else {
       
       stop("Error! Use double maximum (DM) test or maximum Lagrange multiplier
            (maxLM) test for ordinal covariates.")
@@ -385,12 +379,13 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       DM_test <- max(abs_CSP)
       
       # Cut point for seemtree
-      max_obs <- which(abs_CSP == DM_test, arr.ind = TRUE)[1, 1]
+      max_obs_par <- which(abs_CSP == DM_test, arr.ind = TRUE)
+      max_obs <- max_obs_par[1, 1]
       cut_point <- (covariate_sorted[max_obs] +
-                    covariate_sorted[max_obs + 1]) / 2
+                      covariate_sorted[max_obs + 1]) / 2
       
       # Parameter with maximum cumulative scores
-      DM_max_par <- parameter[DM_split[1, 2]]
+      DM_max_par <- parameter[max_obs_par[1, 2]]
       
       # Approximate p value (100 terms used)
       h <- 1:100
@@ -406,7 +401,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = "inside",
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_max_par,
-                                     "Cut point" = cut_point))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
     }
     
@@ -426,7 +422,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       # Cut point for seemtree
       max_obs <- which.max(rowSums(CSP2))
       cut_point <- (covariate_sorted[max_obs] +
-                    covariate_sorted[max_obs + 1]) / 2
+                      covariate_sorted[max_obs + 1]) / 2
       
       # Contributions of individual parameters
       CvM_max_par <- parameter[which.max(colSums(CSP2))]
@@ -446,7 +442,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       } else {
         CvM_alpha <- as.numeric(colnames(crit_metric_CvM))
         CvM_p <- stats::approx(x = CvM_crit_values, y = CvM_alpha,
-                                 xout = CvM_test)$y
+                               xout = CvM_test)$y
         CvM_p_region <- "inside"
       }
       
@@ -460,7 +456,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = CvM_p_region,
                                      "H0 rejected" = CvM_decision,
                                      "Max parameter" = CvM_max_par,
-                                     "Cut point" = cut_point))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
     }
     
@@ -489,7 +486,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       # Cut point for seemtree
       max_obs <- which.max(row_sums)
       cut_point <- (covariate_sorted[max_obs] +
-                    covariate_sorted[max_obs + 1]) / 2
+                      covariate_sorted[max_obs + 1]) / 2
       
       # Parameter with maximum CSP
       maxLM_max_par <- parameter[which.max(colSums(weighted_CSP2, na.rm = TRUE))]
@@ -506,7 +503,7 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
       } else {
         maxLM_alpha <- as.numeric(colnames(crit_metric_maxLM))
         maxLM_p <- stats::approx(x = maxLM_crit_values, y = maxLM_alpha,
-                               xout = maxLM_test)$y
+                                 xout = maxLM_test)$y
         maxLM_p_region <- "inside"
       }
       
@@ -520,7 +517,8 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
                                      "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_max_par,
-                                     "Cut point" = cut_point))
+                                     "Cut point" = cut_point,
+                                     "Obs before cut" = max_obs))
       
     } else {
       
@@ -532,21 +530,25 @@ scoretest <- function(fit, covariate, score_tests, parameter = NULL, alpha,
   
   
   #####################################
-  ### Check Minimum Number of Cases ###
+  ### Check if Groups are too Small ###
   #####################################
   
-  # Check if the resulting groups are too small
-  sparse_groups <- FALSE
-  if (!is.na(max_obs)) {
-    left_num <- length(covariate_sorted[covariate_sorted < cut_point])
-    right_num <- length(covariate_sorted[covariate_sorted > cut_point])
-    if (left_num < min_obs_left) {sparse_groups <- "left"}
-    if (right_num < min_obs_right) {sparse_group <- "right"}
+  # Filter out nominal covariate with more than two levels
+  if ( (level == "nominal" & cov_level == 2) | level == "ordinal" |
+       level == "metric") {
+    
+    # Number of observations until cut point
+    left_obs <- max_obs
+    right_obs <- N - max_obs
+    
+    # Check left side
+    if (left_obs < min_bucket & bin_control$censored_left == FALSE) {bin_control$small_bin <- "left"}
+    if (right_obs < min_bucket & bin_control$censored_right == FALSE) {bin_control$small_bin <- "right"}
   }
   
   # Add info about sparseness to output
-  output <- append(x = output,
-                   list("Groups too small" = sparse_groups))
+  output <- c(output, bin_control = list(bin_control))
+  
   
   return(output)
 }
