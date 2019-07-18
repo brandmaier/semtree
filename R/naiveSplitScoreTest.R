@@ -139,7 +139,7 @@ naiveSplitScoreTest <- function(model=NULL, mydata=NULL, control=NULL,
       name.max <- cur.name
       type.max <- cur.type
       p.max <- pval
-      contrib.max <- test.result$DM.Contributions # NEXT
+      contrib.max <- test.result$`Parameter contribution`
       level_max <- NA # not used outside this function
       test_max <- NA # not used outside this function
     }

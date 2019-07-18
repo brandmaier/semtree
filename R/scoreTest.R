@@ -157,6 +157,9 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       # Squared deviations 
       SD <- (CSP_bin - CSP_bin_shifted)^2
       
+      # Contributions of each parameter
+      LM_contrib <- SD
+      
       # Cut point for seemtree (only for nominal covariate with 2 levels)
       if (cov_levels == 2) {
         max_obs <- bin_index[1]
@@ -201,6 +204,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = LM_p_region,
                                      "H0 rejected" = LM_decision,
                                      "Max parameter" = LM_max_par,
+                                     "Parameter contribution" = LM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
@@ -246,20 +250,27 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
     
     if (test ==  "DM") {
       
+      # Absolute values
+      abs_CSP_ord <- abs(CSP_ord)
+      
+      # Contributions of each parameter
+      DM_contrib <- apply(X = weight^(-0.5) * abs_CSP_ord, MARGIN = 2,
+                          FUN = max)
+      
       # Double maximum test statistic
-      DM_test <- max(weight^(-0.5) * apply(abs(CSP_ord), MARGIN = 1,
+      DM_test <- max(weight^(-0.5) * apply(abs_CSP_ord, MARGIN = 1,
                                            FUN = function(x)
                                            {max(x, na.rm = TRUE)}))
       
       # Cut point for seemtree
-      max_obs <- which.max(weight^(-0.5) * apply(abs(CSP_ord),
+      max_obs <- which.max(weight^(-0.5) * apply(abs_CSP_ord,
                                                  MARGIN = 1,FUN = function(x)
                                                  {max(x, na.rm = TRUE)}))
       cut_point <- (ordinal_levels[max_obs] +
                       ordinal_levels[max_obs + 1]) / 2 
       
       # Parameter with maximum CSP
-      DM_max_par <- apply(X = abs(CSP_ord), MARGIN = 1,
+      DM_max_par <- apply(X = abs_CSP_ord, MARGIN = 1,
                           FUN = which.max)[max_obs]
       DM_max_par <- parameter[DM_max_par]
       
@@ -288,6 +299,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = DM_p_region,
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_max_par,
+                                     "Parameter contribution" = DM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
@@ -302,6 +314,9 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       
       # Weightet CSP bins
       weighted_CSP2 <- weight^(-1) * CSP_ord^2
+      
+      # Contributions of each parameter
+      maxLM_contrib <- apply(X = weighted_CSP2, MARGIN = 2, FUN = max)
       
       # Bin sums
       if (dim(weighted_CSP2)[1] == 1) {
@@ -347,6 +362,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_max_par,
+                                     "Parameter contribution" = maxLM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
@@ -375,6 +391,9 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       # Absolute values
       abs_CSP <- abs(CSP_tp)
       
+      # Contributions of each parameter
+      DM_contrib <- apply(X = abs_CSP, MARGIN = 2, FUN = max)
+      
       # Test statistic
       DM_test <- max(abs_CSP)
       
@@ -401,6 +420,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = "inside",
                                      "H0 rejected" = DM_decision,
                                      "Max parameter" = DM_max_par,
+                                     "Parameter contribution" = DM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
@@ -416,7 +436,10 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       # Squared CSP
       CSP2 <- CSP_tp^2
       
-      # Cram?r-von Mises test statistic
+      # Contributions of each parameter
+      CvM_contrib <- colMeans(x = CSP2)
+      
+      # Cramér-von Mises test statistic
       CvM_test <- 1 / N * sum(CSP2)
       
       # Cut point for seemtree
@@ -456,6 +479,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = CvM_p_region,
                                      "H0 rejected" = CvM_decision,
                                      "Max parameter" = CvM_max_par,
+                                     "Parameter contribution" = CvM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
@@ -476,6 +500,10 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       low_bound <- round(N / 100 * 10)
       upp_bound <- round(N / 100 * 90)
       weighted_CSP2[c(1:low_bound, upp_bound:N), ] <- NA
+      
+      # Contributions of each parameter
+      maxLM_contrib <- apply(X = weighted_CSP2, MARGIN = 2, FUN = max, 
+                             na.rm = TRUE)
       
       # Row sums
       row_sums <- rowSums(weighted_CSP2)
@@ -517,6 +545,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
                                      "p-value region" = maxLM_p_region,
                                      "H0 rejected" = maxLM_decision,
                                      "Max parameter" = maxLM_max_par,
+                                     "Parameter contribution" = maxLM_contrib,
                                      "Cut point" = cut_point,
                                      "Obs before cut" = max_obs))
       
