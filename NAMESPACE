@@ -114,6 +114,6 @@ S3method("plot","partialDependence")
 
 
 #importFrom("utils","toLatex")
-
+export("getLeaves")
 export("isLeave")
 export("getDepth")
