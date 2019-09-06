@@ -22,12 +22,13 @@ An R package for estimating Structural Equation Model Trees and Forests.
 To install the latest semtree package directly from GitHub, copy the following line into R:
 ```{r, eval=FALSE}
 library(devtools)
-devtools::install_github("semtree","brandmaier")
+devtools::install_github("semtree/brandmaier")
 ```
 
 ## Usage
 
 Please see official semtree website: http://brandmaier.de/semtree
+
 
 ## References
 

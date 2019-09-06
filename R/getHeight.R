@@ -18,3 +18,5 @@ getHeight <- function(tree)
   
   return( max(countl, countr) )
 }
+
+getDepth <- getHeight

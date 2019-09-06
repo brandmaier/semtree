@@ -19,7 +19,7 @@ To install the latest semtree package directly from GitHub, copy the
 following line into R:
 
     library(devtools)
-    devtools::install_github("semtree","brandmaier")
+    devtools::install_github("semtree/brandmaier")
 
 Usage
 -----

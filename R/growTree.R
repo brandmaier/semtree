@@ -31,6 +31,7 @@ growTree <- function(model=NULL, mydata=NULL,
   node$right_child <- NULL
   node$caption <- "TERMINAL"
   node$N <- dim(mydata)[1]
+  class(node) <- "semtree"
   
   # -- sample columns in case of SEM forest usage --
   fulldata <- mydata
