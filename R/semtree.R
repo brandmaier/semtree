@@ -211,10 +211,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
 	
 	# check test type
-	testtype.int <- pmatch(control$test.type, c("ml","dm"))
+	testtype.int <- pmatch(control$test.type, c("ml","score"))
 	if (is.na(testtype.int)) {
-	  stop("Unknown test type in control object! Try either 'ml', or 'dm'.")
-	}	
+	  stop("Unknown test type in control object! Try either 'ml', or 'score'.")
+	}
 	
   # correct method selection check
 	method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
