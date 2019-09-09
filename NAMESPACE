@@ -114,7 +114,12 @@ S3method("plot","partialDependence")
 
 
 #importFrom("utils","toLatex")
-export("getLeaves")
-export("isLeave")
+export("getLeafs")
+export("isLeaf")
 export("getDepth")
 S3method("nobs","semtree")
+S3method("coef","semtree")
+S3method("logLik", "semtree")
+S3method("[","semtree")
+
+export("%+%")

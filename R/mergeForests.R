@@ -1,4 +1,3 @@
-#require("digest")
 
 merge.semforest <- function(x, y, ...)
 {
