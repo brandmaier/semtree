@@ -2,7 +2,6 @@ naiveSplitScoreTest <- function(model=NULL, mydata=NULL, control=NULL,
                                 invariance=NULL, meta=NULL, 
                                 pp=FALSE, constraints=NULL, ...) {
   
-  
   if(control$sem.prog != 'OpenMx'){ stop("Score Test is not implemented for lavaan models yet.") }
   
   # TODO
@@ -42,7 +41,7 @@ naiveSplitScoreTest <- function(model=NULL, mydata=NULL, control=NULL,
     # TODO: implement semtrees focus parameter interface (AB)
     parameter <- NULL
     
-    print("Call")
+  #  print("Call")
     
     
     ##################################
@@ -146,6 +145,10 @@ naiveSplitScoreTest <- function(model=NULL, mydata=NULL, control=NULL,
   }
   
   n.comp <- length(cmp.column.ids)
+  
+  #print(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
+  #           col.max=col.max, type.max=type.max, n.comp=n.comp, btn.matrix=NULL, 
+   #          invariance.filter=NULL, p.max = p.max, contrib.max=contrib.max))
   
   # format results
   return(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
