@@ -30,3 +30,6 @@ check: build
 clean:
 	cd ..;\
 	$(RM) -r $(PKGNAME).Rcheck/
+
+vignette:
+	Rscript -e 'devtools::build_vignettes()'

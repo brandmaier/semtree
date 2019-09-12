@@ -40,7 +40,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   # create default control object, if not specified
   if (is.null(control)) {
     control <- semtree.control()
-    message("Default SEMtree settings established since no Controls provided.")
+    if (control$verbose)
+      message("Default SEMtree settings established since no Controls provided.")
   } else {
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
@@ -296,6 +297,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
 
 	tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
 
+	if (control$verbose)
 	message("[x] Tree construction finished!")
 	
 	return(tree)

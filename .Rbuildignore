@@ -3,3 +3,5 @@ README.Rmd
 Makefile
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^doc$
+^Meta$
