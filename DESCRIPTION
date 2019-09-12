@@ -24,7 +24,9 @@ Imports:
 	  tidyr,
 	  matrixStats
 Suggests:
-    lavaan
+    lavaan,
+    knitr,
+    rmarkdown
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
     split empirical data into homogeneous groups sharing similar data patterns
@@ -39,3 +41,4 @@ LazyLoad: yes
 Version: 0.9.16
 Date: 2019-09-08
 RoxygenNote: 6.1.1
+VignetteBuilder: knitr
