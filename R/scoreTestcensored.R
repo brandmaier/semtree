@@ -1,5 +1,6 @@
 scoreTestcensored <- function(fit, data_sorted, covariate_sorted, level, test,
-                              parameter = NULL, alpha, min_bucket, bin_control) {
+                              parameter = NULL, alpha, min_bucket,
+                              bin_control) {
   
   # Repeat score test for with censored data set on the left side
   if (bin_control$small_bin == "left" & bin_control$censored_left == FALSE) {
@@ -40,7 +41,7 @@ scoreTestcensored <- function(fit, data_sorted, covariate_sorted, level, test,
                              covariate_sorted = covariate_sorted,
                              level = level,
                              test = test,
-                             alpha = control$alpha,
+                             alpha = alpha,
                              min_bucket = min_bucket,
                              bin_control = bin_control)
   }

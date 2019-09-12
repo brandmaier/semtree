@@ -3,7 +3,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
          folds=5, exclude.heywood=TRUE, progress.bar=TRUE, 
          verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, custom.stopping.rule=NA,
 		 mtry=NA, report.level=0, exclude.code=NA, test.type="ml",
-		 score.tests=list(nominal='LM',ordinal='maxLM',metric='CvM'), min.bucket=10)
+		 score.tests=list(nominal='LM',ordinal='DM',metric='DM'), min.bucket=10)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
