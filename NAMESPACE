@@ -121,5 +121,6 @@ S3method("nobs","semtree")
 S3method("coef","semtree")
 S3method("logLik", "semtree")
 S3method("[","semtree")
+S3method("[","semforest")
 
 export("%+%")
