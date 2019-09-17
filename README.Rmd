@@ -23,12 +23,19 @@ To install the latest semtree package directly from GitHub, copy the following l
 ```{r, eval=FALSE}
 library(devtools)
 devtools::install_github("semtree/brandmaier")
+# even better: install with package vignette (extra documentation)
+devtools::install_github("brandmaier/semtree",force=TRUE, build_opts = c())
 ```
 
 ## Usage
 
 Please see official semtree website: http://brandmaier.de/semtree
 
+Package vignettes contain documentation on how to use the package:
+
+```{r eval=FALSE}
+browseVignettes("semtree")
+``
 
 ## References
 
