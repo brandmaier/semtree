@@ -1,5 +1,5 @@
 ---
-title: "getting-started"
+title: "Getting Started with the semtree package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{getting-started}
@@ -18,24 +18,33 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(semtree)
+library(OpenMx)
 ```
 
 ## Simulate data
 
-```{r)
-N <- 100
-x <- rnorm(N)
+```{r simdata}
+set.seed(23)
+N <- 500
+M <- 5
+icept <- rnorm(N, 10, sd = 4)
+slope <- rnorm(N, 3, sd = 1.2)
+p1 <- sample(c(0,1),size=N,replace=TRUE)
+loadings <- 0:4
+x <- (slope+p1) %*% t(loadings)+rep(icept, each=M)+rnorm(N*M, sd=0.8)
+growth.data <- data.frame(x,p1)
+names(growth.data) <- c(paste0("X",1:M),"P1")
 ```
 
 ## Specify an OpenMx model
 
-```{r)
-manifests <- names(dataset)[1:5]
+```{r}
+manifests <- names(growth.data)[1:5]
 growthCurveModel <- mxModel("Linear Growth Curve Model Path Specification",
     type="RAM",
        manifestVars=manifests,
     latentVars=c("intercept","slope"),
-    mxData(dataset, type="raw"),
+    mxData(growth.data, type="raw"),
     # residual variances
     mxPath(
         from=manifests,
@@ -89,4 +98,14 @@ growthCurveModel <- mxModel("Linear Growth Curve Model Path Specification",
 ) # close model
 ```
 
+## Run a tree
 
+```{r}
+tree <- semtree(model = growthCurveModel, data = growth.data)
+```
+
+## Plotting
+
+```{r}
+plot(tree)
+```
