@@ -1,4 +1,4 @@
-logLik.semtree <- function(x, ...)
+logLik.semtree <- function(object, ...)
 {
-	return(logLik(x$model, ...))
+	return(logLik(object$model, ...))
 }

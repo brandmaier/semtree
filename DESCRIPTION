@@ -7,6 +7,7 @@ Author: Andreas M. Brandmaier [aut, cre],
 	Manuel Arnold [aut]
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
+    R (>= 2.10),
     OpenMx (>= 2.6.9)
 Imports:
     bitops,
@@ -22,7 +23,9 @@ Imports:
 	  expm,
 	  ggplot2,
 	  tidyr,
-	  matrixStats
+	  matrixStats,
+	  methods,
+	  MASS
 Suggests:
     lavaan,
     knitr,
@@ -39,6 +42,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.16
-Date: 2019-09-08
+Date: 2019-12-05
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

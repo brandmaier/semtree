@@ -1,4 +1,4 @@
-plot.contributions <- function(x, normalize=TRUE)
+plot.contributions <- function(x, normalize=TRUE, ...)
 {
 
   x <- x$dat

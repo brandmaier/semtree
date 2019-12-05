@@ -12,7 +12,10 @@
   semtree.control(method="naive", min.N = 20, max.depth=NA, alpha=.05, 
   alpha.invariance=NA, folds=5, exclude.heywood=TRUE, progress.bar=TRUE,
    verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, 
-   custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA  )
+   custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA,
+   test.type = "ml", score.tests =
+                 list(nominal = "LM", ordinal = "DM", metric = "DM"),
+                 min.bucket = 10)
 }
 % print.semtree.control(x, ...)
 %- maybe also 'usage' for other objects documented here.
@@ -66,7 +69,14 @@
   Treatment of missing variables. By default, missing values stay in a decision node. If TRUE, cases are
   distributed according to a maximum likelihood principle to the child nodes.
   }
-
+  \item{test.type}{
+  Default: 'ml' for maximum-likelihood-based exhaustive split search. 
+  }
+  \item{score.tests}{
+  A list of score test statistics to be used for different variable types.
+  }
+  \item{min.bucket}{Minimum bucket size to continue splitting
+  }
 }
 \value{
   A control object containing a list of the above parameters.

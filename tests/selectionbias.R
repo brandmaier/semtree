@@ -1,4 +1,4 @@
-
+N <- 100
 # simulate uninformative covariates
 
 z1 <- sample(c(1:2),size = N,replace=TRUE)

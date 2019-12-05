@@ -33,3 +33,4 @@ clean:
 
 vignette:
 	Rscript -e 'devtools::build_vignettes()'
+	

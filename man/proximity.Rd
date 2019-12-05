@@ -49,8 +49,3 @@ A matrix with dimensions NxN is returned. The values of each cell are bounded (0
 \seealso{
 \code{\link{semforest}}, \code{\link{semtree}}
 }
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

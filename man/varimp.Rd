@@ -13,7 +13,8 @@ a \code{\link{semforest}} object.
 }
 \usage{
 varimp(forest, var.names = NULL, verbose = F,  
-	cluster = NULL, eval.fun = evaluateTree, method = "permutation", ...)
+	cluster = NULL, eval.fun = evaluateTree, method = "permutation", 
+	conditional=FALSE, ...)
 }
 
 
@@ -37,6 +38,9 @@ Default is \code{\link{evaluateTree}} function. The value of the -2LL of the lea
 \item{cluster}{
  An object of class "cluster" representing a parallel socket cluster. See package \link[parallel]{makeCluster}.
 }
+\item{conditional}{
+  Conditional variable importance if TRUE, otherwise marginal variable importance.
+}
 \item{\ldots}{Optional arguments.}
 }
 
@@ -46,8 +50,3 @@ Default is \code{\link{evaluateTree}} function. The value of the -2LL of the lea
 \author{
   Andreas M. Brandmaier, John J. Prindle
 }
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

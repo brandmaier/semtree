@@ -1,4 +1,4 @@
-coef.semtree <- function(x, ...)
+coef.semtree <- function(object, ...)
 {
-	omxGetParameters(x$model)
+	omxGetParameters(object$model)
 }

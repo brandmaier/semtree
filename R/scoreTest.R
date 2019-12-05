@@ -558,7 +558,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       CvM_max_contrib <- colSums(CSP2)
       
       # Approximate p-value (only for interval 0.25 >= p >= 0.001)
-      data("crit_metric_CvM")
+      data("crit_metric_CvM", envir = environment())
       CvM_crit_values <- crit_metric_CvM[q_target, ]
       if (CvM_test > max(CvM_crit_values)) {
         CvM_p <- 0.001
@@ -663,7 +663,7 @@ scoretest <- function(fit, data_sorted, covariate_sorted, level, test,
       
     } else {
       
-      stop("Error! Use double maximum (DM) test, Cramér von Mises (CvM) test, or
+      stop("Error! Use double maximum (DM) test, Cramer von Mises (CvM) test, or
       maximum Lagrange multiplier (maxLM) for metric covariates.")
       
     }

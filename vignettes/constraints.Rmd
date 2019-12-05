@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, warning=FALSE, message=FALSE,echo=FALSE}
 library(semtree)
+library(MASS)
 ```
 
 
