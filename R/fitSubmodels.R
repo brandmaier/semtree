@@ -74,7 +74,7 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
       if (control$verbose) {message("Evaluating Subset 1")}
       model1 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=subset1,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
       #model1 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset1,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
-      if (class(model1)=="try-error") {
+      if (is(model1,"try-error")) {
         if(control$verbose){message("try error found 1...")}
         return(NA)
       }
@@ -87,7 +87,7 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
       if (control$verbose) {message("Evaluating Subset 2")}
       model2 <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=subset2,missing=\'',model@Options$missing,'\',do.fit=F)',sep="")))),silent=T)
       #model2 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
-      if (class(model2)=="try-error") {
+      if (is(model2,"try-error")) {
         if(control$verbose){message("try error found 2...")}
         return(NA)
       }

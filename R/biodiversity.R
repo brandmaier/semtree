@@ -1,14 +1,14 @@
 biodiversity <- function(x, aggregate.fun=median)
 {
   if (!(
-        (any(class(x)=="semforest")) | 
-        (any(class(x)=="diversityMatrix"))
+        is(x,"semforest") | 
+        is(x,"diversityMatrix")
       ))
   {
     stop("Error! x must be a SEM forest or a diversity matrix!")
   }  
   
-  if (any(class(x)=="semforest"))  {
+  if (is(x,"semforest"))  {
     message("Computing diversity matrix.")
     D <- diversityMatrix(x)
   } else {

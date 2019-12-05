@@ -1,6 +1,5 @@
 plot.contributions <- function(x, normalize=TRUE)
 {
-  #if (class(x) != "contributions") stop("Error! x is of wrong type.")
 
   x <- x$dat
   xdat <- tidyr::gather(x,key="parameter",value="percentage",-id)

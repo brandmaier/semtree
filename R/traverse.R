@@ -39,7 +39,7 @@ traverse <- function(tree, dataset)
     return(tree$traverse.fun(dataset))
   }
   
-  if (class(dataset)=="data.frame") {
+  if (is(dataset,"data.frame")) {
     result <- rep(NA, dim(dataset)[1])
     for (i in 1:dim(dataset)[1]) {
       result[i] <- traverse.rec(row = dataset[i,],tree = tree)

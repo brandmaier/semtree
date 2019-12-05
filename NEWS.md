@@ -1,3 +1,7 @@
+# semtree 0.9.15
+
+- fixed class type checks to be compatible with upcoming R 4.0.0
+
 # semtree 0.9.14
 
 - added requirement rpart.plot > 3.0.6 to avoid error w.r.t. to missing round.int

@@ -71,7 +71,7 @@ growTree <- function(model=NULL, mydata=NULL,
     #browser()
   }
   
-   if (class(node$model)=="try-error")
+   if (is(node$model,"try-error"))
    {
      message("Model had a run error.")
 	   node$term.reason <-  node$model[[1]]
@@ -286,15 +286,15 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   # ---------	determine whether to continue splitting	--------------
-  if (class(control$custom.stopping.rule)=="function") {
+  if (is(control$custom.stopping.rule,"function")) {
     stopping.rule <- control$custom.stopping.rule
   } else {
     stopping.rule <- stoppingRuleDefault
   }
   # stoppingRuleDefault() is a function that gets inputs node, result, control
   srule <- stopping.rule(node, result, control)
-  # browser()
-  if (class(srule)=="list") {
+  
+  if (is(srule,"list")) {
     node <- srule$node
     cont.split <- !(srule$stop.rule)
   } else {

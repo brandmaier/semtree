@@ -1,6 +1,6 @@
 print.semforest.control <- function(x, ...)
 {
-	stopifnot(class(x)=="semforest.control")
+	stopifnot(is(x,"semforest.control"))
 
 	cat("SEM-Forest control:\n-----------------\n")
 

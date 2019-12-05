@@ -6,7 +6,7 @@ plot.semforest.varimp <- function(x, sort.values=T, aggregate="mean",
   vimp <- x
   
   if (convergence) {
-    if (class(vimp$importance)!="matrix") {
+    if (!is(vimp$importance,"matrix")) {
       stop("You must run varimp with return.vector set to true!");
     }
     varimpConvergencePlot(vimp, na.omit=na.omit, ...)
@@ -16,7 +16,7 @@ plot.semforest.varimp <- function(x, sort.values=T, aggregate="mean",
   
   
   
-  if (class(vimp$importance)=="matrix") {
+  if (is(vimp$importance,"matrix")) {
     x <- aggregateVarimp(vimp, aggregate, scale, na.omit)
   } else {
     x <- vimp$importance

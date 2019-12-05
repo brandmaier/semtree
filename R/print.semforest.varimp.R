@@ -5,7 +5,7 @@ print.semforest.varimp <- function(x, aggregate="mean",
   
   vimp <- x
   
-  if (class(vimp$importance)=="matrix") {
+  if (is(vimp$importance,"matrix")) {
     x <- aggregateVarimp(vimp, aggregate, scale, na.omit)
   } else {
     x <- vimp$importance

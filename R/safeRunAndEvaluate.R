@@ -7,7 +7,7 @@ safeRunAndEvaluate <- function(model, return.model=F)
 	
   if(inherits(model,"MxModel") || inherits(model,"MxRAMModel")){
     modelrun <- try(mxRun(model,silent=T, suppressWarnings=T),silent=T)
-    if (class(modelrun)=="try-error") {
+    if (is(modelrun,"try-error")) {
       return(NA)
     }  else {
       if (return.model) {
@@ -25,7 +25,7 @@ safeRunAndEvaluate <- function(model, return.model=F)
     colnames(data) <- model@Data@ov$name
     modelrun <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=data,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
     #modelrun <- try(suppressWarnings(lavaan(parTable(model),data=data,model.type=model@Options$model.type,missing="fiml")),silent=T)
-    if (class(modelrun)=="try-error") {
+    if (is(modelrun,"try-error")) {
       #if(control$verbose){message("try error found...")}
       return(NA)
     }  

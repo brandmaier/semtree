@@ -81,13 +81,6 @@ l$frame$estimates <- as.character(l$frame$estimates)
 l$frame$nsurrogate <- as.numeric(l$frame$nsurrogate)
 
 	l$method <- "anova" #"semtree"
-#	l$method <- "user"
-#l$functions$node.fun <- function(x, labs, digits, varlen)
-#{
-#paste("#",x$frame$yval)
-#paste(ifelse(x$frame$var=="<leaf>",x$frame$yval, x$frame$yval), "\n\nN=",x$frame$n,",p=",round(x$frame$dev,3))
-#paste(x$frame$label,"\n\nN=",x$frame$n)
-#}
 
 # kindly borrowed from rpart
 formatg <- function (x, digits = getOption("digits"), format = paste0("%.", 
@@ -108,7 +101,7 @@ function (yval, dev, wt, ylevel, digits)
     paste("  mean=", formatg(yval, digits), ", MSE=", formatg(dev/wt, 
         digits), sep = "")
 }
-#<environment: namespace:rpart>
+
 
 l$functions$text<-
 function (yval, dev, wt, ylevel, digits, n, use.n) 
@@ -123,9 +116,6 @@ function (yval, dev, wt, ylevel, digits, n, use.n)
 }
 
 	class(l) <- "rpart"
-	#l$frame<-as.matrix(data)
-	#data <- data.frame(data)#, row.names= 1:dim(data)[1])
-	
 
 	if (no.plot) {
 		return(l)

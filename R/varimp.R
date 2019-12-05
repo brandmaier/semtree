@@ -210,7 +210,7 @@ aggregateVarimp <-
            scale = "absolute",
            omit.na = TRUE)
   {
-    if (class(vimp) == "semforest.varimp") {
+    if (is(vimp, "semforest.varimp")) {
       datamat <- vimp$importance
     } else {
       datamat <- vimp

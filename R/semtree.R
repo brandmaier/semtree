@@ -202,10 +202,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       message("No Invariance alpha selected. alpha.invariance set to:", control$alpha)
       control$alpha.invariance<-control$alpha}
 	  
-	  if(class(invariance) == "character") {
+	  if(is(invariance, "character")) {
 		  invariance <- list(invariance)
 		  } else {
-			  if (class(invariance) != "list") {
+			  if (!is(invariance, "list")) {
 				  stop("Invariance must contain an array of parameter names or a list of such arrays.")
 			  }
 		  }

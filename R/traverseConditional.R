@@ -45,15 +45,11 @@ traverseConditional <- function(tree, dataset1, dataset2)
 {
   stopifnot(dim(dataset1)==dim(dataset2))
   
- # if (class(dataset)=="data.frame") {
+
     result <- rep(NA, dim(dataset1)[1])
     for (i in 1:dim(dataset1)[1]) {
       result[i] <- traverseConditional.rec(row1 = dataset1[i,], row2=dataset2[i,], tree = tree, depth=0)
     }
     return(result)
-#  } else {
- # 	return(mapply(X=dataset,MARGIN=1, FUN=traverse.rec, tree))
-#  }
-}
 
-#traverse(tree, dataset)
+}

@@ -1,6 +1,6 @@
 print.semtreeControl <- function(x, ...)
 {
-	stopifnot(class(x)=="semtree.control")
+	stopifnot(is(x, "semtree.control"))
 
 	cat("SEM-Tree control\n----------------\n")
 
