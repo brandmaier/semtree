@@ -1,10 +1,9 @@
 
 semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
                     predictors = NULL,  ...) {
- 
   
   dataset <- data
-    
+  
   arguments <- list(...)
   if ("global.constraints" %in% names(arguments)) {
     stop("Deprecated use of 'global.constraints'. Please use constraints object")
@@ -30,10 +29,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
   }
   
-
   
-    invariance <- constraints$local.invariance
-    global.constraints <- constraints$global.invariance
+  
+  invariance <- constraints$local.invariance
+  global.constraints <- constraints$global.invariance
   
   
   
@@ -44,7 +43,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   } else {
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
-
+  
   # check for correct model entry
   if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
     if (control$verbose) { message("Detected OpenMx model.") }
@@ -65,46 +64,46 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
   if (is.na(control$mtry)) control$mtry <- 0
-    
-    
+  
+  
   # some checks
-    if (!is.null(constraints$focus.parameters)) {
-     
-       if (control$sem.prog != "OpenMx") {
-         stop("Focus parameters are only supported with OpenMx!")
-       }
-      
-       num.match <- length(constraints$focus.parameters %in% 
-                             OpenMx::omxGetParameters(model))
-      if (num.match != length(constraints$focus.parameters)) {
-        stop("Error! Not all focus parameters are free parameters in the model!")
-      }
+  if (!is.null(constraints$focus.parameters)) {
+    
+    if (control$sem.prog != "OpenMx") {
+      stop("Focus parameters are only supported with OpenMx!")
     }
- 
+    
+    num.match <- length(constraints$focus.parameters %in% 
+                          OpenMx::omxGetParameters(model))
+    if (num.match != length(constraints$focus.parameters)) {
+      stop("Error! Not all focus parameters are free parameters in the model!")
+    }
+  }
+  
   # add data to model if not already done and sort covariates from model variables
   ###########################################################
   ###               OPENMX USED HERE                      ###
   ###########################################################
   if((control$sem.prog=='OpenMx') || (control$sem.prog=='ctsem')){
-
-	  if ((control$sem.prog=='ctsem')) mxmodel <- model$mxobj
-		  else
-		mxmodel <- model
-	  
+    
+    if ((control$sem.prog=='ctsem')) mxmodel <- model$mxobj
+    else
+      mxmodel <- model
+    
     if(is.null(dataset)) {
       if (is.null(mxmodel@data)) {
         stop("MxModel has no data associated!")
       }
       dataset <- mxmodel@data@observed
     }
-		  
-		  # sanity check
-		  if (any(!(covariates %in% names(dataset)))) {
-		    stop(
-		      paste("Some of the specified predictors are not in the dataset provided: ",
-		      paste(covariates[ (!(covariates %in% names(dataset)))],sep="",collapse = ",") 
-		    ))
-		  }
+    
+    # sanity check
+    if (any(!(covariates %in% names(dataset)))) {
+      stop(
+        paste("Some of the specified predictors are not in the dataset provided: ",
+              paste(covariates[ (!(covariates %in% names(dataset)))],sep="",collapse = ",") 
+        ))
+    }
     
     # specify covariates from model columns
     if (is.null(covariates)) {    
@@ -121,7 +120,6 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
     # resort columns to organize covariates
     else {
-      #browser()
       all.ids <- 1:length(names(dataset))
       covariate.ids <- sapply(covariates, function(cv) { which(cv==names(dataset))} )
       
@@ -138,8 +136,15 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       message("COV IDS ",paste(covariate.ids))
     }
     
+    # Prepare objects for fast score calculation (only for linear models)
+    if (control$test.type == "score") {
+      control <- c(control,
+                   list(scores_info = OpenMx_scores_input(x = model,
+                                                          control = control)))
+    } 
+    
   }
-   
+  
   ###########################################################
   ###               lavaan USED HERE                      ###
   ###########################################################
@@ -184,14 +189,14 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   meta$model.ids <- model.ids
   meta$covariate.ids <- covariate.ids
   
-	# init unique node counter
-#	assign("global.node.id",1,envir = getSemtreeNamespace())
-	setGlobal("global.node.id",1)
-
+  # init unique node counter
+  #	assign("global.node.id",1,envir = getSemtreeNamespace())
+  setGlobal("global.node.id",1)
+  
   #create default constraints if none specified for invariance testing of nested models
-	if (is.null(invariance)) {
-	  invariance <- NULL	
-	}
+  if (is.null(invariance)) {
+    invariance <- NULL	
+  }
   else { 
     if (control$method != "naive") {
       message("Invariance is only implemented for naive variable selection.")
@@ -200,43 +205,43 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     if(is.na(control$alpha.invariance)){
       message("No Invariance alpha selected. alpha.invariance set to:", control$alpha)
       control$alpha.invariance<-control$alpha}
-	  
-	  if(class(invariance) == "character") {
-		  invariance <- list(invariance)
-		  } else {
-			  if (class(invariance) != "list") {
-				  stop("Invariance must contain an array of parameter names or a list of such arrays.")
-			  }
-		  }
+    
+    if(class(invariance) == "character") {
+      invariance <- list(invariance)
+    } else {
+      if (class(invariance) != "list") {
+        stop("Invariance must contain an array of parameter names or a list of such arrays.")
+      }
+    }
   }
-	
-	# check test type
-	testtype.int <- pmatch(control$test.type, c("ml","score"))
-	if (is.na(testtype.int)) {
-	  stop("Unknown test type in control object! Try either 'ml', or 'score'.")
-	}
-	
+  
+  # check test type
+  testtype.int <- pmatch(control$test.type, c("ml","score"))
+  if (is.na(testtype.int)) {
+    stop("Unknown test type in control object! Try either 'ml', or 'score'.")
+  }
+  
   # correct method selection check
-	method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
-	if (is.na(method.int)) {
-		stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
-	}	
-	
-	# further checks on test stat
-	if (control$test.type=="dm" & control$method!="naive") {
-	  stop("Only naive splitting is implemented yet for DM test statistic!")
-	}
-	
-	# if this is still null, we have a problem
-	if (is.null(dataset)) {
-	  stop("No data were provided!")
-	}
-	
-	# sanity checks, duplicated col names?
-	if (any(duplicated(names(dataset))))
-	{
-		stop("Dataset contains duplicated columns names!")
-	}
+  method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
+  if (is.na(method.int)) {
+    stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
+  }	
+  
+  # further checks on test stat
+  if (control$test.type=="dm" & control$method!="naive") {
+    stop("Only naive splitting is implemented yet for DM test statistic!")
+  }
+  
+  # if this is still null, we have a problem
+  if (is.null(dataset)) {
+    stop("No data were provided!")
+  }
+  
+  # sanity checks, duplicated col names?
+  if (any(duplicated(names(dataset))))
+  {
+    stop("Dataset contains duplicated columns names!")
+  }
   # set a seed for user to repeat results if no seed provided
   if (!is.null(control$seed)&!is.na(control$seed)){
     set.seed(control$seed)
@@ -244,28 +249,28 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   ###########################################################
   ###               OPENMX USED HERE                      ###
   ###########################################################
-	# global constraints - estimate once and then regarded fixed in the tree
-	if (!is.null(global.constraints)) {
-	  
-	  if (control$sem.prog != "OpenMx") {
-	    stop("Global constraints are not yet supported!")
-	  }
-	  
-	  run.global <- OpenMx::mxRun(model, silent=T, useOptimizer=T, suppressWarnings=T);
-	  labels <- names(OpenMx::omxGetParameters(model))
-	  eqids <- which(labels %in% global.constraints)
+  # global constraints - estimate once and then regarded fixed in the tree
+  if (!is.null(global.constraints)) {
+    
+    if (control$sem.prog != "OpenMx") {
+      stop("Global constraints are not yet supported!")
+    }
+    
+    run.global <- OpenMx::mxRun(model, silent=T, useOptimizer=T, suppressWarnings=T);
+    labels <- names(OpenMx::omxGetParameters(model))
+    eqids <- which(labels %in% global.constraints)
     neqids <- which(!labels %in% global.constraints)
-	  values <- OpenMx::omxGetParameters(run.global)[eqids]
-	  model <- OpenMx::omxSetParameters(model, labels=global.constraints,free=F, values=values )
-	  # FIX THIS LINE HERE
+    values <- OpenMx::omxGetParameters(run.global)[eqids]
+    model <- OpenMx::omxSetParameters(model, labels=global.constraints,free=F, values=values )
+    # FIX THIS LINE HERE
     
     # Read Global Constraints and New model Parameters Here.
     message("Global Constraints:\n",paste(global.constraints,collapse=" "))
-		message("Freely Estimated Parameters:\n",paste(names(OpenMx::omxGetParameters(model)),collapse=" "))
-	}
+    message("Freely Estimated Parameters:\n",paste(names(OpenMx::omxGetParameters(model)),collapse=" "))
+  }
   
-	
-	# grow tree
+  
+  # grow tree
   if(control$sem.prog == 'OpenMx'){
     if (control$verbose){message('OpenMx model estimation selected!')}
   } 
@@ -279,25 +284,25 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   else {
     stop("Unknown model type. Use OpenMx or lavaans models only!")
   }
-
+  
   start.time <- proc.time()
-
+  
   tree <- growTree(model=model, mydata=dataset, control=control, 
-	                   invariance=invariance, meta=meta, constraints=constraints, ...)
-					   
+                   invariance=invariance, meta=meta, constraints=constraints, ...)
+  
   elapsed <- proc.time()-start.time
   
-
-	
-	tree$elapsed <- elapsed
-	tree$control <- control
-	tree$constraints <- constraints
-	class(tree) <- "semtree"
-
-	tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
-
-	message("[x] Tree construction finished!")
-	
-	return(tree)
-	
+  
+  
+  tree$elapsed <- elapsed
+  tree$control <- control
+  tree$constraints <- constraints
+  class(tree) <- "semtree"
+  
+  tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
+  
+  message("[x] Tree construction finished!")
+  
+  return(tree)
+  
 }

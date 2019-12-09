@@ -18,13 +18,12 @@ Imports:
     plotrix,
     cluster,
     stringr,
-	  matrixcalc,
+	  lavaan,
 	  expm,
 	  ggplot2,
 	  tidyr,
-	  matrixStats
+	  strucchange
 Suggests:
-    lavaan,
     knitr,
     rmarkdown
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
