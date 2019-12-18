@@ -68,12 +68,12 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       
       # sort scores and covariate
       index <- order(covariate)
-      Scores <- Scores[index, , drop = FALSE]
+      Scores_sorted <- Scores[index, , drop = FALSE]
       covariate <- covariate[index]
       
       # calculate cumulative score process
       scus <- gefp_semtree(x = fit, fit = NULL, order.by = covariate, vcov = vcov., 
-                           scores = Scores, decorrelate = TRUE,
+                           scores = Scores_sorted, decorrelate = TRUE,
                            sandwich = sandwich., parm = NULL)
       
       # defaults
@@ -132,7 +132,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       fit = fit,
                                       sandwich. = sandwich.,
                                       functional = functional,
-                                      p.max = p.max)
+                                      p.max = p.max,
+                                      test = test)
         }
       }
     

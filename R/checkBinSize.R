@@ -1,5 +1,5 @@
 checkBinSize <- function(test.result, control, level, covariate, n, mydata,
-                         fit, sandwich., functional, p.max) {
+                         fit, sandwich., functional, p.max, test) {
   
   ### Start checking left
   if (test.result$left_n < control$min.bucket) {
