@@ -8,7 +8,7 @@ Author: Andreas M. Brandmaier [aut, cre],
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     R (>= 2.10),
-    OpenMx (>= 2.6.9)
+    OpenMx (>= 2.6.9),
     strucchange
 Imports:
     bitops,
@@ -20,13 +20,15 @@ Imports:
     plotrix,
     cluster,
     stringr,
-	  lavaan,
-	  expm,
-	  ggplot2,
-	  tidyr
+    lavaan,
+    expm,
+    ggplot2,
+    tidyr,
+    methods
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    MASS
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
     split empirical data into homogeneous groups sharing similar data patterns
