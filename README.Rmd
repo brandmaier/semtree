@@ -19,10 +19,16 @@ An R package for estimating Structural Equation Model Trees and Forests.
 
 ## Install
 
+Install the latest stable version from CRAN:
+```{r eval=FALSE}
+install.packages("semtree")
+```
+
 To install the latest semtree package directly from GitHub, copy the following line into R:
 ```{r, eval=FALSE}
 library(devtools)
 devtools::install_github("semtree/brandmaier")
+
 # even better: install with package vignette (extra documentation)
 devtools::install_github("brandmaier/semtree",force=TRUE, build_opts = c())
 ```
@@ -35,13 +41,13 @@ Package vignettes contain documentation on how to use the package:
 
 ```{r eval=FALSE}
 browseVignettes("semtree")
-``
+```
 
 ## References
 
 Theory and method:
 
-Brandmaier, A. M., Driver, C., & Voelkle, M. C. (in press). Recursive partitioning in continuous time analysis. In K. van Montfort, J. Oud, & M. C. Voelkle (Eds.), Continuous time modeling in the behavioral and related sciences. New York: Springer.
+Brandmaier, A. M., Driver, C., & Voelkle, M. C. (2019). Recursive partitioning in continuous time analysis. In K. van Montfort, J. Oud, & M. C. Voelkle (Eds.), Continuous time modeling in the behavioral and related sciences. New York: Springer.
 
 Brandmaier, A. M., Prindle, J. J., McArdle, J. J., & Lindenberger, U. (2016). Theory-guided exploration with structural equation model forests. Psychological Methods, 21, 566-582. \doi{doi:10.1037/met0000090}
 
