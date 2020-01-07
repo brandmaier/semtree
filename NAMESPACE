@@ -15,6 +15,7 @@ importFrom("sets","as.set")
 importFrom("graphics", "hist")
 importFrom("methods", "is")
 importFrom("utils", "data")
+importFrom("mvtnorm", "pmvnorm")
 
 export("evaluate")
 S3method("evaluate","semforest")

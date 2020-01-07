@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Constraints
+
+## Load the package
+
 ```{r setup, warning=FALSE, message=FALSE,echo=FALSE}
 library(semtree)
 library(MASS)

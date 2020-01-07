@@ -25,7 +25,8 @@ Imports:
 	  tidyr,
 	  matrixStats,
 	  methods,
-	  MASS
+	  MASS,
+	  mvtnorm
 Suggests:
     lavaan,
     knitr,
@@ -41,7 +42,7 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.16
-Date: 2019-12-05
+Version: 0.9.14
+Date: 2020-01-07
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

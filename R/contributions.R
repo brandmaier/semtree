@@ -1,6 +1,10 @@
 plot.contributions <- function(x, normalize=TRUE, ...)
 {
 
+	# this is Option #2 from https://www.r-bloggers.com/no-visible-binding-for-global-variable/
+	# to stop CRAN complaining about undefined variables
+	percentage <- id <- parameter <- NULL
+
   x <- x$dat
   xdat <- tidyr::gather(x,key="parameter",value="percentage",-id)
   p4 <- ggplot2::ggplot() + ggplot2::geom_bar(ggplot2::aes(y = percentage, 
