@@ -1,4 +1,4 @@
-gefp_semtree <- function (..., fit = glm, scores = estfun, vcov = NULL,
+gefp_semtree <- function (..., fit = NULL, scores = estfun, vcov = NULL,
                           decorrelate = TRUE, sandwich = TRUE, order.by = NULL,
                           fitArgs = NULL, parm = NULL, data = list()) {
   vcov. <- vcov

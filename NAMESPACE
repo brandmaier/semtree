@@ -4,17 +4,20 @@ import("rpart")
 #importFrom("MASS","mvrnorm")
 importFrom("grDevices", "heat.colors", "rainbow")
 importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
-             "plot", "strwidth", "text")
+             "plot", "strwidth", "text", "hist")
 importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov",
-             "logLik", "median", "pchisq", "qnorm", "runif", "var", "nobs")
-importFrom("stats", "dist", "rnorm")
-importFrom("utils", "flush.console", "getS3method", "sessionInfo","str")
-importFrom("utils", "setTxtProgressBar")
+           "logLik", "median", "pchisq", "qnorm", "runif", "var", "nobs",
+           "vcov", "dist", "rnorm")
+importFrom("utils", "flush.console", "getS3method", "sessionInfo","str",
+           "setTxtProgressBar", "data")
 importFrom("parallel","parLapply","clusterMap")
 importFrom("sets","as.set")
-importFrom("graphics", "hist")
 importFrom("methods", "is")
-importFrom("utils", "data")
+importFrom("sandwich", "bread", "estfun")
+importFrom("strucchange", "catL2BB", "maxBB", "meanL2BB", "ordL2BB", "ordwmax",
+           "root.matrix", "sctest", "supLM")
+importFrom("zoo", "zoo")
+
 #importFrom("mvtnorm", "pmvnorm")
 
 export("evaluate")
