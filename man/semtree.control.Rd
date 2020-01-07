@@ -13,9 +13,10 @@
   alpha.invariance=NA, folds=5, exclude.heywood=TRUE, progress.bar=TRUE,
    verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, 
    custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA,
-   test.type = "ml", score.tests =
-                 list(nominal = "LM", ordinal = "DM", metric = "DM"),
-                 min.bucket = 10)
+   test.type = "ml",
+   score.tests = list(nominal = "LMuo", ordinal = "maxLMo", metric = "CvM"), 
+   information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
+   min.bucket = 10)
 }
 % print.semtree.control(x, ...)
 %- maybe also 'usage' for other objects documented here.
@@ -73,7 +74,15 @@
   Default: 'ml' for maximum-likelihood-based exhaustive split search. 
   }
   \item{score.tests}{
-  A list of score test statistics to be used for different variable types.
+  A list of score-based test statistics from the strucchange package to be used for different variable types. 
+  }
+  \item{information.matrix}{
+  A function to extract the covariance matrix for the coefficients of the fitted model.}
+  \item{scaled_scores}{
+  If TRUE (default), a scaled cumulative score process is used for identifying a cutpoint.
+  }
+  \item{linear}{
+  If TRUE (default), the structural equation model is assumed to be linear without any nonlinear parameter constraints. The runtime is much smaller for linear MxRAM-type models than for models with nonlinear constraints on the parameters.
   }
   \item{min.bucket}{Minimum bucket size to continue splitting
   }

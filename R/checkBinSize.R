@@ -45,10 +45,9 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
     }
     
     # Re-calcuate cumlative score process
-    scus_up <- gefp_semtree(x = fit_up, fit = NULL, order.by = covariate_up,
-                            vcov = vcov_up, scores = Scores_up,
-                            decorrelate = TRUE, sandwich = sandwich.,
-                            parm = NULL)
+    scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up, vcov = vcov_up,
+                            scores = Scores_up, decorrelate = TRUE,
+                            sandwich = sandwich., parm = NULL)
     
     # Re-run score test
     test.result <- sctest(scus_up, functional = functional)
@@ -107,7 +106,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
         vcov_up <- root.matrix(vcov_up)
       }
       # Re-calcuate cumlative score process
-      scus_up <- gefp_semtree(x = fit_up, fit = NULL, order.by = covariate_up,
+      scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up,
                               vcov = vcov_up, scores = Scores_up,
                               decorrelate = TRUE, sandwich = sandwich.,
                               parm = NULL)
@@ -174,10 +173,9 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
     }
     
     # Re-calcuate cumlative score process
-    scus_up <- gefp_semtree(x = fit_up, fit = NULL, order.by = covariate_up,
-                            vcov = vcov_up, scores = Scores_up,
-                            decorrelate = TRUE, sandwich = sandwich.,
-                            parm = NULL)
+    scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up, vcov = vcov_up,
+                            scores = Scores_up, decorrelate = TRUE,
+                            sandwich = sandwich., parm = NULL)
     
     # Re-run score test
     test.result <- sctest(scus_up, functional = functional)
@@ -236,7 +234,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
         vcov_up <- root.matrix(vcov_up)
       }
       # Re-calcuate cumlative score process
-      scus_up <- gefp_semtree(x = fit_up, fit = NULL, order.by = covariate_up,
+      scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up, 
                               vcov = vcov_up, scores = Scores_up,
                               decorrelate = TRUE, sandwich = sandwich.,
                               parm = NULL)

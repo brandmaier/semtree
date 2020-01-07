@@ -9,7 +9,6 @@ Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     R (>= 2.10),
     OpenMx (>= 2.6.9),
-    strucchange
 Imports:
     bitops,
     sets,
@@ -24,7 +23,10 @@ Imports:
     expm,
     ggplot2,
     tidyr,
-    methods
+    methods,
+    strucchange,
+    sandwich,
+    zoo
 Suggests:
     knitr,
     rmarkdown,
@@ -42,5 +44,5 @@ Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.14
 Date: 2020-01-07
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr
