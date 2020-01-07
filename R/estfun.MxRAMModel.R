@@ -30,7 +30,7 @@ estfun.MxRAMModel <- function(x, control, ...) {
     
     for (i in seq_len(q)) {
       symm <- FB %*% A_deriv[[i]] %*% E %*% t(F_RAM)
-      jac[p_star_seq, i] <- vech(symm + t(symm) + FB %*% S_deriv[[i]] %*% t(FB))
+      jac[p_star_seq, i] <- lavaan::lav_matrix_vech(symm + t(symm) + FB %*% S_deriv[[i]] %*% t(FB))
     }
     
     for (i in seq_len(q)) {
@@ -47,7 +47,7 @@ estfun.MxRAMModel <- function(x, control, ...) {
   if (mean_structure == FALSE) {jac <- jac[p_star_seq, ]}
   
   # Calculate weight matrix
-  Dup <- lav_matrix_duplication(n = p)
+  Dup <- lavaan::lav_matrix_duplication(n = p)
   V <- 0.5 * t(Dup) %*% kronecker(X = exp_cov_inv, Y = exp_cov_inv) %*% Dup
   if (mean_structure) {
     V_m_cov <- matrix(data = 0, nrow = p_star_means, ncol = p_star_means)
@@ -59,8 +59,8 @@ estfun.MxRAMModel <- function(x, control, ...) {
   # Individual deviations from the sample moments
   cd <- scale(x = data_obs, center = TRUE, scale = FALSE)
   mc <- t(apply(X = cd, MARGIN = 1,
-                FUN = function (x){lav_matrix_vech(x %*% t(x))}))
-  vech_cov <- matrix(data = rep(x = lav_matrix_vech(exp_cov), times = N),
+                FUN = function (x){lavaan::lav_matrix_vech(x %*% t(x))}))
+  vech_cov <- matrix(data = rep(x = lavaan::lav_matrix_vech(exp_cov), times = N),
                      byrow = TRUE, nrow = N, ncol = p_star)
   md <- mc - vech_cov
   if (mean_structure) {

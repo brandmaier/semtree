@@ -7,7 +7,8 @@ Author: Andreas M. Brandmaier [aut, cre],
 	Manuel Arnold [aut]
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
-    OpenMx (>= 2.6.9)
+    OpenMx (>= 2.6.9),
+    strucchange
 Imports:
     bitops,
     sets,
@@ -22,7 +23,6 @@ Imports:
 	  expm,
 	  ggplot2,
 	  tidyr,
-	  strucchange
 Suggests:
     knitr,
     rmarkdown
