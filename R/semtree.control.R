@@ -3,7 +3,9 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
          folds=5, exclude.heywood=TRUE, progress.bar=TRUE, 
          verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, custom.stopping.rule=NA,
 		 mtry=NA, report.level=0, exclude.code=NA, test.type="ml",
-		 score.tests=list(nominal='LM',ordinal='DM',metric='DM'), min.bucket=10)
+		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
+		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
+		 min.bucket=10)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
@@ -11,7 +13,13 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	# test type ('ml' or 'score')
 	options$test.type <- test.type
 	# score tests for each scale type
-	options$score.tests <- score.tests
+	options$score.tests <- lapply(X = score.tests, FUN = tolower)
+	# information matrix used to decorrelate scores
+	options$information.matrix <- information.matrix
+	# Scale scores for testing continuous covariates
+	options$scaled_scores <- scaled_scores
+	# For OpenMx models: Is the model linear?
+	options$linear <- linear
 	# number of cross validation folds
 	options$num.folds <- folds
 	# individual CV folds for data under missingess (should be no option in the long run)

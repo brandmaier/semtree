@@ -8,7 +8,10 @@ print.semtree.control <- function(x, ...)
 	cat("Test Type: ", x$test.type,"\n")
 	if(x$test.type == "score"){
 	  cat("Score Tests:  ", "nominal = ", x$score.tests[[1]], ", ordinal = ",
-	      x$score.tests[[2]], ", metric = ", x$score.tests[[3]],"\n", sep = "")}
+	      x$score.tests[[2]], ", metric = ", x$score.tests[[3]],"\n", sep = "")
+	  cat("Information Matrix: ", x$information.matrix, "\n")
+	  cat("Scaled Score: ", x$scaled_scores, "\n")
+	  cat("Linear OpenMx model: ", x$linear)}
 	cat("Alpha Level: ", x$alpha,"\n");
 	cat("Bonferroni Correction:", x$bonferroni,"\n")
 	cat("Minimum Number of Cases: ", x$min.N,"\n")

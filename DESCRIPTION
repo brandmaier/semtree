@@ -9,6 +9,7 @@ Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     R (>= 2.10),
     OpenMx (>= 2.6.9)
+    strucchange
 Imports:
     bitops,
     sets,
@@ -19,16 +20,11 @@ Imports:
     plotrix,
     cluster,
     stringr,
-	  matrixcalc,
+	  lavaan,
 	  expm,
 	  ggplot2,
-	  tidyr,
-	  matrixStats,
-	  methods,
-	  MASS,
-	  mvtnorm
+	  tidyr
 Suggests:
-    lavaan,
     knitr,
     rmarkdown
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
