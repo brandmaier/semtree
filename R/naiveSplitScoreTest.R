@@ -39,10 +39,10 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   }
   
   # Number of cases in the node
-  n <- lavaan::nobs(fit)
+  n <- nobs(fit)
   
   # calculate maximum likelihood scores
-  Scores <- sandwich::estfun(fit, control = control)
+  Scores <- sandwich::estfun(fit)
   
   # get covariance matrix of the model parameters
   if (identical(control$information.matrix, "info")) {

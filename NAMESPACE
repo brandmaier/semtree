@@ -24,6 +24,7 @@ importFrom("strucchange", "catL2BB", "maxBB", "meanL2BB", "ordL2BB", "ordwmax",
            "root.matrix", "sctest", "supLM")
 importFrom("zoo", "zoo")
 importFrom("utils","toLatex")
+importFrom("lavaan","vcov","nobs")
 
 
 #
