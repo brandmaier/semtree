@@ -39,7 +39,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   }
   
   # Number of cases in the node
-  n <- nobs(fit)
+  n <- lavaan::nobs(fit)
   
   # calculate maximum likelihood scores
   Scores <- sandwich::estfun(fit, control = control)

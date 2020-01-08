@@ -56,10 +56,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     #}
     
   } else if (inherits(model,"lavaan")){
-    if (control$verbose) { message("Detected lavaan model.") }
+    #if (control$verbose) { ui_message("Detected lavaan model.") }
     control$sem.prog = "lavaan"
   } else if ((inherits(model,"ctsemFit")) || (inherits(model,"ctsemInit"))) {
-    if (control$verbose) { message("Detected ctsem model.") }
+    #if (control$verbose) { ui_message("Detected ctsem model.") }
     control$sem.prog = "ctsem"
   } else {
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");

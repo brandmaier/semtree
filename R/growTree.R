@@ -16,7 +16,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$verbose) {
-    ui_message("Growing level ",depth," n=",nrow(mydata));
+    ui_message("Growing level ",depth," n = ",nrow(mydata));
   }
   
   if (control$report.level>0) {
@@ -270,7 +270,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$verbose) {
-    ui_ok("Best split is  ",result$name.max," with statistic=",round(node$lr,7));
+    ui_ok("Best split is  ",result$name.max," with statistic = ",round(node$lr,2));
   }
  
   # compute p value from chi2
