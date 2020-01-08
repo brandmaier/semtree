@@ -12,7 +12,7 @@ ui_fail<- function(...) {
 
 ui_stop <- function(...) {
   ui_fail(...)
-  stop()
+  stop(call.=FALSE)
 }
 
 ui_warn<- function(...) {
@@ -23,11 +23,22 @@ ui_message <- function(...) {
   ui(clisymbols::symbol$pointer, ...) 
 }
 
+ui_bullet <- function(...) {
+  ui(clisymbols::symbol$bullet, ...) 
+}
+
+
 ui <- function(symbol, ...) {
   x <- list(...)
   x <- paste0(x, collapse = "")
-  x <- paste0(symbol," ", x,"\n",collapse="")
+  if (!endsWith(x,"\n")) x <- paste0(x,"\n",collapse = "")
+  x <- paste0(symbol," ", x,collapse="")
   cat(x)
+}
+
+horiz.line <- function(size=10)
+{
+  paste0(rep(clisymbols::symbol$upper_block_1,size),sep="",collapse = "")
 }
 
 human_readable_time <- function(x)

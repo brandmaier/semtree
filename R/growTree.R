@@ -16,7 +16,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$verbose) {
-    message("Growing level ",depth," n=",nrow(mydata));
+    ui_message("Growing level ",depth," n=",nrow(mydata));
   }
   
   if (control$report.level>0) {
@@ -50,7 +50,7 @@ growTree <- function(model=NULL, mydata=NULL,
     
     node$colnames <- colnames(mydata)
     if (control$verbose) {
-      message("Sampled: ",paste(node$colnames))
+      ui_message("Subsampled predictors: ",paste(node$colnames))
     }
   }
   
@@ -65,15 +65,15 @@ growTree <- function(model=NULL, mydata=NULL,
     node$model <- try(mxRun(full.model, suppressWarnings=T, silent=T))
   }
   if(control$sem.prog == 'lavaan'){
-    if (control$verbose) {message("Checking lavaan model now.")}
-    #node$model <- try(suppressWarnings(lavaan(parTable(model),data=mydata,model.type=model@Options$model.type,missing="fiml")),silent=T)
-    node$model <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=mydata,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
-    #browser()
+    node$model <- try(suppressWarnings(eval(
+      parse(text=paste(model@Options$model.type,
+                       '(parTable(model),data=mydata,missing=\'',
+                       model@Options$missing,'\')',sep="")))),silent=T)
   }
   
    if (is(node$model,"try-error"))
    {
-     message("Model had a run error.")
+     ui_fail("Model had a run error.")
 	   node$term.reason <-  node$model[[1]]
 	   node$model <- NULL;
 	   return(node);
@@ -146,7 +146,6 @@ growTree <- function(model=NULL, mydata=NULL,
   
   # add unique node id via global variable
   node$node_id <- getGlobal("global.node.id")
-#  assign("global.node.id", global.node.id+1 ,envir = getSemtreeNamespace())
   setGlobal("global.node.id", node$node_id+1)
   
   # determine whether we should skip splitting
@@ -154,7 +153,7 @@ growTree <- function(model=NULL, mydata=NULL,
   if (!is.na(control$min.N)) {
     if (node$N <= control$min.N) {
       if(control$verbose){
-        message("Minimum user defined N for leaf node.")
+        ui_message("Minimum user defined N for leaf node.")
       }
       node$term.reason <- "Minimum number of cases in leaf node" 
       return(node);
@@ -164,7 +163,7 @@ growTree <- function(model=NULL, mydata=NULL,
   if (!is.na(control$max.depth)){
     if (depth >= control$max.depth) {
       if(control$verbose){
-        message("Max user defined tree depth reached.")
+        ui_message("Max user defined tree depth reached.")
       }
       node$term.reason <- "Maximum depth reached in leaf node" 
       return(node);		
@@ -265,14 +264,13 @@ growTree <- function(model=NULL, mydata=NULL,
   # if no split found, exit node without continuing growth
   if (is.null(result) || is.null(result$LL.max)) {
     if (control$verbose) {
-      message("Best Likelihood Ratio was NULL. Stop splitting")
+      ui_message("Best Likelihood Ratio was NULL. Stop splitting")
     }
     return(node);
   }
   
   if (control$verbose) {
-    message("Best LR ",round(node$lr,7)," : ",result$name.max," at covariate column ",
-            result$col.max,"\n");
+    ui_ok("Best split is  ",result$name.max," with statistic=",round(node$lr,7));
   }
  
   # compute p value from chi2

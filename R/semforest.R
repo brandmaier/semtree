@@ -107,7 +107,7 @@ semforest <- function(model, data, control=NULL,
 		seeds <- runif(n=semforest.control$num.trees,max=.Machine$integer.max)
 	}  else {
 	  if (length(seeds) != semforest.control$num.trees) {
-	    stop("Number of seeds given does not match number of trees!")
+	    ui_stop("Number of seeds given does not match number of trees!")
 	  }
 	}
 
