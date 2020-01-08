@@ -40,7 +40,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if (is.null(control)) {
     control <- semtree.control()
     if (control$verbose)
-      message("Default SEMtree settings established since no Controls provided.")
+      ui_message("Default SEMtree settings established since no Controls provided.")
   } else {
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
@@ -132,10 +132,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       model.ids <- simplify2array( as.vector(modid, mode="integer") )
     }
     
-    if (control$verbose) {
-      message("MODEL IDS ",paste(model.ids))
-      message("COV IDS ",paste(covariate.ids))
-    }
+   # if (control$verbose) {
+  #    message("MODEL IDS ",paste(model.ids))
+  #    message("COV IDS ",paste(covariate.ids))
+  #  }
     
     # Prepare objects for fast score calculation (only for linear models)
     if (control$test.type == "score") {
@@ -179,10 +179,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       model.ids <- simplify2array( as.vector(modid,mode="integer") )
     }
     
-    if (control$verbose) {
-      message("MODEL IDS ",paste(model.ids))
-      message("COV IDS ",paste(covariate.ids))
-    }
+    #if (control$verbose) {
+      #message("MODEL IDS ",paste(model.ids))
+    #  message("COV IDS ",paste(covariate.ids))
+    #}
     
   }
   
@@ -303,7 +303,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   
   tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
   
-  message("[x] Tree construction finished!")
+  ui_ok("Tree construction finished [took ",human_readable_time(elapsed[3]),"].")
   
   return(tree)
   

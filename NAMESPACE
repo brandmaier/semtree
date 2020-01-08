@@ -1,7 +1,13 @@
+#
+# generic imports
+#
 import("OpenMx")
 import("bitops")
 import("rpart")
-#importFrom("MASS","mvrnorm")
+
+#
+# specific imports
+#
 importFrom("grDevices", "heat.colors", "rainbow")
 importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
              "plot", "strwidth", "text", "hist")
@@ -17,32 +23,15 @@ importFrom("sandwich", "bread", "estfun")
 importFrom("strucchange", "catL2BB", "maxBB", "meanL2BB", "ordL2BB", "ordwmax",
            "root.matrix", "sctest", "supLM")
 importFrom("zoo", "zoo")
+importFrom("utils","toLatex")
 
-#importFrom("mvtnorm", "pmvnorm")
 
-export("evaluate")
+#
+# S3 methods
+#
+
+export("evaluate")		#TODO: needed?
 S3method("evaluate","semforest")
-
-
-export("semtree")
-export("semforest")
-export("semtree.control")
-export("semforest.control")
-
-export("semtree.constraints")
-
-S3method("merge","semforest")
-
-export("subtree")
-
-export("biodiversity")
-export("diversityMatrix")
-export("hellinger")
-export("klsym")
-S3method("plot","diversityMatrix")
-
-export("prune")
-
 S3method("summary","semtree")
 S3method("summary","semforest")
 S3method("print","semtree.control")
@@ -51,58 +40,55 @@ S3method("print","semtree")
 S3method("print","summary.semtree")
 S3method("print","semforest.varimp")
 S3method("print","semforest")
-
 S3method("prune","semtree")
 S3method("prune","semforest")
-
-export("parameters")
-export("se")
-#S3method("parameters","semtree")
-#S3method("se","semtree")
-
-export("nodeFunSemtree")
-
-export("varimp")
-
+S3method("merge","semforest")
 S3method("plot","semtree")
-
 S3method("plot","semforest.proximity")
 S3method("plot","semforest.varimp")
-
-export("varimpConvergencePlot")
-
-
-#export("toLatex")
 S3method("toLatex","semtree")
-importFrom("utils","toLatex")
+S3method("plot","partialDependence")
+S3method("nobs","semtree")
+S3method("coef","semtree")
+S3method("logLik", "semtree")
+S3method("[","semtree")
+S3method("[","semforest")
+S3method("plot","diversityMatrix")
+#
+# exports
+#
 
-
+export("semtree")
+export("semforest")
+export("semtree.control")
+export("semforest.control")
+export("semtree.constraints")
+export("subtree")
+export("biodiversity")
+export("diversityMatrix")
+export("hellinger")
+export("klsym")
+export("prune")
+export("parameters")
+export("se")
+export("nodeFunSemtree")
+export("varimp")
+export("varimpConvergencePlot")
 export("toTable")
 export("getTerminalNodes")
-
 export("proximity")
 export("outliers")
-#export("availableCpus")
 export("evaluateTree")
 export("getNodeById")
-#export("get.children.map")
 export("subforest")
-
-# only for debugging
-#export("semtree.apply.wrapper")
-#export("semtreeApplyWrapper")
-#export("bootstrap")
-#export("traverse")
-#export("getOCParameterNames")
-#export("evalForestOob")
-#export("aggregateVarimp")
-#export("fitSubmodels")
-#export("modelEstimates")
-#export("getHeight")
-
 export("partialDependencePlot")
 export("partialDependence")
-S3method("plot","partialDependence")
+export("getLeafs")
+export("isLeaf")
+export("getDepth")
+
+
+
 
 # only temporary export; remove for shipping
 #export("crossvalidatedSplit")
@@ -115,17 +101,22 @@ S3method("plot","partialDependence")
 #export("plot.predictions")
 
 
-#importFrom("utils","toLatex")
-export("getLeafs")
-export("isLeaf")
-export("getDepth")
-S3method("nobs","semtree")
-S3method("coef","semtree")
-S3method("logLik", "semtree")
-S3method("[","semtree")
-S3method("[","semforest")
 
-#export("%+%")
+
+# planned for future releases
 
 #S3method("plot","contributions")
 #export("contributions")
+#export("%+%")
+
+# only for debugging
+#export("semtree.apply.wrapper")
+#export("semtreeApplyWrapper")
+#export("bootstrap")
+#export("traverse")
+#export("getOCParameterNames")
+#export("evalForestOob")
+#export("aggregateVarimp")
+#export("fitSubmodels")
+#export("modelEstimates")
+#export("getHeight")

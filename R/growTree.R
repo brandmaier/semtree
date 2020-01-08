@@ -84,22 +84,17 @@ growTree <- function(model=NULL, mydata=NULL,
     return(node);
   }
   
-  # list of point estimates, std.dev, and names of all freely estimated parameters
+
   ###########################################################
   ###               OPENMX USED HERE                      ###
   ###########################################################
   if(control$sem.prog == 'OpenMx'){
 	  
-	  # wicked style using triple-colon
-    #node$params <- OpenMx:::summary.MxModel(node$model)$parameters[,5];
-    #names(node$params) <- OpenMx:::summary.MxModel(node$model)$parameters[,1];
-    #node$params_sd <- OpenMx:::summary.MxModel(node$model)$parameters[,6];
-    #node$param_names <- OpenMx:::summary.MxModel(node$model)$parameters[,1];
-	
     # some export/namespace problem here with the generic
     # getS3method("summary","MxModel") gets me the right fun
     msm <- getS3method("summary","MxModel")
     
+    # list of point estimates, std.dev, and names of all freely estimated parameters
     node$params <- msm(node$model)$parameters[,5];
     names(node$params) <- msm(node$model)$parameters[,1];
     node$params_sd <- msm(node$model)$parameters[,6];
@@ -130,6 +125,8 @@ growTree <- function(model=NULL, mydata=NULL,
           if(unique(parameters$label)[i]==parameters$label[j]){se[i]<-parameters$se[j]}
       }
     }
+    
+    # list of point estimates, std.dev, and names of all freely estimated parameters
     node$params_sd <- se
     node$param_names <- names(lavaan::coef(node$model))
   }
@@ -174,7 +171,7 @@ growTree <- function(model=NULL, mydata=NULL,
     }
   }
   
-  # determine best split
+  # determine best split based in chosen method (ml or score) and (naive, cv, fair)
   result <- NULL
   # 1. unbalanced selection method
   if (control$method == "naive") {
@@ -278,7 +275,7 @@ growTree <- function(model=NULL, mydata=NULL,
             result$col.max,"\n");
   }
  
-  # compute p value
+  # compute p value from chi2
   if (!is.null(result$p.max)) {
     node$p <- result$p.max
   } else {
@@ -384,6 +381,7 @@ growTree <- function(model=NULL, mydata=NULL,
     }
     ##########################################################
     
+    # recursively continue splitting
     # result1 - RHS; result2 - LHS
     result2 <- growTree( model, sub2, control, invariance, meta, edgelabel=0, depth=depth+1, constraints)
     result1 <- growTree( model, sub1, control, invariance, meta, edgelabel=1, depth=depth+1, constraints)

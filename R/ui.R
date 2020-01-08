@@ -1,0 +1,47 @@
+ui_info <- function(...) {
+  ui(crayon::yellow(clisymbols::symbol$info), ...)
+}
+
+ui_ok<- function(...) {
+ ui(crayon::green(clisymbols::symbol$tick), ...)
+}
+
+ui_fail<- function(...) {
+  ui(crayon::red(clisymbols::symbol$cross), ...)
+}
+
+ui_stop <- function(...) {
+  ui_fail(...)
+  stop()
+}
+
+ui_warn<- function(...) {
+  ui(crayon::yellow(clisymbols::symbol$cross), ...)
+}
+
+ui_message <- function(...) {
+  ui(clisymbols::symbol$pointer, ...) 
+}
+
+ui <- function(symbol, ...) {
+  x <- list(...)
+  x <- paste0(x, collapse = "")
+  x <- paste0(symbol," ", x,"\n",collapse="")
+  cat(x)
+}
+
+human_readable_time <- function(x)
+{
+  if (x < 1) 
+  { return("less than a second")
+  } else if (x < 60) {
+    return (paste0(round(x),"s"))
+  } else if (x < 600) {
+   # round to half-minutes:
+    paste0("~",(round(x/30)*30)/60,"min")
+  } else if (x < 3600) {
+    paste0("~",round(x/60),"min")
+  } else {
+    paste0("~",round(x/3600*10)/10,"h")
+  }
+}
