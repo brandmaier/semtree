@@ -26,7 +26,9 @@ Imports:
     methods,
     strucchange,
     sandwich,
-    zoo
+    zoo,
+    crayon,
+    clisymbols
 Suggests:
     knitr,
     rmarkdown,

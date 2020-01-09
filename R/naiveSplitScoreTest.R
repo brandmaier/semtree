@@ -42,7 +42,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   n <- nobs(fit)
   
   # calculate maximum likelihood scores
-  Scores <- sandwich::estfun(fit, control = control)
+  Scores <- sandwich::estfun(fit)
   
   # get covariance matrix of the model parameters
   if (identical(control$information.matrix, "info")) {

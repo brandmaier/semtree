@@ -14,7 +14,6 @@ mxAddNewModelData <- function(model=model, data=data, name="default", ...) {
       # must be a matrix it seems...      TODO: needs to be fixed I guess
       model@Data@X[[1]] <- data #as.matrix(data)
       model@Data@nobs[[1]] <- dim(data)[1]
-#      model@Data@case.idx 
       return(model)
   } else {
     stop("Not supported model type for AddNewModelData function.")

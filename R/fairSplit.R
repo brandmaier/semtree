@@ -52,7 +52,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
   #    message("Testing ",c,"/",ncol(cross1), " (",colnames(cross1)[cur_col],")" )
     
     if (control$report.level>=1 || control$verbose) {
-      report(paste("Testing predictor",colnames(cross1)[cur_col]," (#", cur_col,"/",ncol(cross1),")"), 2)
+      ui_message(paste("Testing predictor",colnames(cross1)[cur_col]," (#", cur_col,"/",ncol(cross1),")"), 2)
     }
     
     LL.within <- base::c()
@@ -189,7 +189,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
             LL.within <- cbind(LL.within, (LL.baseline-LL.return))
             within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
           } else {
-            if (control$verbose) message("LL was NA when fitting submodels!")
+            if (control$verbose) ui_fail("LL was NA when fitting submodels!")
             if (control$report.level > 2) {
               report(paste("Could not estimate split at value ",val.sets[i]),2)
             }
@@ -199,11 +199,13 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       #}
     }
     
-    if (control$verbose || control$report.level>10) {
+    if (control$report.level>10) {
       if(!is.null(LL.within)){
         report(paste("Within Likelihoods ",paste(round(LL.within,2),collapse=" ")),2)
       }
-      else{message("Within LLs NULL")}
+      else{
+        message("Within LLs NULL")
+      }
     }
     
     if (control$report.level>0) {
@@ -352,7 +354,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       
       if (nrow(subset1)+nrow(subset2) != num.rows) {
         #browser()
-        message(
+        ui_fail(
           paste("SERIOUS INCONSISTENCY ERROR. Numbers of rows do not match. Type="),
           cov.type[cur_col]," Nums=",
           nrow(subset1),"+",nrow(subset2)," != ",num.rows)
@@ -360,11 +362,8 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       }
       
       if (control$verbose)
-        message(paste(cur_col,":",names(mydata[cov.btn.cols[cur_col]])," ", LL.cur,"\n"))
-      # browser()
-      
-      #browser() 
-      
+        ui_message(paste("Testing",cur_col,":",names(mydata[cov.btn.cols[cur_col]])," ", LL.cur,"\n"))
+
       
       if(cur_col == 1) {
         LL.max <- LL.cur
@@ -427,7 +426,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
     if(!is.null(missingModel)){ LL.baseline <- safeRunAndEvaluate(missingModel)}
     
     if (control$verbose)
-      message("Testing ",cur_col,"/",ncol(mydata), " (",colnames(mydata)[cur_col],")" )
+      ui_message("Testing ",cur_col,"/",ncol(mydata), " (",colnames(mydata)[cur_col],")" )
     
     if (control$report.level>=1) {
       report(paste("Testing predictor",colnames(mydata)[cur_col]), 1)
@@ -533,7 +532,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
             LL.within <- cbind(LL.within, (LL.baseline-LL.return))
             within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
           } else {
-            if (control$verbose) message("LL was NA when fitting submodels!")
+            if (control$verbose) ui_fail("LL was NA when fitting submodels!")
             if (control$report.level > 2) {
               report(paste("Could not estimate split at value ",val.sets[i]),2)
             }
@@ -542,7 +541,7 @@ fairSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, me
       }
     }
     
-    if (control$verbose) {
+    if (control$report > 10) {
       if(!is.null(LL.within)){
         message("Within LLs ",paste(round(LL.within,2),collapse=" "))
       }

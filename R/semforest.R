@@ -58,7 +58,7 @@ semforest <- function(model, data, control=NULL,
 
   if (is.null(control)) {
     control <- semforest.control()
-    message("Default SEM forest settings established since no Controls provided.")
+    ui_message("Default SEM forest settings established since no semforest.controls provided.")
   } else {
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semforest.control object!");}
   }
@@ -76,12 +76,12 @@ semforest <- function(model, data, control=NULL,
 	#}
   
   if (!checkControl(semforest.control$semtree.control)) {
-    stop("Unknown options in semforest.control$semtree.control object!");
+    ui_stop("Unknown options in semforest.control$semtree.control object!");
   }
   
   # pass mtry from forest to tree control
   if (!is.na(semforest.control$semtree.control$mtry)) {
-  	stop("mtry manualy set in  semforest.control$semtree.control object! Please set mtry in semforest.control object only!")
+  	ui_stop("mtry manualy set in  semforest.control$semtree.control object! Please set mtry in semforest.control object only!")
   }
   semforest.control$semtree.control$mtry <- semforest.control$mtry
 	
@@ -107,7 +107,7 @@ semforest <- function(model, data, control=NULL,
 		seeds <- runif(n=semforest.control$num.trees,max=.Machine$integer.max)
 	}  else {
 	  if (length(seeds) != semforest.control$num.trees) {
-	    stop("Number of seeds given does not match number of trees!")
+	    ui_stop("Number of seeds given does not match number of trees!")
 	  }
 	}
 
@@ -150,6 +150,9 @@ semforest <- function(model, data, control=NULL,
 	result$control <- semforest.control
 	result$elapsed <- elapsed
 	result$seeds <- seeds
+	
+	ui_ok("Forest completed [took ",human_readable_time(elapsed[3]),"]")
+	
 
 	return(result)
 }

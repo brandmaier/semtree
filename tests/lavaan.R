@@ -92,6 +92,6 @@ treeSub <- subtree(tree, startNode=3)
 controlOptions$method <- "fair"
 tree2 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
 
-
-controlOptions$method <- "cv"
-tree3 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+# disabled for time restrictions on CRAN
+#controlOptions$method <- "cv"
+#tree3 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)

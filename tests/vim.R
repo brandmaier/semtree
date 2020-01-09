@@ -68,7 +68,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
                     )
 
 
-fr <- semforest(lgcModel, lgcm,control = semforest.control(num.trees = 15))
+fr <- semforest(lgcModel, lgcm,control = semforest.control(num.trees = 10))
 
   
 vimp <- varimp(fr)
@@ -76,8 +76,3 @@ vimp <- varimp(fr)
 print(vimp)
 print(vimp, na.omit=TRUE)
 
-
-vimp2 <- varimp(fr, method="permutationInteraction") 
-
-
-D <- diversityMatrix(fr)

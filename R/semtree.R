@@ -40,7 +40,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if (is.null(control)) {
     control <- semtree.control()
     if (control$verbose)
-      message("Default SEMtree settings established since no Controls provided.")
+      ui_message("Default SEMtree settings established since no Controls provided.")
   } else {
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
@@ -56,13 +56,13 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     #}
     
   } else if (inherits(model,"lavaan")){
-    if (control$verbose) { message("Detected lavaan model.") }
+    #if (control$verbose) { ui_message("Detected lavaan model.") }
     control$sem.prog = "lavaan"
   } else if ((inherits(model,"ctsemFit")) || (inherits(model,"ctsemInit"))) {
-    if (control$verbose) { message("Detected ctsem model.") }
+    #if (control$verbose) { ui_message("Detected ctsem model.") }
     control$sem.prog = "ctsem"
   } else {
-    stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
+    ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
   if (is.na(control$mtry)) control$mtry <- 0
   
@@ -71,13 +71,13 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if (!is.null(constraints$focus.parameters)) {
     
     if (control$sem.prog != "OpenMx") {
-      stop("Focus parameters are only supported with OpenMx!")
+      ui_stop("Focus parameters are only supported with OpenMx!")
     }
     
     num.match <- length(constraints$focus.parameters %in% 
                           OpenMx::omxGetParameters(model))
     if (num.match != length(constraints$focus.parameters)) {
-      stop("Error! Not all focus parameters are free parameters in the model!")
+      ui_stop("Error! Not all focus parameters are free parameters in the model!")
     }
   }
   
@@ -126,16 +126,16 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       
       modid <- sets::as.set(all.ids)-sets::as.set(covariate.ids) 
       if (length(modid)==0) {
-        stop("No covariates contained in dataset!")
+        ui_stop("No covariates contained in dataset!")
       }
       
       model.ids <- simplify2array( as.vector(modid, mode="integer") )
     }
     
-    if (control$verbose) {
-      message("MODEL IDS ",paste(model.ids))
-      message("COV IDS ",paste(covariate.ids))
-    }
+   # if (control$verbose) {
+  #    message("MODEL IDS ",paste(model.ids))
+  #    message("COV IDS ",paste(covariate.ids))
+  #  }
     
     # Prepare objects for fast score calculation (only for linear models)
     if (control$test.type == "score") {
@@ -151,7 +151,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   ###########################################################
   if(control$sem.prog=='lavaan'){
     if(is.null(dataset)) {
-      stop("must include data for analysis!")
+      ui_stop("Must include data for analysis!")
     }
     # specify covariates from model columns
     if (is.null(covariates)) {    
@@ -162,7 +162,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       all.ids <- 1:length(names(dataset))
       cvid <- sets::as.set(all.ids)-sets::as.set(model.ids) 
       if (length(cvid)==0) {
-        stop("No covariates contained in dataset!")
+        ui_stop("No covariates contained in dataset!")
       }
       covariate.ids <- simplify2array( as.vector(cvid,mode="integer") )
     }
@@ -173,16 +173,16 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       
       modid <- sets::as.set(all.ids)-sets::as.set(covariate.ids) 
       if (length(modid)==0) {
-        stop("No covariates contained in dataset!")
+        ui_stop("No covariates available to split on!")
       }
       
       model.ids <- simplify2array( as.vector(modid,mode="integer") )
     }
     
-    if (control$verbose) {
-      message("MODEL IDS ",paste(model.ids))
-      message("COV IDS ",paste(covariate.ids))
-    }
+    #if (control$verbose) {
+      #message("MODEL IDS ",paste(model.ids))
+    #  message("COV IDS ",paste(covariate.ids))
+    #}
     
   }
   
@@ -200,18 +200,18 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   else { 
     if (control$method != "naive") {
-      message("Invariance is only implemented for naive variable selection.")
+      ui_message("Invariance is only implemented for naive variable selection.")
       return(NULL)
     }
     if(is.na(control$alpha.invariance)){
-      message("No Invariance alpha selected. alpha.invariance set to:", control$alpha)
+      ui_message("No Invariance alpha selected. alpha.invariance set to:", control$alpha)
       control$alpha.invariance<-control$alpha}
 	  
 	  if(is(invariance, "character")) {
 		  invariance <- list(invariance)
 		  } else {
 			  if (!is(invariance, "list")) {
-				  stop("Invariance must contain an array of parameter names or a list of such arrays.")
+				  ui_stop("Invariance must contain an array of parameter names or a list of such arrays.")
 			  }
 		  }
 
@@ -220,29 +220,29 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   # check test type
   testtype.int <- pmatch(control$test.type, c("ml","score"))
   if (is.na(testtype.int)) {
-    stop("Unknown test type in control object! Try either 'ml', or 'score'.")
+    ui_stop("Unknown test type in control object! Try either 'ml', or 'score'.")
   }
   
   # correct method selection check
   method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
   if (is.na(method.int)) {
-    stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
+    ui_stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
   }	
   
   # further checks on test stat
   if (control$test.type=="dm" & control$method!="naive") {
-    stop("Only naive splitting is implemented yet for DM test statistic!")
+    ui_stop("Only naive splitting is implemented yet for DM test statistic!")
   }
   
   # if this is still null, we have a problem
   if (is.null(dataset)) {
-    stop("No data were provided!")
+    ui_stop("No data were provided!")
   }
   
   # sanity checks, duplicated col names?
   if (any(duplicated(names(dataset))))
   {
-    stop("Dataset contains duplicated columns names!")
+    ui_stop("Dataset contains duplicated columns names!")
   }
   # set a seed for user to repeat results if no seed provided
   if (!is.null(control$seed)&!is.na(control$seed)){
@@ -255,7 +255,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if (!is.null(global.constraints)) {
     
     if (control$sem.prog != "OpenMx") {
-      stop("Global constraints are not yet supported!")
+      ui_stop("Global constraints are not yet supported!")
     }
     
     run.global <- OpenMx::mxRun(model, silent=T, useOptimizer=T, suppressWarnings=T);
@@ -267,8 +267,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     # FIX THIS LINE HERE
     
     # Read Global Constraints and New model Parameters Here.
-    message("Global Constraints:\n",paste(global.constraints,collapse=" "))
-    message("Freely Estimated Parameters:\n",paste(names(OpenMx::omxGetParameters(model)),collapse=" "))
+    ui_message("Global Constraints:\n",paste(global.constraints,collapse=" "))
+    ui_message("Freely Estimated Parameters:\n",paste(names(OpenMx::omxGetParameters(model)),collapse=" "))
   }
   
   
@@ -303,7 +303,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   
   tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
   
-  message("[x] Tree construction finished!")
+  ui_ok("Tree construction finished [took ",human_readable_time(elapsed[3]),"].")
   
   return(tree)
   
