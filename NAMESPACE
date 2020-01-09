@@ -11,20 +11,19 @@ import("rpart")
 importFrom("grDevices", "heat.colors", "rainbow")
 importFrom("graphics", "barplot", "legend", "lines", "pairs", "par",
              "plot", "strwidth", "text", "hist")
-importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov",
-           "logLik", "median", "pchisq", "qnorm", "runif", "var", "nobs",
-           "vcov", "dist", "rnorm")
-importFrom("utils", "flush.console", "getS3method", "sessionInfo","str",
+importFrom("stats", "as.dist", "cmdscale", "coef", "cor", "cov", "logLik",
+           "median", "pchisq", "qnorm", "runif", "var", "dist", "rnorm")
+importFrom("utils", "flush.console", "getS3method", "sessionInfo", "str",
            "setTxtProgressBar", "data")
 importFrom("parallel","parLapply","clusterMap")
 importFrom("sets","as.set")
 importFrom("methods", "is")
-importFrom("sandwich", "bread", "estfun")
+importFrom("sandwich", "bread")
 importFrom("strucchange", "catL2BB", "maxBB", "meanL2BB", "ordL2BB", "ordwmax",
            "root.matrix", "sctest", "supLM")
 importFrom("zoo", "zoo")
 importFrom("utils","toLatex")
-importFrom("lavaan","vcov","nobs")
+importFrom("lavaan", "lavScores", "nobs", "vcov")
 
 
 #

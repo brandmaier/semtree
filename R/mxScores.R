@@ -1,4 +1,4 @@
-estfun.MxRAMModel <- function(x, control, ...) {
+mxScores <- function(x, control) {
   p <- control$scores_info$p
   mean_structure <- control$scores_info$mean_structure
   p_star <- control$scores_info$p_star
