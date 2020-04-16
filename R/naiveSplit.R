@@ -31,7 +31,7 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	  LL.overall <- safeRunAndEvaluate(modelnew) 
 	  suppressWarnings(if (is.na(LL.overall)) return(NULL))
 	}
-  firstCol <- 1
+  #firstCol <- 1
 	#for(c in (mvars+1):ncol(mydata)) {
   if(pp) {comparedData <- max(meta$model.ids+1)}
   else {comparedData <- meta$covariate.ids}
@@ -156,9 +156,9 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    var.type = 2
 	    v <- as.numeric(mydata[,cur_col])
 	    val.sets <- sort(union(v,v))
-	    if(length(val.sets) < 30|!isTRUE(control$shortcut)){
+	
 	      if(length(val.sets) > 1) {
-          #browser()
+      
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
@@ -191,25 +191,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
             #browser()
 	        }
 	      }
-	    }
-	  }
 
-	  #store the LL, split value and variable number for each cov that makes a possible split	
-	  #if (control$verbose) {
-	 #   if(!is.null(LL.within)){
-  #      if(firstCol==n.comp){
-  #        message("Within Covariates LLs: ",
-  #                paste(round(LL.within[firstCol],2),collapse=" "))}
-  #      else if(
-   #       firstCol<n.comp){message("Within Covariates LLs: ",
-  #             paste(round(LL.within[firstCol:n.comp],2),collapse=" "))}
-   #     else{
-  #        message("Within LLs NULL")
-   #     }
-	  #  }
-	 #   else{message("Within LLs NULL")}
-	 # }
-    if(n.comp>0){firstCol <- n.comp+1}
+	  }
 	}
 
 	if(is.null(LL.within)) {return(NULL)}
@@ -270,6 +253,11 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
     }
 	}
 	
+	# alternative way of counting the number of comparisons
+	# count the number of variables instead of tests
+	if (control$naive.bonferroni.type==1) {
+	  n.comp <- length(comparedData)
+	}
 	
 	
   if(is.na(LL.max)){return(NULL)}

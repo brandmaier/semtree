@@ -28,7 +28,8 @@ Imports:
     sandwich,
     zoo,
     crayon,
-    clisymbols
+    clisymbols,
+    testthat
 Suggests:
     knitr,
     rmarkdown,

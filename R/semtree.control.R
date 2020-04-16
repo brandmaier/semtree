@@ -5,7 +5,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 		 mtry=NA, report.level=0, exclude.code=NA, test.type="ml",
 		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
-		 min.bucket=10)
+		 min.bucket=10, naive.bonferroni.type=0)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
@@ -58,6 +58,8 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
   options$custom.stopping.rule <- custom.stopping.rule
 	# report level (similar to verbose but prettier)
   options$report.level <- report.level
+  # type of counting the number of tests (0=all splits, 1=# of variables)
+  options$naive.bonferroni.type <- naive.bonferroni.type
   
 	class(options) <- "semtree.control"
 	

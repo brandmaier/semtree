@@ -6,6 +6,8 @@ semtree
 version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/metacran/cranlogs.app)
+[![Build
+Status](https://travis-ci.org/brandmaier/semtree.svg?branch=master)](https://travis-ci.org/brandmaier/semtree)
 
 What is this?
 -------------
