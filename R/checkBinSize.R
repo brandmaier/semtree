@@ -31,14 +31,15 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
       fit_up <- mxAddNewModelData(fit, mydata_up, name = "BASE MODEL")
       fit_up <- try(mxRun(fit_up, silent = TRUE, suppressWarnings = TRUE),
                     silent = TRUE)
+      Scores_up <- mxScores(fit_up, control = control)
     }
     if(control$sem.prog == 'lavaan'){
       fit_up <- try(suppressWarnings(eval(parse(text = paste(
         fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
         fit@Options$missing, '\')', sep = "")))), silent = TRUE)
+      Scores_up <- lavScores(fit_up)
     }
-    # Update scores, and vcov and re-run score test
-    Scores_up <- estfun(fit_up, control = control)
+    # Vcov
     if (identical(control$information.matrix, "info")) {
       vcov_up <- solve(vcov(fit_up) * n_up)
       vcov_up <- root.matrix(vcov_up)
@@ -93,14 +94,15 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
         fit_up <- mxAddNewModelData(fit, mydata_up, name = "BASE MODEL")
         fit_up <- try(mxRun(fit_up, silent = TRUE, suppressWarnings = TRUE),
                       silent = TRUE)
+        Scores_up <- mxScores(fit_up, control = control)
       }
       if(control$sem.prog == 'lavaan'){
         fit_up <- try(suppressWarnings(eval(parse(text = paste(
           fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
           fit@Options$missing, '\')', sep = "")))), silent = TRUE)
+        Scores_up <- lavScores(fit_up)
       }
-      # Update n, scores, and vcov and re-run score test
-      Scores_up <- estfun(fit_up, control = control)
+      # vcov
       if (identical(control$information.matrix, "info")) {
         vcov_up <- solve(vcov(fit_up) * n_up)
         vcov_up <- root.matrix(vcov_up)
@@ -159,14 +161,15 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
       fit_up <- mxAddNewModelData(fit, mydata_up, name = "BASE MODEL")
       fit_up <- try(mxRun(fit_up, silent = TRUE, suppressWarnings = TRUE),
                     silent = TRUE)
+      Scores_up <- mxScores(fit_up, control = control)
     }
     if(control$sem.prog == 'lavaan'){
       fit_up <- try(suppressWarnings(eval(parse(text = paste(
         fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
         fit@Options$missing, '\')', sep = "")))), silent = TRUE)
+      Scores_up <- lavScores(fit_up)
     }
-    # Update scores, and vcov and re-run score test
-    Scores_up <- estfun(fit_up, control = control)
+    # vcov
     if (identical(control$information.matrix, "info")) {
       vcov_up <- solve(vcov(fit_up) * n_up)
       vcov_up <- root.matrix(vcov_up)
@@ -221,14 +224,15 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata,
         fit_up <- mxAddNewModelData(fit, mydata_up, name = "BASE MODEL")
         fit_up <- try(mxRun(fit_up, silent = TRUE, suppressWarnings = TRUE),
                       silent = TRUE)
+        Scores_up <- mxScores(fit_up, control = control)
       }
       if(control$sem.prog == 'lavaan'){
         fit_up <- try(suppressWarnings(eval(parse(text = paste(
           fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
           fit@Options$missing, '\')', sep = "")))), silent = TRUE)
+        Scores_up <- lavScores(fit_up)
       }
-      # Update n, scores, and vcov and re-run score test
-      Scores_up <- estfun(fit_up, control = control)
+      # vcov
       if (identical(control$information.matrix, "info")) {
         vcov_up <- solve(vcov(fit_up) * n_up)
         vcov_up <- root.matrix(vcov_up)
