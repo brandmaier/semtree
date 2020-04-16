@@ -1,5 +1,8 @@
 context("number of comparisons")
 
+# skip long running tests on CRAN
+skip_on_cran()
+
 set.seed(789)
 library("semtree")
 data(lgcm)
