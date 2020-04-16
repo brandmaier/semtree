@@ -8,6 +8,8 @@ version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.or
 downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/metacran/cranlogs.app)
 [![Build
 Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 What is this?
 -------------
