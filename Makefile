@@ -4,6 +4,9 @@ PKGSRC  := $(shell basename `pwd`)
 
 all: rd readme check clean
 
+pkgdown:
+	Rscript -e 'pkgdown::build_site()'
+
 rd:
 	Rscript -e 'roxygen2::roxygenise(".")'
 
