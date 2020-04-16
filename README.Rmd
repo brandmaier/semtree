@@ -11,7 +11,8 @@ knitr::opts_chunk$set(
 [![DOI](http://zenodo.org/badge/76649538.svg)](https://zenodo.org/badge/latestdoi/76649538)
 [![cran version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/metacran/cranlogs.app)
-[![Build Status](https://travis-ci.org/brandmaier/semtree.svg?branch=master)](https://travis-ci.org/brandmaier/semtree)
+[![Build Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
+
 
 
 ## What is this?
