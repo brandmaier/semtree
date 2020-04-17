@@ -175,7 +175,7 @@ growTree <- function(model=NULL, mydata=NULL,
   # 1. unbalanced selection method
   if (control$method == "naive") {
     
-    if (control$test.type=="ml") {
+ #   if (control$test.type=="ml") {
     
     result <- tryCatch(
       ################################################
@@ -185,7 +185,7 @@ growTree <- function(model=NULL, mydata=NULL,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
     );
     
-    } else if (control$test.type=="score") {
+    } else if (control$method=="score") {
       
      # result <- tryCatch(
         ################################################
@@ -195,11 +195,11 @@ growTree <- function(model=NULL, mydata=NULL,
      #   error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
      # );     
       
-    } else {
+   # } else {
       
-      stop("Unknown Test Type.")
+  #    stop("Unknown Test Type.")
       
-    }
+  #  }
     
     
   } 
@@ -235,6 +235,9 @@ growTree <- function(model=NULL, mydata=NULL,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
     );		
     node$p.values.valid <- FALSE	
+  } else {
+    ui_fail("Error. Unknown split method selected")
+    stop()
   }
   # 4. Experimental
   #else if (control$method == "exp") {

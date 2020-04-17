@@ -13,7 +13,6 @@
   alpha.invariance=NA, folds=5, exclude.heywood=TRUE, progress.bar=TRUE,
    verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, 
    custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA,
-   test.type = "ml",
    score.tests = list(nominal = "LMuo", ordinal = "maxLMo", metric = "CvM"), 
    information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
    min.bucket = 10, naive.bonferroni.type=0)
@@ -69,9 +68,6 @@
   \item{use.all}{
   Treatment of missing variables. By default, missing values stay in a decision node. If TRUE, cases are
   distributed according to a maximum likelihood principle to the child nodes.
-  }
-  \item{test.type}{
-  Default: 'ml' for maximum-likelihood-based exhaustive split search. 
   }
   \item{score.tests}{
   A list of score-based test statistics from the strucchange package to be used for different variable types. 

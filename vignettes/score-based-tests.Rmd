@@ -1,0 +1,65 @@
+---
+title: "Score-based Tests"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{score-based-tests}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+## Load data
+
+Load affect dataset from the `psychTools` package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to  study affect dimensionality and the relationship to various personality dimensions.
+
+```{r}
+library(psychTools)
+data(affect)
+
+knitr::kable(head(affect))
+```
+
+## Create simple model of state anxiety
+
+```{r}
+library(OpenMx)
+manifests<-c("state1")
+latents<-c()
+model <- mxModel("Simple Model", 
+type="RAM",
+manifestVars = manifests,
+latentVars = latents,
+mxPath(from="one",to=manifests, free=c(TRUE), value=c(1.0) , arrows=1, label=c("mu") ),
+mxPath(from=manifests,to=manifests, free=c(TRUE), value=c(1.0) , arrows=2, label=c("sigma2") ),
+mxData(affect, type = "raw")
+);
+
+result <- mxRun(model)
+summary(result)
+```
+
+## Score-based Tests
+
+Use score-based tests to create the tree.
+
+```{r}
+library(semtree)
+ctrl = semtree.control(method="score")
+#tree = semtree(model=result, data=affect, control=ctrl)
+```
+
+Plot the tree
+
+```{r}
+#plot(tree)
+```

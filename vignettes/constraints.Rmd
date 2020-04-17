@@ -63,7 +63,7 @@ names(cfa.sim)[1:4] <- paste0("x",1:4)
 
 Here is the OpenMx model specification
 
-```{r cfadefinition, dependson="difsim", echo=TRUE}
+```{r cfadefinition, echo=TRUE}
 require("OpenMx");
 manifests<-c("x1","x2","x3","x4")
 latents<-c("F")

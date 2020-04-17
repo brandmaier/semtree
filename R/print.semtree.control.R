@@ -5,13 +5,15 @@ print.semtree.control <- function(x, ...)
 	cat(" SEM-Tree control:\n",horiz.line(),"\n")
 
 	ui_bullet("Splitting Method: ", x$method,"\n")
-	ui_bullet("Test Type: ", x$test.type,"\n")
-	if(x$test.type == "score"){
+	
+	if(x$method == "score"){
 	  ui_bullet("Score Tests:  ", "nominal = ", x$score.tests[[1]], ", ordinal = ",
 	      x$score.tests[[2]], ", metric = ", x$score.tests[[3]],"\n", sep = "")
 	  ui_bullet("Information Matrix: ", x$information.matrix, "\n")
 	  ui_bullet("Scaled Score: ", x$scaled_scores, "\n")
-	  ui_bullet("Linear OpenMx model: ", x$linear)}
+	  ui_bullet("Linear OpenMx model: ", x$linear)
+	}
+	
 	ui_bullet("Alpha Level: ", x$alpha,"\n");
 	ui_bullet("Bonferroni Correction:", x$bonferroni,"\n")
 	ui_bullet("Minimum Number of Cases: ", x$min.N,"\n")
