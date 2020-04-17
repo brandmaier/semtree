@@ -138,7 +138,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   #  }
     
     # Prepare objects for fast score calculation (only for linear models)
-    if (control$test.type == "score") {
+    if (control$method == "score") {
       control <- c(control,
                    list(scores_info = OpenMx_scores_input(x = model,
                                                           control = control)))
@@ -218,10 +218,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   
   # check test type
-  testtype.int <- pmatch(control$test.type, c("ml","score"))
-  if (is.na(testtype.int)) {
-    ui_stop("Unknown test type in control object! Try either 'ml', or 'score'.")
-  }
+ # testtype.int <- pmatch(control$test.type, c("ml","score"))
+#  if (is.na(testtype.int)) {
+#    ui_stop("Unknown test type in control object! Try either 'ml', or 'score'.")
+#  }
   
   # correct method selection check
   method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3","score"))	

@@ -7,7 +7,7 @@ mxScores <- function(x, control) {
   
   exp_cov <- OpenMx::mxGetExpected(model = x, component = "covariance")
   exp_cov_inv <- solve(exp_cov)
-  data_obs <- x$data$observed[, x$manifestVars]
+  data_obs <- x$data$observed[, x$manifestVars, drop=FALSE]
   N <- nrow(data_obs)
   
   if (control$linear) {

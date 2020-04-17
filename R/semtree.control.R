@@ -2,7 +2,7 @@ semtree.control <-
 function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=NA,
          folds=5, exclude.heywood=TRUE, progress.bar=TRUE, 
          verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, custom.stopping.rule=NA,
-		 mtry=NA, report.level=0, exclude.code=NA, test.type="ml",
+		 mtry=NA, report.level=0, exclude.code=NA, 
 		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
 		 min.bucket=10, naive.bonferroni.type=0)
@@ -10,8 +10,6 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	options <- list()
 	# verbose output during generation of SEMTree
 	options$verbose <- verbose
-	# test type ('ml' or 'score')
-	options$test.type <- test.type
 	# score tests for each scale type
 	options$score.tests <- lapply(X = score.tests, FUN = tolower)
 	# information matrix used to decorrelate scores
