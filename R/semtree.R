@@ -224,15 +224,15 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   
   # correct method selection check
-  method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3"))	
+  method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3","score"))	
   if (is.na(method.int)) {
-    ui_stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', or 'cv'.")
+    ui_stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', 'score', or 'cv'.")
   }	
   
   # further checks on test stat
-  if (control$test.type=="dm" & control$method!="naive") {
-    ui_stop("Only naive splitting is implemented yet for DM test statistic!")
-  }
+#  if (control$test.type=="dm" & control$method!="naive") {
+#    ui_stop("Only naive splitting is implemented yet for DM test statistic!")
+#  }
   
   # if this is still null, we have a problem
   if (is.null(dataset)) {
