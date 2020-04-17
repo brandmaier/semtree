@@ -26,7 +26,12 @@ Load affect dataset from the `psychTools` package. These are data from two studi
 library(psychTools)
 data(affect)
 
-knitr::kable(head(affect))
+affect$Film <- as.ordered(affect$Film)
+
+
+tree.data <- affect[,c("state1","Film","neur","ext")] 
+
+knitr::kable(head(tree.data))
 ```
 
 ## Create simple model of state anxiety
@@ -41,7 +46,7 @@ manifestVars = manifests,
 latentVars = latents,
 mxPath(from="one",to=manifests, free=c(TRUE), value=c(1.0) , arrows=1, label=c("mu") ),
 mxPath(from=manifests,to=manifests, free=c(TRUE), value=c(1.0) , arrows=2, label=c("sigma2") ),
-mxData(affect, type = "raw")
+mxData(tree.data, type = "raw")
 );
 
 result <- mxRun(model)
@@ -55,11 +60,11 @@ Use score-based tests to create the tree.
 ```{r}
 library(semtree)
 ctrl = semtree.control(method="score")
-#tree = semtree(model=result, data=affect, control=ctrl)
+#tree = semtree(model=result, data=tree.data, control=ctrl)
 ```
 
 Plot the tree
 
 ```{r}
-#plot(tree)
+plot(tree)
 ```
