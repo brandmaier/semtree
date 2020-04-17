@@ -384,8 +384,14 @@ growTree <- function(model=NULL, mydata=NULL,
     
     # build a model for missing data
     if (control$missing == "ctree") {
+      ui_warn("Missing data treatment with ctree is not yet implemented.")
+      #temp = mydata[!is.na(mydata[,result$name.max]),]
+      #node$missing.model = party::ctree(
+      #  data = temp,
+      #  formula = as.formula(paste0(result$name.max,"~.")))
+    } else if (control$missing == "rpart") {
       temp = mydata[!is.na(mydata[,result$name.max]),]
-      node$missing.model = party::ctree(
+      node$missing.model = rpart::rpart(
         data = temp,
         formula = as.formula(paste0(result$name.max,"~.")))
     }
