@@ -7,7 +7,7 @@ mxScores <- function(x, control) {
   
   exp_cov <- OpenMx::mxGetExpected(model = x, component = "covariance")
   exp_cov_inv <- solve(exp_cov)
-  data_obs <- x$data$observed[, x$manifestVars, drop=FALSE]
+  data_obs <- x$data$observed[, x$manifestVars, drop = FALSE]
   N <- nrow(data_obs)
   
   if (control$linear) {
@@ -58,8 +58,13 @@ mxScores <- function(x, control) {
   
   # Individual deviations from the sample moments
   cd <- scale(x = data_obs, center = TRUE, scale = FALSE)
-  mc <- t(apply(X = cd, MARGIN = 1,
-                FUN = function (x){lavaan::lav_matrix_vech(x %*% t(x))}))
+  if (p == 1) {
+    mc <- matrix(apply(X = cd, MARGIN = 1,
+                FUN = function(x) {lavaan::lav_matrix_vech(x %*% t(x))}))
+  } else {
+    mc <- t(apply(X = cd, MARGIN = 1,
+                  FUN = function(x) {lavaan::lav_matrix_vech(x %*% t(x))}))
+  }
   vech_cov <- matrix(data = rep(x = lavaan::lav_matrix_vech(exp_cov), times = N),
                      byrow = TRUE, nrow = N, ncol = p_star)
   md <- mc - vech_cov
