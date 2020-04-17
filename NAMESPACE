@@ -24,7 +24,7 @@ importFrom("strucchange", "catL2BB", "maxBB", "meanL2BB", "ordL2BB", "ordwmax",
 importFrom("zoo", "zoo")
 importFrom("utils","toLatex")
 importFrom("lavaan", "lavScores", "nobs", "vcov")
-
+importFrom("stats", "as.formula", "predict")
 
 #
 # S3 methods

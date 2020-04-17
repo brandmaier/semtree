@@ -66,5 +66,5 @@ ctrl = semtree.control(method="score")
 Plot the tree
 
 ```{r}
-plot(tree)
+#plot(tree)
 ```
