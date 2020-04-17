@@ -385,7 +385,7 @@ growTree <- function(model=NULL, mydata=NULL,
     # build a model for missing data
     if (control$missing == "ctree") {
       temp = mydata[!is.na(mydata[,result$name.max]),]
-      result$missing.model = party::ctree(
+      node$missing.model = party::ctree(
         data = temp,
         formula = as.formula(paste0(result$name.max,"~.")))
     }

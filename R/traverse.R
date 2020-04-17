@@ -15,8 +15,8 @@ if (is.na(value)) {
   if (is.null(tree$missing.model)) {
     return(tree$node_id);
   } else {
-    browser()
-    value = predict(tree$missing.model, newdata=matrix(row))
+    #browser()
+    value = predict(tree$missing.model, newdata=row)
   }
    
 
