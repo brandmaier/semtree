@@ -83,8 +83,9 @@
   \item{min.bucket}{Minimum bucket size to continue splitting
   }
   \item{naive.bonferroni.type}{Default: 0. When set to zero, bonferroni correction for the naive test counts the number of dichotomous tests. When set to one, bonferroni correction counts the number of variables tested. }
+
+\item{missing}{Missing value treatment. Default is ignore}
 }
-\item{Missing value treatment. Default is 'ignore'}
 \value{
   A control object containing a list of the above parameters.
 }

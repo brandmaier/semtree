@@ -59,7 +59,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
   # type of counting the number of tests (0=all splits, 1=# of variables)
   options$naive.bonferroni.type <- naive.bonferroni.type
   # missing data treatment
-  options$missing <- "ignore"
+  options$missing <- missing
   
 	class(options) <- "semtree.control"
 	
