@@ -1,5 +1,4 @@
 sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
-
   # Continuous covariate
   if (test == "dm") {
     CSP <- CSP[-1, ]
@@ -7,7 +6,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     contrib <- apply(X = abs_CSP, MARGIN = 2, FUN = max)
     if (scaled_split) {
       cutpoint <- scaled_cutpoint(CSP = CSP, covariate = covariate, from = from,
-                                 to = to)
+                                  to = to)
     } else {
       max.cov <- covariate[which(x = abs_CSP == max(contrib), arr.ind = TRUE)[1, 1]]
       cutpoint <- (max.cov + covariate[which(covariate > max.cov)[1]]) / 2
@@ -23,10 +22,16 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     if (scaled_split) {
       cutpoint <- scaled_cutpoint(CSP = CSP, covariate = covariate, from = from,
                                   to = to)
-    } else {
+      if (is.na(cutpoint)) {scaled_split <- FALSE}
+    }
+    if (isFALSE(scaled_split)) {
       rows <- apply(X = CSP2, MARGIN = 1, FUN = sum)
       max.cov <- covariate[which.max(rows)]
       cutpoint <- (max.cov + covariate[which(covariate > max.cov)[1]]) / 2
+      if (covariate[which.max(rows)] == max(covariate)) {
+        unique.cov <- unique(covariate)
+        cutpoint <- (unique.cov[length(unique.cov) - 1] + unique.cov[length(unique.cov)]) / 2
+      }
     }
     left_n <- sum(covariate < cutpoint)
     right_n <- sum(covariate > cutpoint)
@@ -108,9 +113,9 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     d <- diff(rbind(0, CSP[round(cumsum(freq) * n), ]))
     contrib <- apply(X = d, MARGIN = 2, FUN = function(x) {sum(x^2 / freq)})
     if (nlevels(covariate) <= 2) {
-    cutpoint <- 1
-    left_n <- length(covariate[covariate == levels(covariate)[1]])
-    right_n <- length(covariate[covariate == levels(covariate)[2]])
+      cutpoint <- 1
+      left_n <- length(covariate[covariate == levels(covariate)[1]])
+      right_n <- length(covariate[covariate == levels(covariate)[2]])
     } else {
       cutpoint <- left_n <- right_n <-  NULL 
     }

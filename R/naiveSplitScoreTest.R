@@ -61,7 +61,6 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   for (cur_col in cmp.column.ids) {					   
     
     covariate <- mydata[,cur_col]
-    
     # check if covariate has more than one unique value
     if (length(unique(covariate)) > 1) {
       
@@ -111,6 +110,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       
       # peform score test
       test.result <- sctest(scus, functional = functional)
+      splt <- NA
+      
       
       # get cutpoint and parameter contributions
       if (test.result$p.value < min(c(control$alpha, p.max))) { # only if current p-value is smaller than other p-values
@@ -121,6 +122,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                  scaled_split = control$scaled_scores,
                                  from = 0.1,
                                  to = NULL))
+        
         
         # check if cutpoint is too close to the border
         if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not do that categorical covariate with more than two levels
@@ -135,12 +137,13 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       functional = functional,
                                       p.max = p.max,
                                       test = test)
+          
         }
-      }
+        splt <- test.result$cutpoint
+      } 
     
       # Standardise output
       ts <- test.result$statistic
-      splt <- test.result$cutpoint
       pval <- test.result$p.value
       contrib <- test.result$par.contrib
       
