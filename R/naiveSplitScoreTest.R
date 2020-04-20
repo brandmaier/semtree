@@ -61,9 +61,6 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   for (cur_col in cmp.column.ids) {					   
     
     covariate <- mydata[,cur_col]
-    
-    browser()
-    
     # check if covariate has more than one unique value
     if (length(unique(covariate)) > 1) {
       
