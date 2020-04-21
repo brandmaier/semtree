@@ -10,7 +10,18 @@ value <- tryCatch({
  row[[tree$rule$name]]
 },error=function(cond){ message("ERROR! Incomplete dataset!"); stop(); return(NA);})
 
-if (is.na(value)) return(tree$node_id);
+if (is.na(value)) {
+ 
+  if (is.null(tree$missing.model)) {
+    return(tree$node_id);
+  } else {
+    #browser()
+    value = predict(tree$missing.model, newdata=row)
+  }
+   
+
+  
+}
 
 log.val <- NA
 

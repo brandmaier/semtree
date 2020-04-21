@@ -15,7 +15,7 @@
    custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA,
    score.tests = list(nominal = "LMuo", ordinal = "maxLMo", metric = "CvM"), 
    information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
-   min.bucket = 10, naive.bonferroni.type=0)
+   min.bucket = 10, naive.bonferroni.type=0, missing = 'ignore')
 }
 % print.semtree.control(x, ...)
 %- maybe also 'usage' for other objects documented here.
@@ -83,6 +83,8 @@
   \item{min.bucket}{Minimum bucket size to continue splitting
   }
   \item{naive.bonferroni.type}{Default: 0. When set to zero, bonferroni correction for the naive test counts the number of dichotomous tests. When set to one, bonferroni correction counts the number of variables tested. }
+
+\item{missing}{Missing value treatment. Default is ignore}
 }
 \value{
   A control object containing a list of the above parameters.
