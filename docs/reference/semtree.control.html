@@ -95,7 +95,13 @@
       <a href="../articles/constraints.html">Constraints in semtree</a>
     </li>
     <li>
+      <a href="../articles/forests.html">SEM Forests</a>
+    </li>
+    <li>
       <a href="../articles/getting-started.html">Getting Started with the semtree package</a>
+    </li>
+    <li>
+      <a href="../articles/score-based-tests.html">Score-based Tests</a>
     </li>
   </ul>
 </li>
@@ -131,10 +137,9 @@
   <span class='kw'>alpha.invariance</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>folds</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>exclude.heywood</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>progress.bar</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
    <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>bonferroni</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>use.all</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
    <span class='kw'>custom.stopping.rule</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>mtry</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>report.level</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>exclude.code</span><span class='kw'>=</span><span class='fl'>NA</span>,
-   <span class='kw'>test.type</span> <span class='kw'>=</span> <span class='st'>"ml"</span>,
    <span class='kw'>score.tests</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>nominal</span> <span class='kw'>=</span> <span class='st'>"LMuo"</span>, <span class='kw'>ordinal</span> <span class='kw'>=</span> <span class='st'>"maxLMo"</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"CvM"</span>),
    <span class='kw'>information.matrix</span> <span class='kw'>=</span> <span class='st'>"info"</span>, <span class='kw'>scaled_scores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>linear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-   <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+   <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>naive.bonferroni.type</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>missing</span> <span class='kw'>=</span> <span class='st'>'ignore'</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,10 +210,6 @@
   distributed according to a maximum likelihood principle to the child nodes.</p></td>
     </tr>
     <tr>
-      <th>test.type</th>
-      <td><p>Default: 'ml' for maximum-likelihood-based exhaustive split search.</p></td>
-    </tr>
-    <tr>
       <th>score.tests</th>
       <td><p>A list of score-based test statistics from the strucchange package to be used for different variable types.</p></td>
     </tr>
@@ -227,6 +228,14 @@
     <tr>
       <th>min.bucket</th>
       <td><p>Minimum bucket size to continue splitting</p></td>
+    </tr>
+    <tr>
+      <th>naive.bonferroni.type</th>
+      <td><p>Default: 0. When set to zero, bonferroni correction for the naive test counts the number of dichotomous tests. When set to one, bonferroni correction counts the number of variables tested.</p></td>
+    </tr>
+    <tr>
+      <th>missing</th>
+      <td><p>Missing value treatment. Default is ignore</p></td>
     </tr>
     </table>
 
@@ -252,7 +261,6 @@
         <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>my.control</span>)</div><div class='output co'>#&gt;  SEM-Tree control:
 #&gt;  ▔▔▔▔▔▔▔▔▔▔ 
 #&gt; ● Splitting Method: naive
-#&gt; ● Test Type: ml
 #&gt; ● Alpha Level: 0.01
 #&gt; ● Bonferroni Correction:FALSE
 #&gt; ● Minimum Number of Cases: 10
