@@ -57,6 +57,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   ############################################
   # main loop with calls to sctest_semtree() #
+  # each iteration evaluates a covariate     #
   ############################################
   for (cur_col in cmp.column.ids) {					   
     
@@ -110,18 +111,16 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       
       # peform score test
       test.result <- sctest(scus, functional = functional)
-      splt <- NA
-      
       
       # get cutpoint and parameter contributions
       if (test.result$p.value < min(c(control$alpha, p.max))) { # only if current p-value is smaller than other p-values
         test.result <- c(test.result,
                          sctest_info(CSP = as.matrix(scus$process),
-                                 covariate = covariate,
-                                 test = test,
-                                 scaled_split = control$scaled_scores,
-                                 from = 0.1,
-                                 to = NULL))
+                                     covariate = covariate,
+                                     test = test,
+                                     scaled_split = control$scaled_scores,
+                                     from = 0.1,
+                                     to = NULL))
         
         
         # check if cutpoint is too close to the border
@@ -139,21 +138,15 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       test = test)
           
         }
-        splt <- test.result$cutpoint
-      } 
-    
+      } else {
+        test.result$cutpoint <- NA
+      }
+      
       # Standardise output
       ts <- test.result$statistic
       pval <- test.result$p.value
+      splt <- test.result$cutpoint
       contrib <- test.result$par.contrib
-      
-      if (control$verbose) {
-        cat("Testing:", cur.name, "\n")
-        cat("Level of measurement:", level, "\n")
-        cat(test, " test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
-        cat("Best so far: ",name.max, " (", level_max, "), ", test_max, ": ",
-            ts, ", p-value: ", p.max, " split point: ", splt)
-      }
       
       if (pval < p.max) { # Use p values to compare covariates
         LL.max <- ts
@@ -166,9 +159,21 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         level_max <- NA # not used outside this function
         test_max <- NA # not used outside this function
       }
+      
+      if (control$verbose) {
+        cat("Testing:", cur.name, "\n")
+        cat("Level of measurement:", level, "\n")
+        cat(test, " test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
+        cat("Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
+            LL.max, ", p-value: ", p.max, " split point: ", split.max)
+      }
     }
   }
-
+  
+  #######################
+  # main loop ends here #
+  #######################
+  
   # Call naiveSplit to get cutpoints for categorical covariates with more than two levels
   if (p.max < 1) {
     if (type.max == 1 & nlevels(mydata[, col.max]) > 2) {
@@ -189,9 +194,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   n.comp <- length(cmp.column.ids)
   
-  # format results
-  return(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
-              col.max=col.max, type.max=type.max, n.comp=n.comp,
+  return(list(LL.max = LL.max, split.max = split.max, name.max = name.max,
+              col.max = col.max, type.max = type.max, n.comp = n.comp,
               btn.matrix = btn.matrix, 
-              invariance.filter=NULL, p.max = p.max, contrib.max=contrib.max))
+              invariance.filter = NULL, p.max = p.max, contrib.max = contrib.max))
 }
