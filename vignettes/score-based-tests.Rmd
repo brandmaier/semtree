@@ -26,10 +26,12 @@ Load affect dataset from the `psychTools` package. These are data from two studi
 library(psychTools)
 data(affect)
 
-affect$Film <- as.ordered(affect$Film)
+affect$Film <- factor(affect$Film, ordered = FALSE, 
+                      labels=c("Frontline", "Halloween", "Nat. Geographic","Parenthood"))
 
 
-tree.data <- affect[,c("state1","Film","neur","ext","lie","traitanx","PA1","PA2")] 
+tree.data <- affect[,c("Film","neur","ext","soc","traitanx","NA1","PA1")] 
+tree.data$DeltaPA <- affect$PA2-affect$PA1
 #tree.data <- affect[,c("state1","neur")] 
 
 knitr::kable(head(tree.data))
@@ -41,7 +43,7 @@ Here, we create a simple SEM with a single observed variable. No latent variable
 
 ```{r}
 library(OpenMx)
-manifests<-c("state1")
+manifests<-c("DeltaPA")
 latents<-c()
 model <- mxModel("Simple Model", 
 type="RAM",
@@ -70,4 +72,15 @@ Now let us plot the tree. We obtained a tree with two major predictors `neur` an
 
 ```{r out.width="75%",dpi=300}
 plot(tree)
+```
+
+Implied mixture model:
+
+```{r dpi=300}
+normals <- apply(semtree::getTerminalNodes(tree),1,function(x){  ggplot2::stat_function(fun = dnorm, n = 101, col="black", args = list(mean = x[2], sd = sqrt(x[1]))) })
+
+pl <- ggplot2::ggplot(data = data.frame(x = c(-10, 30)), ggplot2::aes(x))
+for (n in normals) pl <- pl + n
+
+plot(pl)
 ```

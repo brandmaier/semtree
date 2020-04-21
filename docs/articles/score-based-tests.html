@@ -103,84 +103,86 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTools)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(affect)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>affect<span class="op">$</span>Film &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.ordered</a></span>(affect<span class="op">$</span>Film)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>affect<span class="op">$</span>Film &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(affect<span class="op">$</span>Film, <span class="dt">ordered =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb1-5"><a href="#cb1-5"></a>                      <span class="dt">labels=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Frontline"</span>, <span class="st">"Halloween"</span>, <span class="st">"Nat. Geographic"</span>,<span class="st">"Parenthood"</span>))</span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a>tree.data &lt;-<span class="st"> </span>affect[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"state1"</span>,<span class="st">"Film"</span>,<span class="st">"neur"</span>,<span class="st">"ext"</span>,<span class="st">"lie"</span>,<span class="st">"traitanx"</span>,<span class="st">"PA1"</span>,<span class="st">"PA2"</span>)] </span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#tree.data &lt;- affect[,c("state1","neur")] </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tree.data))</span></code></pre></div>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>tree.data &lt;-<span class="st"> </span>affect[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Film"</span>,<span class="st">"neur"</span>,<span class="st">"ext"</span>,<span class="st">"soc"</span>,<span class="st">"traitanx"</span>,<span class="st">"NA1"</span>,<span class="st">"PA1"</span>)] </span>
+<span id="cb1-9"><a href="#cb1-9"></a>tree.data<span class="op">$</span>DeltaPA &lt;-<span class="st"> </span>affect<span class="op">$</span>PA2<span class="op">-</span>affect<span class="op">$</span>PA1</span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#tree.data &lt;- affect[,c("state1","neur")] </span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(tree.data))</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="right">state1</th>
 <th align="left">Film</th>
 <th align="right">neur</th>
 <th align="right">ext</th>
-<th align="right">lie</th>
+<th align="right">soc</th>
 <th align="right">traitanx</th>
+<th align="right">NA1</th>
 <th align="right">PA1</th>
-<th align="right">PA2</th>
+<th align="right">DeltaPA</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">22</td>
-<td align="left">3</td>
+<td align="left">Nat. Geographic</td>
 <td align="right">9</td>
 <td align="right">18</td>
-<td align="right">3</td>
+<td align="right">10</td>
 <td align="right">24</td>
+<td align="right">2</td>
 <td align="right">26</td>
-<td align="right">7</td>
+<td align="right">-19</td>
 </tr>
 <tr class="even">
-<td align="right">40</td>
-<td align="left">3</td>
+<td align="left">Nat. Geographic</td>
 <td align="right">12</td>
 <td align="right">16</td>
-<td align="right">1</td>
+<td align="right">8</td>
 <td align="right">41</td>
+<td align="right">4</td>
 <td align="right">10</td>
-<td align="right">5</td>
+<td align="right">-5</td>
 </tr>
 <tr class="odd">
-<td align="right">44</td>
-<td align="left">3</td>
+<td align="left">Nat. Geographic</td>
 <td align="right">5</td>
 <td align="right">6</td>
-<td align="right">2</td>
+<td align="right">1</td>
 <td align="right">37</td>
+<td align="right">2</td>
 <td align="right">4</td>
-<td align="right">3</td>
+<td align="right">-1</td>
 </tr>
 <tr class="even">
-<td align="right">40</td>
-<td align="left">3</td>
+<td align="left">Nat. Geographic</td>
 <td align="right">15</td>
 <td align="right">12</td>
-<td align="right">3</td>
+<td align="right">6</td>
 <td align="right">54</td>
-<td align="right">1</td>
 <td align="right">0</td>
+<td align="right">1</td>
+<td align="right">-1</td>
 </tr>
 <tr class="odd">
-<td align="right">67</td>
-<td align="left">3</td>
+<td align="left">Nat. Geographic</td>
 <td align="right">2</td>
 <td align="right">14</td>
-<td align="right">3</td>
+<td align="right">6</td>
 <td align="right">39</td>
+<td align="right">13</td>
 <td align="right">7</td>
-<td align="right">16</td>
+<td align="right">9</td>
 </tr>
 <tr class="even">
-<td align="right">38</td>
-<td align="left">1</td>
+<td align="left">Frontline</td>
 <td align="right">15</td>
 <td align="right">6</td>
-<td align="right">5</td>
+<td align="right">4</td>
 <td align="right">51</td>
+<td align="right">1</td>
 <td align="right">5</td>
-<td align="right">2</td>
+<td align="right">-3</td>
 </tr>
 </tbody>
 </table>
@@ -193,7 +195,7 @@
 <span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; To take full advantage of multiple cores, use:</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;   mxOption(key='Number of Threads', value=parallel::detectCores()) #now</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;   Sys.setenv(OMP_NUM_THREADS=parallel::detectCores()) #before library(OpenMx)</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>manifests&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"state1"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>manifests&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"DeltaPA"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6"></a>latents&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>()</span>
 <span id="cb2-7"><a href="#cb2-7"></a>model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"Simple Model"</span>, </span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="dt">type=</span><span class="st">"RAM"</span>,</span>
@@ -210,28 +212,28 @@
 <span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; Summary of Simple Model </span></span>
 <span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt;  </span></span>
 <span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; free parameters:</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt;     name matrix    row    col  Estimate Std.Error A</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 1 sigma2      S state1 state1 115.52726 8.9937424  </span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; 2     mu      M      1 state1  40.83152 0.5916777  </span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt;     name matrix     row     col   Estimate Std.Error A</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 1 sigma2      S DeltaPA DeltaPA 27.9030062 2.1722347  </span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; 2     mu      M       1 DeltaPA  0.0951514 0.2907899  </span></span>
 <span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; </span></span>
 <span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; Model Statistics: </span></span>
 <span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span></span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt;        Model:              2                    328              2503.837</span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt;        Model:              2                    328              2034.982</span></span>
 <span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt;    Saturated:              2                    328                    NA</span></span>
 <span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt; Independence:              2                    328                    NA</span></span>
 <span id="cb2-31"><a href="#cb2-31"></a><span class="co">#&gt; Number of observations/statistics: 330/330</span></span>
 <span id="cb2-32"><a href="#cb2-32"></a><span class="co">#&gt; </span></span>
 <span id="cb2-33"><a href="#cb2-33"></a><span class="co">#&gt; Information Criteria: </span></span>
 <span id="cb2-34"><a href="#cb2-34"></a><span class="co">#&gt;       |  df Penalty  |  Parameters Penalty  |  Sample-Size Adjusted</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt; AIC:      1847.8366               2507.837                 2507.873</span></span>
-<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt; BIC:       601.7342               2515.435                 2509.091</span></span>
+<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt; AIC:      1378.9818               2038.982                 2039.018</span></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt; BIC:       132.8794               2046.580                 2040.236</span></span>
 <span id="cb2-37"><a href="#cb2-37"></a><span class="co">#&gt; CFI: NA </span></span>
 <span id="cb2-38"><a href="#cb2-38"></a><span class="co">#&gt; TLI: 1   (also known as NNFI) </span></span>
 <span id="cb2-39"><a href="#cb2-39"></a><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span id="cb2-40"><a href="#cb2-40"></a><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span id="cb2-41"><a href="#cb2-41"></a><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt; timestamp: 2020-04-21 20:41:58 </span></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt; Wall clock time: 0.06369591 secs </span></span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt; timestamp: 2020-04-21 21:15:18 </span></span>
+<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt; Wall clock time: 0.05217218 secs </span></span>
 <span id="cb2-44"><a href="#cb2-44"></a><span class="co">#&gt; optimizer:  CSOLNP </span></span>
 <span id="cb2-45"><a href="#cb2-45"></a><span class="co">#&gt; OpenMx version number: 2.17.3 </span></span>
 <span id="cb2-46"><a href="#cb2-46"></a><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -243,10 +245,21 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(semtree)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>ctrl =<span class="st"> </span><span class="kw"><a href="../reference/semtree.control.html">semtree.control</a></span>(<span class="dt">method=</span><span class="st">"score"</span>, <span class="dt">bonferroni =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>tree =<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(<span class="dt">model=</span>result, <span class="dt">data=</span>tree.data, <span class="dt">control=</span>ctrl)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; ✔ Tree construction finished [took 4s].</span></span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; ✔ Tree construction finished [took 2s].</span></span></code></pre></div>
 <p>Now let us plot the tree. We obtained a tree with two major predictors <code>neur</code> and <code>traitanx</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree)</span></code></pre></div>
 <p><img src="score-based-tests_files/figure-html/unnamed-chunk-5-1.png" width="75%"></p>
+<p>Implied mixture model:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>normals &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(semtree<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/semtree/man/getTerminalNodes.html">getTerminalNodes</a></span>(tree),<span class="dv">1</span>,<span class="cf">function</span>(x){  ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/stat_function.html">stat_function</a></span>(<span class="dt">fun =</span> dnorm, <span class="dt">n =</span> <span class="dv">101</span>, <span class="dt">col=</span><span class="st">"black"</span>, <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> x[<span class="dv">2</span>], <span class="dt">sd =</span> <span class="kw"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(x[<span class="dv">1</span>]))) })</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt;   method        from</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;   print.element sets</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a>pl &lt;-<span class="st"> </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data =</span> <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">30</span>)), ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(x))</span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="cf">for</span> (n <span class="cf">in</span> normals) pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span>n</span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(pl)</span></code></pre></div>
+<p><img src="score-based-tests_files/figure-html/unnamed-chunk-6-1.png" width="2187.5"></p>
 </div>
   </div>
 
