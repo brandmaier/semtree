@@ -82,7 +82,7 @@ tndata <- semtree::getTerminalNodes(tree)
 cols <- viridis::plasma(nrow(tndata))
 
 pl <- ggplot2::ggplot(data = data.frame(x = c(-20, 20)), ggplot2::aes(x))+
-  xlab("Change in Positive Affect")
+  ggplot2::xlab("Change in Positive Affect")
 for (i in 1:nrow(tndata)) {
   pl <- pl + ggplot2::stat_function(fun = dnorm, 
       n = 101, col=cols[i], args = list(mean = tndata[i,2], 
