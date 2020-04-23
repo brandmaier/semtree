@@ -25,7 +25,7 @@ varimpFocus <- function(tree, data, cov.name)
   model <- tree$model
   for (i in 1:length(list.of.leaves)) {
     for (j in 1:length(list.of.leaves)) {
-      cat("Testing ",i," ",j,"\n")
+      #cat("Testing ",i," ",j,"\n")
       if (i>=j) next;
       sub1 <- list.of.leaves[[i]]$model$data$observed
       sub2 <- list.of.leaves[[j]]$model$data$observed
