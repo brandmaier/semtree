@@ -30,6 +30,7 @@ set.seed(123)
 N <- 1000
 grp1 <- sample(x = c(0,1), size=N, replace=TRUE)
 grp2 <- sample(x = c(0,1), size=N, replace=TRUE)
+noise <- sample(x = c(0,1),size=N, replace=TRUE)
 Sigma <- matrix(byrow=TRUE,
                 nrow=2,c(2,0.2,
                          0.2,1))
@@ -37,7 +38,7 @@ obs <- MASS::mvrnorm(N,mu=c(0,0),
                      Sigma=Sigma)
 obs[,1] <- obs[,1] + ifelse(grp1,3,0)
 obs[,2] <- obs[,2] + ifelse(grp2,3,0)
-df.biv <- data.frame(obs, grp1, grp2)
+df.biv <- data.frame(obs, grp1, grp2, noise)
 names(df.biv)[1:2] <- paste0("x",1:2)
 manifests<-c("x1","x2")
 model.biv <- mxModel("Bivariate_Model", 
@@ -67,7 +68,7 @@ df.biv.pred <- data.frame(df.biv,
   viridis::scale_color_viridis(discrete=TRUE)+
   theme_classic()
 ```
-```
+
 
 Now, we choose the mean of the second dimension `mu2` as focus parameter. We expect that only predictor `grp2`. This is what we see in a single tree.
 ```{r}

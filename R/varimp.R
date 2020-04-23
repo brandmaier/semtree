@@ -69,19 +69,10 @@ varimpTree <- function(tree,
                         list(oob.data.permuted, oob.data))$deviance        
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
-        ll.permuted <- eval.fun(tree, oob.data.permuted)$deviance
         
-        ll.baseline.focus = evaluateTreeFocus(tree, 
-            oob.data)$deviance   
-        ll.permuted.focus = evaluateTreeFocus(tree, 
-            oob.data.permuted)$deviance  
         
-        #browser()
         
-        #ll.diff <- (-ll.baseline + ll.permuted) - (-ll.baseline.focus + ll.permuted.focus)
-        
-        #ll.diff <- (-ll.baseline.focus + ll.permuted.focus)
-        ll.diff <- (ll.permuted.focus-ll.permuted)
+        ll.diff <- varimpFocus(tree, data)
       } else {
         stop(paste("Error. Method is not implemented: ",method))
       }
