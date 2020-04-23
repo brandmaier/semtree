@@ -406,8 +406,20 @@ growTree <- function(model=NULL, mydata=NULL,
     result2 <- growTree( model, sub2, control, invariance, meta, edgelabel=0, depth=depth+1, constraints)
     result1 <- growTree( model, sub1, control, invariance, meta, edgelabel=1, depth=depth+1, constraints)
     
+    # store results in recursive list structure
     node$left_child <- result2
     node$right_child <- result1
+    
+    # if focus parameters were used, refit 
+    # and store the resulting constrained submodels for later re-use
+    # such as in computation of variable importance
+    if (!is.null(constraints$focus.parameters)) {
+      focus.param.models <- fitSubmodels(model, sub1, sub2, 
+                   control, invariance=constraints$focus.parameters,
+                   return.models = TRUE)
+      node$left_child$focus.model <- focus.param.models$model1
+      node$right_child$focus.model <- focus.param.models$model2
+    }
     
     return(node);
     

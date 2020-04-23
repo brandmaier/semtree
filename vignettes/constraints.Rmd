@@ -187,10 +187,14 @@ tree.biv <- semtree(model.biv, data=df.biv)
 
 ```
 
-As expected, we obtain a tree structure that has both `p1` and `p2`:
+As expected, we obtain a tree structure that has both `p1` and `p2` (here we use the viridis colors to give each leaf node a different frame color, which we'll use later again):
 
 ```{r}
-plot(tree.biv)
+# default white color for all nodes
+cols <- rep("black", semtree:::getNumNodes(tree.biv))
+cols[as.numeric(row.names(semtree:::getTerminalNodes(tree.biv)))] <- viridis:::viridis_pal()(4)
+
+plot(tree.biv, border.col=cols)
 ```
 
 Let us visualize what this tree is doing. Here is the empirical joint distribution of both `x1` and `x2`:
@@ -202,7 +206,7 @@ ggplot(data = df.biv, aes(x=x1, y=x2))+
   theme_classic()
 ```
 
-And here is the partition of the observed two-dimensional space implied by the leafs of the tree:
+And here is the partition of the observed two-dimensional space implied by the leafs of the tree (compare the density colors to the colors of the leaf nodes in the earlier dendrogram):
 
 
 ```{r}
@@ -210,6 +214,7 @@ df.biv.pred <- data.frame(df.biv,
   leaf=factor(getLeafs(tree=tree.biv, data = df.biv)))
 ggplot(data = df.biv.pred, aes(x=x1, y=x2))+ 
   geom_density_2d(aes(colour=leaf))+ 
+  viridis::scale_color_viridis(discrete=TRUE)+
   theme_classic()
 ```
 

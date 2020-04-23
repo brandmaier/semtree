@@ -4,6 +4,7 @@ semforest <- function(model, data, control=NULL,
   
   arguments <- list(...)
   
+  # this is just for internal debugging use
   debugtree<-NULL
   
   
@@ -56,6 +57,8 @@ semforest <- function(model, data, control=NULL,
     covariate.ids <- sapply(covariates, function(cv) { which(cv==names(data))} )
   }
 
+  # if there is no forest control object, create default, otherwise check
+  # whether it is valid
   if (is.null(control)) {
     control <- semforest.control()
     ui_message("Default SEM forest settings established since no semforest.controls provided.")
@@ -70,11 +73,8 @@ semforest <- function(model, data, control=NULL,
                "Instead, use seed argument of semforest() function to specify seeds for reproducible analysis!"))
   }
   
-	#if (!checkControl(semforest.control))
-	#{
-  #  stop("Unknown options in semforest.control object!");
-	#}
-  
+  #
+  # check whether the semtree object is valid
   if (!checkControl(semforest.control$semtree.control)) {
     ui_stop("Unknown options in semforest.control$semtree.control object!");
   }
@@ -88,15 +88,13 @@ semforest <- function(model, data, control=NULL,
 	# create list of resampled data
 	forest.data <- list()
 		
-	#if (pmatch(semforest.control$sampling,"bootstrap")) {
+  # resample data to grow forest with
 		forest.data <- 
    replicate(semforest.control$num.trees, 
-             bootstrap(data, mtry=semforest.control$premtry,covariates,
+             forest.sample(data, mtry=semforest.control$premtry,covariates,
                        return.oob=T, type=semforest.control$sampling),simplify=F)
 		
-#	} else {
-#		throw("Error! Sampling technique is not supported!");
-#	}
+
 
 
 	
@@ -118,39 +116,49 @@ semforest <- function(model, data, control=NULL,
     skip <- rep(FALSE, semforest.control$num.trees)
   }
 
-	#browser()
+	# store start time for computing time elapsed later
 	start.time <- proc.time()
 
+	# run the actual tree growing algorithm either with mapply (non-parallel)
+	# or clusterMap for parallel computation
   if (is.null(cluster)) {
     trees <- mapply(FUN=semtreeApplyWrapper, 
-                      forest.data, seeds, skip, 
-                      MoreArgs=list(model=model,semtree.control=semforest.control$semtree.control,
-                                    with.error.handler, predictors=covariates, constraints),SIMPLIFY=FALSE)
+        forest.data, seeds, skip, 
+        MoreArgs=list(model=model,semtree.control=semforest.control$semtree.control,
+                                    with.error.handler, 
+                      predictors=covariates, 
+                      constraints=constraints),
+                SIMPLIFY=FALSE)
   } else {
     trees <- clusterMap(cl=cluster, fun=semtreeApplyWrapper, 
                forest.data, seeds, skip, 
                MoreArgs=list(model,semforest.control$semtree.control,
-                             with.error.handler, predictors=covariates, constraints),
+                             with.error.handler, 
+                             predictors=covariates, 
+                             constraints=constraints),
                SIMPLIFY=FALSE)
   }
 	
 
  
- 
+  # compute time elapsed
 	elapsed <- proc.time()-start.time
 	
   # postprocess to correct any erroneous trees
   trees <- lapply(X=trees, FUN=postprocess)
 	
+  # store all results in result object
   result$covariates <- covariates
 	result$data <- data
 	result$model <- model
 	result$forest.data <- forest.data
 	result$forest <- trees
 	result$control <- semforest.control
+	result$constraints <- constraints
 	result$elapsed <- elapsed
 	result$seeds <- seeds
 	
+	# tell the user that everything is fine
 	ui_ok("Forest completed [took ",human_readable_time(elapsed[3]),"]")
 	
 

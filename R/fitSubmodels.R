@@ -8,7 +8,8 @@
 #
 # returns NA if fit fails
 
-fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  return.models=FALSE)
+fitSubmodels <- function(model, subset1, subset2, control, 
+                         invariance=NULL,  return.models=FALSE)
 {
 	# this is to trick the strict CRAN check
 	group1.objective <- NULL

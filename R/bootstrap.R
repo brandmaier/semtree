@@ -1,4 +1,4 @@
-bootstrap <- function(dataset, mtry=2, covariates=NULL, return.oob=F, type="bootstrap") {
+forest.sample <- function(dataset, mtry=2, covariates=NULL, return.oob=F, type="bootstrap") {
 
 		if (mtry > 0) {
 		 #cov.ids <- which(names(dataset) %in% covariates)
