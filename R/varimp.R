@@ -133,8 +133,10 @@ varimp <- function(forest,
   
   if (method=="permutation" && !is.null(forest$constraints$focus.parameters))
   {
-    ui_warn("Switching to method='permutationFocus' because forest has focus parameters.")
-    method = "permutationFocus"
+    ui_warn("Consider switching to method='permutationFocus' because forest has focus parameters.")
+    
+    #ui_warn("Switching to method='permutationFocus' because forest has focus parameters.")
+    #method = "permutationFocus"
   }
     
   

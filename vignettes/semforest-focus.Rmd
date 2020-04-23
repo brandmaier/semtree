@@ -1,0 +1,110 @@
+---
+title: "Focus parameters in SEM forests"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{constraints}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi=300,
+  out.width="50%"
+)
+
+library(ggplot2)
+```
+
+
+We first generate a mixture of bivariate normal distributions. The distributions differ only by their x- and y-displacement, that is, by their mean values. There are two predictors `grp1` and `grp2` which predict the differences in means. `grp1` predicts differences in the first dimension and `grp2` predicts differences in the second dimension. Without focus parameter, both predictors are needed to distinguish all four groups. If one of the two means is chosen as a focus parameter, only one of the two predictors is important.
+
+```{r}
+
+library(semtree)
+set.seed(123)
+N <- 1000
+grp1 <- sample(x = c(0,1), size=N, replace=TRUE)
+grp2 <- sample(x = c(0,1), size=N, replace=TRUE)
+Sigma <- matrix(byrow=TRUE,
+                nrow=2,c(2,0.2,
+                         0.2,1))
+obs <- MASS::mvrnorm(N,mu=c(0,0),
+                     Sigma=Sigma)
+obs[,1] <- obs[,1] + ifelse(grp1,3,0)
+obs[,2] <- obs[,2] + ifelse(grp2,3,0)
+df.biv <- data.frame(obs, grp1, grp2)
+names(df.biv)[1:2] <- paste0("x",1:2)
+manifests<-c("x1","x2")
+model.biv <- mxModel("Bivariate_Model", 
+                     type="RAM",
+                     manifestVars = manifests,
+                     latentVars = c(),
+                     mxPath(from="x1",to=c("x1","x2"), 
+                            free=c(TRUE,TRUE), value=c(1.0,.2) , 
+                            arrows=2, label=c("VAR_x1","COV_x1_x2") ),
+                     mxPath(from="x2",to=c("x2"), free=c(TRUE), 
+                            value=c(1.0) , arrows=2, label=c("VAR_x2") ),
+                     mxPath(from="one",to=c("x1","x2"), label=c("mu1","mu2"),
+                            free=TRUE, value=0, arrows=1),
+                     mxData(df.biv, type = "raw")
+);
+result <- mxRun(model.biv)
+summary(result)
+```
+
+This is how the data look in a 2D space:
+
+```{r}
+df.biv.pred <- data.frame(df.biv, 
+  leaf=factor(df.biv$grp2*2+df.biv$grp1))
+  ggplot(data = df.biv.pred, aes(x=x1, y=x2, group=leaf))+ 
+  geom_density_2d(aes(colour=leaf))+ 
+  viridis::scale_color_viridis(discrete=TRUE)+
+  theme_classic()
+```
+```
+
+Now, we choose the mean of the second dimension `mu2` as focus parameter. We expect that only predictor `grp2`. This is what we see in a single tree.
+```{r}
+fp <- "mu2" # predicted by grp2
+#fp <- "mu1" # predicted by grp1
+
+tree.biv <- semtree(model.biv, data=df.biv, constraints = list(focus.parameters=fp))
+
+plot(tree.biv)
+
+```
+
+Now, we are repeating the same analysis in a forest.
+
+```{r}
+
+forest <- semforest(model.biv, data=df.biv, 
+                    constraints = list(focus.parameters=fp),
+                    control=semforest.control(num.trees=5))
+```
+
+By default, we see that individual trees are fully grown (without a p-value threshold). The first split is according to `grp2` because it best explains the group differences. Subsequent splits are according to `grp1` even though the chi2 values are close to zero. They only appear because there is no p-value-based stopping criterion. 
+
+```{r}
+plot(forest$forest[[1]])
+```
+
+Now, let us compare the new permutation scheme
+
+```{r}
+
+vim <- varimp(forest, method="permutationFocus")
+
+
+vim.old <- varimp(forest, method="permutation")
+
+
+plot(vim.old, main = "Standard")
+plot(vim, main="Focus correction")
+```
