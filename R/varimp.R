@@ -137,7 +137,7 @@ varimp <- function(forest,
     method = "permutationFocus"
   }
     
-  )
+  
   
   result <- list()
   start.time <- proc.time()
