@@ -10,8 +10,7 @@ varimpTree <- function(tree,
   if (!is.na(max.level)) {
     tree <- prune(tree, max.level)
   }
-  
-  
+
   # prepare storage for results
   total <- rep(0, length(var.names))
   
@@ -77,7 +76,12 @@ varimpTree <- function(tree,
         ll.permuted.focus = evaluateTreeFocus(tree, 
             oob.data.permuted)$deviance  
         
-        ll.diff <- (-ll.baseline + ll.permuted) - (-ll.baseline.focus + ll.permuted.focus)
+        #browser()
+        
+        #ll.diff <- (-ll.baseline + ll.permuted) - (-ll.baseline.focus + ll.permuted.focus)
+        
+        #ll.diff <- (-ll.baseline.focus + ll.permuted.focus)
+        ll.diff <- (ll.permuted.focus-ll.permuted)
       } else {
         stop(paste("Error. Method is not implemented: ",method))
       }
@@ -125,6 +129,15 @@ varimp <- function(forest,
   if (is.null(var.names)) {
     var.names <- forest$covariates
   }
+  
+  
+  if (method=="permutation" && !is.null(forest$constraints$focus.parameters))
+  {
+    ui_warn("Switching to method='permutationFocus' because forest has focus parameters.")
+    method = "permutationFocus"
+  }
+    
+  )
   
   result <- list()
   start.time <- proc.time()
