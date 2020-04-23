@@ -65,6 +65,9 @@
     <li>
       <a href="../articles/score-based-tests.html">Score-based Tests</a>
     </li>
+    <li>
+      <a href="../articles/semforest-focus.html">Focus parameters in SEM forests</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -87,7 +90,7 @@
       <h1>Constraints in semtree</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-04-22</h4>
+            <h4 class="date">2020-04-23</h4>
       
       
       <div class="hidden name"><code>constraints.Rmd</code></div>
@@ -183,7 +186,7 @@
 <span id="cb6-2"><a href="#cb6-2"></a>                   <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(</span>
 <span id="cb6-3"><a href="#cb6-3"></a>                     <span class="dt">local.invariance=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))</span>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></span></code></pre></div>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
 <p>Now we find <code>p1</code> as the only predictor that yields subgroups that pass the measurement invariance test. Even though we have chosen the four factor loadings as <code>local.invariance</code> constraint, they are allowed to differ numerically but there was no significant difference between them.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.lc)</span></code></pre></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -250,8 +253,8 @@
 <span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; timestamp: 2020-04-22 06:49:36 </span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt; Wall clock time: 0.01713896 secs </span></span>
+<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; timestamp: 2020-04-23 13:11:10 </span></span>
+<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt; Wall clock time: 0.01522803 secs </span></span>
 <span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt; optimizer:  CSOLNP </span></span>
 <span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; OpenMx version number: 2.17.3 </span></span>
 <span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -259,8 +262,15 @@
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a></span>
 <span id="cb11-2"><a href="#cb11-2"></a>tree.biv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.biv, <span class="dt">data=</span>df.biv)</span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
-<p>As expected, we obtain a tree structure that has both <code>p1</code> and <code>p2</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv)</span></code></pre></div>
+<p>As expected, we obtain a tree structure that has both <code>p1</code> and <code>p2</code> (here we use the viridis colors to give each leaf node a different frame color, which we’ll use later again):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># default white color for all nodes</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>cols &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"black"</span>, semtree<span class="op">:::</span><span class="kw"><a href="../reference/getNumNodes.html">getNumNodes</a></span>(tree.biv))</span>
+<span id="cb12-3"><a href="#cb12-3"></a>cols[<span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(semtree<span class="op">:::</span><span class="kw"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(tree.biv)))] &lt;-<span class="st"> </span>viridis<span class="op">:::</span><span class="kw">viridis_pal</span>()(<span class="dv">4</span>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt;   method        from</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt;   print.element sets</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv, <span class="dt">border.col=</span>cols)</span></code></pre></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>Let us visualize what this tree is doing. Here is the empirical joint distribution of both <code>x1</code> and <code>x2</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"ggplot2"</span>)</span>
@@ -268,12 +278,13 @@
 <span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>()<span class="op">+</span><span class="st"> </span></span>
 <span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</span></code></pre></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<p>And here is the partition of the observed two-dimensional space implied by the leafs of the tree:</p>
+<p>And here is the partition of the observed two-dimensional space implied by the leafs of the tree (compare the density colors to the colors of the leaf nodes in the earlier dendrogram):</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>df.biv.pred &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(df.biv, </span>
 <span id="cb14-2"><a href="#cb14-2"></a>  <span class="dt">leaf=</span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="../reference/getLeafs.html">getLeafs</a></span>(<span class="dt">tree=</span>tree.biv, <span class="dt">data =</span> df.biv)))</span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data =</span> df.biv.pred, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>x2))<span class="op">+</span><span class="st"> </span></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour=</span>leaf))<span class="op">+</span><span class="st"> </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</span></code></pre></div>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_color_viridis</a></span>(<span class="dt">discrete=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</span></code></pre></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>What if we were interested only in splits with respect to one of the two dimensions? In this case, we can set a <code>focus.parameter</code>. Focus parameters change the split evaluation such that only splits are evaluated that maximize the misfit between a model in which all parameters are free and a model in which all parameters are free but the parameters given in <code>focus.parameter</code>.</p>
 <p>Let us first set <code>mu1</code> as focus parameter:</p>
