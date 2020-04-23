@@ -1,7 +1,7 @@
-varimpFocus <- function(tree, data)
+varimpFocus <- function(tree, data, cov.name)
 {
   
-  data <- forest$forest.data[[1]]
+ 
   oob.data <- data$oob.data
   #cov.name <- "grp1"
   cov.name <- "grp2"
@@ -16,7 +16,6 @@ varimpFocus <- function(tree, data)
   
   ids <- cbind(traverse(tree, oob.data),traverse(tree, oob.data.permuted))
   colnames(ids) <- c("Original","Permuted")
-  head(ids)
   
   control <- forest$control
   constraints <- forest$constraints
@@ -62,9 +61,11 @@ varimpFocus <- function(tree, data)
     
     total <- total + ll.diff
     
-    cat("LLB: ",ll.baseline,"\t")
-    cat("LLF: ",ll.focus,"\t")
-    cat("Diff:",ll.diff,"\n")
+    #cat("LLB: ",ll.baseline,"\t")
+    #cat("LLF: ",ll.focus,"\t")
+    #cat("Diff:",ll.diff,"\n")
   }
-  cat("TOTAL: ",total,"\n")
+  #cat("TOTAL: ",total,"\n")
+  
+  return(total)
 }
