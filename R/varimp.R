@@ -25,6 +25,11 @@ varimpTree <- function(tree,
   
   treecovs <- getCovariatesFromTree(tree)
   
+  # preparation for focus importance
+  if (method=="permutationFocus") {
+    # TODO: prepare model fit list
+  }
+  
   # all covariates
   for (cov.name in var.names) {
     index <- which(var.names == cov.name)
@@ -72,7 +77,7 @@ varimpTree <- function(tree,
         
         
         
-        ll.diff <- varimpFocus(tree, data)
+        ll.diff <- varimpFocus(tree, data, cov.name)
       } else {
         stop(paste("Error. Method is not implemented: ",method))
       }

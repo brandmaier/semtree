@@ -1,10 +1,11 @@
 varimpFocus <- function(tree, data, cov.name)
 {
-  
+  control <- tree$control 
+  constraints <- tree$constraints
  
   oob.data <- data$oob.data
   #cov.name <- "grp1"
-  cov.name <- "grp2"
+  #cov.name <- "grp2"
   #cov.name <- "noise"
   permutation.idx <- which(cov.name == names(oob.data))
   tree <- forest$forest[[1]]
@@ -17,8 +18,7 @@ varimpFocus <- function(tree, data, cov.name)
   ids <- cbind(traverse(tree, oob.data),traverse(tree, oob.data.permuted))
   colnames(ids) <- c("Original","Permuted")
   
-  control <- forest$control
-  constraints <- forest$constraints
+ 
   # create pairwise fit matrix
   temp.model <- list()
   list.of.leaves <- getLeafs(tree)
