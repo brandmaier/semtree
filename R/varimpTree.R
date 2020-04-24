@@ -114,7 +114,6 @@ varimpTree <- function(tree,
           evaluateTreeConditional(tree, list(oob.data.permuted, oob.data))$deviance
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
-        ui_debug("Calling focus on tree ", tree$name)
         ll.diff <-
           varimpFocus(
             tree = tree,
