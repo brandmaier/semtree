@@ -1,12 +1,8 @@
-varimpFocus <- function(tree, data, cov.name)
+varimpFocus <- function(tree, data, cov.name, joint.model.list)
 {
-  control <- tree$control 
-  constraints <- tree$constraints
- 
+  
   oob.data <- data$oob.data
-  #cov.name <- "grp1"
-  #cov.name <- "grp2"
-  #cov.name <- "noise"
+
   permutation.idx <- which(cov.name == names(oob.data))
   tree <- forest$forest[[1]]
   col.data <- oob.data[, permutation.idx]
@@ -19,35 +15,21 @@ varimpFocus <- function(tree, data, cov.name)
   colnames(ids) <- c("Original","Permuted")
   
  
-  # create pairwise fit matrix
-  temp.model <- list()
-  list.of.leaves <- getLeafs(tree)
-  model <- tree$model
-  for (i in 1:length(list.of.leaves)) {
-    for (j in 1:length(list.of.leaves)) {
-      #cat("Testing ",i," ",j,"\n")
-      if (i>=j) next;
-      sub1 <- list.of.leaves[[i]]$model$data$observed
-      sub2 <- list.of.leaves[[j]]$model$data$observed
-      focus.param.models <- fitSubmodels(model, sub1, sub2, 
-                                         control, invariance=constraints$focus.parameters,
-                                         return.models = TRUE) 
-      temp.model[[paste0( list.of.leaves[[i]]$node_id,"-", list.of.leaves[[j]]$node_id)]]<-focus.param.models
-    }
-  }
+
   
   
   # compute loss in fit from original to joint model
   total <-0
+  num.failed <- 0
   for (i in 1:nrow(ids)) {
     original.id <- ids[i,1]
     original.node <- semtree::getNodeById(tree, original.id)
     ll.baseline <- evaluateDataLikelihood( original.node$model , oob.data[i,,drop=FALSE])
     
-    #temp.model <- getPairwiseModel(modelmat, ids[i,1], ids[i,2])
+
     if (ids[i,1]==ids[i,2]) next;
     ident <- paste0(min(ids[i,]),"-",max(ids[i,]))
-    fmodel <- temp.model[[ident]]
+    fmodel <- joint.model.list[[ident]]
     
     if (ids[i,1]<ids[i,2]) {
       ffmodel <- fmodel$model1
@@ -55,9 +37,15 @@ varimpFocus <- function(tree, data, cov.name)
       ffmodel <- fmodel$model2
     }
     
-    ll.focus <- evaluateDataLikelihood( ffmodel , oob.data[i,,drop=FALSE])
+    if (!is.null(ffmodel)) {
+      ll.focus <- evaluateDataLikelihood( ffmodel , oob.data[i,,drop=FALSE])
     
-    ll.diff <- ll.focus - ll.baseline
+      ll.diff <- ll.focus - ll.baseline
+    
+    } else {
+      num.failed = num.failed + 1
+      ll.diff <- 0
+    }
     
     total <- total + ll.diff
     
@@ -66,6 +54,10 @@ varimpFocus <- function(tree, data, cov.name)
     #cat("Diff:",ll.diff,"\n")
   }
   #cat("TOTAL: ",total,"\n")
+  
+  if (num.failed > 0) {
+    ui_warn("Warning. A total of ", num.failed, "joint models could not be evaluated. Importance values are possibly biased.")
+  }
   
   return(total)
 }
