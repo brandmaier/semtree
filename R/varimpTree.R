@@ -18,9 +18,9 @@ varimpTree <- function(tree,
   
   # obtain likelihood of unpermuted data
   ll.baseline <- eval.fun(tree, oob.data)$deviance
-  if (verbose) {
-    ui_info("LL baseline", ll.baseline, "\n")
-  }
+  #if (verbose) {
+  #  ui_info("LL baseline", ll.baseline, "\n")
+  #}
   
   
   # get all predictors that appeared in the tree
@@ -28,6 +28,9 @@ varimpTree <- function(tree,
   
   # preparation for focus importance
   if (method == "permutationFocus") {
+    if (verbose) {
+      ui_message("Pre-computing focus models for tree ", tree$name)
+    }
     num.failed = 0
     # create pairwise fit matrix
     joint.model.list <- list()
@@ -35,7 +38,7 @@ varimpTree <- function(tree,
     model <- tree$model
     for (i in 1:length(list.of.leaves)) {
       for (j in 1:length(list.of.leaves)) {
-        cat("Testing ",i," ",j,"\n")
+        #cat("Testing index=",i," ",j,"\t node ids=",list.of.leaves[[i]]$node_id,"-",list.of.leaves[[j]]$node_id,"\n")
         if (i >= j)
           next
         
@@ -51,22 +54,22 @@ varimpTree <- function(tree,
         )
         
         if (is.null(focus.param.models)) {
-          ui_warn("Model did not converge")
+          ui_fail("Model did not converge")
           num_failed = num.failed + 1
         }
         
         joint.model.list[[paste0(list.of.leaves[[i]]$node_id,
                                  "-",
-                                 list.of.leaves[[j]]$node_id)]] <- focus.param.models
+                                 list.of.leaves[[j]]$node_id)]] <-
+          focus.param.models
       }
     }
   }
   
   # all covariates
   for (cov.name in var.names) {
-    
     if (verbose) {
-      ui_info("Testing ", cov.name,"\n")
+      ui_message("- Testing ", cov.name, "\n")
     }
     
     index <- which(var.names == cov.name)
@@ -107,18 +110,25 @@ varimpTree <- function(tree,
         ll.permuted <- eval.fun(tree, oob.data.permuted)$deviance
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationInteraction") {
-        ll.permuted <- evaluateTreeConditional(tree,
-                                               list(oob.data.permuted, oob.data))$deviance
+        ll.permuted <-
+          evaluateTreeConditional(tree, list(oob.data.permuted, oob.data))$deviance
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
-        ll.diff <- varimpFocus(tree, data, cov.name, joint.model.list)
+        ui_debug("Calling focus on tree ", tree$name)
+        ll.diff <-
+          varimpFocus(
+            tree = tree,
+            data = data,
+            cov.name = cov.name,
+            joint.model.list
+          )
       } else {
         stop(paste("Error. Method is not implemented: ", method))
       }
       
       
       if (verbose) {
-        cat(cov.name, "LL Difference", ll.diff, "\n")
+        ui_info(cov.name, "LL Difference", ll.diff, "\n")
       }
       
       total[index] <- ll.diff

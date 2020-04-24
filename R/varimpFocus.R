@@ -4,7 +4,7 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
   oob.data <- data$oob.data
 
   permutation.idx <- which(cov.name == names(oob.data))
-  tree <- forest$forest[[1]]
+
   col.data <- oob.data[, permutation.idx]
   
   oob.data.permuted <- oob.data
@@ -14,8 +14,8 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
   ids <- cbind(traverse(tree, oob.data),traverse(tree, oob.data.permuted))
   colnames(ids) <- c("Original","Permuted")
   
- 
-
+  #ui_debug("Examining focus on tree",tree$name, paste0( sapply(getLeafs(tree), function(x){x$node_id})))
+ # browser()
   
   
   # compute loss in fit from original to joint model
@@ -56,7 +56,9 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
   #cat("TOTAL: ",total,"\n")
   
   if (num.failed > 0) {
-    ui_warn("Warning. A total of ", num.failed, "joint models could not be evaluated. Importance values are possibly biased.")
+    num.total <- nrow(ids)
+    percentage <- round(num.failed/num.total*100)
+    ui_warn("Warning. A total of ", num.failed, " joint models could not be evaluated. Importance values are possibly biased.")
   }
   
   return(total)

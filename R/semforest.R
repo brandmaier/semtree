@@ -139,7 +139,10 @@ semforest <- function(model, data, control=NULL,
                SIMPLIFY=FALSE)
   }
 	
-
+  # give trees names
+	for (i in 1:length(trees)) {
+	  trees[[i]]$name <- paste0("Tree #",i)
+	}
  
   # compute time elapsed
 	elapsed <- proc.time()-start.time
