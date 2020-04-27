@@ -110,8 +110,13 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     # specify covariates from model columns
     if (is.null(covariates)) {    
       model.ids <- rep(NA, length(mxmodel@manifestVars))
+      # find the ids in dataset
       for (i in 1:length(model.ids)) {
-        model.ids[i] <- which(mxmodel@manifestVars[i] == names(dataset));
+        cmp <- mxmodel@manifestVars[i] == names(dataset)
+        if (all(!cmp)) {
+          ui_fail("Error. Variable ",mxmodel@manifestVars[i], " missing in data set!")
+        }
+        model.ids[i] <- which(cmp);
       }
       all.ids <- 1:length(names(dataset))
       cvid <- sets::as.set(all.ids)-sets::as.set(model.ids) 
