@@ -85,6 +85,10 @@ semforest <- function(model, data, control=NULL,
   }
   semforest.control$semtree.control$mtry <- semforest.control$mtry
 	
+  # check whether all model variables are present in the
+  # data file
+  #  TODO
+  
 	# create list of resampled data
 	forest.data <- list()
 		
@@ -124,15 +128,17 @@ semforest <- function(model, data, control=NULL,
   if (is.null(cluster)) {
     trees <- mapply(FUN=semtreeApplyWrapper, 
         forest.data, seeds, skip, 
-        MoreArgs=list(model=model,semtree.control=semforest.control$semtree.control,
-                                    with.error.handler, 
+        MoreArgs=list(model=model,
+                      semtree.control=semforest.control$semtree.control,
+                      with.error.handler, 
                       predictors=covariates, 
                       constraints=constraints),
                 SIMPLIFY=FALSE)
   } else {
     trees <- clusterMap(cl=cluster, fun=semtreeApplyWrapper, 
                forest.data, seeds, skip, 
-               MoreArgs=list(model,semforest.control$semtree.control,
+               MoreArgs=list(model=model,
+                             semtree.control=semforest.control$semtree.control,
                              with.error.handler, 
                              predictors=covariates, 
                              constraints=constraints),

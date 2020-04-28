@@ -114,14 +114,14 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       for (i in 1:length(model.ids)) {
         cmp <- mxmodel@manifestVars[i] == names(dataset)
         if (all(!cmp)) {
-          ui_fail("Error. Variable ",mxmodel@manifestVars[i], " missing in data set!")
+          ui_stop("Error. Variable ",mxmodel@manifestVars[i], " missing in data set!")
         }
         model.ids[i] <- which(cmp);
       }
       all.ids <- 1:length(names(dataset))
       cvid <- sets::as.set(all.ids)-sets::as.set(model.ids) 
       if (length(cvid)==0) {
-        stop("No covariates contained in dataset!")
+        ui_stop("Error. No predictors contained in dataset!")
       }
       covariate.ids <- simplify2array( as.vector(cvid,mode="integer") )
     }
