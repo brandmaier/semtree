@@ -1,5 +1,5 @@
 pandoc: 2.9.1.1
-pkgdown: 1.4.1
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   constraints: constraints.html
@@ -7,4 +7,5 @@ articles:
   getting-started: getting-started.html
   score-based-tests: score-based-tests.html
   semforest-focus: semforest-focus.html
+last_built: 2020-04-29T05:37Z
 

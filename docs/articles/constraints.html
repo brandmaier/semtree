@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Constraints in semtree • semtree</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Constraints in semtree">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="semtree">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="constraints_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="constraints_files/jquery-1.11.3/jquery.min.js"></script><script src="constraints_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Constraints in semtree</h1>
+      <h1 data-toc-skip>Constraints in semtree</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-04-23</h4>
+            <h4 class="date">2020-04-29</h4>
       
       
       <div class="hidden name"><code>constraints.Rmd</code></div>
@@ -106,13 +106,13 @@
 <h2 class="hasAnchor">
 <a href="#load-the-package" class="anchor"></a>Load the package</h2>
 <p><code>semtree</code> allows different constraints on the split evaluation (<code>global.invariance</code>, <code>local.invariance</code>, and <code>focus.parameters</code>). These can be set in the following object and then passed to the <code>semtree</code> command:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(semtree)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>cnst &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="dt">local.invariance=</span><span class="ot">NULL</span>, </span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="dt">global.invariance=</span><span class="ot">NULL</span>, </span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="dt">focus.parameters=</span><span class="ot">NULL</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.x, <span class="dt">data=</span>df, <span class="dt">constraints=</span>cnst)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">semtree</span>)
+
+<span class="no">cnst</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">local.invariance</span><span class="kw">=</span><span class="kw">NULL</span>,
+<span class="kw">global.invariance</span><span class="kw">=</span><span class="kw">NULL</span>,
+<span class="kw">focus.parameters</span><span class="kw">=</span><span class="kw">NULL</span>)
+
+<span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.x</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df</span>, <span class="kw">constraints</span><span class="kw">=</span><span class="no">cnst</span>)</pre></body></html></div>
 </div>
 <div id="simulation" class="section level2">
 <h2 class="hasAnchor">
@@ -125,56 +125,56 @@
 <li>only one predictor, <code>p1</code>, has an mean effect on the latent construct</li>
 <li>the other predictor, <code>p2</code>, has an effect on only one indicator (different loadings across groups; DIF)</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>N &lt;-<span class="st"> </span><span class="dv">2000</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>p1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">size=</span>N, <span class="dt">x=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">replace=</span><span class="ot">TRUE</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>p2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">size=</span>N, <span class="dt">x=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">replace=</span><span class="ot">TRUE</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a>lat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(N,<span class="dt">mean =</span> <span class="dv">0</span><span class="op">+</span>p1)</span>
-<span id="cb2-5"><a href="#cb2-5"></a>loadings &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(.<span class="dv">5</span>,.<span class="dv">8</span>,.<span class="dv">7</span>,.<span class="dv">9</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>observed &lt;-<span class="st"> </span>lat <span class="op">%*%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/t.html">t</a></span>(loadings) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(N<span class="op">*</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(loadings),<span class="dt">sd =</span> <span class="fl">.1</span>)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>observed[,<span class="dv">3</span>]&lt;-observed[,<span class="dv">3</span>]<span class="op">+</span>p2<span class="op">*</span><span class="fl">0.5</span><span class="op">*</span>lat</span>
-<span id="cb2-8"><a href="#cb2-8"></a>cfa.sim &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(observed,p1,p2)</span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cfa.sim)[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"x"</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">N</span> <span class="kw">&lt;-</span> <span class="fl">2000</span>
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="no">lat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">N</span>,<span class="kw">mean</span> <span class="kw">=</span> <span class="fl">0</span>+<span class="no">p1</span>)
+<span class="no">loadings</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">.5</span>,<span class="fl">.8</span>,<span class="fl">.7</span>,<span class="fl">.9</span>)
+<span class="no">observed</span> <span class="kw">&lt;-</span> <span class="no">lat</span> <span class="kw">%*%</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">loadings</span>) + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">N</span>*<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">loadings</span>),<span class="kw">sd</span> <span class="kw">=</span> <span class="fl">.1</span>)
+<span class="no">observed</span>[,<span class="fl">3</span>]<span class="kw">&lt;-</span><span class="no">observed</span>[,<span class="fl">3</span>]+<span class="no">p2</span>*<span class="fl">0.5</span>*<span class="no">lat</span>
+<span class="no">cfa.sim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">observed</span>,<span class="no">p1</span>,<span class="no">p2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">cfa.sim</span>)[<span class="fl">1</span>:<span class="fl">4</span>] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"x"</span>,<span class="fl">1</span>:<span class="fl">4</span>)</pre></body></html></div>
 <p>Here is the OpenMx model specification</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"OpenMx"</span>);</span>
-<span id="cb3-2"><a href="#cb3-2"></a>manifests&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>latents&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>model.cfa &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"CFA"</span>, <span class="dt">type=</span><span class="st">"RAM"</span>, <span class="dt">manifestVars =</span> manifests, </span>
-<span id="cb3-5"><a href="#cb3-5"></a>                     <span class="dt">latentVars =</span> latents,</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"F"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>), </span>
-<span id="cb3-7"><a href="#cb3-7"></a>       <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>), <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>) , </span>
-<span id="cb3-8"><a href="#cb3-8"></a>       <span class="dt">arrows=</span><span class="dv">1</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>) ),</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"one"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>), </span>
-<span id="cb3-10"><a href="#cb3-10"></a>       <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>,<span class="ot">TRUE</span>,<span class="ot">TRUE</span>), <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>) , </span>
-<span id="cb3-11"><a href="#cb3-11"></a>       <span class="dt">arrows=</span><span class="dv">1</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"const__x2"</span>,<span class="st">"const__x3"</span>,<span class="st">"const__x4"</span>) ),</span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"one"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb3-13"><a href="#cb3-13"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">1</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"const__F"</span>) ),</span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x1"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb3-15"><a href="#cb3-15"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x1"</span>) ),</span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x2"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb3-17"><a href="#cb3-17"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x2"</span>) ),</span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x3"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x3"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb3-19"><a href="#cb3-19"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x3"</span>) ),</span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x4"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x4"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb3-21"><a href="#cb3-21"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x4"</span>) ),</span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"F"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">FALSE</span>), </span>
-<span id="cb3-23"><a href="#cb3-23"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_F"</span>) ),</span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"one"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>), <span class="dt">free=</span>F, <span class="dt">value=</span><span class="dv">0</span>, <span class="dt">arrows=</span><span class="dv">1</span>),</span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(cfa.sim, <span class="dt">type =</span> <span class="st">"raw"</span>)</span>
-<span id="cb3-26"><a href="#cb3-26"></a>);</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"OpenMx"</span>);
+<span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>)
+<span class="no">latents</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>)
+<span class="no">model.cfa</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"CFA"</span>, <span class="kw">type</span><span class="kw">=</span><span class="st">"RAM"</span>, <span class="kw">manifestVars</span> <span class="kw">=</span> <span class="no">manifests</span>,
+                     <span class="kw">latentVars</span> <span class="kw">=</span> <span class="no">latents</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"F"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>),
+       <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>) ,
+       <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>,<span class="st">"x3"</span>,<span class="st">"x4"</span>),
+       <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">TRUE</span>,<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,<span class="fl">1.0</span>,<span class="fl">1.0</span>) ,
+       <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"const__x2"</span>,<span class="st">"const__x3"</span>,<span class="st">"const__x4"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"const__F"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x1"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x1"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x2"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x2"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x3"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x3"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x3"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x4"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x4"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x4"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"F"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">FALSE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_F"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>), <span class="kw">free</span><span class="kw">=</span><span class="no">F</span>, <span class="kw">value</span><span class="kw">=</span><span class="fl">0</span>, <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(<span class="no">cfa.sim</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"raw"</span>)
+);</pre></body></html></div>
 </div>
 <div id="global-invariance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#global-invariance" class="anchor"></a>Global Invariance</h2>
 <p>Global invariance is a relatively naive way of estimating a tree, in which a chosen set of parameters is equal across all leafs. This is achieved by fixing one or more selected parameters to the sample estimate <em>before</em> the tree is grown. Global invariance assures that the chosen parameters don’t differ across the possible subgroups. However, if the parameters do differ, this leads to misspecification and jeopardizes the interpretation of the resulting tree structure. Using this approach is usually not recommended because it’s typically not safe to assume that parameters are identical across a wide range of splits of the data. There may be cases in which it may make sense to constrain loading structures or means but it seems particularly dangerous to constrain variance components with such an approach.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>tree.gc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.cfa, <span class="dt">data=</span>cfa.sim, <span class="dt">constraints=</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>                   <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="dt">global.invariance =</span> </span>
-<span id="cb4-3"><a href="#cb4-3"></a>                                         <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; ❯ Global Constraints:</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; F__x1 F__x2 F__x3 F__x4</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; ❯ Freely Estimated Parameters:</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; VAR_x1 VAR_x2 VAR_x3 VAR_x4 const__x2 const__x3 const__x4 const__F</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.gc)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">tree.gc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.cfa</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">cfa.sim</span>, <span class="kw">constraints</span><span class="kw">=</span>
+                   <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">global.invariance</span> <span class="kw">=</span>
+                                         <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))
+<span class="co">#&gt; ❯ Global Constraints:</span>
+<span class="co">#&gt; F__x1 F__x2 F__x3 F__x4</span>
+<span class="co">#&gt; ❯ Freely Estimated Parameters:</span>
+<span class="co">#&gt; VAR_x1 VAR_x2 VAR_x3 VAR_x4 const__x2 const__x3 const__x4 const__F</span>
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.gc</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Even though we retrieve both predictors in the tree, the tree structure does not represent the data generating model (<code>p2</code> is found to be conditional only on <code>p1</code>&gt;=.5) and the misspecification in the loadings leads to bias in the mean structure.</p>
 </div>
@@ -182,158 +182,144 @@
 <h2 class="hasAnchor">
 <a href="#local-invariance" class="anchor"></a>Local Invariance</h2>
 <p>Local invariance builds a tree under which all parameters across the leafs of a tree may differ but the chosen parameters may not differ significantly from each other. If they differed significantly, the respective split would not be considered as a valid split and would never be chosen. Local constraints are implemented by means of an additional test of measurement invariance. For each possible split, we fit an additional null model, in which the locally invariant parameters are constrained to be equal across the two resulting daugther nodes of a split. Only if we reject this null hypothesis, we believe that there is measurement non-invariance and disregard the split. A typical use-case is to the set of loadings of a factor model as <code>local.invariance</code> to allow a tree with weakly measurement-invariant leafs.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>tree.lc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.cfa, <span class="dt">data=</span>cfa.sim, <span class="dt">constraints=</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>                   <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>                     <span class="dt">local.invariance=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">tree.lc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.cfa</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">cfa.sim</span>, <span class="kw">constraints</span><span class="kw">=</span>
+                   <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(
+                     <span class="kw">local.invariance</span><span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))
+<span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span>
+<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></pre></body></html></div>
 <p>Now we find <code>p1</code> as the only predictor that yields subgroups that pass the measurement invariance test. Even though we have chosen the four factor loadings as <code>local.invariance</code> constraint, they are allowed to differ numerically but there was no significant difference between them.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.lc)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.lc</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div id="focus-parameters" class="section level2">
 <h2 class="hasAnchor">
 <a href="#focus-parameters" class="anchor"></a>Focus Parameters</h2>
 <p>First, we create some data. Here, we generate 1,000 bivariate observations <code>x1</code> and <code>x2</code> gathered in a data frame called <code>obs</code>. Also, there are two predictors <code>grp1</code> and <code>grp2</code>. Predictor <code>grp1</code> predicts a mean difference in <code>x1</code> whereas <code>grp2</code> predicts differences only in <code>x2</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">123</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>N &lt;-<span class="st"> </span><span class="dv">1000</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>grp1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">size=</span>N, <span class="dt">replace=</span><span class="ot">TRUE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>grp2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">size=</span>N, <span class="dt">replace=</span><span class="ot">TRUE</span>)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>Sigma &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="dt">byrow=</span><span class="ot">TRUE</span>,</span>
-<span id="cb8-6"><a href="#cb8-6"></a>                        <span class="dt">nrow=</span><span class="dv">2</span>,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>,<span class="fl">0.2</span>,</span>
-<span id="cb8-7"><a href="#cb8-7"></a>                                <span class="fl">0.2</span>,<span class="dv">1</span>))</span>
-<span id="cb8-8"><a href="#cb8-8"></a>obs &lt;-<span class="st"> </span>MASS<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span>(N,<span class="dt">mu=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb8-9"><a href="#cb8-9"></a>                      <span class="dt">Sigma=</span>Sigma)</span>
-<span id="cb8-10"><a href="#cb8-10"></a>obs[,<span class="dv">1</span>] &lt;-<span class="st"> </span>obs[,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(grp1,<span class="dv">3</span>,<span class="dv">0</span>)</span>
-<span id="cb8-11"><a href="#cb8-11"></a>obs[,<span class="dv">2</span>] &lt;-<span class="st"> </span>obs[,<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(grp2,<span class="dv">3</span>,<span class="dv">0</span>)</span>
-<span id="cb8-12"><a href="#cb8-12"></a>df.biv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(obs, grp1, grp2)</span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(df.biv)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"x"</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
+<span class="no">N</span> <span class="kw">&lt;-</span> <span class="fl">1000</span>
+<span class="no">grp1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="no">grp2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="no">Sigma</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>,
+                        <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">0.2</span>,
+                                <span class="fl">0.2</span>,<span class="fl">1</span>))
+<span class="no">obs</span> <span class="kw">&lt;-</span> <span class="kw pkg">MASS</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span>(<span class="no">N</span>,<span class="kw">mu</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>),
+                      <span class="kw">Sigma</span><span class="kw">=</span><span class="no">Sigma</span>)
+<span class="no">obs</span>[,<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">1</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp1</span>,<span class="fl">3</span>,<span class="fl">0</span>)
+<span class="no">obs</span>[,<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">2</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp2</span>,<span class="fl">3</span>,<span class="fl">0</span>)
+<span class="no">df.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">obs</span>, <span class="no">grp1</span>, <span class="no">grp2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">df.biv</span>)[<span class="fl">1</span>:<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"x"</span>,<span class="fl">1</span>:<span class="fl">2</span>)</pre></body></html></div>
 <p>A tree without constraints should recover both parameters (given large enough sample and effect sizes) because it explores differences in both means and covariance structure of <code>x1</code> and <code>x2</code>. Here is an OpenMx model specification for a saturated bivariate model:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>manifests&lt;-<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>model.biv &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"Bivariate_Model"</span>, </span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="dt">type=</span><span class="st">"RAM"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="dt">manifestVars =</span> manifests,</span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="dt">latentVars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),</span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x1"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>), </span>
-<span id="cb9-7"><a href="#cb9-7"></a>       <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>,<span class="ot">TRUE</span>), <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,.<span class="dv">2</span>) , </span>
-<span id="cb9-8"><a href="#cb9-8"></a>       <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x1"</span>,<span class="st">"COV_x1_x2"</span>) ),</span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"x2"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>), <span class="dt">free=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>), </span>
-<span id="cb9-10"><a href="#cb9-10"></a>       <span class="dt">value=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="dt">arrows=</span><span class="dv">2</span>, <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x2"</span>) ),</span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="dt">from=</span><span class="st">"one"</span>,<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>), <span class="dt">label=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mu1"</span>,<span class="st">"mu2"</span>),</span>
-<span id="cb9-12"><a href="#cb9-12"></a>       <span class="dt">free=</span><span class="ot">TRUE</span>, <span class="dt">value=</span><span class="dv">0</span>, <span class="dt">arrows=</span><span class="dv">1</span>),</span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(df.biv, <span class="dt">type =</span> <span class="st">"raw"</span>)</span>
-<span id="cb9-14"><a href="#cb9-14"></a>);</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>)
+<span class="no">model.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"Bivariate_Model"</span>,
+<span class="kw">type</span><span class="kw">=</span><span class="st">"RAM"</span>,
+<span class="kw">manifestVars</span> <span class="kw">=</span> <span class="no">manifests</span>,
+<span class="kw">latentVars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x1"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>),
+       <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>,<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>,<span class="fl">.2</span>) ,
+       <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x1"</span>,<span class="st">"COV_x1_x2"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"x2"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x2"</span>), <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>),
+       <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"VAR_x2"</span>) ),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>), <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mu1"</span>,<span class="st">"mu2"</span>),
+       <span class="kw">free</span><span class="kw">=</span><span class="fl">TRUE</span>, <span class="kw">value</span><span class="kw">=</span><span class="fl">0</span>, <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>),
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(<span class="no">df.biv</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"raw"</span>)
+);</pre></body></html></div>
 <p>Let’s run this model in OpenMx:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>result &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span>(model.biv)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; Running Bivariate_Model with 5 parameters</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(result)</span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; Summary of Bivariate_Model </span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt;  </span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; free parameters:</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0283802 0.18015249  </span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.3039197 0.11443414  </span></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.2282347 0.14437014  </span></span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="co">#&gt; 4       mu1      M   1  x1 1.4187340 0.06346921  </span></span>
-<span id="cb10-12"><a href="#cb10-12"></a><span class="co">#&gt; 5       mu2      M   1  x2 1.4628998 0.05681763  </span></span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#&gt; </span></span>
-<span id="cb10-14"><a href="#cb10-14"></a><span class="co">#&gt; Model Statistics: </span></span>
-<span id="cb10-15"><a href="#cb10-15"></a><span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a><span class="co">#&gt;        Model:              5                   1995              8233.926</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a><span class="co">#&gt;    Saturated:              5                   1995                    NA</span></span>
-<span id="cb10-18"><a href="#cb10-18"></a><span class="co">#&gt; Independence:              4                   1996                    NA</span></span>
-<span id="cb10-19"><a href="#cb10-19"></a><span class="co">#&gt; Number of observations/statistics: 1000/2000</span></span>
-<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; </span></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co">#&gt; Information Criteria: </span></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="co">#&gt;       |  df Penalty  |  Parameters Penalty  |  Sample-Size Adjusted</span></span>
-<span id="cb10-23"><a href="#cb10-23"></a><span class="co">#&gt; AIC:       4243.926               8243.926                 8243.986</span></span>
-<span id="cb10-24"><a href="#cb10-24"></a><span class="co">#&gt; BIC:      -5547.046               8268.465                 8252.584</span></span>
-<span id="cb10-25"><a href="#cb10-25"></a><span class="co">#&gt; CFI: NA </span></span>
-<span id="cb10-26"><a href="#cb10-26"></a><span class="co">#&gt; TLI: 1   (also known as NNFI) </span></span>
-<span id="cb10-27"><a href="#cb10-27"></a><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
-<span id="cb10-28"><a href="#cb10-28"></a><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
-<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt; timestamp: 2020-04-23 13:11:10 </span></span>
-<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt; Wall clock time: 0.01522803 secs </span></span>
-<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt; optimizer:  CSOLNP </span></span>
-<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt; OpenMx version number: 2.17.3 </span></span>
-<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span>(<span class="no">model.biv</span>)
+<span class="co">#&gt; Running Bivariate_Model with 5 parameters</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">result</span>)
+<span class="co">#&gt; Summary of Bivariate_Model </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt; free parameters:</span>
+<span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span>
+<span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0283802 0.18015249  </span>
+<span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.3039197 0.11443414  </span>
+<span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.2282347 0.14437014  </span>
+<span class="co">#&gt; 4       mu1      M   1  x1 1.4187340 0.06346921  </span>
+<span class="co">#&gt; 5       mu2      M   1  x2 1.4628998 0.05681763  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Model Statistics: </span>
+<span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span>
+<span class="co">#&gt;        Model:              5                   1995              8233.926</span>
+<span class="co">#&gt;    Saturated:              5                   1995                    NA</span>
+<span class="co">#&gt; Independence:              4                   1996                    NA</span>
+<span class="co">#&gt; Number of observations/statistics: 1000/2000</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Information Criteria: </span>
+<span class="co">#&gt;       |  df Penalty  |  Parameters Penalty  |  Sample-Size Adjusted</span>
+<span class="co">#&gt; AIC:       4243.926               8243.926                 8243.986</span>
+<span class="co">#&gt; BIC:      -5547.046               8268.465                 8252.584</span>
+<span class="co">#&gt; CFI: NA </span>
+<span class="co">#&gt; TLI: 1   (also known as NNFI) </span>
+<span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
+<span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
+<span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
+<span class="co">#&gt; timestamp: 2020-04-29 07:37:58 </span>
+<span class="co">#&gt; Wall clock time: 0.01827002 secs </span>
+<span class="co">#&gt; optimizer:  CSOLNP </span>
+<span class="co">#&gt; OpenMx version number: 2.17.3 </span>
+<span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 <p>Now, we grow a tree without constraints:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a></span>
-<span id="cb11-2"><a href="#cb11-2"></a>tree.biv &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.biv, <span class="dt">data=</span>df.biv)</span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r">
+<span class="no">tree.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>)
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 <p>As expected, we obtain a tree structure that has both <code>p1</code> and <code>p2</code> (here we use the viridis colors to give each leaf node a different frame color, which we’ll use later again):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># default white color for all nodes</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>cols &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"black"</span>, semtree<span class="op">:::</span><span class="kw"><a href="../reference/getNumNodes.html">getNumNodes</a></span>(tree.biv))</span>
-<span id="cb12-3"><a href="#cb12-3"></a>cols[<span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(semtree<span class="op">:::</span><span class="kw"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(tree.biv)))] &lt;-<span class="st"> </span>viridis<span class="op">:::</span><span class="kw">viridis_pal</span>()(<span class="dv">4</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt;   method        from</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt;   print.element sets</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv, <span class="dt">border.col=</span>cols)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># default white color for all nodes</span>
+<span class="no">cols</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"black"</span>, <span class="kw pkg">semtree</span><span class="kw ns">:::</span><span class="fu"><a href="../reference/getNumNodes.html">getNumNodes</a></span>(<span class="no">tree.biv</span>))
+<span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(<span class="kw pkg">semtree</span><span class="kw ns">:::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(<span class="no">tree.biv</span>)))] <span class="kw">&lt;-</span> <span class="kw pkg">viridis</span><span class="kw ns">:::</span><span class="fu"><a href="https://rdrr.io/pkg/viridis/man/viridis_pal.html">viridis_pal</a></span>()(<span class="fl">4</span>)
+<span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span>
+<span class="co">#&gt;   method        from</span>
+<span class="co">#&gt;   print.element sets</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv</span>, <span class="kw">border.col</span><span class="kw">=</span><span class="no">cols</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>Let us visualize what this tree is doing. Here is the empirical joint distribution of both <code>x1</code> and <code>x2</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data =</span> df.biv, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>x2))<span class="op">+</span><span class="st"> </span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>()<span class="op">+</span><span class="st"> </span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"ggplot2"</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df.biv</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">x1</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">x2</span>))+
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>()+
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>And here is the partition of the observed two-dimensional space implied by the leafs of the tree (compare the density colors to the colors of the leaf nodes in the earlier dendrogram):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>df.biv.pred &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(df.biv, </span>
-<span id="cb14-2"><a href="#cb14-2"></a>  <span class="dt">leaf=</span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="kw"><a href="../reference/getLeafs.html">getLeafs</a></span>(<span class="dt">tree=</span>tree.biv, <span class="dt">data =</span> df.biv)))</span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="dt">data =</span> df.biv.pred, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>x2))<span class="op">+</span><span class="st"> </span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour=</span>leaf))<span class="op">+</span><span class="st"> </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span>viridis<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_color_viridis</a></span>(<span class="dt">discrete=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">df.biv.pred</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">df.biv</span>,
+  <span class="kw">leaf</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="../reference/getLeafs.html">getLeafs</a></span>(<span class="kw">tree</span><span class="kw">=</span><span class="no">tree.biv</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">df.biv</span>)))
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df.biv.pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">x1</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">x2</span>))+
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html">geom_density_2d</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">colour</span><span class="kw">=</span><span class="no">leaf</span>))+
+  <span class="kw pkg">viridis</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_color_viridis</a></span>(<span class="kw">discrete</span><span class="kw">=</span><span class="fl">TRUE</span>)+
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span>()</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p>What if we were interested only in splits with respect to one of the two dimensions? In this case, we can set a <code>focus.parameter</code>. Focus parameters change the split evaluation such that only splits are evaluated that maximize the misfit between a model in which all parameters are free and a model in which all parameters are free but the parameters given in <code>focus.parameter</code>.</p>
 <p>Let us first set <code>mu1</code> as focus parameter:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a></span>
-<span id="cb15-2"><a href="#cb15-2"></a>tree.biv2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.biv, df.biv, <span class="dt">constraints=</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a>                      <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="dt">focus.parameters =</span> <span class="st">"mu1"</span>))</span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a></span>
-<span id="cb15-6"><a href="#cb15-6"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv2)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r">
+<span class="no">tree.biv2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
+                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"mu1"</span>))
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv2</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <p>As expected, the resulting tree structure only has <code>grp1</code> as predictor because <code>grp1</code> predicts differences in <code>mu1</code>. Predictor <code>grp2</code> did not come up anymore. Now, if we set <code>mu2</code>, we should see the exact opposite picture:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a></span>
-<span id="cb16-2"><a href="#cb16-2"></a>tree.biv3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.biv, df.biv, <span class="dt">constraints=</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a>                      <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="dt">focus.parameters =</span> <span class="st">"mu2"</span>))</span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r">
+<span class="no">tree.biv3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
+                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"mu2"</span>))
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 <p>And, indeed, we see only <code>grp2</code> as predictor whereas <code>grp1</code> was not selected this time.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv3)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv3</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <p>Finally, we set the <code>focus.parameter</code> to one of the variance parameters. None of the predictors predicts differences in the variance, so we expect an empty tree (only the root node; no predictors selected):</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a></span>
-<span id="cb18-2"><a href="#cb18-2"></a>tree.biv4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/semtree.html">semtree</a></span>(model.biv, df.biv, <span class="dt">constraints=</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>                      <span class="kw"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="dt">focus.parameters =</span> <span class="st">"VAR_x2"</span>))</span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(tree.biv4)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><html><body><pre class="r">
+<span class="no">tree.biv4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
+                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"VAR_x2"</span>))
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv4</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#constraints">Constraints</a>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#load-the-package">Load the package</a></li>
-      <li><a href="#simulation">Simulation</a></li>
-      <li><a href="#global-invariance">Global Invariance</a></li>
-      <li><a href="#local-invariance">Local Invariance</a></li>
-      <li><a href="#focus-parameters">Focus Parameters</a></li>
-      </ul>
-</li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -344,7 +330,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
