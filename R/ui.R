@@ -27,6 +27,10 @@ ui_bullet <- function(...) {
   ui(clisymbols::symbol$bullet, ...) 
 }
 
+ui_debug <- function(...) {
+  ui(crayon::blue(clisymbols::symbol$circle_circle), ...) 
+}
+
 
 ui <- function(symbol, ...) {
   x <- list(...)

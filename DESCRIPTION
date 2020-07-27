@@ -22,6 +22,7 @@ Imports:
     lavaan,
     expm,
     ggplot2,
+    viridis,
     tidyr,
     methods,
     strucchange,

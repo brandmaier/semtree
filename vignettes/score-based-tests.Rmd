@@ -26,19 +26,24 @@ Load affect dataset from the `psychTools` package. These are data from two studi
 library(psychTools)
 data(affect)
 
-affect$Film <- as.ordered(affect$Film)
+affect$Film <- factor(affect$Film, ordered = FALSE, 
+                      labels=c("Frontline", "Halloween", "Nat. Geographic","Parenthood"))
 
 
-tree.data <- affect[,c("state1","Film","neur","ext")] 
+tree.data <- affect[,c("Film","neur","ext","soc","traitanx","NA1","PA1")] 
+tree.data$DeltaPA <- affect$PA2-affect$PA1
+#tree.data <- affect[,c("state1","neur")] 
 
 knitr::kable(head(tree.data))
 ```
 
 ## Create simple model of state anxiety
 
+Here, we create a simple SEM with a single observed variable. No latent variables - only two parameters: mean of `state1` and variance of `state1`.
+
 ```{r}
 library(OpenMx)
-manifests<-c("state1")
+manifests<-c("DeltaPA")
 latents<-c()
 model <- mxModel("Simple Model", 
 type="RAM",
@@ -59,12 +64,30 @@ Use score-based tests to create the tree.
 
 ```{r}
 library(semtree)
-ctrl = semtree.control(method="score")
-#tree = semtree(model=result, data=tree.data, control=ctrl)
+ctrl = semtree.control(method="score", bonferroni = TRUE)
+tree = semtree(model=result, data=tree.data, control=ctrl)
 ```
 
-Plot the tree
+Now let us plot the tree. We obtained a tree with two major predictors `neur` and `traitanx`. 
 
-```{r}
-#plot(tree)
+```{r out.width="75%",dpi=300}
+plot(tree)
+```
+
+Implied mixture model:
+
+```{r dpi=300, out.width="100%"}
+tndata <- semtree::getTerminalNodes(tree)
+
+cols <- viridis::plasma(nrow(tndata))
+
+pl <- ggplot2::ggplot(data = data.frame(x = c(-20, 20)), ggplot2::aes(x))+
+  ggplot2::xlab("Change in Positive Affect")
+for (i in 1:nrow(tndata)) {
+  pl <- pl + ggplot2::stat_function(fun = dnorm, 
+      n = 101, col=cols[i], args = list(mean = tndata[i,2], 
+                                        sd = sqrt(tndata[i,1])))
+}
+
+plot(pl)
 ```

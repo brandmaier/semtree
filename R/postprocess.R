@@ -2,6 +2,11 @@ postprocess <- function(tree)
 {
   if (is.null(tree)) { return(tree); }
   
+  if (is.null(tree$caption)) {
+    ui_warn("Tree has no caption")
+    return(tree);
+  }
+  
   if (tree$caption=="TERMINAL") {
     return(tree);
   } else {

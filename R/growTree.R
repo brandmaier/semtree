@@ -54,8 +54,10 @@ growTree <- function(model=NULL, mydata=NULL,
     }
   }
   
-  node$p.values.valid <- control$method  == "naive" | control$method=="fair"
+  # determine whether split evaluation can be done on p values
+  node$p.values.valid <- control$method != "cv" 
   
+  # set some default values for the node object
   node$lr <- NA
   node$edge_label <- edgelabel
   
@@ -290,8 +292,11 @@ growTree <- function(model=NULL, mydata=NULL,
     stopping.rule <- stoppingRuleDefault
   }
   # stoppingRuleDefault() is a function that gets inputs node, result, control
+  # this function can be replaced by a user-specified function
   srule <- stopping.rule(node, result, control)
   
+  # determine whether splitting should be continued depending on return state
+  # of the function
   if (is(srule,"list")) {
     node <- srule$node
     cont.split <- !(srule$stop.rule)
@@ -401,6 +406,7 @@ growTree <- function(model=NULL, mydata=NULL,
     result2 <- growTree( model, sub2, control, invariance, meta, edgelabel=0, depth=depth+1, constraints)
     result1 <- growTree( model, sub1, control, invariance, meta, edgelabel=1, depth=depth+1, constraints)
     
+    # store results in recursive list structure
     node$left_child <- result2
     node$right_child <- result1
     

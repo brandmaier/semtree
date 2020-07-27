@@ -120,7 +120,9 @@ function (yval, dev, wt, ylevel, digits, n, use.n)
 	if (no.plot) {
 		return(l)
 	} else {
-		rpart.plot::prp(l,left=F, type=type, roundint=FALSE, node.fun=nodeFunSemtree, varlen=0,...)
+		rpart.plot::prp(l,left=F, type=type, 
+		                roundint=FALSE, 
+		                node.fun=nodeFunSemtree, varlen=0,...)
 	}
 	
 }

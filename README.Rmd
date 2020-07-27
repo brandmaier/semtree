@@ -37,9 +37,11 @@ devtools::install_github("brandmaier/semtree",force=TRUE, build_opts = c())
 
 ## Usage
 
-Please see official semtree website: http://brandmaier.de/semtree
+Package documentation and use-cases with runnable R code can be found on our github pages: [https://brandmaier.github.io/semtree/](https://brandmaier.github.io/semtree/).
 
-Package vignettes contain documentation on how to use the package:
+You may also want to visit the semtree website: http://brandmaier.de/semtree
+
+Package vignettes (shipped with the package) contain documentation on how to use the package. Simply type this in R once you have loaded the package:
 
 ```{r eval=FALSE}
 browseVignettes("semtree")
@@ -59,4 +61,4 @@ Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U. (2013). S
 
 Applied examples:
 
-Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (in press). Terminal decline in well-being: The role of multi-indicator constellations of physical health and psychosocial correlates. Developmental Psychology.
+Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (2017). Terminal decline in well-being: The role of multi-indicator constellations of physical health and psychosocial correlates. Developmental Psychology.

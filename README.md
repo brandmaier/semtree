@@ -35,10 +35,15 @@ following line into R:
 Usage
 -----
 
-Please see official semtree website:
+Package documentation and use-cases with runnable R code can be found on
+our github pages: <https://brandmaier.github.io/semtree/>.
+
+You may also want to visit the semtree website:
 <a href="http://brandmaier.de/semtree" class="uri">http://brandmaier.de/semtree</a>
 
-Package vignettes contain documentation on how to use the package:
+Package vignettes (shipped with the package) contain documentation on
+how to use the package. Simply type this in R once you have loaded the
+package:
 
     browseVignettes("semtree")
 
@@ -68,7 +73,7 @@ Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
 
 Applied examples:
 
-Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (in press).
+Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (2017).
 Terminal decline in well-being: The role of multi-indicator
 constellations of physical health and psychosocial correlates.
 Developmental Psychology.

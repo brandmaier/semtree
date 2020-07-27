@@ -9,6 +9,7 @@ semforest.control <- function(num.trees=5, sampling="subsample", control=NA, mtr
 		options$semtree.control <- semtree.control()
     options$semtree.control$method <- "fair"
     options$semtree.control$alpha <- 1
+    options$semtree.control$exclude.heywood <- FALSE
 	} else {
 		options$semtree.control <- control
 	}

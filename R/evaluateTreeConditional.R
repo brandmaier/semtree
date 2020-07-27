@@ -11,20 +11,17 @@ evaluateTreeConditional <-
     }
     
     # for each leaf, calculate deviance of each data row
-    
-    #leafwise <- rep(NA, length(unique(leaf_ids)))
     dev <- 0
     for (leaf_id in unique(leaf_ids))
     {
-      # obtain all cases from a specific lead
+      # obtain all cases from a specific leaf
       temp_set <- test_set1[leaf_ids==leaf_id, ];
       
-      # get lead node by id
+      # get leaf node by id
       leaf <- getNodeById( tree, leaf_id)
       
-      add_dev <- evaluateDataLikelihood(leaf$model, temp_set[,,drop=F], data_type )
-      #cat(paste("Add deviance ",add_dev,"leaf",leaf$node_id,"\n")); ##, toString(which(leaf_ids==leaf_id)) ,"\n"))
-      dev <- dev + add_dev;
+      # add up log-likelihoods
+      dev <- dev + evaluateDataLikelihood(leaf$model, temp_set[,,drop=F], data_type )
     }
     
     result <- list()

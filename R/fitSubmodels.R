@@ -8,7 +8,8 @@
 #
 # returns NA if fit fails
 
-fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  return.models=FALSE)
+fitSubmodels <- function(model, subset1, subset2, control, 
+                         invariance=NULL,  return.models=FALSE)
 {
 	# this is to trick the strict CRAN check
 	group1.objective <- NULL
@@ -22,9 +23,9 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
         if (control$verbose) {
           message("Minimum number of cases reached!");
         }
-		if (control$report.level > 3) {
-			report(paste("Minimum number of cases reached! Left tree has ",nrow(subset1), " and right tree has ",nrow(subset2)),2)
-		}
+		#if (control$report.level > 3) {
+	#		report(paste("Minimum number of cases reached! Left tree has ",nrow(subset1), " and right tree has ",nrow(subset2)),2)
+	#	}
         return(NA)}
 	  }
    #browser()
@@ -140,9 +141,9 @@ fitSubmodels <- function(model, subset1, subset2, control, invariance=NULL,  ret
 	     warning("Not all invarianceparameters were found when evaluating sub models!")
 	   }
 	   
-	   if (control$report.level > 20) {
-	    report(paste("invariance vector ids:",eqids," corresponding to labels ",invariance),1)
-	   }
+	  # if (control$report.level > 20) {
+	 #   report(paste("invariance vector ids:",eqids," corresponding to labels ",invariance),1)
+	  # }
 	     
 	   if (length(eqids)== 0) {
 	     uneqids <- 1:length(newlabels1)	

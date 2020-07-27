@@ -2,13 +2,14 @@
 semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
                     predictors = NULL,  ...) {
   
+  # TODO: change this throughout
   dataset <- data
   
+  # obtain dots arguments and test for deprecated use of arguments
   arguments <- list(...)
   if ("global.constraints" %in% names(arguments)) {
     stop("Deprecated use of 'global.constraints'. Please use constraints object")
   }
-  
   if ("invariance" %in% names(arguments)) {
     stop("Deprecated use of 'invariance'. Please use constraints object with property 'local.invariance'")
   }
@@ -109,13 +110,18 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     # specify covariates from model columns
     if (is.null(covariates)) {    
       model.ids <- rep(NA, length(mxmodel@manifestVars))
+      # find the ids in dataset
       for (i in 1:length(model.ids)) {
-        model.ids[i] <- which(mxmodel@manifestVars[i] == names(dataset));
+        cmp <- mxmodel@manifestVars[i] == names(dataset)
+        if (all(!cmp)) {
+          ui_stop("Error. Variable ",mxmodel@manifestVars[i], " missing in data set!")
+        }
+        model.ids[i] <- which(cmp);
       }
       all.ids <- 1:length(names(dataset))
       cvid <- sets::as.set(all.ids)-sets::as.set(model.ids) 
       if (length(cvid)==0) {
-        stop("No covariates contained in dataset!")
+        ui_stop("Error. No predictors contained in dataset!")
       }
       covariate.ids <- simplify2array( as.vector(cvid,mode="integer") )
     }
@@ -131,11 +137,6 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       
       model.ids <- simplify2array( as.vector(modid, mode="integer") )
     }
-    
-   # if (control$verbose) {
-  #    message("MODEL IDS ",paste(model.ids))
-  #    message("COV IDS ",paste(covariate.ids))
-  #  }
     
     # Prepare objects for fast score calculation (only for linear models)
     if (control$method == "score") {
@@ -192,6 +193,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   
   # init unique node counter
   #	assign("global.node.id",1,envir = getSemtreeNamespace())
+  # TODO: is there a better way to assign ids?
   setGlobal("global.node.id",1)
   
   #create default constraints if none specified for invariance testing of nested models
@@ -217,11 +219,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
 
   }
   
-  # check test type
- # testtype.int <- pmatch(control$test.type, c("ml","score"))
-#  if (is.na(testtype.int)) {
-#    ui_stop("Unknown test type in control object! Try either 'ml', or 'score'.")
-#  }
+
   
   # correct method selection check
   method.int <-  pmatch(control$method, 	c("cv","naive","fair","fair3","score"))	
@@ -229,12 +227,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     ui_stop("Unknown method in control object! Try either 'naive', 'fair', 'fair3', 'score', or 'cv'.")
   }	
   
-  # further checks on test stat
-#  if (control$test.type=="dm" & control$method!="naive") {
-#    ui_stop("Only naive splitting is implemented yet for DM test statistic!")
-#  }
-  
-  # if this is still null, we have a problem
+  # if this is still null, no data was given
   if (is.null(dataset)) {
     ui_stop("No data were provided!")
   }
@@ -244,6 +237,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   {
     ui_stop("Dataset contains duplicated columns names!")
   }
+  
   # set a seed for user to repeat results if no seed provided
   if (!is.null(control$seed)&!is.na(control$seed)){
     set.seed(control$seed)
@@ -263,7 +257,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     eqids <- which(labels %in% global.constraints)
     neqids <- which(!labels %in% global.constraints)
     values <- OpenMx::omxGetParameters(run.global)[eqids]
-    model <- OpenMx::omxSetParameters(model, labels=global.constraints,free=F, values=values )
+    model <- OpenMx::omxSetParameters(model, 
+               labels=global.constraints,free=F, values=values)
     # FIX THIS LINE HERE
     
     # Read Global Constraints and New model Parameters Here.
@@ -287,23 +282,30 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     stop("Unknown model type. Use OpenMx or lavaans models only!")
   }
   
+  # save time before starting the actual tree growing
   start.time <- proc.time()
   
+  # start the recursive growTree() function to do the 
+  # actual heavy lifting
   tree <- growTree(model=model, mydata=dataset, control=control, 
-                   invariance=invariance, meta=meta, constraints=constraints, ...)
+                   invariance=invariance, meta=meta, 
+                   constraints=constraints, ...)
   
+  # determine time elapsed
   elapsed <- proc.time()-start.time
   
   
-  
+  # save various information in the result object and
+  # assign it class 'semtree'
   tree$elapsed <- elapsed
   tree$control <- control
   tree$constraints <- constraints
+  tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
   class(tree) <- "semtree"
   
-  tree$version <- tryCatch(sessionInfo()$otherPkgs$semtree$Version)
-  
-  ui_ok("Tree construction finished [took ",human_readable_time(elapsed[3]),"].")
+  # tell the user that everything is OK
+  ui_ok("Tree construction finished [took ",
+        human_readable_time(elapsed[3]),"].")
   
   return(tree)
   
