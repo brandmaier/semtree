@@ -184,7 +184,7 @@ growTree <- function(model=NULL, mydata=NULL,
       naiveSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)	
       ################################################
       ,
-      error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
+      error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
     );
     
     } else if (control$method=="score") {
