@@ -5,7 +5,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 		 mtry=NA, report.level=0, exclude.code=NA, 
 		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
-		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore')
+		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore', use.maxlm = FALSE)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
@@ -60,6 +60,8 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
   options$naive.bonferroni.type <- naive.bonferroni.type
   # missing data treatment
   options$missing <- missing
+  # max LM stat
+  options$use.maxlm <- use.maxlm
   
 	class(options) <- "semtree.control"
 	

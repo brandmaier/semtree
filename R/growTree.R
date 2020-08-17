@@ -184,7 +184,7 @@ growTree <- function(model=NULL, mydata=NULL,
       naiveSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)	
       ################################################
       ,
-      error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
+      error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
     );
     
     } else if (control$method=="score") {
@@ -283,7 +283,12 @@ growTree <- function(model=NULL, mydata=NULL,
     node$p <- result$p.max
   } else {
     node$p <- pchisq(node$lr,df=node$df, lower.tail=F)
+    
+    if (control$use.maxlm)
+      node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
+                      covariate = mydata[,result$col.max])
   }
+  
   
   # ---------	determine whether to continue splitting	--------------
   if (is(control$custom.stopping.rule,"function")) {
