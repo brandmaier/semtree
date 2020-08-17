@@ -283,7 +283,12 @@ growTree <- function(model=NULL, mydata=NULL,
     node$p <- result$p.max
   } else {
     node$p <- pchisq(node$lr,df=node$df, lower.tail=F)
+    
+    if (control$use.maxlm)
+      node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
+                      covariate = mydata[,result$col.max])
   }
+  
   
   # ---------	determine whether to continue splitting	--------------
   if (is(control$custom.stopping.rule,"function")) {
