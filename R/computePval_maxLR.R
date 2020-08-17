@@ -21,7 +21,7 @@
     if (!is.factor(covariate)) { # metric
       pval <- supLM(from = from, to = to)$computePval(x = maxLR, nproc = q)
     } else {
-      covariate <- covariate[order(covariate)] # sort covariate
+      covariate <- sort(covariate) # sort covariate
       if (is.ordered(covariate)) { # ordinal
         pval <- ordL2BB(freq = covariate, nproc = q,
                         nrep = nrep)$computePval(x = maxLR, nproc = q)
