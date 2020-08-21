@@ -38,7 +38,6 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   }
   
   if (test == "suplm") {
-    if (is.null(to)) {to <- 1 - from}
     CSP <- CSP[-1, ]
     CSP2 <- CSP^2
     rows <- apply(X = CSP2, MARGIN = 1, FUN = sum)

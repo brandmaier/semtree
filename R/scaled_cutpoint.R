@@ -1,5 +1,4 @@
-scaled_cutpoint <- function(CSP, covariate, from, to = NULL) {
-  if (is.null(to)) {to <- 1 - from}
+scaled_cutpoint <- function(CSP, covariate, from, to) {
   x <- apply(X = CSP, MARGIN = 1, FUN = function(x) {sum(x^2)})
   n <- length(x)
   n1 <- floor(from * n)

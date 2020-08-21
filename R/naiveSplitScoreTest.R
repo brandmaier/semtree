@@ -102,11 +102,11 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       # get test statstic object
       functional <- switch(test, dm = maxBB,
                            cvm = meanL2BB, 
-                           suplm = supLM(from = 0.1, to = NULL), # give option?
+                           suplm = supLM(from = control$from, to = control$to),
                            lmuo = catL2BB(factor(covariate)),
                            wdmo = ordwmax(factor(covariate)), 
                            maxlmo = ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
-                                            nobs = NULL, nrep = 50000),
+                                            nobs = NULL, nrep = control$nrep),
                            stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, supLM, or CvM (metric)."))
       
       # peform score test
@@ -119,12 +119,12 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                      covariate = covariate,
                                      test = test,
                                      scaled_split = control$scaled_scores,
-                                     from = 0.1,
-                                     to = NULL))
+                                     from = control$from,
+                                     to = control$to))
         
         
         # check if cutpoint is too close to the border
-        if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not do that categorical covariate with more than two levels
+        if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not use with categorical covariates with more than two levels
           test.result <- checkBinSize(test.result = test.result,
                                       control = control,
                                       level = level,

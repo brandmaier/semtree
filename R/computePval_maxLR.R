@@ -14,8 +14,7 @@
 #       covariates.
 #' @author Manuel Arnold
 #' @return Numeric. p value for maximally selected LR statistic
-  computePval_maxLR <- function(maxLR, q, covariate, from = 0.15, to = NULL,
-                                nrep = 50000) {
+  computePval_maxLR <- function(maxLR, q, covariate, from, to, nrep) {
     
     # Level of measurement
     if (!is.factor(covariate)) { # metric

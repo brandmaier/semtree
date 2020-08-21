@@ -3,8 +3,8 @@
 #################################################
 
 growTree <- function(model=NULL, mydata=NULL,
-                      control=NULL, invariance=NULL, meta=NULL,
-                      edgelabel=NULL, depth=0, constraints=NULL, ...)
+                     control=NULL, invariance=NULL, meta=NULL,
+                     edgelabel=NULL, depth=0, constraints=NULL, ...)
 {
   if(is.null(mydata)) {
     stop("There was no data for growing the tree")
@@ -20,7 +20,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   
   if (control$report.level>0) {
-	  report(paste("Growing tree level",depth), 0)
+    report(paste("Growing tree level",depth), 0)
   }
   
   
@@ -73,25 +73,25 @@ growTree <- function(model=NULL, mydata=NULL,
                        model@Options$missing,'\')',sep="")))),silent=T)
   }
   
-   if (is(node$model,"try-error"))
-   {
-     ui_fail("Model had a run error.")
-	   node$term.reason <-  node$model[[1]]
-	   node$model <- NULL;
-	   return(node);
-   }
+  if (is(node$model,"try-error"))
+  {
+    ui_fail("Model had a run error.")
+    node$term.reason <-  node$model[[1]]
+    node$model <- NULL;
+    return(node);
+  }
   
   if (is.null(node$model)) {
     node$term.reason <- "Model was NULL! Model could not be estimated."; 
     return(node);
   }
   
-
+  
   ###########################################################
   ###               OPENMX USED HERE                      ###
   ###########################################################
   if(control$sem.prog == 'OpenMx'){
-	  
+    
     # some export/namespace problem here with the generic
     # getS3method("summary","MxModel") gets me the right fun
     msm <- getS3method("summary","MxModel")
@@ -124,7 +124,7 @@ growTree <- function(model=NULL, mydata=NULL,
     se <- rep(NA,length(unique(parameters$se)))
     for(i in 1:length(unique(parameters$label))){
       for(j in 1:nrow(parameters)){
-          if(unique(parameters$label)[i]==parameters$label[j]){se[i]<-parameters$se[j]}
+        if(unique(parameters$label)[i]==parameters$label[j]){se[i]<-parameters$se[j]}
       }
     }
     
@@ -132,7 +132,7 @@ growTree <- function(model=NULL, mydata=NULL,
     node$params_sd <- se
     node$param_names <- names(lavaan::coef(node$model))
   }
-
+  
   # df
   
   if (!is.null(constraints$focus.parameters)) {
@@ -144,7 +144,7 @@ growTree <- function(model=NULL, mydata=NULL,
     node$df <- length(node$param_names)
   }
   
-
+  
   
   # add unique node id via global variable
   node$node_id <- getGlobal("global.node.id")
@@ -177,7 +177,7 @@ growTree <- function(model=NULL, mydata=NULL,
   # 1. unbalanced selection method
   if (control$method == "naive") {
     
- #   if (control$test.type=="ml") {
+    #   if (control$test.type=="ml") {
     
     result <- tryCatch(
       ################################################
@@ -187,21 +187,21 @@ growTree <- function(model=NULL, mydata=NULL,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
     );
     
-    } else if (control$method=="score") {
-      
-     # result <- tryCatch(
-        ################################################
-        result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
-        ################################################
-     #   ,
-     #   error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
-     # );     
-      
-   # } else {
-      
-  #    stop("Unknown Test Type.")
-      
-  #  }
+  } else if (control$method=="score") {
+    
+    # result <- tryCatch(
+    ################################################
+    result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
+    ################################################
+    #   ,
+    #   error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
+    # );     
+    
+    # } else {
+    
+    #    stop("Unknown Test Type.")
+    
+    #  }
     
     
   } 
@@ -246,13 +246,13 @@ growTree <- function(model=NULL, mydata=NULL,
   #  result <- tryCatch(
   #    ################################################
   #    experimentalSplit(model, mydata, control, invariance, meta, ...)
-      ################################################
+  ################################################
   #    ,
   #    error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
   #  );  	
   #  node$p.values.valid <- FALSE	    
   #}
-
+  
   # return values in result are:
   # LL.max		: numeric, log likelihood ratio of best split
   # split.max 	: numeric, value to split best column on 
@@ -262,8 +262,8 @@ growTree <- function(model=NULL, mydata=NULL,
   # store the value of the selected test statistic
   node$lr <- NA
   if (!is.null(result)) {
-   node$lr <- result$LL.max
-   node$result <- result
+    node$lr <- result$LL.max
+    node$result <- result
   }
   
   # if no split found, exit node without continuing growth
@@ -277,16 +277,38 @@ growTree <- function(model=NULL, mydata=NULL,
   if (control$verbose) {
     ui_ok("Best split is  ",result$name.max," with statistic = ",round(node$lr,2));
   }
- 
+  
   # compute p value from chi2
   if (!is.null(result$p.max)) {
     node$p <- result$p.max
   } else {
     node$p <- pchisq(node$lr,df=node$df, lower.tail=F)
     
-    if (control$use.maxlm)
+    if (control$use.maxlm) {
+      
+      # Borders for continuous covariates
+      if (!is.factor(mydata[, result$name.max])) {
+        props <- cumsum(table(mydata[, result$name.max])) / node$N
+        n1 <- which(props >= control$from)[1]
+        n2 <- which(props >= control$to)[1]
+        if (control$min.N >= n1) {
+          n1 <- control$min.N + 1
+          from <- n1 / node$N
+        }
+        if (control$min.N >= node$N - n2) {
+          n2 <- node$N - control$min.N - 1
+          from <- n2 / node$N
+        }
+        LR <- as.numeric(result$btn.matrix["LR", n1:n2])
+        max_pos <- which.max(LR) + n1 - 1
+        node$result$LL.max <- node$lr <- as.numeric(result$btn.matrix["LR", max_pos])
+        node$result$split.max <- as.numeric(result$btn.matrix["split val", max_pos])
+      }
+      
       node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
-                      covariate = mydata[,result$col.max])
+                                  covariate = mydata[,result$col.max], from = control$from,
+                                  to = control$to, nrep = control$nrep)
+    }
   }
   
   
