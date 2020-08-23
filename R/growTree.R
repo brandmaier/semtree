@@ -288,18 +288,22 @@ growTree <- function(model=NULL, mydata=NULL,
       
       # Borders for continuous covariates
       if (!is.factor(mydata[, result$name.max])) {
+
         props <- cumsum(table(mydata[, result$name.max])) / node$N
-        n1 <- which(props >= control$from)[1]
-        n2 <- which(props >= control$to)[1]
-        if (control$min.N >= n1) {
-          n1 <- control$min.N + 1
-          from <- n1 / node$N
-        }
-        if (control$min.N >= node$N - n2) {
-          n2 <- node$N - control$min.N - 1
-          from <- n2 / node$N
-        }
+        split_val_lhs <- as.numeric(names(which(props >= control$from)[1]))
+        split_val_rhs <- as.numeric(names(which(props >= control$to)[1]))
+        
+        num_split_val <- as.numeric(result$btn.matrix["split val", ])
+        
+        n1 <- which(num_split_val <= split_val_lhs)
+        n1 <- n1[length(n1)]
+        n2 <- which(num_split_val >= split_val_rhs)[1]
+        
+        if (length(n1) == 0) {n1 <- 1}
+        if (is.na(n2)) {n2 <- length(num_split_val)}
+        
         LR <- as.numeric(result$btn.matrix["LR", n1:n2])
+
         max_pos <- which.max(LR) + n1 - 1
         node$result$LL.max <- node$lr <- as.numeric(result$btn.matrix["LR", max_pos])
         node$result$split.max <- as.numeric(result$btn.matrix["split val", max_pos])
