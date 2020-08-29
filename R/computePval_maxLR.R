@@ -18,14 +18,15 @@
     
     # Level of measurement
     if (!is.factor(covariate)) { # metric
-      pval <- supLM(from = from, to = to)$computePval(x = maxLR, nproc = q)
+      pval <- strucchange::supLM(from = from, to = to)$computePval(x = maxLR, nproc = q)
     } else {
       covariate <- sort(covariate) # sort covariate
+      covariate <- droplevels(covariate)
       if (is.ordered(covariate)) { # ordinal
-        pval <- ordL2BB(freq = covariate, nproc = q,
+        pval <- strucchange::ordL2BB(freq = covariate, nproc = q,
                         nrep = nrep)$computePval(x = maxLR, nproc = q)
       } else { # categorical
-        pval <- catL2BB(covariate)$computePval(x = maxLR, nproc = q)
+        pval <- strucchange::catL2BB(covariate)$computePval(x = maxLR, nproc = q)
       }
     }
     

@@ -293,7 +293,9 @@ growTree <- function(model=NULL, mydata=NULL,
         split_val_lhs <- as.numeric(names(which(props >= control$from)[1]))
         split_val_rhs <- as.numeric(names(which(props >= control$to)[1]))
         
-        num_split_val <- as.numeric(result$btn.matrix["split val", ])
+        btn_matrix_max <- result$btn.matrix[, result$btn.matrix["variable", ] == result$name.max]
+        
+        num_split_val <- as.numeric(btn_matrix_max["split val", ])
         
         n1 <- which(num_split_val <= split_val_lhs)
         n1 <- n1[length(n1)]
@@ -302,11 +304,11 @@ growTree <- function(model=NULL, mydata=NULL,
         if (length(n1) == 0) {n1 <- 1}
         if (is.na(n2)) {n2 <- length(num_split_val)}
         
-        LR <- as.numeric(result$btn.matrix["LR", n1:n2])
+        LR <- as.numeric(btn_matrix_max["LR", n1:n2])
 
         max_pos <- which.max(LR) + n1 - 1
-        node$result$LL.max <- node$lr <- as.numeric(result$btn.matrix["LR", max_pos])
-        node$result$split.max <- as.numeric(result$btn.matrix["split val", max_pos])
+        node$result$LL.max <- node$lr <- as.numeric(btn_matrix_max["LR", max_pos])
+        node$result$split.max <- as.numeric(btn_matrix_max["split val", max_pos])
       }
       
       node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
