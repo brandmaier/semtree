@@ -293,7 +293,8 @@ growTree <- function(model=NULL, mydata=NULL,
         split_val_lhs <- as.numeric(names(which(props >= control$from)[1]))
         split_val_rhs <- as.numeric(names(which(props >= control$to)[1]))
         
-        btn_matrix_max <- result$btn.matrix[, result$btn.matrix["variable", ] == result$name.max, drop = FALSE]
+        btn_matrix_max <- result$btn.matrix[, result$btn.matrix["variable", ] ==
+                                              result$name.max, drop = FALSE]
         
         num_split_val <- as.numeric(btn_matrix_max["split val", ])
         

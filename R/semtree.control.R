@@ -18,6 +18,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	# Scale scores for testing continuous covariates
 	options$scaled_scores <- scaled_scores
 	# For OpenMx models: Is the model linear?
+	### Global Invariant parameters are currently not working with the speed up
 	options$linear <- linear
 	# number of cross validation folds
 	options$num.folds <- folds
