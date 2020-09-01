@@ -104,7 +104,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Nominal covariates
   if (test == "lmuo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, drop = FALSE]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)
