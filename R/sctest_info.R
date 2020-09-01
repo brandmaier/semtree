@@ -1,7 +1,7 @@
 sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Continuous covariate
   if (test == "dm") {
-    CSP <- CSP[-1, drop = FALSE]
+    CSP <- CSP[-1, , drop = FALSE]
     abs_CSP <- abs(x = CSP)
     contrib <- apply(X = abs_CSP, MARGIN = 2, FUN = max)
     if (scaled_split) {
@@ -16,7 +16,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   }
   
   if (test == "cvm") {
-    CSP <- CSP[-1, drop = FALSE]
+    CSP <- CSP[-1, , drop = FALSE]
     CSP2 <- CSP^2
     contrib <- apply(X = CSP, MARGIN = 2, FUN = mean)
     if (scaled_split) {
@@ -61,7 +61,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Ordinal covariate
   if (test == "wdmo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, drop = FALSE]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)
@@ -82,7 +82,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   
   if (test == "maxlmo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, drop = FALSE]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)
