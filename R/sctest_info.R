@@ -1,7 +1,7 @@
 sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Continuous covariate
   if (test == "dm") {
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     abs_CSP <- abs(x = CSP)
     contrib <- apply(X = abs_CSP, MARGIN = 2, FUN = max)
     if (scaled_split) {
@@ -16,7 +16,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   }
   
   if (test == "cvm") {
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     CSP2 <- CSP^2
     contrib <- apply(X = CSP, MARGIN = 2, FUN = mean)
     if (scaled_split) {
@@ -38,15 +38,14 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   }
   
   if (test == "suplm") {
-    if (is.null(to)) {to <- 1 - from}
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     CSP2 <- CSP^2
     rows <- apply(X = CSP2, MARGIN = 1, FUN = sum)
     n <- length(rows)
     n1 <- floor(from * n)
     n2 <- floor(to * n)
     tt <- seq_along(rows)/n
-    CSP2 <- CSP2[n1:n2, ]
+    CSP2 <- CSP2[n1:n2, , drop = FALSE]
     rows <- rows[n1:n2]
     tt <- tt[n1:n2]
     scaling_factor <- tt * (1 - tt)
@@ -62,7 +61,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Ordinal covariate
   if (test == "wdmo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)
@@ -83,7 +82,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   
   if (test == "maxlmo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)
@@ -105,7 +104,7 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   # Nominal covariates
   if (test == "lmuo") {
     covariate <- droplevels(covariate)
-    CSP <- CSP[-1, ]
+    CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
     freq <- freq / sum(freq)
     ncat <- length(freq)

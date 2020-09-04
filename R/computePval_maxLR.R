@@ -14,19 +14,19 @@
 #       covariates.
 #' @author Manuel Arnold
 #' @return Numeric. p value for maximally selected LR statistic
-  computePval_maxLR <- function(maxLR, q, covariate, from = 0.15, to = NULL,
-                                nrep = 50000) {
+  computePval_maxLR <- function(maxLR, q, covariate, from, to, nrep) {
     
     # Level of measurement
     if (!is.factor(covariate)) { # metric
-      pval <- supLM(from = from, to = to)$computePval(x = maxLR, nproc = q)
+      pval <- strucchange::supLM(from = from, to = to)$computePval(x = maxLR, nproc = q)
     } else {
-      covariate <- covariate[order(covariate)] # sort covariate
+      covariate <- sort(covariate) # sort covariate
+      covariate <- droplevels(covariate)
       if (is.ordered(covariate)) { # ordinal
-        pval <- ordL2BB(freq = covariate, nproc = q,
+        pval <- strucchange::ordL2BB(freq = covariate, nproc = q,
                         nrep = nrep)$computePval(x = maxLR, nproc = q)
       } else { # categorical
-        pval <- catL2BB(covariate)$computePval(x = maxLR, nproc = q)
+        pval <- strucchange::catL2BB(covariate)$computePval(x = maxLR, nproc = q)
       }
     }
     

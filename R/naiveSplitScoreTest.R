@@ -29,7 +29,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   # OpenMx
   if(control$sem.prog == 'OpenMx'){
     fit <- mxAddNewModelData(model, mydata, name = "BASE MODEL")
-    fit <- try(mxRun(fit, silent = TRUE, suppressWarnings = TRUE), silent = TRUE)
+    fit <- try(OpenMx::mxRun(fit, silent = TRUE, suppressWarnings = TRUE), silent = TRUE)
     ### Check for error and abort
     Scores <- mxScores(fit, control = control)
   }
@@ -57,6 +57,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   ############################################
   # main loop with calls to sctest_semtree() #
+  # each iteration evaluates a covariate     #
   ############################################
   for (cur_col in cmp.column.ids) {					   
     
@@ -74,11 +75,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       # calculate cumulative score process
       scus <- gefp_semtree(x = fit, order.by = covariate, vcov = vcov., 
                            scores = Scores_sorted, decorrelate = TRUE,
-                           sandwich = sandwich., parm = NULL)
-      
-      # defaults
-      # TODO: implement semtrees focus parameter interface (AB)
-      parameter <- NULL
+                           sandwich = sandwich., parm = constraints$focus.parameters)
       
       # Level of measurement and test statistic
       if (!is.factor(covariate)) {
@@ -99,33 +96,31 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       }
       
       # get test statstic object
-      functional <- switch(test, dm = maxBB,
-                           cvm = meanL2BB, 
-                           suplm = supLM(from = 0.1, to = NULL), # give option?
-                           lmuo = catL2BB(factor(covariate)),
-                           wdmo = ordwmax(factor(covariate)), 
-                           maxlmo = ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
-                                            nobs = NULL, nrep = 50000),
+      functional <- switch(test, dm = strucchange::maxBB,
+                           cvm = strucchange::meanL2BB, 
+                           suplm = strucchange::supLM(from = control$from, to = control$to),
+                           lmuo = strucchange::catL2BB(factor(covariate)),
+                           wdmo = strucchange::ordwmax(factor(covariate)), 
+                           maxlmo = strucchange::ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
+                                            nobs = NULL, nrep = control$nrep),
                            stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, supLM, or CvM (metric)."))
       
       # peform score test
-      test.result <- sctest(scus, functional = functional)
-      splt <- NA
-      
+      test.result <- strucchange::sctest(scus, functional = functional)
       
       # get cutpoint and parameter contributions
       if (test.result$p.value < min(c(control$alpha, p.max))) { # only if current p-value is smaller than other p-values
         test.result <- c(test.result,
                          sctest_info(CSP = as.matrix(scus$process),
-                                 covariate = covariate,
-                                 test = test,
-                                 scaled_split = control$scaled_scores,
-                                 from = 0.1,
-                                 to = NULL))
+                                     covariate = covariate,
+                                     test = test,
+                                     scaled_split = control$scaled_scores,
+                                     from = control$from,
+                                     to = control$to))
         
         
         # check if cutpoint is too close to the border
-        if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not do that categorical covariate with more than two levels
+        if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not use with categorical covariates with more than two levels
           test.result <- checkBinSize(test.result = test.result,
                                       control = control,
                                       level = level,
@@ -139,21 +134,15 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       test = test)
           
         }
-        splt <- test.result$cutpoint
-      } 
-    
+      } else {
+        test.result$cutpoint <- NA
+      }
+      
       # Standardise output
       ts <- test.result$statistic
       pval <- test.result$p.value
+      splt <- test.result$cutpoint
       contrib <- test.result$par.contrib
-      
-      if (control$verbose) {
-        cat("Testing:", cur.name, "\n")
-        cat("Level of measurement:", level, "\n")
-        cat(test, " test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
-        cat("Best so far: ",name.max, " (", level_max, "), ", test_max, ": ",
-            ts, ", p-value: ", p.max, " split point: ", splt)
-      }
       
       if (pval < p.max) { # Use p values to compare covariates
         LL.max <- ts
@@ -166,9 +155,21 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         level_max <- NA # not used outside this function
         test_max <- NA # not used outside this function
       }
+      
+      if (control$verbose) {
+        cat("Testing:", cur.name, "\n")
+        cat("Level of measurement:", level, "\n")
+        cat(test, " test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
+        cat("Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
+            LL.max, ", p-value: ", p.max, " split point: ", split.max)
+      }
     }
   }
-
+  
+  #######################
+  # main loop ends here #
+  #######################
+  
   # Call naiveSplit to get cutpoints for categorical covariates with more than two levels
   if (p.max < 1) {
     if (type.max == 1 & nlevels(mydata[, col.max]) > 2) {
@@ -189,9 +190,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   n.comp <- length(cmp.column.ids)
   
-  # format results
-  return(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
-              col.max=col.max, type.max=type.max, n.comp=n.comp,
+  return(list(LL.max = LL.max, split.max = split.max, name.max = name.max,
+              col.max = col.max, type.max = type.max, n.comp = n.comp,
               btn.matrix = btn.matrix, 
-              invariance.filter=NULL, p.max = p.max, contrib.max=contrib.max))
+              invariance.filter = NULL, p.max = p.max, contrib.max = contrib.max))
 }

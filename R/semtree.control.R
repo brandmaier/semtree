@@ -5,7 +5,8 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 		 mtry=NA, report.level=0, exclude.code=NA, 
 		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
-		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore', use.maxlm = FALSE)
+		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore', use.maxlm = FALSE,
+		 from = 0.15, to = NULL, nrep = 50000)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
@@ -17,6 +18,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	# Scale scores for testing continuous covariates
 	options$scaled_scores <- scaled_scores
 	# For OpenMx models: Is the model linear?
+	### Global Invariant parameters are currently not working with the speed up
 	options$linear <- linear
 	# number of cross validation folds
 	options$num.folds <- folds
@@ -62,6 +64,14 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
   options$missing <- missing
   # max LM stat
   options$use.maxlm <- use.maxlm
+  # from (for strucchange)
+  options$from <- from
+  # to (for strucchange)
+  if (is.null(to)) {to <- 1 - from}
+  options$to <- to
+  # nrep (for strucchange)
+  options$nrep <- nrep
+  
   
 	class(options) <- "semtree.control"
 	

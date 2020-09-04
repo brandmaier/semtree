@@ -38,6 +38,8 @@ mxScores <- function(x, control) {
         FB %*% m_deriv[[i]]
     }
     
+    colnames(jac) <- names(x$output$estimate)
+    
   } else {
     
     jac <- OpenMx::omxManifestModelByParameterJacobian(model = x)
