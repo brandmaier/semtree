@@ -140,6 +140,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     
     # Prepare objects for fast score calculation (only for linear models)
     if (control$method == "score") {
+      # Check if the model has been run
+      if (!length(model$output)) {
+        model <- mxRun(model = model, silent = TRUE)
+      }
       control <- c(control,
                    list(scores_info = OpenMx_scores_input(x = model,
                                                           control = control)))
