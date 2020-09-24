@@ -290,8 +290,8 @@ growTree <- function(model=NULL, mydata=NULL,
       if (!is.factor(mydata[, result$name.max])) {
 
         props <- cumsum(table(mydata[, result$name.max])) / node$N
-        split_val_lhs <- as.numeric(names(which(props >= control$from)[1]))
-        split_val_rhs <- as.numeric(names(which(props >= control$to)[1]))
+        split_val_lhs <- as.numeric(names(which(props >= control$strucchange.from)[1]))
+        split_val_rhs <- as.numeric(names(which(props >= control$strucchange.to)[1]))
         
         btn_matrix_max <- result$btn.matrix[, result$btn.matrix["variable", ] ==
                                               result$name.max, drop = FALSE]
@@ -313,8 +313,8 @@ growTree <- function(model=NULL, mydata=NULL,
       }
       
       node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
-                                  covariate = mydata[,result$col.max], from = control$from,
-                                  to = control$to, nrep = control$nrep)
+                                  covariate = mydata[,result$col.max], from = control$strucchange.from,
+                                  to = control$strucchange.to, nrep = control$strucchange.nrep)
     }
   }
   

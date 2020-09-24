@@ -13,7 +13,7 @@ semtree.constraints <- function(local.invariance=NULL, global.invariance=NULL, f
 
 print.semtree.constraints <- function(x, ...) {
   cat("semtree constraints\n")
-  cat(" Local invariance ",paste0(local.invariance),"\n")
-  cat(" Global invariance ",paste0(global.invariance),"\n")
-  cat(" Focus parameters ",paste0(focus.parameter),"\n")
+  cat(" Local invariance ",paste0(x$local.invariance),"\n")
+  cat(" Global invariance ",paste0(x$global.invariance),"\n")
+  cat(" Focus parameters ",paste0(x$focus.parameter),"\n")
 }

@@ -15,7 +15,9 @@
    custom.stopping.rule=NA, mtry=NA, report.level=0, exclude.code=NA,
    score.tests = list(nominal = "LMuo", ordinal = "maxLMo", metric = "CvM"), 
    information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
-   min.bucket = 10, naive.bonferroni.type=0, missing = 'ignore')
+   min.bucket = 10, naive.bonferroni.type=0, missing = 'ignore',
+   use.maxlm = FALSE, strucchange.from = 0.15, strucchange.to = NULL,
+   strucchange.nrep=50000)
 }
 % print.semtree.control(x, ...)
 %- maybe also 'usage' for other objects documented here.
@@ -85,6 +87,12 @@
   \item{naive.bonferroni.type}{Default: 0. When set to zero, bonferroni correction for the naive test counts the number of dichotomous tests. When set to one, bonferroni correction counts the number of variables tested. }
 
 \item{missing}{Missing value treatment. Default is ignore}
+\item{use.maxlm}{Use MaxLm statistic}
+\item{strucchange.from}{Strucchange argument. See their package
+documentation.}
+\item{strucchange.to}{Strucchange argument. See their package documentation.}
+\item{strucchange.nrep}{Strucchange argument. See their package
+documentation.}
 }
 \value{
   A control object containing a list of the above parameters.
@@ -93,7 +101,7 @@
   Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.
 }
 \author{
-  Andreas M. Brandmaier, John J. Prindle
+  Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 }
 \seealso{
   \code{\link{semtree}}
