@@ -4,7 +4,7 @@ function(tree)
 	
 	data <- getTerminalNodes.rec(tree, 0)
 	
-	data <- data.frame(data[,-1], row.names=data[,1])
+	data <- data.frame(data[,-1, drop=FALSE], row.names=data[,1])
 	names(data) <- tree$param_names;
 	data <- data[order(as.numeric(rownames(data))),]
 	

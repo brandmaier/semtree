@@ -72,9 +72,10 @@ fitSubmodels <- function(model,
       }
     }
     else {
+      
       # check subgroups for empty columns in modeled variables...
-      #modelcheck <- unlist(model@Data@ov.names)
-      modelcheck <- names(model@data$observed)
+      modelcheck <- unlist(model@Data@ov.names)
+#      modelcheck <- names(model@data$observed)
       for (i in 1:length(modelcheck)) {
         if (is.nan(mean(subset1[, modelcheck[i]], na.rm = TRUE))) {
           if (control$verbose) {
