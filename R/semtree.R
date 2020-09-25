@@ -283,7 +283,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   
   # for score tests, model needs to run once
-  if (control$sem.prog == 'OpenMx' && method=="score") {
+  if (control$sem.prog == 'OpenMx' && control$method == "score") {
     ui_message("Model was not run. Estimating parameters now.")
     model <- OpenMx::mxTryHard(model)
   }
