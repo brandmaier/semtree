@@ -282,6 +282,12 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     stop("Unknown model type. Use OpenMx or lavaans models only!")
   }
   
+  # for score tests, model needs to run once
+  if (control$sem.prog == 'OpenMx' && method=="score") {
+    ui_message("Model was not run. Estimating parameters now.")
+    model <- OpenMx::mxTryHard(model)
+  }
+  
   # save time before starting the actual tree growing
   start.time <- proc.time()
   
