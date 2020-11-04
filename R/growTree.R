@@ -338,12 +338,17 @@ growTree <- function(model=NULL, mydata=NULL,
     cont.split <- !srule 
     node$p.values.valid <- FALSE
   }
+  
   # restore mydata here if (mtry was > 0)	-- for semforests
   if (control$mtry > 0) {
     
     # also need to remap col.max to original data!
-    col.max.name <- names(mydata)[result$col.max]
-    result$col.max <- which(names(fulldata)==col.max.name)
+    if (!is.null(result$col.max)) {
+      col.max.name <- names(mydata)[result$col.max]
+      result$col.max <- which(names(fulldata)==col.max.name)
+    } else {
+      col.max.name <- NULL
+    }
     
     # restore data
     mydata <- fulldata
