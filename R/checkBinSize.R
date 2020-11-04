@@ -1,5 +1,11 @@
 checkBinSize <- function(test.result, control, level, covariate, n, mydata,
                          fit, sandwich., functional, p.max, test) {
+
+  # sanity check
+  if (is.na(test.result$left_n) || is.na(test.result$right_n)) {
+    ui_warn("Boundaries NA in checkBinSize()")
+    return(test.result)
+  }
   
   ### Start checking left
   if (test.result$left_n < control$min.bucket) {

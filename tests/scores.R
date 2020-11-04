@@ -66,7 +66,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
                     mxData(lgcm,type="raw")
 )
 
-lgcModel=mxRun(lgcModel)
+#lgcModel=mxRun(lgcModel)
 
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:

@@ -9,6 +9,11 @@ OpenMx_scores_input <- function(x, control) {
     
     param_names <- names(x$output$estimate)
     q <- length(param_names)
+    
+    if (q==0) {
+      ui_stop("Error in OpenMx_scores_input() function. There are no free parameters in the model estimates. Model not run or converged?")
+    }
+    
     q_seq <- seq_len(q)
     p_unf <- NROW(x$A$values)
   

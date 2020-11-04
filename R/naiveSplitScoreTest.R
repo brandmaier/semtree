@@ -48,7 +48,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   # get covariance matrix of the model parameters
   if (identical(control$information.matrix, "info")) {
     vcov. <- solve(vcov(fit) * n)
-    vcov. <- root.matrix(vcov.)
+    vcov. <- strucchange::root.matrix(vcov.)
     sandwich. <- FALSE
   } else {
     sandwich. <- TRUE

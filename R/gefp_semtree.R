@@ -44,7 +44,7 @@ gefp_semtree <- function (..., fit = NULL, scores, vcov = NULL,
   colnames(process) <- colnames(scores)
   if (!is.null(parm)) 
     process <- process[, parm]
-  retval <- list(process = suppressWarnings(zoo(process, z)), 
+  retval <- list(process = suppressWarnings(zoo::zoo(process, z)), 
                  nreg = k, nobs = n, call = match.call(), fit = fit, scores = scores, 
                  fitted.model = fm, par = NULL, lim.process = "Brownian bridge", 
                  type.name = "M-fluctuation test", order.name = order.name, 
