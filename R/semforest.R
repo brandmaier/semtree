@@ -89,6 +89,14 @@ semforest <- function(model, data, control=NULL,
   # data file
   #  TODO
   
+  # for score tests, model needs to run once
+  if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
+    if (!summary(model)$wasRun) {
+     ui_message("Model was not run. Estimating parameters now before running the forest.")
+     model <- OpenMx::mxTryHard(model)
+    }
+  }
+  
 	# create list of resampled data
 	forest.data <- list()
 		
