@@ -19,14 +19,14 @@ gefp_semtree <- function (..., fit = NULL, scores, vcov = NULL,
   process <- scores/sqrt(n)
   if (is.null(vcov.)) {
     J <- crossprod(process)
-    J12 <- root.matrix(J)
+    J12 <- strucchange::root.matrix(J)
   }
   else {
     if (sandwich) {
       Q <- chol2inv(chol(bread(fm)/n))
       J <- (Q %*% vcov.(fm, order.by = order.by, data = data) %*% 
               Q)/n
-      J12 <- root.matrix(J)
+      J12 <- strucchange::root.matrix(J)
     }
     else {
       J12 <- vcov.
