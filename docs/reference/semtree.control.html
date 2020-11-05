@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
       </span>
     </div>
 
@@ -145,7 +145,9 @@
    <span class='kw'>custom.stopping.rule</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>mtry</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>report.level</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>exclude.code</span><span class='kw'>=</span><span class='fl'>NA</span>,
    <span class='kw'>score.tests</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>nominal</span> <span class='kw'>=</span> <span class='st'>"LMuo"</span>, <span class='kw'>ordinal</span> <span class='kw'>=</span> <span class='st'>"maxLMo"</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"CvM"</span>),
    <span class='kw'>information.matrix</span> <span class='kw'>=</span> <span class='st'>"info"</span>, <span class='kw'>scaled_scores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>linear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-   <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>naive.bonferroni.type</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>missing</span> <span class='kw'>=</span> <span class='st'>'ignore'</span>)</pre>
+   <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>naive.bonferroni.type</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>missing</span> <span class='kw'>=</span> <span class='st'>'ignore'</span>,
+   <span class='kw'>use.maxlm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>strucchange.from</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>strucchange.to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+   <span class='kw'>strucchange.nrep</span><span class='kw'>=</span><span class='fl'>50000</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,6 +244,24 @@
     <tr>
       <th>missing</th>
       <td><p>Missing value treatment. Default is ignore</p></td>
+    </tr>
+    <tr>
+      <th>use.maxlm</th>
+      <td><p>Use MaxLm statistic</p></td>
+    </tr>
+    <tr>
+      <th>strucchange.from</th>
+      <td><p>Strucchange argument. See their package
+documentation.</p></td>
+    </tr>
+    <tr>
+      <th>strucchange.to</th>
+      <td><p>Strucchange argument. See their package documentation.</p></td>
+    </tr>
+    <tr>
+      <th>strucchange.nrep</th>
+      <td><p>Strucchange argument. See their package
+documentation.</p></td>
     </tr>
     </table>
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
       </span>
     </div>
 
@@ -84,7 +84,7 @@
 
       
 
-      </header><script src="getting-started_files/jquery-1.11.3/jquery.min.js"></script><script src="getting-started_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="getting-started_files/header-attrs-2.3/header-attrs.js"></script><script src="getting-started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started with the semtree package</h1>
@@ -184,6 +184,7 @@
 <h2 class="hasAnchor">
 <a href="#run-a-tree" class="anchor"></a>Run a tree</h2>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">tree</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="no">growthCurveModel</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">growth.data</span>)
+<span class="co">#&gt; ✖ Variable P1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 </div>
 <div id="plotting" class="section level2">
