@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
       </span>
     </div>
 
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="constraints_files/jquery-1.11.3/jquery.min.js"></script><script src="constraints_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="constraints_files/header-attrs-2.3/header-attrs.js"></script><script src="constraints_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Constraints in semtree</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-04-29</h4>
+            <h4 class="date">2020-11-05</h4>
       
       
       <div class="hidden name"><code>constraints.Rmd</code></div>
@@ -169,6 +169,8 @@
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">tree.gc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.cfa</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">cfa.sim</span>, <span class="kw">constraints</span><span class="kw">=</span>
                    <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">global.invariance</span> <span class="kw">=</span>
                                          <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))
+<span class="co">#&gt; ✖ Variable p1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable p2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ❯ Global Constraints:</span>
 <span class="co">#&gt; F__x1 F__x2 F__x3 F__x4</span>
 <span class="co">#&gt; ❯ Freely Estimated Parameters:</span>
@@ -185,8 +187,10 @@
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">tree.lc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.cfa</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">cfa.sim</span>, <span class="kw">constraints</span><span class="kw">=</span>
                    <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(
                      <span class="kw">local.invariance</span><span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))
+<span class="co">#&gt; ✖ Variable p1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable p2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></pre></body></html></div>
+<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span></pre></body></html></div>
 <p>Now we find <code>p1</code> as the only predictor that yields subgroups that pass the measurement invariance test. Even though we have chosen the four factor loadings as <code>local.invariance</code> constraint, they are allowed to differ numerically but there was no significant difference between them.</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.lc</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -231,11 +235,11 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; free parameters:</span>
 <span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span>
-<span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0283802 0.18015249  </span>
-<span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.3039197 0.11443414  </span>
-<span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.2282347 0.14437014  </span>
-<span class="co">#&gt; 4       mu1      M   1  x1 1.4187340 0.06346921  </span>
-<span class="co">#&gt; 5       mu2      M   1  x2 1.4628998 0.05681763  </span>
+<span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0283800 0.18015521  </span>
+<span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.3039196 0.11444978  </span>
+<span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.2282345 0.14437113  </span>
+<span class="co">#&gt; 4       mu1      M   1  x1 1.4187341 0.06346967  </span>
+<span class="co">#&gt; 5       mu2      M   1  x2 1.4628999 0.05681795  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Model Statistics: </span>
 <span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span>
@@ -253,14 +257,16 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-04-29 07:37:58 </span>
-<span class="co">#&gt; Wall clock time: 0.01827002 secs </span>
-<span class="co">#&gt; optimizer:  CSOLNP </span>
-<span class="co">#&gt; OpenMx version number: 2.17.3 </span>
+<span class="co">#&gt; timestamp: 2020-11-05 09:14:24 </span>
+<span class="co">#&gt; Wall clock time: 0.01647806 secs </span>
+<span class="co">#&gt; optimizer:  SLSQP </span>
+<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 <p>Now, we grow a tree without constraints:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r">
 <span class="no">tree.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>)
+<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 <p>As expected, we obtain a tree structure that has both <code>p1</code> and <code>p2</code> (here we use the viridis colors to give each leaf node a different frame color, which we’ll use later again):</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># default white color for all nodes</span>
@@ -291,6 +297,8 @@
 <div class="sourceCode" id="cb15"><html><body><pre class="r">
 <span class="no">tree.biv2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
                       <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"mu1"</span>))
+<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv2</span>)</pre></body></html></div>
@@ -299,6 +307,8 @@
 <div class="sourceCode" id="cb16"><html><body><pre class="r">
 <span class="no">tree.biv3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
                       <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"mu2"</span>))
+<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 <p>And, indeed, we see only <code>grp2</code> as predictor whereas <code>grp1</code> was not selected this time.</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv3</span>)</pre></body></html></div>
@@ -307,6 +317,8 @@
 <div class="sourceCode" id="cb18"><html><body><pre class="r">
 <span class="no">tree.biv4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="no">df.biv</span>, <span class="kw">constraints</span><span class="kw">=</span>
                       <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"VAR_x2"</span>))
+<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv4</span>)</pre></body></html></div>

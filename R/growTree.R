@@ -290,8 +290,8 @@ growTree <- function(model=NULL, mydata=NULL,
       if (!is.factor(mydata[, result$name.max])) {
 
         props <- cumsum(table(mydata[, result$name.max])) / node$N
-        split_val_lhs <- as.numeric(names(which(props >= control$from)[1]))
-        split_val_rhs <- as.numeric(names(which(props >= control$to)[1]))
+        split_val_lhs <- as.numeric(names(which(props >= control$strucchange.from)[1]))
+        split_val_rhs <- as.numeric(names(which(props >= control$strucchange.to)[1]))
         
         btn_matrix_max <- result$btn.matrix[, result$btn.matrix["variable", ] ==
                                               result$name.max, drop = FALSE]
@@ -313,8 +313,8 @@ growTree <- function(model=NULL, mydata=NULL,
       }
       
       node$p <- computePval_maxLR(maxLR = node$lr, q = node$df, 
-                                  covariate = mydata[,result$col.max], from = control$from,
-                                  to = control$to, nrep = control$nrep)
+                                  covariate = mydata[,result$col.max], from = control$strucchange.from,
+                                  to = control$strucchange.to, nrep = control$strucchange.nrep)
     }
   }
   
@@ -338,12 +338,17 @@ growTree <- function(model=NULL, mydata=NULL,
     cont.split <- !srule 
     node$p.values.valid <- FALSE
   }
+  
   # restore mydata here if (mtry was > 0)	-- for semforests
   if (control$mtry > 0) {
     
     # also need to remap col.max to original data!
-    col.max.name <- names(mydata)[result$col.max]
-    result$col.max <- which(names(fulldata)==col.max.name)
+    if (!is.null(result$col.max)) {
+      col.max.name <- names(mydata)[result$col.max]
+      result$col.max <- which(names(fulldata)==col.max.name)
+    } else {
+      col.max.name <- NULL
+    }
     
     # restore data
     mydata <- fulldata

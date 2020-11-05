@@ -138,7 +138,34 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       model.ids <- simplify2array( as.vector(modid, mode="integer") )
     }
     
+    # heuristic checks whether variables are correctly coded
+    # to avoid problems in the computation of test statistics
+    for (cid in covariate.ids) {
+      column <- dataset[, cid] 
+      if (is.numeric(column)) {
+        if (length(unique(column))<=10) { ui_warn("Variable ",names(dataset)[cid]," is numeric but has only few unique values. Consider recoding as ordered factor."  )}
+      }
+    }
+    
+    # check for no missing data in covariates if score statistics are used
+    if (control$method == "score") {
+      for (cid in covariate.ids) {
+        column <- dataset[, cid]    
+        if (sum(is.na(column))>0) { ui_stop("Variable ",names(dataset)[cid]," has missing values. Computation of score statistic not possible."); return(NULL); }
+      }   
+    }
+    
+    # for score tests, model needs to run once
+    if (control$sem.prog == 'OpenMx' && control$method == "score") {
+      if (!summary(model)$wasRun) {
+        ui_message("Model was not run. Estimating parameters now.")
+        model <- OpenMx::mxTryHard(model)
+      }
+    }
+    
+    
     # Prepare objects for fast score calculation (only for linear models)
+    # Note: model must be run - this is assured by previous code block that performs mxTryHard()
     if (control$method == "score") {
       # Check if the model has been run
       if (!length(model$output)) {
@@ -285,6 +312,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   else {
     stop("Unknown model type. Use OpenMx or lavaans models only!")
   }
+  
+
   
   # save time before starting the actual tree growing
   start.time <- proc.time()

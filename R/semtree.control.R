@@ -6,7 +6,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
 		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore', use.maxlm = FALSE,
-		 from = 0.15, to = NULL, nrep = 50000)
+		 strucchange.from = 0.15, strucchange.to = NULL, strucchange.nrep = 50000)
 {
 	options <- list()
 	# verbose output during generation of SEMTree
@@ -65,12 +65,12 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
   # max LM stat
   options$use.maxlm <- use.maxlm
   # from (for strucchange)
-  options$from <- from
+  options$strucchange.from <- strucchange.from
   # to (for strucchange)
-  if (is.null(to)) {to <- 1 - from}
-  options$to <- to
+  if (is.null(strucchange.to)) {strucchange.to <- 1 - strucchange.from}
+  options$strucchange.to <- strucchange.to
   # nrep (for strucchange)
-  options$nrep <- nrep
+  options$strucchange.nrep <- strucchange.nrep
   
   
 	class(options) <- "semtree.control"

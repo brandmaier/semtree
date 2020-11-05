@@ -19,14 +19,14 @@ gefp_semtree <- function (..., fit = NULL, scores, vcov = NULL,
   process <- scores/sqrt(n)
   if (is.null(vcov.)) {
     J <- crossprod(process)
-    J12 <- root.matrix(J)
+    J12 <- strucchange::root.matrix(J)
   }
   else {
     if (sandwich) {
       Q <- chol2inv(chol(bread(fm)/n))
       J <- (Q %*% vcov.(fm, order.by = order.by, data = data) %*% 
               Q)/n
-      J12 <- root.matrix(J)
+      J12 <- strucchange::root.matrix(J)
     }
     else {
       J12 <- vcov.
@@ -44,7 +44,7 @@ gefp_semtree <- function (..., fit = NULL, scores, vcov = NULL,
   colnames(process) <- colnames(scores)
   if (!is.null(parm)) 
     process <- process[, parm]
-  retval <- list(process = suppressWarnings(zoo(process, z)), 
+  retval <- list(process = suppressWarnings(zoo::zoo(process, z)), 
                  nreg = k, nobs = n, call = match.call(), fit = fit, scores = scores, 
                  fitted.model = fm, par = NULL, lim.process = "Brownian bridge", 
                  type.name = "M-fluctuation test", order.name = order.name, 

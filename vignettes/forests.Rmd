@@ -1,0 +1,86 @@
+---
+title: "SEM Forests"
+author: "Andreas Brandmaier"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(semtree)
+```
+
+## Load data
+
+Load affect dataset from the `psychTools` package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to  study affect dimensionality and the relationship to various personality dimensions.
+
+```{r}
+library(psychTools)
+data(affect)
+
+knitr::kable(head(affect))
+
+affect$Film <- as.factor(affect$Film)
+affect$lie <- as.ordered(affect$lie)
+affect$imp <- as.ordered(affect$imp)
+```
+
+## Create simple model of state anxiety
+
+The following code implements a simple SEM with only a single manifest variables and two parameters, the mean of state anxiety after having watched a movie (`state2`), $\mu$, and the variance of state anxiety, $\sigma^2$.
+
+```{r}
+library(OpenMx)
+manifests<-c("state2")
+latents<-c()
+model <- mxModel("Simple Model", 
+type="RAM",
+manifestVars = manifests,
+latentVars = latents,
+mxPath(from="one",to=manifests, free=c(TRUE), value=c(1.0) , arrows=1, label=c("mu") ),
+mxPath(from=manifests,to=manifests, free=c(TRUE), value=c(1.0) , arrows=2, label=c("sigma2") ),
+mxData(affect, type = "raw")
+);
+
+result <- mxRun(model)
+```
+
+These are the estimates of the model when run on the entire sample:
+
+```{r}
+summary(result)
+```
+
+## Forest
+
+Create a forest control object that stores all tuning parameters of the forest
+
+```{r}
+control <- semforest.control(num.trees = 20)
+print(control)
+```
+
+Now, run the forest using the `control` object:
+
+```{r}
+forest <- semforest( model=model, data = affect, control = control )
+```
+
+## Variable importance
+
+Next, we compute permutation-based variable importance.
+
+```{r}
+vim <- varimp(forest)
+print(vim, sort.values=TRUE)
+plot(vim)
+```
+
+From this, we can learn that variables such as `NA2` representing negative affect (after the movie), `TA2` representing tense arousal (after the movie), and `state1` representing the state anxiety before having watched the movie, are the best predictors of difference in the distribution of state anxiety (in either mean, variance or both) after having watched the movie. 

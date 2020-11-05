@@ -66,7 +66,7 @@ Currently available evaluation methods for assessing partitions:
   Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.
 }
 \author{
-  Andreas M. Brandmaier, John J. Prindle
+  Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 }
 %\note{
 %%  ~~further notes~~

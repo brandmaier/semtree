@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
       </span>
     </div>
 
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="semforest-focus_files/jquery-1.11.3/jquery.min.js"></script><script src="semforest-focus_files/elevate-section-attrs-2.0/elevate-section-attrs.js"></script><div class="row">
+      </header><script src="semforest-focus_files/header-attrs-2.3/header-attrs.js"></script><script src="semforest-focus_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Focus parameters in SEM forests</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-04-29</h4>
+            <h4 class="date">2020-11-05</h4>
       
       
       <div class="hidden name"><code>semforest-focus.Rmd</code></div>
@@ -142,11 +142,11 @@
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; free parameters:</span>
 <span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span>
-<span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583664 0.18149543  </span>
-<span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11385419  </span>
-<span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848898 0.14243240  </span>
-<span class="co">#&gt; 4       mu1      M   1  x1 1.4858353 0.06370542  </span>
-<span class="co">#&gt; 5       mu2      M   1  x2 1.4551363 0.05643473  </span>
+<span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583666 0.18149512  </span>
+<span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11385399  </span>
+<span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848900 0.14243121  </span>
+<span class="co">#&gt; 4       mu1      M   1  x1 1.4858354 0.06370452  </span>
+<span class="co">#&gt; 5       mu2      M   1  x2 1.4551364 0.05643442  </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Model Statistics: </span>
 <span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span>
@@ -164,10 +164,10 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-04-29 07:38:35 </span>
-<span class="co">#&gt; Wall clock time: 0.06512189 secs </span>
-<span class="co">#&gt; optimizer:  CSOLNP </span>
-<span class="co">#&gt; OpenMx version number: 2.17.3 </span>
+<span class="co">#&gt; timestamp: 2020-11-05 09:15:41 </span>
+<span class="co">#&gt; Wall clock time: 0.07759309 secs </span>
+<span class="co">#&gt; optimizer:  SLSQP </span>
+<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 <p>This is how the data look in a 2D space:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">df.biv.pred</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">df.biv</span>,
@@ -182,7 +182,10 @@
 <span class="co">#fp &lt;- "mu1" # predicted by grp1</span>
 
 <span class="no">tree.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>, <span class="kw">constraints</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">focus.parameters</span><span class="kw">=</span><span class="no">fp</span>))
-<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span>
+<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv</span>)</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-4-1.png" width="50%"></p>
@@ -191,17 +194,45 @@
 <span class="no">forest</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>,
                     <span class="kw">constraints</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">focus.parameters</span><span class="kw">=</span><span class="no">fp</span>),
                     <span class="kw">control</span><span class="kw">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span><span class="kw">=</span><span class="fl">5</span>))
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 3s].</span>
-<span class="co">#&gt; ✔ Forest completed [took 12s]</span></pre></body></html></div>
+<span class="co">#&gt; ❯ Model was not run. Estimating parameters now before running the forest.</span>
+<span class="co">#&gt; Running Bivariate_Model with 5 parameters</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Beginning initial fit attempt</span>
+<span class="co">#&gt; Running Bivariate_Model with 5 parameters</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Lowest minimum so far:  8231.94380334365</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Solution found</span></pre></body></html></div>
+<pre><code>#&gt; 
+#&gt;  Solution found!  Final fit=8231.9438 (started at 14702.356)  (1 attempt(s): 1 valid, 0 errors)
+#&gt;  Start values from best fit:
+#&gt; 4.05836714982455,0.197053351940238,3.18488979134096,1.48583494006395,1.45513684810418
+#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✔ Tree construction finished [took 3s].
+#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✔ Tree construction finished [took 2s].
+#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✔ Tree construction finished [took 3s].
+#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✔ Tree construction finished [took 2s].
+#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
+#&gt; ✔ Tree construction finished [took 3s].
+#&gt; ✔ Forest completed [took 13s]</code></pre>
 <p>By default, we see that individual trees are fully grown (without a p-value threshold). The first split is according to <code>grp2</code> because it best explains the group differences. Subsequent splits are according to <code>grp1</code> even though the chi2 values are close to zero. They only appear because there is no p-value-based stopping criterion.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">forest</span>$<span class="no">forest</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">forest</span>$<span class="no">forest</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-6-1.png" width="50%"></p>
 <p>Now, let us compare the new permutation scheme</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r">
+<div class="sourceCode" id="cb7"><html><body><pre class="r">
 <span class="no">vim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span>(<span class="no">forest</span>, <span class="kw">method</span><span class="kw">=</span><span class="st">"permutationFocus"</span>)
 
 
@@ -211,7 +242,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim.old</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Standard"</span>)</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-7-1.png" width="50%"></p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>, <span class="kw">main</span><span class="kw">=</span><span class="st">"Focus correction"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>, <span class="kw">main</span><span class="kw">=</span><span class="st">"Focus correction"</span>)</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-7-2.png" width="50%"></p>
   </div>
 

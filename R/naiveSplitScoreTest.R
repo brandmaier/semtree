@@ -48,7 +48,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   # get covariance matrix of the model parameters
   if (identical(control$information.matrix, "info")) {
     vcov. <- solve(vcov(fit) * n)
-    vcov. <- root.matrix(vcov.)
+    vcov. <- strucchange::root.matrix(vcov.)
     sandwich. <- FALSE
   } else {
     sandwich. <- TRUE
@@ -98,11 +98,11 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       # get test statstic object
       functional <- switch(test, dm = strucchange::maxBB,
                            cvm = strucchange::meanL2BB, 
-                           suplm = strucchange::supLM(from = control$from, to = control$to),
+                           suplm = strucchange::supLM(from = control$strucchange.from, to = control$strucchange.to),
                            lmuo = strucchange::catL2BB(factor(covariate)),
                            wdmo = strucchange::ordwmax(factor(covariate)), 
                            maxlmo = strucchange::ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
-                                            nobs = NULL, nrep = control$nrep),
+                                            nobs = NULL, nrep = control$strucchange.nrep),
                            stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, supLM, or CvM (metric)."))
       
       # peform score test
@@ -115,8 +115,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                      covariate = covariate,
                                      test = test,
                                      scaled_split = control$scaled_scores,
-                                     from = control$from,
-                                     to = control$to))
+                                     from = control$strucchange.from,
+                                     to = control$strucchange.to))
         
         
         # check if cutpoint is too close to the border
