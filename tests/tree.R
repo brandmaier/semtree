@@ -4,7 +4,7 @@ data(lgcm)
 
 lgcm$agegroup <- as.ordered(lgcm$agegroup)
 lgcm$training <- as.factor(lgcm$training)
-lgcm$noise <- as.numeric(lgcm$noise)
+lgcm$noise <- as.factor(lgcm$noise)
 
 # LOAD IN OPENMX MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
@@ -118,5 +118,5 @@ controlOptions <- semtree.control(method = "fair")
 tree2 <- semtree(lgcModel, lgcm, control=controlOptions)
 
 
-controlOptions <- semtree.control(method = "cv")
+controlOptions <- semtree.control(method = "score")
 tree3 <- semtree(lgcModel, lgcm, control=controlOptions)
