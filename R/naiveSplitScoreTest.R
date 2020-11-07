@@ -15,7 +15,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   split.max <- NA
   col.max <- NA
   name.max <- NA
-  type.max <- NA
+  type.max <- 99 # This cannot be NA (gives an error if all covariates lead to too small bins)
   p.max <- 1
   contrib.max <- NA
   btn.matrix <- NULL
@@ -129,7 +129,6 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       mydata = mydata,
                                       fit = fit,
                                       sandwich. = sandwich.,
-                                      functional = functional,
                                       p.max = p.max,
                                       test = test)
           
