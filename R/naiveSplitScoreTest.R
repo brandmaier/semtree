@@ -108,6 +108,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       # peform score test
       test.result <- strucchange::sctest(scus, functional = functional)
       
+      
       # get cutpoint and parameter contributions
       if (test.result$p.value < min(c(control$alpha, p.max))) { # only if current p-value is smaller than other p-values
         test.result <- c(test.result,

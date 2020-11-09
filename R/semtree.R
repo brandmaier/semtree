@@ -320,6 +320,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
                    invariance=invariance, meta=meta, 
                    constraints=constraints, ...)
   
+  
   # determine time elapsed
   elapsed <- proc.time()-start.time
   
