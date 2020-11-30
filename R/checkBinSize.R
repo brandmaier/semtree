@@ -52,7 +52,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         # Vcov
         if (identical(control$information.matrix, "info")) {
           vcov_up <- solve(vcov(fit_up) * n_up)
-          vcov_up <- root.matrix(vcov_up)
+          vcov_up <- strucchange::root.matrix(vcov_up)
         }
         
         # Re-calcuate cumlative score process
@@ -69,10 +69,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
                                 wdmo = strucchange::ordwmax(factor(covariate_up)), 
                                 maxlmo = strucchange::ordL2BB(factor(covariate_up),
                                                               nproc = NCOL(scus_up$process), 
-                                                              nobs = NULL, nrep = control$nrep))
+                                                              nobs = NULL, nrep = control$strucchange.nrep))
         
         # Re-run score test
-        test.result <- sctest(scus_up, functional = functional_up)
+        test.result <- strucchange::sctest(scus_up, functional = functional_up)
         
         # Check if the re-calculated p-value is still smaller
         if (test.result$p.value > min(c(control$alpha, p.max))) {return(test.result)}
@@ -130,7 +130,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           # vcov
           if (identical(control$information.matrix, "info")) {
             vcov_up <- solve(vcov(fit_up) * n_up)
-            vcov_up <- root.matrix(vcov_up)
+            vcov_up <- strucchange::root.matrix(vcov_up)
           }
           # Re-calcuate cumlative score process
           scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up,
@@ -146,10 +146,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
                                   wdmo = strucchange::ordwmax(factor(covariate_up)), 
                                   maxlmo = strucchange::ordL2BB(factor(covariate_up),
                                                                 nproc = NCOL(scus_up$process), 
-                                                                nobs = NULL, nrep = control$nrep))
+                                                                nobs = NULL, nrep = control$strucchange.nrep))
           
           # Re-run score test
-          test.result <- sctest(scus_up, functional = functional_up)
+          test.result <- strucchange::sctest(scus_up, functional = functional_up)
           
           # Check if the re-calculated p-value is still smaller
           if (test.result$p.value > min(c(control$alpha, p.max))) {return(test.result)}
@@ -211,7 +211,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         # vcov
         if (identical(control$information.matrix, "info")) {
           vcov_up <- solve(vcov(fit_up) * n_up)
-          vcov_up <- root.matrix(vcov_up)
+          vcov_up <- strucchange::root.matrix(vcov_up)
         }
         
         # Re-calcuate cumlative score process
@@ -227,10 +227,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
                                 wdmo = strucchange::ordwmax(factor(covariate_up)), 
                                 maxlmo = strucchange::ordL2BB(factor(covariate_up),
                                                               nproc = NCOL(scus_up$process), 
-                                                              nobs = NULL, nrep = control$nrep))
+                                                              nobs = NULL, nrep = control$strucchange.nrep))
         
         # Re-run score test
-        test.result <- sctest(scus_up, functional = functional_up)
+        test.result <- strucchange::sctest(scus_up, functional = functional_up)
         
         # Check if the re-calculated p-value is still smaller
         if (test.result$p.value > min(c(control$alpha, p.max))) {return(test.result)}
@@ -288,7 +288,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           # vcov
           if (identical(control$information.matrix, "info")) {
             vcov_up <- solve(vcov(fit_up) * n_up)
-            vcov_up <- root.matrix(vcov_up)
+            vcov_up <- strucchange::root.matrix(vcov_up)
           }
           # Re-calcuate cumlative score process
           scus_up <- gefp_semtree(x = fit_up, order.by = covariate_up, 
@@ -304,10 +304,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
                                   wdmo = strucchange::ordwmax(factor(covariate_up)), 
                                   maxlmo = strucchange::ordL2BB(factor(covariate_up),
                                                                 nproc = NCOL(scus_up$process), 
-                                                                nobs = NULL, nrep = control$nrep))
+                                                                nobs = NULL, nrep = control$strucchange.nrep))
           
           # Re-run score test
-          test.result <- sctest(scus_up, functional = functional_up)
+          test.result <- strucchange::sctest(scus_up, functional = functional_up)
           
           # Check if the re-calculated p-value is still smaller
           if (test.result$p.value > min(c(control$alpha, p.max))) {return(test.result)}

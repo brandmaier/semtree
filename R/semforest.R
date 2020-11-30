@@ -155,7 +155,9 @@ semforest <- function(model, data, control=NULL,
 	
   # give trees names
 	for (i in 1:length(trees)) {
-	  trees[[i]]$name <- paste0("Tree #",i)
+	  if (!is.null(trees[[i]])) {
+  	  trees[[i]]$name <- paste0("Tree #",i)
+	  }
 	}
  
   # compute time elapsed

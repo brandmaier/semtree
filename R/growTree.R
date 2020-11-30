@@ -107,7 +107,6 @@ growTree <- function(model=NULL, mydata=NULL,
   ###########################################################
   if(control$sem.prog == 'lavaan'){
     #read in estimated parameters
-    #browser()
     parameters <- data.frame(lavaan::parameterEstimates(node$model))[!is.na(data.frame(lavaan::parameterEstimates(node$model))[,"z"]),]
     node$params <- lavaan::coef(node$model) # put parameters into node 
     names(node$params) <- names(lavaan::coef(node$model)) # parameter names are stored as well
@@ -191,6 +190,8 @@ growTree <- function(model=NULL, mydata=NULL,
     
     # result <- tryCatch(
     ################################################
+
+    
     result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
     ################################################
     #   ,
@@ -252,7 +253,7 @@ growTree <- function(model=NULL, mydata=NULL,
   #  );  	
   #  node$p.values.valid <- FALSE	    
   #}
-  
+
   # return values in result are:
   # LL.max		: numeric, log likelihood ratio of best split
   # split.max 	: numeric, value to split best column on 
@@ -355,8 +356,6 @@ growTree <- function(model=NULL, mydata=NULL,
     meta <- fullmeta
   }
   
-  
-  
   if  ((!is.null(cont.split)) && (!is.na(cont.split)) && (cont.split)) {
     if (control$report.level > 10) {
       report("Stop splitting based on stopping rule.", 1)
@@ -407,7 +406,12 @@ growTree <- function(model=NULL, mydata=NULL,
       sub1 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)])) >result$split.max)
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
     }
-    else {
+    else if (result$type.max == 99) {
+      # this is an error code by score test implementation
+      # return node and stop splitting
+      return(node)
+    }
+    else  {
       # continuous variables splitting
       node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)

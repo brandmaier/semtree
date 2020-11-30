@@ -1,12 +1,12 @@
 #semtree.apply.wrapper <- function(data, model, semtree.control, ...)
 semtree.apply.wrapper <- function(data, seed, model, semtree.control, with.error.handler=TRUE, covariates, ...)
 {
- # browser()
+
 	if(!is.na(seed)) {
     	cat("Set seed ",seed," for tree in forest\n")
 		set.seed(seed)
 	}
-#	browser()
+
 	result <- NULL
 	
 	if (with.error.handler) {
@@ -27,6 +27,9 @@ semtree.apply.wrapper <- function(data, seed, model, semtree.control, with.error
 		
 		result <- semtree(model=model,dataset=data$bootstrap.data,control=semtree.control, 
                       covariates=covariates,...)
+		
+		ui_ok("Hi!")
+		browser()
 	}
 	
 	return(result)
