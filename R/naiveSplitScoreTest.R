@@ -103,7 +103,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                            wdmo = strucchange::ordwmax(factor(covariate)), 
                            maxlmo = strucchange::ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
                                             nobs = NULL, nrep = control$strucchange.nrep),
-                           stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, supLM, or CvM (metric)."))
+                           stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, maxLM (alias: supLM), or CvM (metric)."))
       
       # peform score test
       test.result <- strucchange::sctest(scus, functional = functional)

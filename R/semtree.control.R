@@ -3,7 +3,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
          folds=5, exclude.heywood=TRUE, progress.bar=TRUE, 
          verbose=FALSE, bonferroni=FALSE, use.all=FALSE, seed = NA, custom.stopping.rule=NA,
 		 mtry=NA, report.level=0, exclude.code=NA, 
-		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'CvM'),
+		 score.tests = list(nominal = 'LMuo', ordinal = 'maxLMo', metric = 'maxLM'),
 		 information.matrix = "info", scaled_scores = TRUE, linear = TRUE,
 		 min.bucket=10, naive.bonferroni.type=0, missing = 'ignore', use.maxlm = FALSE,
 		 strucchange.from = 0.15, strucchange.to = NULL, strucchange.nrep = 50000)
@@ -13,6 +13,7 @@ function(method="naive", min.N = 20, max.depth=NA, alpha=.05, alpha.invariance=N
 	options$verbose <- verbose
 	# score tests for each scale type
 	options$score.tests <- lapply(X = score.tests, FUN = tolower)
+	if (options$score.tests$metric == "maxlm") {options$score.tests$metric <- "suplm"}
 	# information matrix used to decorrelate scores
 	options$information.matrix <- information.matrix
 	# Scale scores for testing continuous covariates
