@@ -1,11 +1,11 @@
 #'
-#' Compute the Likelihood of some data given a SEM tree
+#' Compute the Likelihood of some data given a model (either OpenMx or lavaan)
 #'
 #' @param model A valid SEM (either OpenMx or lavaan)
 #' @data a \code{data.frame}
 #' @data_type Character. The data type for OpenMx models only ("cov", "cor", or "raw"). Defaults to "raw".
 #'
-#' @returns The negative-two log-likelihood of the data given the tree
+#' @returns The negative-two log-likelihood of the data given the model
 #'
 
 evaluateDataLikelihood <-

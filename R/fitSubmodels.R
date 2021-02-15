@@ -2,11 +2,13 @@
 # Fit multigroup model for evaluating a candidate split
 #
 # @param model A model specification that is used as template for each of the two groups
-# @param subset1 Dataset for the first group model
-# @param subset2 Dataset for the second group model
-# @param control a \code{semtree.control} object
+#' @param subset1 Dataset for the first group model
+#' @param subset2 Dataset for the second group model
+#' @param control a \code{semtree.control} object
 #
-# returns NA if fit fails
+#' returns NA if fit fails
+#' 
+#' @export
 
 fitSubmodels <- function(model,
                          subset1,
