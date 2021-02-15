@@ -13,12 +13,7 @@ coef.semtree <- function(object, ...)
     
   } else if (inherits(model, "lavaan")) {
     
-    estimates <- parameterEstimates(model)$est
-    names(estimates) <- paste0(parameterEstimates(model)$lhs,
-                               parameterEstimates(model)$op,
-                               parameterEstimates(model)$rhs)
-    
-    return(estimates)
+    return(lavaan::coef(model))
     
   } else {
     warning("Model class is not supported!")

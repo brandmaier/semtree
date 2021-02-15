@@ -94,31 +94,41 @@ growTree <- function(model=NULL, mydata=NULL,
     
     # some export/namespace problem here with the generic
     # getS3method("summary","MxModel") gets me the right fun
-    msm <- getS3method("summary","MxModel")
+    S3summary <- getS3method("summary","MxModel")
     
     # list of point estimates, std.dev, and names of all freely estimated parameters
-    node$params <- msm(node$model)$parameters[,5];
-    names(node$params) <- msm(node$model)$parameters[,1];
-    node$params_sd <- msm(node$model)$parameters[,6];
-    node$param_names <- msm(node$model)$parameters[,1];
+    node$params <- S3summary(node$model)$parameters[,5];
+    names(node$params) <- S3summary(node$model)$parameters[,1];
+    node$params_sd <- S3summary(node$model)$parameters[,6];
+    node$param_names <- S3summary(node$model)$parameters[,1];
   }
   ###########################################################
   ###               lavaan USED HERE                      ###
   ###########################################################
   if(control$sem.prog == 'lavaan'){
-    #read in estimated parameters
-    parameters <- data.frame(lavaan::parameterEstimates(node$model))[!is.na(data.frame(lavaan::parameterEstimates(node$model))[,"z"]),]
+  
     node$params <- lavaan::coef(node$model) # put parameters into node 
     names(node$params) <- names(lavaan::coef(node$model)) # parameter names are stored as well
-    for(i in 1:nrow(parameters)){ # if any labels are missing (some labels provided), then put default labels in the label col.
+  
+    #read in estimated parameters (take only those that have non-NA z values)
+    #parameters <- data.frame(
+    #  lavaan::parameterEstimates(node$model))[!is.na(
+    #    data.frame(lavaan::parameterEstimates(node$model))[,"z"]),]
+    
+    parameters <- lavaan::parameterEstimates(node$model)
+    
+    # if any labels are missing (some labels provided), then put default labels in the label col.
+    for(i in 1:nrow(parameters)){ 
       if(!is.null(parameters$label)){
         if(parameters$label[i]==""){parameters$label[i]<-paste(parameters$lhs[i],parameters$op[i],parameters$rhs[i],sep="")}
       }
-    } # if all labels are missing make a label column
+    } 
+    # if all labels are missing make a label column
     if(is.null(parameters$label)){
       label <- paste(parameters$lhs,parameters$op,parameters$rhs,sep="")
       parameters<- cbind(parameters,label)
     } 
+    
     # store the SE of the estimates
     se <- rep(NA,length(unique(parameters$se)))
     for(i in 1:length(unique(parameters$label))){

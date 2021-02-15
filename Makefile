@@ -17,7 +17,7 @@ build:
 	cd ..;\
 	R CMD build $(PKGSRC)
 
-build2:
+buildfast:
 	cd ..;\
 	R CMD build --no-build-vignettes $(PKGSRC)
 
