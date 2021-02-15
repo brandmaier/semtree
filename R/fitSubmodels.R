@@ -23,7 +23,7 @@ fitSubmodels <- function(model,
   
   
   if (!is.null(control$min.N)) {
-    if (nrow(subset1) < control$min.N ||  nrow(subset2) < control$min.N) {
+    if (nrow(subset1) < control$min.bucket ||  nrow(subset2) < control$min.bucket) {
       if (control$verbose) {
         message("Minimum number of cases reached!")
         
