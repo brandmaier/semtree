@@ -1,4 +1,4 @@
-
+#' @exportS3Method print semforest.varimp
 print.semforest.varimp <- function(x, aggregate="mean",
                                    scale="absolute", sort.values=F,
                                    na.omit=FALSE, ...) {

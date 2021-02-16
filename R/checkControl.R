@@ -29,7 +29,7 @@ check.semtree.control <- function(control, fail=TRUE)
    temp <- semtree.control()
    for ( nms in attributes(temp)$names) {
      val <- control[[nms]]
-     if (!is.na(val) && !is.na(temp[[nms]])) {
+     if (!all(is.na(val)) && !all(is.na(temp[[nms]]))) {
        if (!(class(val)==class(temp[[nms]]))) {
          warning(paste0("Possibly wrong class for semtree_control option ",nms))
        }

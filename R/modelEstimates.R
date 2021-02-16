@@ -1,4 +1,16 @@
-modelEstimates <- function(tree, level=0, ...)
+#' Returns all estimates of a tree
+#' 
+#' Return model estimates of the tree.
+#' 
+#' 
+#' @param tree A semtree object.
+#' @param \dots Optional arguments.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
+#' @export
+modelEstimates <- function(tree, ...)
 {
   # Compile Model estimates by Terminal Nodes. Includes Globally Constrained Elements
   
@@ -22,9 +34,8 @@ modelEstimates <- function(tree, level=0, ...)
     return(v)
   }
   
-  #level = 0
-  r <- modelEstimates(tree$right_child, level+1);
-  l <- modelEstimates(tree$left_child, level+1);
+  r <- modelEstimates(tree$right_child);
+  l <- modelEstimates(tree$left_child);
   
   data <- append(l, r)
   

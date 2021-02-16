@@ -1,4 +1,4 @@
-
+#' @export
 hellinger <- function(mu1, cov1, mu2, cov2) {
 
   d <- nrow(cov1)

@@ -1,3 +1,4 @@
+#' @exportS3Method print summary.semtree
 print.summary.semtree <-
 function(x, ...) {
   cat("SEMtree Summary\n");	

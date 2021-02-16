@@ -1,3 +1,30 @@
+#' Create a SEM Forest
+#' 
+#' Grows a SEM Forest from a template model and a dataset. This may take some
+#' time.
+#' 
+#' 
+#' @aliases semforest print.semforest plot.semforest
+#' @param model A template SEM. Same as in \code{semtree}.
+#' @param data A dataframe to create a forest from. Same as in \code{semtree}.
+#' @param control A semforest control object to set forest parameters.
+#' @param predictors An optional list of covariates. See semtree code example.
+#' @param constraints An optional list of covariates. See semtree code example.
+#' @param cluster An object of class "cluster" representing a parallel socket
+#' cluster. See package \link[parallel]{makeCluster}.
+#' @param \dots Optional parameters.
+#' @return A semforest object.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @seealso \code{\link{semtree}}
+#' @references Brandmaier, A.M., Prindle, J. J., McArdle, J. J., &
+#' Lindenberger, U. (2016). Theory-guided exploration with structural equation
+#' model forests. \emph{Psychological Methods}, 21(4), 566--582.
+#' 
+#' Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013).
+#' Structural equation model trees. \emph{Psychological Methods}, 18(1),
+#' 71--86.
+#' @keywords tree models multivariate
+#' @export
 semforest <- function(model,
                       data,
                       control = NULL,

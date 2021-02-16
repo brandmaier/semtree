@@ -1,3 +1,4 @@
+#' @exportS3Method plot semforest.proximity
 plot.semforest.proximity <- function(x, main = "Principal Coordinates", xlim=NULL, ylim=NULL, 
                            col="black",pch=NULL,  axes=c(1,2), projection.type="mds",cex=2, ...) 
 {

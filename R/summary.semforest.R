@@ -1,3 +1,4 @@
+#' @exportS3Method 
 summary.semforest <- function(object, ...)
 {
   

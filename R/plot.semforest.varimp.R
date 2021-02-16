@@ -1,4 +1,4 @@
-
+#' @exportS3Method plot semforest.varimp
 plot.semforest.varimp <- function(x, sort.values=T, aggregate="mean",
                                   horiz=T, las=1, convergence=F, scale="absolute", xlim=NULL,            
                                   head=NULL, tail=NULL, na.omit=FALSE, ...)

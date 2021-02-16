@@ -1,3 +1,4 @@
+#' @exportS3Method plot semtree
 plot.semtree <- function(x,
                          type = 2,
                          no.plot = FALSE,

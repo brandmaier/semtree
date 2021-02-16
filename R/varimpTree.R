@@ -62,7 +62,7 @@ varimpTree <- function(tree,
           return.models = TRUE
         )
         
-        if (is.null(focus.param.models) | (is.na(focus.param.models))) {
+        if (is.null(focus.param.models) | (all(is.na(focus.param.models)))) {
           ui_fail("Model did not converge")
           num_failed = num.failed + 1
         }

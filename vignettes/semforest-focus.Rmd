@@ -28,16 +28,16 @@ We first generate a mixture of bivariate normal distributions. The distributions
 library(semtree)
 set.seed(123)
 N <- 1000
-grp1 <- sample(x = c(0,1), size=N, replace=TRUE)
-grp2 <- sample(x = c(0,1), size=N, replace=TRUE)
-noise <- sample(x = c(0,1),size=N, replace=TRUE)
+grp1 <- factor(sample(x = c(0,1), size=N, replace=TRUE))
+grp2 <- factor(sample(x = c(0,1), size=N, replace=TRUE))
+noise <- factor(sample(x = c(0,1),size=N, replace=TRUE))
 Sigma <- matrix(byrow=TRUE,
                 nrow=2,c(2,0.2,
                          0.2,1))
 obs <- MASS::mvrnorm(N,mu=c(0,0),
                      Sigma=Sigma)
-obs[,1] <- obs[,1] + ifelse(grp1,3,0)
-obs[,2] <- obs[,2] + ifelse(grp2,3,0)
+obs[,1] <- obs[,1] + ifelse(grp1==1,3,0)
+obs[,2] <- obs[,2] + ifelse(grp2==1,3,0)
 df.biv <- data.frame(obs, grp1, grp2, noise)
 names(df.biv)[1:2] <- paste0("x",1:2)
 manifests<-c("x1","x2")
@@ -62,7 +62,7 @@ This is how the data look in a 2D space:
 
 ```{r}
 df.biv.pred <- data.frame(df.biv, 
-  leaf=factor(df.biv$grp2*2+df.biv$grp1))
+  leaf=factor(as.numeric(df.biv$grp2)*2+as.numeric(df.biv$grp1)))
   ggplot(data = df.biv.pred, aes(x=x1, y=x2, group=leaf))+ 
   geom_density_2d(aes(colour=leaf))+ 
   viridis::scale_color_viridis(discrete=TRUE)+

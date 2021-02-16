@@ -49,5 +49,5 @@ Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.15
 Date: 2020-10-24
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr

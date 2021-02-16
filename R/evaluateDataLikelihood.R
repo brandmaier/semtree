@@ -1,12 +1,21 @@
 #'
-#' Compute the Likelihood of some data given a model (either OpenMx or lavaan)
-#'
-#' @param model A valid SEM (either OpenMx or lavaan)
-#' @data a \code{data.frame}
-#' @data_type Character. The data type for OpenMx models only ("cov", "cor", or "raw"). Defaults to "raw".
-#'
-#' @returns The negative-two log-likelihood of the data given the model
-#'
+#' Compute the Negative Two-Loglikelihood of some data given a model (either OpenMx or lavaan)
+#' 
+#' This helper function is used
+#' in the \code{\link{semforest}} \code{\link{varimp}} and
+#' \code{\link{proximity}} aggregate functions.
+#' 
+#' 
+#' @param model A \code{\link{OpenMx}} model as used in \code{\link{semtree}}
+#' and \code{\link{semforest}}.
+#' @param data Data set to apply to a fitted model.
+#' @param data_type Type of data ("raw", "cov", "cor")
+#' @return Returns a -2LL model fit for the model
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @seealso \code{\link{semtree}}, \code{\link{semforest}}
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
 
 evaluateDataLikelihood <-
   function(model, data, data_type = "raw")

@@ -1,4 +1,3 @@
-
 partialDependencePlot <- function(forest, reference.var, reference.param, support=10, xlab=NULL, ylab=NULL,...)  {
   .Deprecated("partialDependence")
   pd <- partialDependence(forest, reference.var, reference.param, support)
@@ -6,6 +5,26 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
   return(pd)
 }
 
+
+
+#' Partial Dependence Plot
+#' 
+#' Partial dependence plot for the effect of an indepedent variable in the
+#' dataset on the dependent outcome parameter selected. Returns a
+#' partialDependence object that can be plotted via generic plot command.
+#' 
+#' 
+#' @aliases partialDependence plot.partialDependence partialDependencePlot
+#' @param forest A SEM forest
+#' @param reference.var Label of the (independent) reference variable for which
+#' partial dependence is plotted
+#' @param reference.param Label of the (dependent) model parameter for which
+#' partial dependence is plotted
+#' @param support Number of grid points for interpolating the reference.var
+#' @param cluster A reference to a cluster from parallel package for parallel
+#' execution. Defaults to NULL for sequential computation.
+#' @author Andreas M. Brandmaier
+#' @export
 partialDependence <- function(forest, reference.var, reference.param, support=NULL, cluster=NULL) 
 {
   

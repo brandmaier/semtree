@@ -1,3 +1,4 @@
+#' @exportS3Method 
 summary.semtree <-
 function(object, ...) {
 

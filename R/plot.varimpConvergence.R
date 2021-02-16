@@ -27,7 +27,7 @@ if (is.null(idx)) {
 }
 
 #colors = c("black","blue","green","red","orange","purple","pink")
-colors = rainbow(M)
+colors = grDevices::rainbow(M)
 
 pdata <- matrix(0, nrow=N, ncol=M)
 for (i in 1:M) {

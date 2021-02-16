@@ -1,3 +1,4 @@
+#' @exportS3Method plot diversityMatrix
 plot.diversityMatrix <- function(x, num.cluster=2, col.area = "gray",
                      col.medoids = "blue", type="mds", 
                      show.cluster.center=TRUE,...)

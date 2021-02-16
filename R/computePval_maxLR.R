@@ -14,6 +14,7 @@
 #       covariates.
 #' @author Manuel Arnold
 #' @return Numeric. p value for maximally selected LR statistic
+
   computePval_maxLR <- function(maxLR, q, covariate, from, to, nrep) {
     
     # Level of measurement

@@ -1,3 +1,25 @@
+#' SEMtrees Parameter Estimates Table
+#' 
+#' Returns a table of parameters with columns corresponding to freely estimated
+#' parameters and rows corresponding to nodes in the tree.
+#' 
+#' The row names of the resulting data frame correspond to internal node ids
+#' and the column names correspond to parameters in the SEM. Standard errors of
+#' the estimates can be obtained from \code{\link{parameters}}.
+#' 
+#' @param tree A SEMtree object obtained from \code{\link{semtree}}
+#' @param leafs.only Default = TRUE. Only the terminal nodes (leafs) are
+#' printed. If set to FALSE, all node parameters are written to the
+#' \code{data.frame}.
+#' @return Returns a \code{data.frame} with rows for parameters and columns for
+#' terminal nodes.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @seealso \code{\link{semtree}}, \code{\link{semtree.control}},
+#' \code{\link{se}}
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
+#' @export
 parameters <- function(tree, leafs.only=TRUE) {
 	
 	data <- parameters.rec(tree, leafs.only, 0)

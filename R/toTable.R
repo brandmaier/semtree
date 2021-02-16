@@ -26,9 +26,28 @@ treeToTable <- function(tree, colDataList=list(), result=list())
   return(result);
 }
 
+
+
+#' Tabular Representation of a SEM Tree
+#' 
+#' Converts a tree into a tabular representation. This may be useful as a
+#' textual representation for use in manuscripts.
+#' 
+#' 
+#' @param tree A SEM Tree object.
+#' @param added.param.cols Add extra columns with parameter estimates.
+#' @param round.param Number of digits to round parameter estiamtes
+#' @author Andreas M. Brandmaier
+#' @references
+#' 
+#' Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (in press).
+#' Terminal decline in well-being: The role of multi-indicator constellations
+#' of physical health and psychosocial correlates. \emph{Developmental
+#' Psychology}.
+#' @export
 toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
 
-  #rows <- list()
+
   
 # collect all data
 alls <- c()
@@ -44,10 +63,7 @@ alls <- unique(alls)
 # collect all variables
 
 
-
-
 # create table
-#tree$result
 covariate.names <-simplify2array(tree$result$btn.matrix[2,])
 
 all.names <- c(covariate.names, added.param.cols)
