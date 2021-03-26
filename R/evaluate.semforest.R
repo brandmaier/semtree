@@ -6,7 +6,7 @@
 #' @aliases evaluate.semforest evaluate
 #' @param x A fitted \code{\link{semforest}} object
 #' @param data A data.frame
-#' @param list() No extra parameters yet.
+#' @param \dots No extra parameters yet.
 #' @return Average deviance
 #' @author Andreas M. Brandmaier
 #' @seealso \code{\link{evaluateDataLikelihood}}, \code{\link{semtree}},

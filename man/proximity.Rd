@@ -20,7 +20,7 @@ proximity(forest, dataset = NULL, type = 0, aggregate = T, cluster = NULL, ...)
 \item{cluster}{An object of class "cluster" representing a parallel socket
 cluster. See package \link[parallel]{makeCluster}.}
 
-\item{list()}{Optional arguments.}
+\item{\dots}{Optional arguments.}
 }
 \value{
 A matrix with dimensions NxN is returned. The values of each cell

@@ -1,7 +1,9 @@
 #'
 #' Return the parameter estimates of a given leaf of a SEM tree
+#' @param object semtree. A SEM tree node.
+#' @param \dots Extra arguments. Currently unused.
 #'
-#'  @exportS3Method 
+#'  @exportS3Method coef semtree
 #' 
 coef.semtree <- function(object, ...)
 {

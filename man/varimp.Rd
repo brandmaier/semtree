@@ -38,7 +38,7 @@ Default is "permutation".}
 \item{conditional}{Conditional variable importance if TRUE, otherwise
 marginal variable importance.}
 
-\item{list()}{Optional arguments.}
+\item{\dots}{Optional arguments.}
 }
 \description{
 A function to calculate relative variable importance for selecting node

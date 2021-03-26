@@ -27,7 +27,7 @@ fitSubmodels <- function(model,
   if (!is.null(control$min.N)) {
     if (nrow(subset1) < control$min.bucket ||  nrow(subset2) < control$min.bucket) {
       if (control$verbose) {
-        message("Minimum number of cases reached!")
+       # message("Minimum number of cases reached!")
         
       }
       #if (control$report.level > 3) {
@@ -118,7 +118,7 @@ fitSubmodels <- function(model,
       #model1 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset1,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
       if (is(model1, "try-error")) {
         if (control$verbose) {
-          message("try error found 1...")
+          message(paste0("Error in fitting submodel  #1", model1))
         }
         return(NA)
       }
@@ -146,7 +146,7 @@ fitSubmodels <- function(model,
       #model2 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
       if (is(model2, "try-error")) {
         if (control$verbose) {
-          message("try error found 2...")
+          message(paste0("Error in fitting submodel  #2", model2))
         }
         return(NA)
       }

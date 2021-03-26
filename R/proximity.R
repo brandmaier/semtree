@@ -12,7 +12,7 @@
 #' @param aggregate Boolean marker to compute aggregate proximity scores.
 #' @param cluster An object of class "cluster" representing a parallel socket
 #' cluster. See package \link[parallel]{makeCluster}.
-#' @param list() Optional arguments.
+#' @param \dots Optional arguments.
 #' @return A matrix with dimensions NxN is returned. The values of each cell
 #' are bounded (0,1) and represent proportion of trees where each case are in
 #' the same leaf nodes.

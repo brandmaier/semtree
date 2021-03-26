@@ -12,7 +12,7 @@ evaluate(x, data = NULL, ...)
 
 \item{data}{A data.frame}
 
-\item{list()}{No extra parameters yet.}
+\item{\dots}{No extra parameters yet.}
 }
 \value{
 Average deviance

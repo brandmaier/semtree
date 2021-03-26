@@ -18,7 +18,7 @@
 #' cluster. See package \link[parallel]{makeCluster}.
 #' @param conditional Conditional variable importance if TRUE, otherwise
 #' marginal variable importance.
-#' @param list() Optional arguments.
+#' @param \dots Optional arguments.
 #' @author Andreas M. Brandmaier, John J. Prindle
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},

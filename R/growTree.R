@@ -252,17 +252,6 @@ growTree <- function(model=NULL, mydata=NULL,
     ui_fail("Error. Unknown split method selected")
     stop()
   }
-  # 4. Experimental
-  #else if (control$method == "exp") {
-  #  result <- tryCatch(
-  #    ################################################
-  #    experimentalSplit(model, mydata, control, invariance, meta, ...)
-  ################################################
-  #    ,
-  #    error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
-  #  );  	
-  #  node$p.values.valid <- FALSE	    
-  #}
 
   # return values in result are:
   # LL.max		: numeric, log likelihood ratio of best split
@@ -285,6 +274,7 @@ growTree <- function(model=NULL, mydata=NULL,
     return(node);
   }
   
+  # provide verbose output to the user about best split
   if (control$verbose) {
     ui_ok("Best split is  ",result$name.max," with statistic = ",round(node$lr,2));
   }
