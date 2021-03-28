@@ -157,11 +157,12 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       }
       
       if (control$verbose) {
-        cat("Testing:", cur.name, "\n")
-        cat("Level of measurement:", level, "\n")
-        cat(test, " test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
-        cat("Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
-            LL.max, ", p-value: ", p.max, " split point: ", split.max)
+        cat("Score test of :", cur.name, " (")
+        cat("Level of measurement:", level, ")\n")
+        cat("     |--- ",test, ", test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
+        cat("     |--- Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
+            LL.max, ", p-value: ", p.max, " split point: ", split.max,"\n")
+        cat("     |--- ",type.max,"\n")
       }
     }
   }

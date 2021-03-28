@@ -9,7 +9,7 @@ checkControl <- function(control, fail=TRUE){
   return(fail)
 }
 
-check.semtree.control <- function(control, fail=T)
+check.semtree.control <- function(control, fail=TRUE)
 {
  attr <- attributes(control)$names
  def.attr <- attributes(semtree.control())$names
@@ -25,8 +25,22 @@ check.semtree.control <- function(control, fail=T)
      return(FALSE);
    }
  } else {
+   
+   temp <- semtree.control()
+   for ( nms in attributes(temp)$names) {
+     val <- control[[nms]]
+     if (!all(is.na(val)) && !all(is.na(temp[[nms]]))) {
+       if (!(class(val)==class(temp[[nms]]))) {
+         warning(paste0("Possibly wrong class for semtree_control option ",nms))
+       }
+     }
+   } # end for
+   
+   
    return (TRUE);
  }
+ 
+ 
  
  return (length(intersect(attr, def.attr)) == length(attr));
 }

@@ -15,9 +15,9 @@ readme:
 
 build:
 	cd ..;\
-	R CMD build $(PKGSRC)
+	R CMD build --with-keep.source $(PKGSRC)
 
-build2:
+buildfast:
 	cd ..;\
 	R CMD build --no-build-vignettes $(PKGSRC)
 

@@ -1,3 +1,4 @@
+#' @exportS3Method print semforest.control
 print.semforest.control <- function(x, ...)
 {
 	stopifnot(is(x,"semforest.control"))

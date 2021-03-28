@@ -1,3 +1,27 @@
+#' SEM Forest Case Proximity
+#' 
+#' A \code{\link{semforest}} process to represent proportion of trees where
+#' each case are in the same leaf nodes. The values are bounded (0,1), where
+#' higher values are closer in proximity.
+#' 
+#' 
+#' @aliases proximity plot.proximity plot.semforest.proximity
+#' @param forest A \code{\link{semforest}} object.
+#' @param dataset A dataset to compute proximity values for.
+#' @param type Missingness accounted for. (0 = no, 1 = yes)
+#' @param aggregate Boolean marker to compute aggregate proximity scores.
+#' @param cluster An object of class "cluster" representing a parallel socket
+#' cluster. See package \link[parallel]{makeCluster}.
+#' @param \dots Optional arguments.
+#' @return A matrix with dimensions NxN is returned. The values of each cell
+#' are bounded (0,1) and represent proportion of trees where each case are in
+#' the same leaf nodes.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @seealso \code{\link{semforest}}, \code{\link{semtree}}
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
+#' @export
 proximity <- function(forest, dataset=NULL, type=0, aggregate=T, cluster=NULL, ...)
 {
   if ("snowfall" %in% list(...)) {

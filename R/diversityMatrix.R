@@ -1,3 +1,12 @@
+#' Diversity Matrix
+#' 
+#' Computes a diversity matrix using a distance function between trees
+#' 
+#' 
+#' @param forest A SEM forest
+#' @param divergence A divergence function such as hellinger or klsym
+#' @param showProgressBar Boolean. Show a progress bar.
+#' @export
 diversityMatrix <- function(forest, divergence=klsym, showProgressBar=TRUE) {
   
   

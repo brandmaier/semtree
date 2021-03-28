@@ -1,3 +1,4 @@
+#' @exportS3Method prune semtree
 prune.semtree <- function(object, max.depth=NULL, ...)
 {
 	if (is.null(max.depth)) { return(object);}

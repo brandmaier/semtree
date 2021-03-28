@@ -1,3 +1,4 @@
+#' @importFrom grDevices heat.colors
 colmap <- function(x, cmap=heat.colors) {
   xvals <- unique(x)
   cols <- cmap(length(xvals))

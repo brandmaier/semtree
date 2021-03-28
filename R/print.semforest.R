@@ -1,3 +1,4 @@
+#' @exportS3Method print semforest
 print.semforest <- function(x, ...)
 {
  invalid.trees <- sum(sapply(x$forest,FUN=is.null))

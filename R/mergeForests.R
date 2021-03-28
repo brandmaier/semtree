@@ -1,4 +1,18 @@
-
+#' Merge two SEM forests
+#' 
+#' This overrides generic base::merge() to merge two forests into one.
+#' 
+#' 
+#' @aliases merge.semforest
+#' @param x A SEM Forest
+#' @param y A second SEM Forest
+#' @param \dots Extra arguments. Currently unused.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @seealso \code{\link{semtree}}
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
+#' @exportS3Method merge semforest
 merge.semforest <- function(x, y, ...)
 {
   return(merge.internal(list(x,y)))

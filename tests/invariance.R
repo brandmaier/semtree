@@ -36,7 +36,7 @@ for (i in 1:4) {
 data <- data.frame(data)
 names(data) <- paste0("x",1:4)
 
-fulldata <- cbind(data, age=rep(age,each=Nsub),ses=rep(ses,each=Nsub))
+fulldata <- cbind(data, age=factor(rep(age,each=Nsub)),ses=factor(rep(ses,each=Nsub)))
 #
 model<-"
 ! regressions 
@@ -103,6 +103,3 @@ plot(tree2)
 ctr <- semtree.control(method="fair")
 tree3 <- semtree(model = result, data=fulldata, control=ctr)
 
-
-ctr <- semtree.control(method="cv")
-tree4 <- semtree(model = result, data=fulldata, control=ctr)

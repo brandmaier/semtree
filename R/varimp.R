@@ -1,3 +1,31 @@
+#' SEM Forest Variable Importance
+#' 
+#' A function to calculate relative variable importance for selecting node
+#' splits over a \code{\link{semforest}} object.
+#' 
+#' 
+#' @aliases varimp plot.semforest.varimp varimpConvergencePlot
+#' print.semforest.varimp
+#' @param forest A \code{\link{semforest}} object
+#' @param var.names Covariates used in the forest creation process. NULL value
+#' will be automatically filled in by the function.
+#' @param verbose Boolean to print messages while function is running.
+#' @param method Experimental. Some alternative methods to compute importance.
+#' Default is "permutation".
+#' @param eval.fun Default is \code{\link{evaluateTree}} function. The value of
+#' the -2LL of the leaf nodes is compared to baseline overall model.
+#' @param cluster An object of class "cluster" representing a parallel socket
+#' cluster. See package \link[parallel]{makeCluster}.
+#' @param conditional Conditional variable importance if TRUE, otherwise
+#' marginal variable importance.
+#' @param \dots Optional arguments.
+#' @author Andreas M. Brandmaier, John J. Prindle
+#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
+#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
+#' 18(1), 71-86.
+#' 
+#' @export
+#' 
 varimp <- function(forest,
                    var.names = NULL,
                    verbose = F,

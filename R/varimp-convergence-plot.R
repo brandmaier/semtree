@@ -6,6 +6,7 @@ nacumsum <- function(x) {
 	return(cumsum(x))
 }
 
+#' @export
 varimpConvergencePlot <- function( x, lty=NULL, idx=NULL, 
                                      legend.x="topright", clw=4, 
                                      legend.cex=1.5,ylim=NULL,
@@ -39,7 +40,7 @@ if (is.null(idx)) {
 }
 
 #colors = c("black","blue","green","red","orange","purple","pink")
-colors = rainbow(M)
+colors = grDevices::rainbow(M)
 
 pdata <- matrix(0, nrow=N, ncol=M)
 for (i in 1:M) {
