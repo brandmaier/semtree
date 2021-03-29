@@ -45,7 +45,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         }
         if(control$sem.prog == 'lavaan'){
           fit_up <- try(suppressWarnings(eval(parse(text = paste(
-            fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
+            fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
             fit@Options$missing, '\')', sep = "")))), silent = TRUE)
           Scores_up <- lavScores(fit_up)
         }
@@ -123,7 +123,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           }
           if(control$sem.prog == 'lavaan'){
             fit_up <- try(suppressWarnings(eval(parse(text = paste(
-              fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
+              fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
               fit@Options$missing, '\')', sep = "")))), silent = TRUE)
             Scores_up <- lavScores(fit_up)
           }
@@ -181,7 +181,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         }
         if (level %in% c("ordinal", "nominal")) {
           ids_remove <- covariate %in% as.numeric(names(
-            which(cumsum(table(covariate)) < control$min.bucket)))
+            which(rev(cumsum(rev(table(covariate)))) < control$min.bucket)))
           n_remove <- sum(ids_remove)
           n_up <- n - n_remove
           if (n_up < control$min.N) {
@@ -204,7 +204,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         }
         if(control$sem.prog == 'lavaan'){
           fit_up <- try(suppressWarnings(eval(parse(text = paste(
-            fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
+            fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
             fit@Options$missing, '\')', sep = "")))), silent = TRUE)
           Scores_up <- lavScores(fit_up)
         }
@@ -258,7 +258,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           }
           if (level %in% c("ordinal", "nominal")) {
             ids_remove <- covariate_up %in% as.numeric(names(
-              which(rev(cumsum(rev(table(covariate_up)))) < control$min.bucket)))
+              which(cumsum(table(covariate_up)) < control$min.bucket)))
             n_remove <- sum(ids_remove)
             n_up <- n_up - n_remove
             if (n_up < control$min.N) {
@@ -281,7 +281,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           }
           if(control$sem.prog == 'lavaan'){
             fit_up <- try(suppressWarnings(eval(parse(text = paste(
-              fit@Options$model.type, '(parTable(model), data = mydata_up, missing = \'', 
+              fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
               fit@Options$missing, '\')', sep = "")))), silent = TRUE)
             Scores_up <- lavScores(fit_up)
           }
