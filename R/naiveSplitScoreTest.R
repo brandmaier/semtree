@@ -67,26 +67,27 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       
       cur.name <- colnames(mydata)[cur_col]
       
-      # sort scores and covariate
+      # sort scores, model data, and covariate
       index <- order(covariate)
       Scores_sorted <- Scores[index, , drop = FALSE]
-      covariate <- covariate[index]
+      mydata_sorted <- mydata[index, , drop = FALSE]
+      covariate_sorted <- covariate[index]
       
       # calculate cumulative score process
-      scus <- gefp_semtree(x = fit, order.by = covariate, vcov = vcov., 
+      scus <- gefp_semtree(x = fit, order.by = covariate_sorted, vcov = vcov., 
                            scores = Scores_sorted, decorrelate = TRUE,
                            sandwich = sandwich., parm = constraints$focus.parameters)
       
       # Level of measurement and test statistic
-      if (!is.factor(covariate)) {
+      if (!is.factor(covariate_sorted)) {
         level <- "metric"
-        test <- control$score.tests["metric"][[1]]  # default: CvM
+        test <- control$score.tests["metric"][[1]]  # default: supLM
         cur.type <- 2
       } else {
-        cov_levels <- nlevels(x = covariate)
-        if (is.ordered(covariate)) {
+        cov_levels <- nlevels(x = covariate_sorted)
+        if (is.ordered(covariate_sorted)) {
           level <- "ordinal"
-          test <- control$score.tests["ordinal"][[1]] # default: "maxLM"
+          test <- control$score.tests["ordinal"][[1]] # default: "maxLMo"
           cur.type <- 2
         } else {
           level <- "nominal"
@@ -99,9 +100,9 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       functional <- switch(test, dm = strucchange::maxBB,
                            cvm = strucchange::meanL2BB, 
                            suplm = strucchange::supLM(from = control$strucchange.from, to = control$strucchange.to),
-                           lmuo = strucchange::catL2BB(factor(covariate)),
-                           wdmo = strucchange::ordwmax(factor(covariate)), 
-                           maxlmo = strucchange::ordL2BB(factor(covariate), nproc = NCOL(scus$process), 
+                           lmuo = strucchange::catL2BB(factor(covariate_sorted)),
+                           wdmo = strucchange::ordwmax(factor(covariate_sorted)), 
+                           maxlmo = strucchange::ordL2BB(factor(covariate_sorted), nproc = NCOL(scus$process), 
                                             nobs = NULL, nrep = control$strucchange.nrep),
                            stop("Unknown efp functional. Use: LMuo (categorical); wdmo or maxLMo (ordinal); DM, maxLM (alias: supLM), or CvM (metric)."))
       
@@ -113,7 +114,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       if (test.result$p.value < min(c(control$alpha, p.max))) { # only if current p-value is smaller than other p-values
         test.result <- c(test.result,
                          sctest_info(CSP = as.matrix(scus$process),
-                                     covariate = covariate,
+                                     covariate = covariate_sorted,
                                      test = test,
                                      scaled_split = control$scaled_scores,
                                      from = control$strucchange.from,
@@ -121,13 +122,13 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         
         
         # check if cutpoint is too close to the border
-        if (!(cur.type == 1 & nlevels(covariate) > 2)) { # do not use with categorical covariates with more than two levels
+        if (!(cur.type == 1 & nlevels(covariate_sorted) > 2)) { # do not use with categorical covariates with more than two levels
           test.result <- checkBinSize(test.result = test.result,
                                       control = control,
                                       level = level,
-                                      covariate = covariate,
+                                      covariate = covariate_sorted,
                                       n = n,
-                                      mydata = mydata,
+                                      mydata = mydata_sorted,
                                       fit = fit,
                                       sandwich. = sandwich.,
                                       p.max = p.max,
