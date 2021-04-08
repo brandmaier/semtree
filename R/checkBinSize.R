@@ -94,7 +94,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
               test.result$p.value <- 1
               return(test.result)
             }
-            ids_remove <- seq(from = n_up, to = n_up + n_remove)
+            ids_remove <- seq(from = n_up + 1, to = n_up + n_remove)
             covariate_up <- covariate_up[-ids_remove]
             mydata_up <- mydata_up[-ids_remove, ]
           }
@@ -175,7 +175,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
             test.result$p.value <- 1
             return(test.result)
           }
-          ids_remove <- seq(from = n_up, to = n_up + n_remove)
+          ids_remove <- seq(from = n_up + 1, to = n_up + n_remove)
           covariate_up <- covariate[-ids_remove]
           mydata_up <- mydata[-ids_remove, ]
         }
