@@ -5,7 +5,8 @@
 #' @param subset1 Dataset for the first group model
 #' @param subset2 Dataset for the second group model
 #' @param control a \code{semtree.control} object
-#
+#' @param invariance fit models with invariant parameters if given. NULL otherwise (default).
+#' @param return.models boolean. Return the fitted models
 #' returns NA if fit fails
 #' 
 #' @export
