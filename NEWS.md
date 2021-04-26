@@ -1,3 +1,8 @@
+# semtree 0.9.15
+
+- roll-out of score-based tests
+- fixed compatibility with new OpenMx
+
 # semtree 0.9.14
 
 - added requirement rpart.plot > 3.0.6 to avoid error w.r.t. to missing round.int

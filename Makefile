@@ -15,7 +15,7 @@ readme:
 
 build:
 	cd ..;\
-	R CMD build --with-keep.source $(PKGSRC)
+	R CMD build $(PKGSRC)
 
 buildfast:
 	cd ..;\
