@@ -26,4 +26,8 @@ r_binary_packages:
     - zoo
     - crayon
     - testthat
+    - Rcpp
+    - RcppEigen
+    - MASS
+    - Matrix
     
