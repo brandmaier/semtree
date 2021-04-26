@@ -30,4 +30,16 @@ r_binary_packages:
     - RcppEigen
     - MASS
     - Matrix
+    - StanHeaders
+    - mvtnorm
+    - xfun
+    - mime
+    - RcppParallel
+    - rmarkdown
+    - htmltools
+    - knitr
+    - rpf
+    - BH
+    - OpenMx
+     
     
