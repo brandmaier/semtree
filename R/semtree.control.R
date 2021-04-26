@@ -66,8 +66,6 @@
 #' smaller for linear MxRAM-type models than for models with nonlinear
 #' constraints on the parameters.
 #' @param min.bucket Minimum bucket size to continue splitting
-#' @param min.bucket.per.parameter Minimum bucket size to continue splitting calculated as
-#' thus number times the number of parameters in the model
 #' @param naive.bonferroni.type Default: 0. When set to zero, bonferroni
 #' correction for the naive test counts the number of dichotomous tests. When
 #' set to one, bonferroni correction counts the number of variables tested.
