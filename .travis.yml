@@ -6,3 +6,27 @@ dist: focal
 r:
     - release
     - devel
+r_binary_packages:
+    - bitops
+    - sets
+    - digest
+    - rpart
+    - rpart.plot
+    - parallel
+    - plotrix
+    - cluster
+    - stringr
+    - lavaan
+    - expm
+    - lavaan
+    - tidyr
+    - viridis
+    - ggplot2
+    - methods
+    - strucchange
+    - sandwich
+    - zoo
+    - crayon
+    - clisymbols
+    - testthat
+    
