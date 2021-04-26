@@ -119,6 +119,9 @@ documentation.}
 
 \item{strucchange.nrep}{Strucchange argument. See their package
 documentation.}
+
+\item{min.bucket.per.parameter}{Minimum bucket size to continue splitting calculated as
+thus number times the number of parameters in the model}
 }
 \value{
 A control object containing a list of the above parameters.
