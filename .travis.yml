@@ -3,3 +3,6 @@
 language: R
 cache: packages
 dist: focal
+r:
+    - release
+    - devel
