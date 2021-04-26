@@ -12,7 +12,6 @@ r_binary_packages:
     - digest
     - rpart
     - rpart.plot
-    - parallel
     - plotrix
     - cluster
     - stringr
@@ -22,11 +21,9 @@ r_binary_packages:
     - tidyr
     - viridis
     - ggplot2
-    - methods
     - strucchange
     - sandwich
     - zoo
     - crayon
-    - clisymbols
     - testthat
     
