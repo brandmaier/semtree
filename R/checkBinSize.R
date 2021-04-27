@@ -51,7 +51,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         }
         # Vcov
         if (identical(control$information.matrix, "info")) {
-          vcov_up <- solve(vcov(fit_up) * n_up)
+          vcov_up <- solve(vcov_semtree(fit_up) * n_up)
           vcov_up <- strucchange::root.matrix(vcov_up)
         }
         
@@ -129,7 +129,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           }
           # vcov
           if (identical(control$information.matrix, "info")) {
-            vcov_up <- solve(vcov(fit_up) * n_up)
+            vcov_up <- solve(vcov_semtree(fit_up) * n_up)
             vcov_up <- strucchange::root.matrix(vcov_up)
           }
           # Re-calcuate cumlative score process
@@ -210,7 +210,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         }
         # vcov
         if (identical(control$information.matrix, "info")) {
-          vcov_up <- solve(vcov(fit_up) * n_up)
+          vcov_up <- solve(vcov_semtree(fit_up) * n_up)
           vcov_up <- strucchange::root.matrix(vcov_up)
         }
         
@@ -287,7 +287,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           }
           # vcov
           if (identical(control$information.matrix, "info")) {
-            vcov_up <- solve(vcov(fit_up) * n_up)
+            vcov_up <- solve(vcov_semtree(fit_up) * n_up)
             vcov_up <- strucchange::root.matrix(vcov_up)
           }
           # Re-calcuate cumlative score process
