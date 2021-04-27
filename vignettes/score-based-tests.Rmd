@@ -4,7 +4,7 @@ author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{score-based-tests}
+  %\VignetteIndexEntry{Score-based Tests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -63,8 +63,15 @@ Use score-based tests to create the tree. Use Bonferroni-correction to adjust fo
 
 ```{r}
 library(semtree)
-ctrl = semtree.control(method="score", bonferroni = TRUE)
-tree = semtree(model=result, data=tree.data, control=ctrl)
+ctrl = semtree.control(
+  method="score", 
+  bonferroni = TRUE)
+```
+
+```{r}
+tree = semtree( model = result, 
+                data = tree.data, 
+                control=ctrl)
 ```
 
 Now let us plot the tree.

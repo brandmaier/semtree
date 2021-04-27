@@ -4,7 +4,7 @@ author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{semtree-focus}
+  %\VignetteIndexEntry{Focus parameters in SEM forests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -87,7 +87,7 @@ Now, we are repeating the same analysis in a forest.
 
 forest <- semforest(model.biv, data=df.biv, 
                     constraints = list(focus.parameters=fp),
-                    control=semforest.control(num.trees=5))
+                    control=semforest.control(num.trees=5, control=semtree.control(method="score")))
 ```
 
 By default, we see that individual trees are fully grown (without a p-value threshold). The first split is according to `grp2` because it best explains the group differences. Subsequent splits are according to `grp1` even though the chi2 values are close to zero. They only appear because there is no p-value-based stopping criterion. 
@@ -96,16 +96,11 @@ By default, we see that individual trees are fully grown (without a p-value thre
 plot(forest$forest[[1]])
 ```
 
-Now, let us compare the new permutation scheme
+Now, let us investigate the permutation-based variable importance:
 
 ```{r}
 
 vim <- varimp(forest, method="permutationFocus")
 
-
-vim.old <- varimp(forest, method="permutation")
-
-
-plot(vim.old, main = "Standard")
-plot(vim, main="Focus correction")
+plot(vim, main="Variable Importance")
 ```

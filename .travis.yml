@@ -2,3 +2,44 @@
 
 language: R
 cache: packages
+dist: focal
+r:
+    - release
+    - devel
+r_binary_packages:
+    - bitops
+    - sets
+    - digest
+    - rpart
+    - rpart.plot
+    - plotrix
+    - cluster
+    - stringr
+    - lavaan
+    - expm
+    - lavaan
+    - tidyr
+    - viridis
+    - ggplot2
+    - strucchange
+    - sandwich
+    - zoo
+    - crayon
+    - testthat
+    - Rcpp
+    - RcppEigen
+    - MASS
+    - Matrix
+    - StanHeaders
+    - mvtnorm
+    - xfun
+    - mime
+    - RcppParallel
+    - rmarkdown
+    - htmltools
+    - knitr
+    - rpf
+    - BH
+    - OpenMx
+     
+    

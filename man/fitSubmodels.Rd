@@ -20,7 +20,11 @@ fitSubmodels(
 
 \item{subset2}{Dataset for the second group model}
 
-\item{control}{a \code{semtree.control} object
+\item{control}{a \code{semtree.control} object}
+
+\item{invariance}{fit models with invariant parameters if given. NULL otherwise (default).}
+
+\item{return.models}{boolean. Return the fitted models
 returns NA if fit fails}
 }
 \description{

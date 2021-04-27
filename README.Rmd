@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
 
 [![DOI](http://zenodo.org/badge/76649538.svg)](https://zenodo.org/badge/latestdoi/76649538)
 [![cran version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
 [![Build Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -39,7 +39,7 @@ devtools::install_github("brandmaier/semtree",force=TRUE, build_opts = c())
 
 Package documentation and use-cases with runnable R code can be found on our github pages: [https://brandmaier.github.io/semtree/](https://brandmaier.github.io/semtree/).
 
-You may also want to visit the semtree website: http://brandmaier.de/semtree
+You may also want to visit the semtree website: [https://brandmaier.de/semtree](https://brandmaier.de/semtree)
 
 Package vignettes (shipped with the package) contain documentation on how to use the package. Simply type this in R once you have loaded the package:
 

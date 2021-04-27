@@ -68,7 +68,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
                     )
 
 
-fr <- semforest(lgcModel, lgcm,control = semforest.control(num.trees = 10))
+fr <- semforest(lgcModel, lgcm,control = semforest.control(num.trees = 3))
 
   
 vimp <- varimp(fr)

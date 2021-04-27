@@ -60,10 +60,10 @@ summary(result)
 
 ## Forest
 
-Create a forest control object that stores all tuning parameters of the forest
+Create a forest control object that stores all tuning parameters of the forest. Note that we use only 5 trees for demo purposes. Please increase the number in real applications.
 
 ```{r}
-control <- semforest.control(num.trees = 20)
+control <- semforest.control(num.trees = 5)
 print(control)
 ```
 

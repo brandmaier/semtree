@@ -15,7 +15,7 @@ readme:
 
 build:
 	cd ..;\
-	R CMD build --with-keep.source $(PKGSRC)
+	R CMD build $(PKGSRC)
 
 buildfast:
 	cd ..;\
@@ -29,6 +29,9 @@ install:
 check: build
 	cd ..;\
 	R CMD check --as-cran $(PKGNAME)_$(PKGVERS).tar.gz
+	
+dockercheck:
+	docker run r-devel-local `R CMD check --as-cran ../$(PKGNAME)_$(PKGVERS).tar.gz`
 
 clean:
 	cd ..;\
