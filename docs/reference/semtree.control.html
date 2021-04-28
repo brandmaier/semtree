@@ -40,7 +40,22 @@
 
 
 <meta property="og:title" content="SEM Tree Control Object — semtree.control" />
-<meta property="og:description" content="A semtree.control object contains parameters that determine the tree growing process. These parameters include choices of different split candidate selection procedures and hyperparameters of those. Calling the constructor without parameters creates a default control object. A number of tree growing methods are included in with this package: 1. &quot;naive&quot; splitting takes the best split value of all possible splits on each covariate. 2. &quot;fair&quot; selection is so called because it tests all splits on half of the data, then tests the best split value for each covariate on the other half of the data. The equal footing of each covariate in this two phase test removes bias from testing variables with many possible splits compared to those with few. 3. &quot;fair3&quot; does the phases described above, with an additional step of retesting all of the split values on the best covariate found in the second phase. Variations in the sample from subsetting are removed and bias in split selection further reduced. 4. &quot;crossvalidation&quot; partitions the data for maximizing splits on each variable, then comparing maximum splits across each variable on the rest of the data." />
+<meta property="og:description" content="A semtree.control object contains parameters that determine the tree
+growing process. These parameters include choices of different split
+candidate selection procedures and hyperparameters of those. Calling the
+constructor without parameters creates a default control object. A number of
+tree growing methods are included in with this package: 1. &quot;naive&quot; splitting
+takes the best split value of all possible splits on each covariate. 2.
+&quot;fair&quot; selection is so called because it tests all splits on half of the
+data, then tests the best split value for each covariate on the other half
+of the data. The equal footing of each covariate in this two phase test
+removes bias from testing variables with many possible splits compared to
+those with few. 3. &quot;fair3&quot; does the phases described above, with an
+additional step of retesting all of the split values on the best covariate
+found in the second phase. Variations in the sample from subsetting are
+removed and bias in split selection further reduced. 4. &quot;crossvalidation&quot;
+partitions the data for maximizing splits on each variable, then comparing
+maximum splits across each variable on the rest of the data." />
 
 
 
@@ -80,7 +95,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,102 +151,162 @@
     </div>
 
     <div class="ref-description">
-    <p>A <code>semtree.control</code> object contains parameters that determine the tree growing process. These parameters include choices of different split candidate selection procedures and hyperparameters of those. Calling the constructor without parameters creates a default control object. A number of tree growing methods are included in with this package: 1. "naive" splitting takes the best split value of all possible splits on each covariate. 2. "fair" selection is so called because it tests all splits on half of the data, then tests the best split value for each covariate on the other half of the data. The equal footing of each covariate in this two phase test removes bias from testing variables with many possible splits compared to those with few. 3. "fair3" does the phases described above, with an additional step of retesting all of the split values on the best covariate found in the second phase. Variations in the sample from subsetting are removed and bias in split selection further reduced. 4. "crossvalidation" partitions the data for maximizing splits on each variable, then comparing maximum splits across each variable on the rest of the data.</p>
+    <p>A <code>semtree.control</code> object contains parameters that determine the tree
+growing process. These parameters include choices of different split
+candidate selection procedures and hyperparameters of those. Calling the
+constructor without parameters creates a default control object. A number of
+tree growing methods are included in with this package: 1. "naive" splitting
+takes the best split value of all possible splits on each covariate. 2.
+"fair" selection is so called because it tests all splits on half of the
+data, then tests the best split value for each covariate on the other half
+of the data. The equal footing of each covariate in this two phase test
+removes bias from testing variables with many possible splits compared to
+those with few. 3. "fair3" does the phases described above, with an
+additional step of retesting all of the split values on the best covariate
+found in the second phase. Variations in the sample from subsetting are
+removed and bias in split selection further reduced. 4. "crossvalidation"
+partitions the data for maximizing splits on each variable, then comparing
+maximum splits across each variable on the rest of the data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>semtree.control</span>(<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"naive"</span>, <span class='kw'>min.N</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>max.depth</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>.05</span>,
-  <span class='kw'>alpha.invariance</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>folds</span><span class='kw'>=</span><span class='fl'>5</span>, <span class='kw'>exclude.heywood</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>progress.bar</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-   <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>bonferroni</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>use.all</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-   <span class='kw'>custom.stopping.rule</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>mtry</span><span class='kw'>=</span><span class='fl'>NA</span>, <span class='kw'>report.level</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>exclude.code</span><span class='kw'>=</span><span class='fl'>NA</span>,
-   <span class='kw'>score.tests</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>nominal</span> <span class='kw'>=</span> <span class='st'>"LMuo"</span>, <span class='kw'>ordinal</span> <span class='kw'>=</span> <span class='st'>"maxLMo"</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"CvM"</span>),
-   <span class='kw'>information.matrix</span> <span class='kw'>=</span> <span class='st'>"info"</span>, <span class='kw'>scaled_scores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>linear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-   <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>naive.bonferroni.type</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>missing</span> <span class='kw'>=</span> <span class='st'>'ignore'</span>,
-   <span class='kw'>use.maxlm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>strucchange.from</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>strucchange.to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-   <span class='kw'>strucchange.nrep</span><span class='kw'>=</span><span class='fl'>50000</span>)</pre>
+    <pre class="usage"><span class='fu'>semtree.control</span>(
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"naive"</span>,
+  <span class='kw'>min.N</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>max.depth</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>alpha.invariance</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>folds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>exclude.heywood</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>progress.bar</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>bonferroni</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>use.all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>custom.stopping.rule</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>mtry</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>report.level</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>exclude.code</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>score.tests</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>nominal</span> <span class='kw'>=</span> <span class='st'>"LMuo"</span>, <span class='kw'>ordinal</span> <span class='kw'>=</span> <span class='st'>"maxLMo"</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='st'>"maxLM"</span>),
+  <span class='kw'>information.matrix</span> <span class='kw'>=</span> <span class='st'>"info"</span>,
+  <span class='kw'>scaled_scores</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>linear</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>min.bucket</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>naive.bonferroni.type</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>missing</span> <span class='kw'>=</span> <span class='st'>"ignore"</span>,
+  <span class='kw'>use.maxlm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>strucchange.from</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
+  <span class='kw'>strucchange.to</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>strucchange.nrep</span> <span class='kw'>=</span> <span class='fl'>50000</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>method</th>
-      <td><p>Default: "naive". One out of <code><a href='https://rdrr.io/r/base/c.html'>c("fair","fair3","naive","cv")</a></code> for either an unbiased two-step selection algorithm, three-step fair algorithm, a naive take-the-best, or a cross-validation scheme.</p></td>
+      <td><p>Default: "naive". One out of
+<code><a href='https://rdrr.io/r/base/c.html'>c("fair","fair3","naive","cv")</a></code> for either an unbiased two-step
+selection algorithm, three-step fair algorithm, a naive take-the-best, or a
+cross-validation scheme.</p></td>
     </tr>
     <tr>
       <th>min.N</th>
-      <td><p>Default: 10. Minimum sample size per a node, used to determine whether to continue splitting a tree or establish a terminal node.</p></td>
+      <td><p>Default: 10. Minimum sample size per a node, used to determine
+whether to continue splitting a tree or establish a terminal node.</p></td>
     </tr>
     <tr>
       <th>max.depth</th>
-      <td><p>Default: NA. Maximum levels per a branch. Parameter for limiting tree growth.</p></td>
+      <td><p>Default: NA. Maximum levels per a branch. Parameter for
+limiting tree growth.</p></td>
     </tr>
     <tr>
       <th>alpha</th>
-      <td><p>Default: 0.05. Significance level for splitting at a given node.</p></td>
+      <td><p>Default: 0.05. Significance level for splitting at a given
+node.</p></td>
     </tr>
     <tr>
       <th>alpha.invariance</th>
-      <td><p>Default: NA. Significance level for invariance tests. If NA, the value of alpha is used.</p></td>
+      <td><p>Default: NA. Significance level for invariance
+tests. If NA, the value of alpha is used.</p></td>
     </tr>
     <tr>
       <th>folds</th>
-      <td><p>Default: 5. Defines the number of folds for the <code>"cv"</code> method.</p></td>
+      <td><p>Default: 5. Defines the number of folds for the <code>"cv"</code>
+method.</p></td>
     </tr>
     <tr>
       <th>exclude.heywood</th>
-      <td><p>Default: TRUE. Reports whether there is an identification problem in the covariance structure of an SEM tested.</p></td>
+      <td><p>Default: TRUE. Reports whether there is an
+identification problem in the covariance structure of an SEM tested.</p></td>
     </tr>
     <tr>
       <th>progress.bar</th>
-      <td><p>Default: NA. Option to disable the progress bar for tree growth.</p></td>
+      <td><p>Default: NA. Option to disable the progress bar for tree
+growth.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Default: FALSE. Option to turn on or off <em>all</em> model messages during tree growth.</p></td>
+      <td><p>Default: FALSE. Option to turn on or off <em>all</em> model
+messages during tree growth.</p></td>
     </tr>
     <tr>
       <th>bonferroni</th>
-      <td><p>Default: FALSE. Correct for multiple tests with Bonferroni type correction.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>Default: NA. Set a random number seed for repeating random fold generation in tree analysis.</p></td>
-    </tr>
-    <tr>
-      <th>custom.stopping.rule</th>
-      <td><p>Default: NA. Otherwise, this can be a boolean function with a custom stopping rule for tree growing.</p></td>
-    </tr>
-    <tr>
-      <th>exclude.code</th>
-      <td><p>Default: NA. NPSOL error code for exclusion from model fit evaluations when finding best split. Default: Models with errors during fitting are retained.</p></td>
-    </tr>
-    <tr>
-      <th>mtry</th>
-      <td><p>Default: NA. Number of sample columns to use in SEMforest analysis.</p></td>
-    </tr>
-    <tr>
-      <th>report.level</th>
-      <td><p>Default: 0. Values up to 99 can be used to increase the number of onscreen reports for semtree analysis.</p></td>
+      <td><p>Default: FALSE. Correct for multiple tests with Bonferroni
+type correction.</p></td>
     </tr>
     <tr>
       <th>use.all</th>
-      <td><p>Treatment of missing variables. By default, missing values stay in a decision node. If TRUE, cases are
-  distributed according to a maximum likelihood principle to the child nodes.</p></td>
+      <td><p>Treatment of missing variables. By default, missing values
+stay in a decision node. If TRUE, cases are distributed according to a
+maximum likelihood principle to the child nodes.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>Default: NA. Set a random number seed for repeating random fold
+generation in tree analysis.</p></td>
+    </tr>
+    <tr>
+      <th>custom.stopping.rule</th>
+      <td><p>Default: NA. Otherwise, this can be a boolean
+function with a custom stopping rule for tree growing.</p></td>
+    </tr>
+    <tr>
+      <th>mtry</th>
+      <td><p>Default: NA. Number of sample columns to use in SEMforest
+analysis.</p></td>
+    </tr>
+    <tr>
+      <th>report.level</th>
+      <td><p>Default: 0. Values up to 99 can be used to increase the
+number of onscreen reports for semtree analysis.</p></td>
+    </tr>
+    <tr>
+      <th>exclude.code</th>
+      <td><p>Default: NA. NPSOL error code for exclusion from model
+fit evaluations when finding best split. Default: Models with errors during
+fitting are retained.</p></td>
     </tr>
     <tr>
       <th>score.tests</th>
-      <td><p>A list of score-based test statistics from the strucchange package to be used for different variable types.</p></td>
+      <td><p>A list of score-based test statistics from the
+strucchange package to be used for different variable types.</p></td>
     </tr>
     <tr>
       <th>information.matrix</th>
-      <td><p>A function to extract the covariance matrix for the coefficients of the fitted model.</p></td>
+      <td><p>A function to extract the covariance matrix for
+the coefficients of the fitted model.</p></td>
     </tr>
     <tr>
       <th>scaled_scores</th>
-      <td><p>If TRUE (default), a scaled cumulative score process is used for identifying a cutpoint.</p></td>
+      <td><p>If TRUE (default), a scaled cumulative score process is
+used for identifying a cutpoint.</p></td>
     </tr>
     <tr>
       <th>linear</th>
-      <td><p>If TRUE (default), the structural equation model is assumed to be linear without any nonlinear parameter constraints. The runtime is much smaller for linear MxRAM-type models than for models with nonlinear constraints on the parameters.</p></td>
+      <td><p>If TRUE (default), the structural equation model is assumed to
+be linear without any nonlinear parameter constraints. The runtime is much
+smaller for linear MxRAM-type models than for models with nonlinear
+constraints on the parameters.</p></td>
     </tr>
     <tr>
       <th>min.bucket</th>
@@ -239,7 +314,9 @@
     </tr>
     <tr>
       <th>naive.bonferroni.type</th>
-      <td><p>Default: 0. When set to zero, bonferroni correction for the naive test counts the number of dichotomous tests. When set to one, bonferroni correction counts the number of variables tested.</p></td>
+      <td><p>Default: 0. When set to zero, bonferroni
+correction for the naive test counts the number of dichotomous tests. When
+set to one, bonferroni correction counts the number of variables tested.</p></td>
     </tr>
     <tr>
       <th>missing</th>
@@ -270,13 +347,16 @@ documentation.</p></td>
     <p>A control object containing a list of the above parameters.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71-86.</p>
+    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
+U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
+18(1), 71-86.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='semtree.html'>semtree</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+
         <span class='co'># create a control object with an alpha level of 1%</span>
         <span class='no'>my.control</span> <span class='kw'>&lt;-</span> <span class='fu'>semtree.control</span>(<span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.01</span>)
 
@@ -298,6 +378,7 @@ documentation.</p></td>
 #&gt; ● Verbosity: FALSE
 #&gt; ● Progress Bar: TRUE
 #&gt; ● Seed: NA</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

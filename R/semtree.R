@@ -35,15 +35,9 @@
 #' splits tested on c predictors is selected for the node and the dataset is
 #' split from this node for further testing.
 #' 
-#' 3. "fair3" is a a variant of the previous method with an additional phase.
-#' The first two phases are done as described above. Then in the third phase,
-#' the complete sample is recombined and used to evaluate the best split point
-#' on
-#' 
-#' 4. "crossvalidation" recursion method uses the "folds" option in
-#' \code{\link{semtree.control}} to partition the data into a specified number
-#' of subsamples (default = 5). to change this setting use
-#' \code{semtree.control(folds=n)} to change the number of folds to value n.
+#' 3. "score" uses score-based test statistics. These statistics are much
+#' faster than the classic SEM tree approach while having favorable
+#' statistical properties. 
 #' 
 #' All other parameters controlling the tree growing process are available
 #' through a separate \code{\link{semtree.control}} object.
@@ -81,9 +75,11 @@
 #' \code{\link{parameters}}, \code{\link{se}}, \code{\link{prune.semtree}},
 #' \code{\link{subtree}}, \code{\link[OpenMx]{OpenMx}},
 #' \code{\link[lavaan]{lavaan}}
-#' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
-#' U. (2013). Structural equation model trees. \emph{Psychological Methods},
-#' 18(1), 71-86.
+#' @references 
+#' Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.
+#' @references 
+#' Arnold, M., Voelkle, M. C., & Brandmaier, A. M. (2021). Score-guided structural equation model trees. \emph{Frontiers in Psychology}, 11, Article 564403. https://doi.org/10.3389/fpsyg.2020.564403
+#'
 #' @keywords tree models multivariate
 #' 
 #' @export
@@ -142,12 +138,6 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
     if (control$verbose) { message("Detected OpenMx model.") }
     control$sem.prog = "OpenMx"
-    
-    #not.npsol <- (mxOption(NULL,"Default optimizer")!="NPSOL")
-    #if (not.npsol) {
-    #  warning("semtree recommends the use of NPSOL optimizer!")
-    #}
-    
   } else if (inherits(model,"lavaan")){
     #if (control$verbose) { ui_message("Detected lavaan model.") }
     control$sem.prog = "lavaan"
@@ -157,6 +147,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   } else {
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
+  
+  # set the mtry value to default=0 if not set
   if (is.na(control$mtry)) control$mtry <- 0
   
   
@@ -372,13 +364,13 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       ui_stop("Global constraints are not yet supported!")
     }
     
-    run.global <- OpenMx::mxRun(model, silent=T, useOptimizer=T, suppressWarnings=T);
+    run.global <- OpenMx::mxRun(model, silent=TRUE, useOptimizer=TRUE, suppressWarnings=TRUE);
     labels <- names(OpenMx::omxGetParameters(model))
     eqids <- which(labels %in% global.constraints)
     neqids <- which(!labels %in% global.constraints)
     values <- OpenMx::omxGetParameters(run.global)[eqids]
     model <- OpenMx::omxSetParameters(model, 
-               labels=global.constraints,free=F, values=values)
+               labels=global.constraints,free=FALSE, values=values)
     # FIX THIS LINE HERE
     
     # Read Global Constraints and New model Parameters Here.

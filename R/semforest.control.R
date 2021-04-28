@@ -22,7 +22,7 @@ semforest.control <- function(num.trees=5, sampling="subsample", control=NA, mtr
 	options$sampling <- sampling
 	options$premtry <- 0
 	options$mtry <- mtry
-	if (is.na(control)) {
+	if (all(is.na(control))) {
 		options$semtree.control <- semtree.control()
     options$semtree.control$method <- "fair"
     options$semtree.control$alpha <- 1

@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="constraints_files/header-attrs-2.3/header-attrs.js"></script><script src="constraints_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="constraints_files/header-attrs-2.6/header-attrs.js"></script><script src="constraints_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Constraints in semtree</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-11-05</h4>
+            <h4 class="date">2021-04-28</h4>
       
       
       <div class="hidden name"><code>constraints.Rmd</code></div>
@@ -175,7 +175,7 @@
 <span class="co">#&gt; F__x1 F__x2 F__x3 F__x4</span>
 <span class="co">#&gt; ❯ Freely Estimated Parameters:</span>
 <span class="co">#&gt; VAR_x1 VAR_x2 VAR_x3 VAR_x4 const__x2 const__x3 const__x4 const__F</span>
-<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
+<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></pre></body></html></div>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.gc</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>Even though we retrieve both predictors in the tree, the tree structure does not represent the data generating model (<code>p2</code> is found to be conditional only on <code>p1</code>&gt;=.5) and the misspecification in the loadings leads to bias in the mean structure.</p>
@@ -187,10 +187,10 @@
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">tree.lc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.cfa</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">cfa.sim</span>, <span class="kw">constraints</span><span class="kw">=</span>
                    <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(
                      <span class="kw">local.invariance</span><span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span>)))
+<span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span>
 <span class="co">#&gt; ✖ Variable p1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✖ Variable p2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ❯ No Invariance alpha selected. alpha.invariance set to:0.05</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span></pre></body></html></div>
+<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
 <p>Now we find <code>p1</code> as the only predictor that yields subgroups that pass the measurement invariance test. Even though we have chosen the four factor loadings as <code>local.invariance</code> constraint, they are allowed to differ numerically but there was no significant difference between them.</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.lc</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
@@ -257,17 +257,17 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-11-05 09:14:24 </span>
-<span class="co">#&gt; Wall clock time: 0.01647806 secs </span>
+<span class="co">#&gt; timestamp: 2021-04-28 20:11:02 </span>
+<span class="co">#&gt; Wall clock time: 0.01964903 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
-<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
+<span class="co">#&gt; OpenMx version number: 2.19.5 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 <p>Now, we grow a tree without constraints:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r">
 <span class="no">tree.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>)
 <span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
+<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></pre></body></html></div>
 <p>As expected, we obtain a tree structure that has both <code>p1</code> and <code>p2</code> (here we use the viridis colors to give each leaf node a different frame color, which we’ll use later again):</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># default white color for all nodes</span>
 <span class="no">cols</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"black"</span>, <span class="kw pkg">semtree</span><span class="kw ns">:::</span><span class="fu"><a href="../reference/getNumNodes.html">getNumNodes</a></span>(<span class="no">tree.biv</span>))
@@ -275,6 +275,8 @@
 <span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span>
 <span class="co">#&gt;   method        from</span>
 <span class="co">#&gt;   print.element sets</span>
+<span class="co">#&gt; Warning: replacing previous import 'vctrs::data_frame' by 'tibble::data_frame'</span>
+<span class="co">#&gt; when loading 'dplyr'</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv</span>, <span class="kw">border.col</span><span class="kw">=</span><span class="no">cols</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -309,7 +311,7 @@
                       <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span>(<span class="kw">focus.parameters</span> <span class="kw">=</span> <span class="st">"mu2"</span>))
 <span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
 <span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ✔ Tree construction finished [took less than a second].</span></pre></body></html></div>
+<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span></pre></body></html></div>
 <p>And, indeed, we see only <code>grp2</code> as predictor whereas <code>grp1</code> was not selected this time.</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv3</span>)</pre></body></html></div>
 <p><img src="constraints_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>

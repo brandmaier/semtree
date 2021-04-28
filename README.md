@@ -5,7 +5,7 @@ semtree
 [![cran
 version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/metacran/cranlogs.app)
+downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
 [![Build
 Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
 [![License: GPL
@@ -39,7 +39,7 @@ Package documentation and use-cases with runnable R code can be found on
 our github pages: <https://brandmaier.github.io/semtree/>.
 
 You may also want to visit the semtree website:
-<a href="http://brandmaier.de/semtree" class="uri">http://brandmaier.de/semtree</a>
+<https://brandmaier.de/semtree>
 
 Package vignettes (shipped with the package) contain documentation on
 how to use the package. Simply type this in R once you have loaded the

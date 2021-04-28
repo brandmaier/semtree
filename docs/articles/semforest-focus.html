@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="semforest-focus_files/header-attrs-2.3/header-attrs.js"></script><script src="semforest-focus_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="semforest-focus_files/header-attrs-2.6/header-attrs.js"></script><script src="semforest-focus_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Focus parameters in SEM forests</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-11-05</h4>
+            <h4 class="date">2021-04-28</h4>
       
       
       <div class="hidden name"><code>semforest-focus.Rmd</code></div>
@@ -109,16 +109,16 @@
 <span class="co">#&gt;   print.element ggplot2</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
 <span class="no">N</span> <span class="kw">&lt;-</span> <span class="fl">1000</span>
-<span class="no">grp1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="no">grp2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="no">noise</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>),<span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<span class="no">grp1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>))
+<span class="no">grp2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>))
+<span class="no">noise</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>),<span class="kw">size</span><span class="kw">=</span><span class="no">N</span>, <span class="kw">replace</span><span class="kw">=</span><span class="fl">TRUE</span>))
 <span class="no">Sigma</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw">byrow</span><span class="kw">=</span><span class="fl">TRUE</span>,
                 <span class="kw">nrow</span><span class="kw">=</span><span class="fl">2</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">0.2</span>,
                          <span class="fl">0.2</span>,<span class="fl">1</span>))
 <span class="no">obs</span> <span class="kw">&lt;-</span> <span class="kw pkg">MASS</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span>(<span class="no">N</span>,<span class="kw">mu</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>),
                      <span class="kw">Sigma</span><span class="kw">=</span><span class="no">Sigma</span>)
-<span class="no">obs</span>[,<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">1</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp1</span>,<span class="fl">3</span>,<span class="fl">0</span>)
-<span class="no">obs</span>[,<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">2</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp2</span>,<span class="fl">3</span>,<span class="fl">0</span>)
+<span class="no">obs</span>[,<span class="fl">1</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">1</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp1</span><span class="kw">==</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">0</span>)
+<span class="no">obs</span>[,<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="no">obs</span>[,<span class="fl">2</span>] + <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">grp2</span><span class="kw">==</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">0</span>)
 <span class="no">df.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">obs</span>, <span class="no">grp1</span>, <span class="no">grp2</span>, <span class="no">noise</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">df.biv</span>)[<span class="fl">1</span>:<span class="fl">2</span>] <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"x"</span>,<span class="fl">1</span>:<span class="fl">2</span>)
 <span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x1"</span>,<span class="st">"x2"</span>)
@@ -164,14 +164,14 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-11-05 09:15:41 </span>
-<span class="co">#&gt; Wall clock time: 0.07759309 secs </span>
+<span class="co">#&gt; timestamp: 2021-04-28 20:12:27 </span>
+<span class="co">#&gt; Wall clock time: 0.06340504 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
-<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
+<span class="co">#&gt; OpenMx version number: 2.19.5 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 <p>This is how the data look in a 2D space:</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">df.biv.pred</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">df.biv</span>,
-  <span class="kw">leaf</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">df.biv</span>$<span class="no">grp2</span>*<span class="fl">2</span>+<span class="no">df.biv</span>$<span class="no">grp1</span>))
+  <span class="kw">leaf</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">df.biv</span>$<span class="no">grp2</span>)*<span class="fl">2</span>+<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">df.biv</span>$<span class="no">grp1</span>)))
   <span class="fu">ggplot</span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">df.biv.pred</span>, <span class="fu">aes</span>(<span class="kw">x</span><span class="kw">=</span><span class="no">x1</span>, <span class="kw">y</span><span class="kw">=</span><span class="no">x2</span>, <span class="kw">group</span><span class="kw">=</span><span class="no">leaf</span>))+
   <span class="fu">geom_density_2d</span>(<span class="fu">aes</span>(<span class="kw">colour</span><span class="kw">=</span><span class="no">leaf</span>))+
   <span class="kw pkg">viridis</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/viridis/man/scale_viridis.html">scale_color_viridis</a></span>(<span class="kw">discrete</span><span class="kw">=</span><span class="fl">TRUE</span>)+
@@ -182,10 +182,7 @@
 <span class="co">#fp &lt;- "mu1" # predicted by grp1</span>
 
 <span class="no">tree.biv</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>, <span class="kw">constraints</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">focus.parameters</span><span class="kw">=</span><span class="no">fp</span>))
-<span class="co">#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.</span>
-<span class="co">#&gt; ✔ Tree construction finished [took 1s].</span>
+<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree.biv</span>)</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-4-1.png" width="50%"></p>
@@ -193,7 +190,7 @@
 <div class="sourceCode" id="cb4"><html><body><pre class="r">
 <span class="no">forest</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span>(<span class="no">model.biv</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">df.biv</span>,
                     <span class="kw">constraints</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">focus.parameters</span><span class="kw">=</span><span class="no">fp</span>),
-                    <span class="kw">control</span><span class="kw">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span><span class="kw">=</span><span class="fl">5</span>))
+                    <span class="kw">control</span><span class="kw">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span><span class="kw">=</span><span class="fl">5</span>, <span class="kw">control</span><span class="kw">=</span><span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="st">"score"</span>)))
 <span class="co">#&gt; ❯ Model was not run. Estimating parameters now before running the forest.</span>
 <span class="co">#&gt; Running Bivariate_Model with 5 parameters</span>
 <span class="co">#&gt; </span>
@@ -207,43 +204,21 @@
 #&gt;  Solution found!  Final fit=8231.9438 (started at 14702.356)  (1 attempt(s): 1 valid, 0 errors)
 #&gt;  Start values from best fit:
 #&gt; 4.05836714982455,0.197053351940238,3.18488979134096,1.48583494006395,1.45513684810418
-#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✔ Tree construction finished [took 3s].
-#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✔ Tree construction finished [took 3s].
-#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✖ Variable grp1 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable grp2 is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✖ Variable noise is numeric but has only few unique values. Consider recoding as ordered factor.
-#&gt; ✔ Tree construction finished [took 3s].
-#&gt; ✔ Forest completed [took 13s]</code></pre>
+#&gt; ✔ Tree construction finished [took less than a second].
+#&gt; ✔ Tree construction finished [took less than a second].
+#&gt; ✔ Tree construction finished [took less than a second].
+#&gt; ✔ Tree construction finished [took less than a second].
+#&gt; ✔ Tree construction finished [took less than a second].
+#&gt; ✔ Forest completed [took 3s]</code></pre>
 <p>By default, we see that individual trees are fully grown (without a p-value threshold). The first split is according to <code>grp2</code> because it best explains the group differences. Subsequent splits are according to <code>grp1</code> even though the chi2 values are close to zero. They only appear because there is no p-value-based stopping criterion.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">forest</span>$<span class="no">forest</span><span class="kw">[[</span><span class="fl">1</span>]])</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-6-1.png" width="50%"></p>
-<p>Now, let us compare the new permutation scheme</p>
+<p>Now, let us investigate the permutation-based variable importance:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r">
 <span class="no">vim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span>(<span class="no">forest</span>, <span class="kw">method</span><span class="kw">=</span><span class="st">"permutationFocus"</span>)
 
-
-<span class="no">vim.old</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span>(<span class="no">forest</span>, <span class="kw">method</span><span class="kw">=</span><span class="st">"permutation"</span>)
-<span class="co">#&gt; ✖ Consider switching to method='permutationFocus' because forest has focus parameters.</span>
-
-
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim.old</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Standard"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>, <span class="kw">main</span><span class="kw">=</span><span class="st">"Variable Importance"</span>)</pre></body></html></div>
 <p><img src="semforest-focus_files/figure-html/unnamed-chunk-7-1.png" width="50%"></p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>, <span class="kw">main</span><span class="kw">=</span><span class="st">"Focus correction"</span>)</pre></body></html></div>
-<p><img src="semforest-focus_files/figure-html/unnamed-chunk-7-2.png" width="50%"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

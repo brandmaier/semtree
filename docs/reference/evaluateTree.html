@@ -40,7 +40,10 @@
 
 
 <meta property="og:title" content="Evaluate Tree -2LL — evaluateTree" />
-<meta property="og:description" content="A helper function to evaluate the -2LL of leaf (terminal) nodes for a dataset. When given a semtree and a unique dataset, the model estimates -2LL for the tree parameters and data subsets that fit the tree branching criteria." />
+<meta property="og:description" content="A helper function to evaluate the negative two log-likelihood (-2LL) of leaf (terminal) nodes for a
+dataset. When given a semtree and a unique dataset, the model
+estimates -2LL for the tree parameters and data subsets that fit the tree
+branching criteria." />
 
 
 
@@ -80,7 +83,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,7 +139,10 @@
     </div>
 
     <div class="ref-description">
-    <p>A helper function to evaluate the -2LL of leaf (terminal) nodes for a dataset. When given a <code><a href='semtree.html'>semtree</a></code> and a unique dataset, the model estimates -2LL for the tree parameters and data subsets that fit the tree branching criteria.</p>
+    <p>A helper function to evaluate the negative two log-likelihood (-2LL) of leaf (terminal) nodes for a
+dataset. When given a <code><a href='semtree.html'>semtree</a></code> and a unique dataset, the model
+estimates -2LL for the tree parameters and data subsets that fit the tree
+branching criteria.</p>
     </div>
 
     <pre class="usage"><span class='fu'>evaluateTree</span>(<span class='no'>tree</span>, <span class='no'>test_set</span>, <span class='kw'>data_type</span> <span class='kw'>=</span> <span class='st'>"raw"</span>, <span class='kw'>leaf_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -158,23 +164,28 @@
     </tr>
     <tr>
       <th>leaf_ids</th>
-      <td><p>Identifies which nodes are leaf nodes. Default is NULL, which checks model for leaf nodes and fills this information in automatically.</p></td>
+      <td><p>Identifies which nodes are leaf nodes. Default is NULL,
+which checks model for leaf nodes and fills this information in
+automatically.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with two elements:</p>
-<dt>deviance</dt><dd><p>Combined -2LL for leaf node models of the tree.</p></dd>
-<dt>num_models</dt><dd><p>Number of leaf nodes used for the deviance calculations.</p></dd>
-%% ...
+<dt>deviance</dt><dd><p>Combined -2LL for leaf
+node models of the tree.</p></dd> <dt>num_models</dt><dd><p>Number of leaf nodes used for
+the deviance calculations.</p></dd> %% ...
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71-86.</p>
+    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
+U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
+18(1), 71-86.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='evaluateDataLikelihood.html'>evaluateDataLikelihood</a></code>, <code><a href='semtree.html'>semtree</a></code>, <code><a href='semforest.html'>semforest</a></code></p></div>
+    <div class='dont-index'><p><code><a href='evaluateDataLikelihood.html'>evaluateDataLikelihood</a></code>, <code><a href='semtree.html'>semtree</a></code>,
+<code><a href='semforest.html'>semforest</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

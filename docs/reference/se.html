@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SEMtrees Parameter Estimates Standard Error Table — se.semtree • semtree</title>
+<title>SEMtrees Parameter Estimates Standard Error Table — se • semtree</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="SEMtrees Parameter Estimates Standard Error Table — se.semtree" />
-<meta property="og:description" content="Returns a table of standard errors with columns corresponding to freely estimated standard errors and rows corresponding to nodes in the tree." />
+<meta property="og:title" content="SEMtrees Parameter Estimates Standard Error Table — se" />
+<meta property="og:description" content="Returns a table of standard errors with columns corresponding to freely
+estimated standard errors and rows corresponding to nodes in the tree." />
 
 
 
@@ -80,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,10 +137,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Returns a table of standard errors with columns corresponding to freely estimated standard errors and rows corresponding to nodes in the tree.</p>
+    <p>Returns a table of standard errors with columns corresponding to freely
+estimated standard errors and rows corresponding to nodes in the tree.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>se</span>(<span class='no'>tree</span>, <span class='kw'>leafs.only</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>se</span>(<span class='no'>tree</span>, <span class='kw'>leafs.only</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,24 +152,30 @@
     </tr>
     <tr>
       <th>leafs.only</th>
-      <td><p>Default = TRUE. Only the terminal nodes (leafs) are printed. If set to FALSE, all node standard errors are written to the <code>data.frame</code>.</p></td>
+      <td><p>Default = TRUE. Only the terminal nodes (leafs) are
+printed. If set to FALSE, all node standard errors are written to the
+<code>data.frame</code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The row names of the resulting data frame correspond to internal node ids and the column names correspond to standard errors in the SEM. Parameter estimates can be obtained from <code><a href='parameters.html'>parameters</a></code>.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a <code>data.frame</code> with rows for parameters and columns for terminal nodes.</p>
+    <p>Returns a <code>data.frame</code> with rows for parameters and columns for
+terminal nodes.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The row names of the resulting data frame correspond to internal node ids
+and the column names correspond to standard errors in the SEM. Parameter
+estimates can be obtained from <code><a href='parameters.html'>parameters</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71-86.</p>
+    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
+U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
+18(1), 71-86.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='semtree.html'>semtree</a></code>,
-  <code><a href='semtree.control.html'>semtree.control</a></code>,
-  <code><a href='parameters.html'>parameters</a></code></p></div>
+    <div class='dont-index'><p><code><a href='semtree.html'>semtree</a></code>, <code><a href='semtree.control.html'>semtree.control</a></code>,
+<code><a href='parameters.html'>parameters</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

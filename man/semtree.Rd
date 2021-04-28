@@ -90,23 +90,17 @@ predictor on the second half of the sample. The best improvement for the c
 splits tested on c predictors is selected for the node and the dataset is
 split from this node for further testing.
 
-3. "fair3" is a a variant of the previous method with an additional phase.
-The first two phases are done as described above. Then in the third phase,
-the complete sample is recombined and used to evaluate the best split point
-on
-
-4. "crossvalidation" recursion method uses the "folds" option in
-\code{\link{semtree.control}} to partition the data into a specified number
-of subsamples (default = 5). to change this setting use
-\code{semtree.control(folds=n)} to change the number of folds to value n.
+3. "score" uses score-based test statistics. These statistics are much
+faster than the classic SEM tree approach while having favorable
+statistical properties. 
 
 All other parameters controlling the tree growing process are available
 through a separate \code{\link{semtree.control}} object.
 }
 \references{
-Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
-U. (2013). Structural equation model trees. \emph{Psychological Methods},
-18(1), 71-86.
+Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.
+
+Arnold, M., Voelkle, M. C., & Brandmaier, A. M. (2021). Score-guided structural equation model trees. \emph{Frontiers in Psychology}, 11, Article 564403. https://doi.org/10.3389/fpsyg.2020.564403
 }
 \seealso{
 \code{\link{semtree.control}}, \code{\link{summary.semtree}},

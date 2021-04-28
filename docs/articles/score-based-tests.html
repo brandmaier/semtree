@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="score-based-tests_files/header-attrs-2.3/header-attrs.js"></script><script src="score-based-tests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="score-based-tests_files/header-attrs-2.6/header-attrs.js"></script><script src="score-based-tests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Score-based Tests</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2020-11-05</h4>
+            <h4 class="date">2021-04-28</h4>
       
       
       <div class="hidden name"><code>score-based-tests.Rmd</code></div>
@@ -102,7 +102,7 @@
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
-<p>Load affect dataset from the <code>psychTools</code> package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to study affect dimensionality and the relationship to various personality dimensions.</p>
+<p>Load affect dataset from the <code>psychTools</code> package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to study affect dimensionality and the relationship to various personality dimensions. In the following code, we replace the numeric film labels with the movie titles. Also, we select a subset of predictors including the film, personality dimensions, trait anxiety and affect before having watched the movie.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTools</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">affect</span>)
 
@@ -112,7 +112,6 @@
 
 <span class="no">tree.data</span> <span class="kw">&lt;-</span> <span class="no">affect</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Film"</span>,<span class="st">"neur"</span>,<span class="st">"ext"</span>,<span class="st">"soc"</span>,<span class="st">"traitanx"</span>,<span class="st">"NA1"</span>,<span class="st">"PA1"</span>)]
 <span class="no">tree.data</span>$<span class="no">DeltaPA</span> <span class="kw">&lt;-</span> <span class="no">affect</span>$<span class="no">PA2</span>-<span class="no">affect</span>$<span class="no">PA1</span>
-<span class="co">#tree.data &lt;- affect[,c("state1","neur")] </span>
 
 <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">tree.data</span>))</pre></body></html></div>
 <table class="table">
@@ -193,7 +192,7 @@
 <div id="create-simple-model-of-state-anxiety" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-simple-model-of-state-anxiety" class="anchor"></a>Create simple model of state anxiety</h2>
-<p>Here, we create a simple SEM with a single observed variable. No latent variables - only two parameters: mean of <code>state1</code> and variance of <code>state1</code>.</p>
+<p>Here, we create a simple SEM with a single observed variable. No latent variables - only two parameters: mean of <code>DeltaPA</code> and variance of <code>DeltaPA</code>.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">OpenMx</span>)
 <span class="co">#&gt; OpenMx may run faster if it is compiled to take advantage of multiple cores.</span>
 <span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"DeltaPA"</span>)
@@ -233,30 +232,36 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-11-05 09:15:31 </span>
-<span class="co">#&gt; Wall clock time: 0.0840292 secs </span>
+<span class="co">#&gt; timestamp: 2021-04-28 20:12:17 </span>
+<span class="co">#&gt; Wall clock time: 0.05037498 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
-<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
+<span class="co">#&gt; OpenMx version number: 2.19.5 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 </div>
 <div id="score-based-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#score-based-tests" class="anchor"></a>Score-based Tests</h2>
-<p>Use score-based tests to create the tree.</p>
+<p>Use score-based tests to create the tree. Use Bonferroni-correction to adjust for multiple testing of predictors.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">semtree</span>)
-<span class="no">ctrl</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span>(<span class="kw">method</span><span class="kw">=</span><span class="st">"score"</span>, <span class="kw">bonferroni</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">tree</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>(<span class="kw">model</span><span class="kw">=</span><span class="no">result</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">tree.data</span>, <span class="kw">control</span><span class="kw">=</span><span class="no">ctrl</span>)
-<span class="co">#&gt; ✔ Tree construction finished [took 3s].</span></pre></body></html></div>
-<p>Now let us plot the tree. We obtained a tree with two major predictors <code>neur</code> and <code>traitanx</code>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree</span>)</pre></body></html></div>
-<p><img src="score-based-tests_files/figure-html/unnamed-chunk-5-1.png" width="75%"></p>
+<span class="no">ctrl</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span>(
+  <span class="kw">method</span><span class="kw">=</span><span class="st">"score"</span>,
+  <span class="kw">bonferroni</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">tree</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>( <span class="kw">model</span> <span class="kw">=</span> <span class="no">result</span>,
+                <span class="kw">data</span> <span class="kw">=</span> <span class="no">tree.data</span>,
+                <span class="kw">control</span><span class="kw">=</span><span class="no">ctrl</span>)
+<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span></pre></body></html></div>
+<p>Now let us plot the tree.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree</span>)</pre></body></html></div>
+<p><img src="score-based-tests_files/figure-html/unnamed-chunk-6-1.png" width="75%"></p>
 <p>Implied mixture model:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">tndata</span> <span class="kw">&lt;-</span> <span class="kw pkg">semtree</span><span class="kw ns">::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(<span class="no">tree</span>)
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">tndata</span> <span class="kw">&lt;-</span> <span class="kw pkg">semtree</span><span class="kw ns">::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(<span class="no">tree</span>)
 
 <span class="no">cols</span> <span class="kw">&lt;-</span> <span class="kw pkg">viridis</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/viridis/man/reexports.html">plasma</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">tndata</span>))
 <span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span>
 <span class="co">#&gt;   method        from</span>
 <span class="co">#&gt;   print.element sets</span>
+<span class="co">#&gt; Warning: replacing previous import 'vctrs::data_frame' by 'tibble::data_frame'</span>
+<span class="co">#&gt; when loading 'dplyr'</span>
 
 <span class="no">pl</span> <span class="kw">&lt;-</span> <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">20</span>, <span class="fl">20</span>)), <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>))+
   <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Change in Positive Affect"</span>)
@@ -267,7 +272,17 @@
 }
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pl</span>)</pre></body></html></div>
-<p><img src="score-based-tests_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<p><img src="score-based-tests_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p>Let’s inspect the group with the largest negative change:</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">i</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span>(<span class="no">tndata</span>$<span class="no">mu</span>)
+
+<span class="no">pl</span> <span class="kw">&lt;-</span> <span class="no">pl</span> +<span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"function"</span>,
+                             <span class="kw">fun</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>){<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span>(<span class="no">x</span>,<span class="kw">mean</span><span class="kw">=</span><span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">2</span>],<span class="kw">sd</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">1</span>]))},
+                             <span class="kw">fill</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="no">i</span>])+
+      <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label</a></span>(<span class="kw">x</span><span class="kw">=</span>-<span class="fl">10</span>,<span class="kw">y</span><span class="kw">=</span><span class="fl">.12</span>, <span class="kw">label</span><span class="kw">=</span><span class="st">"People with very high positive \naffect, which then watched\n a war film"</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pl</span>)</pre></body></html></div>
+<p><img src="score-based-tests_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
   </div>
 

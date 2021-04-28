@@ -40,7 +40,12 @@
 
 
 <meta property="og:title" content="SEM Tree Constraints Object — semtree.constraints" />
-<meta property="og:description" content="A SEM Tree constraints object holds information regarding specifics on how the tree is grown (similar to the control object). The SEM tree control object holds all information that is independent of a specific model whereas the constraints object holds information that is specific to a certain model (e.g., specifies differential treatment of certain parameters, e.g., by holding them constant across the forest)." />
+<meta property="og:description" content="A SEM Tree constraints object holds information regarding specifics on how
+the tree is grown (similar to the control object). The SEM tree control
+object holds all information that is independent of a specific model whereas
+the constraints object holds information that is specific to a certain model
+(e.g., specifies differential treatment of certain parameters, e.g., by
+holding them constant across the forest)." />
 
 
 
@@ -80,7 +85,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,32 +141,47 @@
     </div>
 
     <div class="ref-description">
-    <p>A SEM Tree constraints object holds information regarding specifics on how the tree is grown (similar to the control object). The SEM tree control object holds all information that is independent of a specific model whereas the constraints object holds information that is specific to a certain model (e.g., specifies differential treatment of certain parameters, e.g., by holding them constant across the forest).</p>
+    <p>A SEM Tree constraints object holds information regarding specifics on how
+the tree is grown (similar to the control object). The SEM tree control
+object holds all information that is independent of a specific model whereas
+the constraints object holds information that is specific to a certain model
+(e.g., specifies differential treatment of certain parameters, e.g., by
+holding them constant across the forest).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>semtree.constraints</span>(<span class='kw'>local.invariance</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>global.invariance</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>focus.parameters</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>semtree.constraints</span>(
+  <span class='kw'>local.invariance</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>global.invariance</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>focus.parameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>local.invariance</th>
-      <td><p>Vector of parameter names that are locally equal, that is, they are assumed to be equal when assessing a local
-  split but allowed to differ subsequently.</p></td>
+      <td><p>Vector of parameter names that are locally equal,
+that is, they are assumed to be equal when assessing a local split but
+allowed to differ subsequently.</p></td>
     </tr>
     <tr>
       <th>global.invariance</th>
-      <td><p>Vector of parameter names that are globally equal, that is, estimated only once and then fixed in the tree.</p></td>
+      <td><p>Vector of parameter names that are globally equal,
+that is, estimated only once and then fixed in the tree.</p></td>
     </tr>
     <tr>
       <th>focus.parameters</th>
-      <td><p>Vector of parameter names that exclusively are evaluated for between-group differences when assessing split candidates. If NULL all parameters add to the difference.</p></td>
+      <td><p>Vector of parameter names that exclusively are
+evaluated for between-group differences when assessing split candidates. If
+NULL all parameters add to the difference.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71-86.</p>
+    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
+U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
+18(1), 71-86.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='semtree.html'>semtree</a></code></p></div>

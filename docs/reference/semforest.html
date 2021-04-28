@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Create a SEM Forest — semforest" />
-<meta property="og:description" content="Grows a SEM Forest from a template model and a dataset. This may take some time." />
+<meta property="og:description" content="Grows a SEM Forest from a template model and a dataset. This may take some
+time." />
 
 
 
@@ -80,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -136,11 +137,19 @@
     </div>
 
     <div class="ref-description">
-    <p>Grows a SEM Forest from a template model and a dataset. This may take some time.</p>
+    <p>Grows a SEM Forest from a template model and a dataset. This may take some
+time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>semforest</span>(<span class='no'>model</span>, <span class='no'>data</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>predictors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-                 <span class='kw'>constraints</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cluster</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>semforest</span>(
+  <span class='no'>model</span>,
+  <span class='no'>data</span>,
+  <span class='kw'>control</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>predictors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>constraints</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +176,8 @@
     </tr>
     <tr>
       <th>cluster</th>
-      <td><p>An object of class "cluster" representing a parallel socket cluster. See package <a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a>.</p></td>
+      <td><p>An object of class "cluster" representing a parallel socket
+cluster. See package <a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -180,8 +190,12 @@
     <p>A semforest object.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Prindle, J. J., McArdle, J. J., &amp; Lindenberger, U. (2016). Theory-guided exploration with structural equation model forests. <em>Psychological Methods</em>, 21(4), 566--582.</p>
-<p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71--86.</p>
+    <p>Brandmaier, A.M., Prindle, J. J., McArdle, J. J., &amp;
+Lindenberger, U. (2016). Theory-guided exploration with structural equation
+model forests. <em>Psychological Methods</em>, 21(4), 566--582.</p>
+<p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013).
+Structural equation model trees. <em>Psychological Methods</em>, 18(1),
+71--86.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='semtree.html'>semtree</a></code></p></div>

@@ -40,8 +40,9 @@
 
 
 <meta property="og:title" content="Partial Dependence Plot — partialDependence" />
-<meta property="og:description" content="Partial dependence plot for the effect of an indepedent variable in the dataset on the dependent outcome parameter selected.
-Returns a partialDependence object that can be plotted via generic plot command." />
+<meta property="og:description" content="Partial dependence plot for the effect of an indepedent variable in the
+dataset on the dependent outcome parameter selected. Returns a
+partialDependence object that can be plotted via generic plot command." />
 
 
 
@@ -81,7 +82,7 @@ Returns a partialDependence object that can be plotted via generic plot command.
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -137,11 +138,18 @@ Returns a partialDependence object that can be plotted via generic plot command.
     </div>
 
     <div class="ref-description">
-    <p>Partial dependence plot for the effect of an indepedent variable in the dataset on the dependent outcome parameter selected.
-Returns a partialDependence object that can be plotted via generic plot command.</p>
+    <p>Partial dependence plot for the effect of an indepedent variable in the
+dataset on the dependent outcome parameter selected. Returns a
+partialDependence object that can be plotted via generic plot command.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partialDependence</span>(<span class='no'>forest</span>, <span class='no'>reference.var</span>, <span class='no'>reference.param</span>, <span class='kw'>support</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>cluster</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>partialDependence</span>(
+  <span class='no'>forest</span>,
+  <span class='no'>reference.var</span>,
+  <span class='no'>reference.param</span>,
+  <span class='kw'>support</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +160,13 @@ Returns a partialDependence object that can be plotted via generic plot command.
     </tr>
     <tr>
       <th>reference.var</th>
-      <td><p>Label of the (independent) reference variable for which partial dependence is plotted</p></td>
+      <td><p>Label of the (independent) reference variable for which
+partial dependence is plotted</p></td>
     </tr>
     <tr>
       <th>reference.param</th>
-      <td><p>Label of the (dependent) model parameter for which partial dependence is plotted</p></td>
+      <td><p>Label of the (dependent) model parameter for which
+partial dependence is plotted</p></td>
     </tr>
     <tr>
       <th>support</th>
@@ -164,7 +174,8 @@ Returns a partialDependence object that can be plotted via generic plot command.
     </tr>
     <tr>
       <th>cluster</th>
-      <td><p>A reference to a cluster from parallel package for parallel execution. Defaults to NULL for sequential computation.</p></td>
+      <td><p>A reference to a cluster from parallel package for parallel
+execution. Defaults to NULL for sequential computation.</p></td>
     </tr>
     </table>
 

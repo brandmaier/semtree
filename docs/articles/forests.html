@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="forests_files/header-attrs-2.3/header-attrs.js"></script><script src="forests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="forests_files/header-attrs-2.6/header-attrs.js"></script><script src="forests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SEM Forests</h1>
                         <h4 class="author">Andreas Brandmaier</h4>
             
-            <h4 class="date">2020-11-05</h4>
+            <h4 class="date">2021-04-28</h4>
       
       
       <div class="hidden name"><code>forests.Rmd</code></div>
@@ -335,21 +335,21 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2020-11-05 09:14:35 </span>
-<span class="co">#&gt; Wall clock time: 0.191046 secs </span>
+<span class="co">#&gt; timestamp: 2021-04-28 20:11:16 </span>
+<span class="co">#&gt; Wall clock time: 0.1756461 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
-<span class="co">#&gt; OpenMx version number: 2.18.1 </span>
+<span class="co">#&gt; OpenMx version number: 2.19.5 </span>
 <span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
 </div>
 <div id="forest" class="section level2">
 <h2 class="hasAnchor">
 <a href="#forest" class="anchor"></a>Forest</h2>
-<p>Create a forest control object that stores all tuning parameters of the forest</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">control</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span> <span class="kw">=</span> <span class="fl">20</span>)
+<p>Create a forest control object that stores all tuning parameters of the forest. Note that we use only 5 trees for demo purposes. Please increase the number in real applications.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">control</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span> <span class="kw">=</span> <span class="fl">5</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">control</span>)
 <span class="co">#&gt; SEM-Forest control:</span>
 <span class="co">#&gt; -----------------</span>
-<span class="co">#&gt; Number of Trees:  20 </span>
+<span class="co">#&gt; Number of Trees:  5 </span>
 <span class="co">#&gt; Sampling:  subsample </span>
 <span class="co">#&gt; Comparisons per Node: 2 </span>
 <span class="co">#&gt; </span>
@@ -382,27 +382,12 @@
 #&gt;  Solution found!  Final fit=1289.1576 (started at 311965.65)  (1 attempt(s): 1 valid, 0 errors)
 #&gt;  Start values from best fit:
 #&gt; 115.05414693347,42.4511763398574
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 3s].
-#&gt; ✔ Tree construction finished [took 1s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 3s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 1s].
-#&gt; ✔ Tree construction finished [took 1s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Tree construction finished [took 2s].
-#&gt; ✔ Forest completed [took 38s]</code></pre>
+#&gt; ✔ Tree construction finished [took 9s].
+#&gt; ✔ Tree construction finished [took 7s].
+#&gt; ✔ Tree construction finished [took 9s].
+#&gt; ✔ Tree construction finished [took 9s].
+#&gt; ✔ Tree construction finished [took 8s].
+#&gt; ✔ Forest completed [took 42s]</code></pre>
 </div>
 <div id="variable-importance" class="section level2">
 <h2 class="hasAnchor">
@@ -411,12 +396,14 @@
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">vim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span>(<span class="no">forest</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">vim</span>, <span class="kw">sort.values</span><span class="kw">=</span><span class="fl">TRUE</span>)
 <span class="co">#&gt; Variable Importance</span>
-<span class="co">#&gt;       neur        PA1        ext      Study        MEQ        BDI        soc </span>
-<span class="co">#&gt; -0.2290163 -0.1535072 -0.1429109  0.0000000  0.0000000  0.0000000  0.2129854 </span>
-<span class="co">#&gt;        imp        NA1        TA1   traitanx        EA2        lie        EA1 </span>
-<span class="co">#&gt;  0.4589491  0.7411469  0.7995051  0.8728326  1.0474372  1.1357607  1.9623766 </span>
-<span class="co">#&gt;       Film        TA2        PA2     state1        NA2 </span>
-<span class="co">#&gt;  2.0943207  2.7016645  3.6601864  5.0044752 22.4118377</span>
+<span class="co">#&gt;         lie         ext         NA1        Film         soc         PA2 </span>
+<span class="co">#&gt; -5.81864673 -1.83488278 -0.49880612 -0.03178454  0.00000000  0.00000000 </span>
+<span class="co">#&gt;         BDI       Study         imp         PA1         MEQ    traitanx </span>
+<span class="co">#&gt;  0.00000000  0.20779192  0.64147646  1.05353207  1.51608544  1.59209916 </span>
+<span class="co">#&gt;         TA1         EA2      state1        neur         EA1         NA2 </span>
+<span class="co">#&gt;  1.66665478  2.42382301  2.58549792  2.89040617  3.95685041  9.56304590 </span>
+<span class="co">#&gt;         TA2 </span>
+<span class="co">#&gt; 29.33086507</span>
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>)</pre></body></html></div>
 <p><img src="forests_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>From this, we can learn that variables such as <code>NA2</code> representing negative affect (after the movie), <code>TA2</code> representing tense arousal (after the movie), and <code>state1</code> representing the state anxiety before having watched the movie, are the best predictors of difference in the distribution of state anxiety (in either mean, variance or both) after having watched the movie.</p>

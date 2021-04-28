@@ -88,7 +88,7 @@ ctr <- semtree.control(verbose=TRUE)
 ctr$exclude.heywood <- FALSE
 # naive tree should find both effects, age & ses, with age having the stronger effect 
 tree <- semtree(model = result, data=fulldata, control=ctr )
-plot(tree)
+#plot(tree)
 
 # invariance tree should exclude splits wrt age and only splir wrt to ses
 ctr$report.level <- 99
@@ -98,8 +98,4 @@ cnst <- semtree.constraints(local.invariance = c("l2","l3","l4"))
 #cnst <- semtree.constraints(local.invariance=)
 tree2 <- semtree(model = result, data=fulldata, control=ctr, constraints = cnst )
 
-plot(tree2)
-
-ctr <- semtree.control(method="fair")
-tree3 <- semtree(model = result, data=fulldata, control=ctr)
-
+#plot(tree2)

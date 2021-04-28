@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="SEM Forest Variable Importance — varimp" />
-<meta property="og:description" content="A function to calculate relative variable importance for selecting node splits over 
-a semforest object." />
+<meta property="og:description" content="A function to calculate relative variable importance for selecting node
+splits over a semforest object." />
 
 
 
@@ -81,7 +81,7 @@ a semforest object." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -137,13 +137,20 @@ a semforest object." />
     </div>
 
     <div class="ref-description">
-    <p>A function to calculate relative variable importance for selecting node splits over 
-a <code><a href='semforest.html'>semforest</a></code> object.</p>
+    <p>A function to calculate relative variable importance for selecting node
+splits over a <code><a href='semforest.html'>semforest</a></code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>varimp</span>(<span class='no'>forest</span>, <span class='kw'>var.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>,
-        <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>eval.fun</span> <span class='kw'>=</span> <span class='no'>evaluateTree</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"permutation"</span>,
-        <span class='kw'>conditional</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>varimp</span>(
+  <span class='no'>forest</span>,
+  <span class='kw'>var.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>,
+  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>eval.fun</span> <span class='kw'>=</span> <span class='no'>evaluateTree</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"permutation"</span>,
+  <span class='kw'>conditional</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,27 +161,32 @@ a <code><a href='semforest.html'>semforest</a></code> object.</p>
     </tr>
     <tr>
       <th>var.names</th>
-      <td><p>Covariates used in the forest creation process. NULL value will be automatically filled in by the function.</p></td>
+      <td><p>Covariates used in the forest creation process. NULL value
+will be automatically filled in by the function.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>Boolean to print messages while function is running.</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>Experimental. Some alternative methods to compute importance. Default is "permutation".</p></td>
+      <th>cluster</th>
+      <td><p>An object of class "cluster" representing a parallel socket
+cluster. See package <a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a>.</p></td>
     </tr>
     <tr>
       <th>eval.fun</th>
-      <td><p>Default is <code><a href='evaluateTree.html'>evaluateTree</a></code> function. The value of the -2LL of the leaf nodes is compared to baseline overall model.</p></td>
+      <td><p>Default is <code><a href='evaluateTree.html'>evaluateTree</a></code> function. The value of
+the -2LL of the leaf nodes is compared to baseline overall model.</p></td>
     </tr>
     <tr>
-      <th>cluster</th>
-      <td><p>An object of class "cluster" representing a parallel socket cluster. See package <a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a>.</p></td>
+      <th>method</th>
+      <td><p>Experimental. Some alternative methods to compute importance.
+Default is "permutation".</p></td>
     </tr>
     <tr>
       <th>conditional</th>
-      <td><p>Conditional variable importance if TRUE, otherwise marginal variable importance.</p></td>
+      <td><p>Conditional variable importance if TRUE, otherwise
+marginal variable importance.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -184,7 +196,9 @@ a <code><a href='semforest.html'>semforest</a></code> object.</p>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18(1), 71-86.</p>
+    <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
+U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
+18(1), 71-86.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
