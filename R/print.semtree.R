@@ -1,3 +1,4 @@
+#' @exportS3Method print semtree
 print.semtree <-
 function( x, level=0, p.values.valid=NULL, ... )
 {
