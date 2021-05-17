@@ -56,7 +56,7 @@ mxScores_standard <- function(x, control) {
   
     }
     
-  if (mean_structure == FALSE) {jac <- jac[p_star_seq, ]}
+  if (mean_structure == FALSE) {jac <- jac[p_star_seq, , drop = FALSE]}
   
   # Calculate weight matrix
   Dup <- lavaan::lav_matrix_duplication(n = p)
@@ -237,10 +237,10 @@ mxScores_df <- function(x, control) {
       x <- OpenMx::omxSetParameters(model = x, labels = param_names,
                                     values = param_estimates)
       x <- suppressMessages(OpenMx::mxRun(model = x, useOptimizer = FALSE))
-      jac1 <- OpenMx::omxManifestModelByParameterJacobian(model = x)
+      jac <- OpenMx::omxManifestModelByParameterJacobian(model = x)
     }
     
-    if (mean_structure == FALSE) {jac <- jac[p_star_seq, ]}
+    if (mean_structure == FALSE) {jac <- jac[p_star_seq, , drop = FALSE]}
     
     
     V <- 0.5 * t(Dup) %*% kronecker(X = exp_cov_inv, Y = exp_cov_inv) %*% Dup
