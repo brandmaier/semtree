@@ -2,6 +2,8 @@
 
 # INSTALL THE PACKAGE
 require("semtree")
+require("future")
+plan(multisession)
 
 # ORGANIZE DATA BY TYPE FOR COVARIATES.
 # SOME COVARIATES ARE ORGANIZED IN THE DATA. MODEL VARIABLES AND 

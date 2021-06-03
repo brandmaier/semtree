@@ -10,8 +10,6 @@
 #' @param control A semforest control object to set forest parameters.
 #' @param predictors An optional list of covariates. See semtree code example.
 #' @param constraints An optional list of covariates. See semtree code example.
-#' @param cluster An object of class "cluster" representing a parallel socket
-#' cluster. See package \link[parallel]{makeCluster}.
 #' @param \dots Optional parameters.
 #' @return A semforest object.
 #' @author Andreas M. Brandmaier, John J. Prindle
@@ -30,7 +28,6 @@ semforest <- function(model,
                       control = NULL,
                       predictors = NULL,
                       constraints = NULL ,
-                      cluster = NULL,
                       ...)
 {
   arguments <- list(...)
@@ -187,40 +184,23 @@ semforest <- function(model,
   # store start time for computing time elapsed later
   start.time <- proc.time()
   
-  # run the actual tree growing algorithm either with mapply (non-parallel)
-  # or clusterMap for parallel computation
-  if (is.null(cluster)) {
-    trees <- mapply(
-      FUN = semtreeApplyWrapper,
-      forest.data,
-      seeds,
-      skip,
-      MoreArgs = list(
-        model = model,
-        semtree.control = semforest.control$semtree.control,
-        with.error.handler,
-        predictors = covariates,
-        constraints = constraints
-      ),
-      SIMPLIFY = FALSE
-    )
-  } else {
-    trees <- clusterMap(
-      cl = cluster,
-      fun = semtreeApplyWrapper,
-      forest.data,
-      seeds,
-      skip,
-      MoreArgs = list(
-        model = model,
-        semtree.control = semforest.control$semtree.control,
-        with.error.handler,
-        predictors = covariates,
-        constraints = constraints
-      ),
-      SIMPLIFY = FALSE
-    )
-  }
+  # run the actual tree growing algorithm with a futurized version of apply
+  # allows for parallel computation with different future::plan() strategies
+  trees <- future.apply::future_mapply(
+    FUN = semtreeApplyWrapper,
+    forest.data,
+    seeds,
+    skip,
+    MoreArgs = list(
+      model = model,
+      semtree.control = semforest.control$semtree.control,
+      with.error.handler,
+      predictors = covariates,
+      constraints = constraints
+    ),
+    SIMPLIFY = FALSE,
+    future.seed = TRUE
+  )
   
   # give trees names
   for (i in 1:length(trees)) {

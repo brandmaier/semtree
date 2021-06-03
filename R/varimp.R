@@ -14,8 +14,6 @@
 #' Default is "permutation".
 #' @param eval.fun Default is \code{\link{evaluateTree}} function. The value of
 #' the -2LL of the leaf nodes is compared to baseline overall model.
-#' @param cluster An object of class "cluster" representing a parallel socket
-#' cluster. See package \link[parallel]{makeCluster}.
 #' @param conditional Conditional variable importance if TRUE, otherwise
 #' marginal variable importance.
 #' @param \dots Optional arguments.
@@ -30,17 +28,11 @@ varimp <- function(forest,
                    var.names = NULL,
                    verbose = F,
                    #                   main.effects = F,
-                   cluster = NULL,
                    eval.fun = evaluateTree,
                    method = "permutation",
                    conditional = FALSE,
                    ...)
 {
-  if ("parallel" %in% list(...)) {
-    warning(
-      "Use of snowfall is deprecated and must be replaced with cluster argument from package 'parallel'! See manual"
-    )
-  }
   
   if (is.null(var.names)) {
     var.names <- forest$covariates
@@ -63,40 +55,22 @@ varimp <- function(forest,
   result <- list()
   start.time <- proc.time()
   
-  if (is.null(cluster)) {
-    temp <- mapply(
-      FUN = varimpTree,
-      forest$forest,
-      forest$forest.data,
-      MoreArgs = list(
-        var.names = var.names,
-        verbose = verbose,
-        max.level = NA,
-        eval.fun = eval.fun,
-        method = method,
-        conditional = conditional
-      ),
-      SIMPLIFY = FALSE,
-      USE.NAMES = TRUE
-    )
-  } else {
-    temp <-
-      parallel::clusterMap(
-        cl = cluster,
-        fun = varimpTree,
-        forest$forest,
-        forest$forest.data,
-        MoreArgs = list(
-          var.names = var.names,
-          verbose = verbose,
-          max.level = NA,
-          eval.fun = eval.fun,
-          method = method
-        ),
-        SIMPLIFY = FALSE,
-        USE.NAMES = TRUE
-      )
-  }
+  temp <- future.apply::future_mapply(
+    FUN = varimpTree,
+    forest$forest,
+    forest$forest.data,
+    MoreArgs = list(
+      var.names = var.names,
+      verbose = verbose,
+      max.level = NA,
+      eval.fun = eval.fun,
+      method = method,
+      conditional = conditional
+    ),
+    SIMPLIFY = FALSE,
+    USE.NAMES = TRUE,
+    future.seed = TRUE
+  )
   
   
   

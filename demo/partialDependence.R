@@ -1,6 +1,8 @@
 ## SEM Forest demo using parallel package
 
 require("semtree")
+require("future")
+plan(multisession)
 
 # ORGANIZE DATA BY TYPE FOR COVARIATES.
 # SOME COVARIATES ARE ORGANIZED IN THE DATA. MODEL VARIABLES AND 
@@ -93,9 +95,7 @@ tree <- semtree(lgcModel, lgcm)
 
 control <- semforest.control(num.trees = 7)
 
-cl <- parallel::makeCluster(7)
-
-forest <- semforest(model=lgcModel, data=lgcm, control=control, cluster=cl)
+forest <- semforest(model=lgcModel, data=lgcm, control=control)
 
 #tdep <- partialDependence(forest, reference.var="training", reference.par="means")
 depnoise <- partialDependence(forest, reference.var="noise", reference.par="means")

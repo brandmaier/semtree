@@ -1,6 +1,8 @@
 ## SEM Forest demo using parallel package
 
 require("semtree")
+require("future")
+plan(multisession)
 
 # ORGANIZE DATA BY TYPE FOR COVARIATES.
 # SOME COVARIATES ARE ORGANIZED IN THE DATA. MODEL VARIABLES AND 
@@ -85,9 +87,7 @@ forest <- semforest(model=lgcModel, data=lgcm)
 
 control <- semforest.control(num.trees = 20)
 
-cl <- parallel::makeCluster(6)
-
-forest2 <- semforest(model=lgcModel, data=lgcm, control=control, cluster=cl)
+forest2 <- semforest(model=lgcModel, data=lgcm, control=control)
 
 # merge trees from both forest
 bigforest <- merge(forest, forest2)
@@ -95,21 +95,23 @@ bigforest <- merge(forest, forest2)
 # compute variable importance
 
 ts1 <- proc.time()
-vim <- varimp(bigforest, cluster=cl)
+plan(sequential)
+vim <- varimp(bigforest)
 ts2 <- proc.time()
+plan(multisession)
 vim2 <- varimp(bigforest)
 ts3 <- proc.time()
 
 print("Variable Importance Computation")
-print("Time with cluster")
+print("Time with sequential plan")
 print(ts2-ts1)
-print("Time without cluster")
-print(ts3-ts1)
+print("Time with multisession plan")
+print(ts3-ts2)
 
 # plot importance
 print(vim)
 plot(vim)
 
 # proximity
-prx <- proximity(bigforest, cluster=cl)
+prx <- proximity(bigforest)
 plot(prx)

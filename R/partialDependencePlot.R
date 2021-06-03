@@ -21,11 +21,9 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
 #' @param reference.param Label of the (dependent) model parameter for which
 #' partial dependence is plotted
 #' @param support Number of grid points for interpolating the reference.var
-#' @param cluster A reference to a cluster from parallel package for parallel
-#' execution. Defaults to NULL for sequential computation.
 #' @author Andreas M. Brandmaier
 #' @export
-partialDependence <- function(forest, reference.var, reference.param, support=NULL, cluster=NULL) 
+partialDependence <- function(forest, reference.var, reference.param, support=NULL)
 {
   
   result <- list()
@@ -105,11 +103,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
     return(ret)
   }
   
-  if (is.null(cluster)) {
-    mapresult <- lapply(FUN=mapreduce,X=forest$forest)
-  } else {
-    mapresult <- parallel::parLapply(cl=cluster,fun=mapreduce,X=forest$forest)
-  }
+  mapresult <- future.apply::future_lapply(FUN=mapreduce,X=forest$forest)
   
   #result <- list()
   #for (i in 1:10) {
