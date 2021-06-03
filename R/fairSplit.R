@@ -6,7 +6,7 @@ fairSplit <-
            meta = NULL,
            constraints = NULL,
            ...) {
-    #browser()
+   # browser()
     # add a column of uniform random numbers to the data and
     # blah blah blah
     n <- nrow(mydata)

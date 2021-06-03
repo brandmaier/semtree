@@ -1,3 +1,7 @@
+# semtree 0.9.16 (ongoing)
+
+- restored semtree.print() generic function
+
 # semtree 0.9.15 (2021)
 
 - roll-out of score-based tests - use method "score" to enable 
