@@ -15,7 +15,6 @@ Imports:
     digest,
     rpart,
     rpart.plot (>= 3.0.6),
-    parallel,
     plotrix,
     cluster,
     stringr,
@@ -30,7 +29,8 @@ Imports:
     zoo,
     crayon,
     clisymbols,
-    testthat
+    testthat,
+    future.apply
 Suggests:
     knitr,
     rmarkdown,

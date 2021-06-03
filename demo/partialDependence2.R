@@ -8,6 +8,8 @@
 #
 #
 require("semtree")
+require("future")
+plan(multisession)
 
 N.sub <- 200
 
@@ -65,24 +67,23 @@ summary(result)
 ## - single tree -
 tree<-semtree(model, data)
 
-cl <- parallel::makeCluster(7)
 ctrl <- semforest.control(num.trees = 210)
 
 constraints <- semtree.constraints(focus.parameters = "mux1")
 
-forest <- semforest(model = model, data = data, control = ctrl, cluster = cl)
+forest <- semforest(model = model, data = data, control = ctrl)
 
 #semforest(model = model, data = data, constraints=constraints)
 
-vim <- varimp(forest,cluster =  cl)
+vim <- varimp(forest)
 
 print(vim, aggregate="median")
 print(vim, aggregate="mean")
 
-pd1.mu <- partialDependence(forest, "p1", "mux1", cluster=cl)
-pd1.var <- partialDependence(forest, "p1", "VAR_x1", cluster=cl)
-pd3.mu <- partialDependence(forest, "p3", "mux1", cluster=cl)
-pd3.var <- partialDependence(forest, "p3", "VAR_x1", cluster=cl)
+pd1.mu <- partialDependence(forest, "p1", "mux1")
+pd1.var <- partialDependence(forest, "p1", "VAR_x1")
+pd3.mu <- partialDependence(forest, "p3", "mux1")
+pd3.var <- partialDependence(forest, "p3", "VAR_x1")
 plot(pd)
 
 opar <- par(no.readonly = TRUE)

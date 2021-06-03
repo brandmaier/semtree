@@ -10,8 +10,6 @@
 #' @param dataset A dataset to compute proximity values for.
 #' @param type Missingness accounted for. (0 = no, 1 = yes)
 #' @param aggregate Boolean marker to compute aggregate proximity scores.
-#' @param cluster An object of class "cluster" representing a parallel socket
-#' cluster. See package \link[parallel]{makeCluster}.
 #' @param \dots Optional arguments.
 #' @return A matrix with dimensions NxN is returned. The values of each cell
 #' are bounded (0,1) and represent proportion of trees where each case are in
@@ -22,12 +20,8 @@
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
 #' @export
-proximity <- function(forest, dataset=NULL, type=0, aggregate=T, cluster=NULL, ...)
+proximity <- function(forest, dataset=NULL, type=0, aggregate=T, ...)
 {
-  if ("snowfall" %in% list(...)) {
-    warning("Use of snowfall is deprecated and must be replaced with cluster argument from package 'parallel'! See manual")
-  }
-  
   if (is.null(dataset)) {
     dataset <- forest$data
   }
@@ -44,11 +38,8 @@ proximity <- function(forest, dataset=NULL, type=0, aggregate=T, cluster=NULL, .
     prox.fun <- missingness.proximity.tree.matrix
   }
 	
-	#quasi map-reduce-step here:
-  if (is.null(cluster)) 
-	  bool.matrix <- lapply(forest$forest, FUN=prox.fun, dataset)
-  else
-    bool.matrix <- parLapply(cl=cluster,forest$forest, FUN=prox.fun, dataset)
+  #quasi map-reduce-step here:
+  bool.matrix <- future.apply::future_lapply(forest$forest, FUN=prox.fun, dataset, future.seed=TRUE)
   
   for (i in 1:K)
 	{

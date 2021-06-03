@@ -1,8 +1,9 @@
 #
 # Reproducibility with semtree and parallel processing
-# using seeds and seeds on clusters
+# using multisession future strategy
 #
 require("semtree")
+require("future")
 
 #
 # (0) set up a dummy model and dataset. Scroll further down for the 
@@ -84,6 +85,7 @@ forest <- semforest(model=lgcModel, data=lgcm)
 # (1) setting seeds for local computations to make
 #   variable importance computation reproducible
 #
+plan(sequential)
 
 # compute variable importance
 set.seed(123)
@@ -97,32 +99,17 @@ vim2 <- varimp(forest)
 # they really should be given the same seed
 all(vim$importance==vim2$importance,na.rm = TRUE)
 
-#
-# (2) This is how to *NOT* set seeds when using parallel computations
-#
 
-# compute variable importance using cluster
-cl <- parallel::makeCluster(4)
+#
+# (2) Future functions in this packages are configured
+# with future.seed = T and should also return the same
+# variable importance
+
+plan(multisession)
+
 set.seed(123)
-vim <- varimp(forest, cluster=cl)
-
+vim <- varimp(forest)
 set.seed(123)
-vim2 <- varimp(forest, cluster=cl)
-
-# check whether results are identical between vim and vim2
-# they will with probability of almost 1 be not identical
-# since seeds were set only on the local process but not on
-# the cluster processes
-all(vim$importance==vim2$importance,na.rm = TRUE)
-
-
-#
-# (3) This is how to set seeds when using parallel computations
-#
-parallel::clusterSetRNGStream(cl, 123)
-vim <- varimp(forest, cluster=cl)
-
-parallel::clusterSetRNGStream(cl, 123)
-vim2 <- varimp(forest, cluster=cl)
+vim2 <- varimp(forest)
 
 all(vim$importance==vim2$importance,na.rm = TRUE)

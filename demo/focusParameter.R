@@ -8,6 +8,8 @@
 #
 #
 require("semtree")
+require("future")
+plan(multisession)
 
 N.sub <- 200
 
@@ -63,7 +65,6 @@ result <- mxRun(model)
 summary(result)
 
 
-cl <- parallel::makeCluster(7)
 ctrl <- semforest.control(num.trees = 210)
 
 constraints1 <- semtree.constraints(focus.parameters = "mux1")
@@ -71,18 +72,18 @@ constraints2 <- semtree.constraints(focus.parameters = "VAR_x1")
 
 
 forest <- semforest(model = model, data = data, 
-                    constraints=NULL, cluster=cl,control = ctrl)
+                    constraints=NULL, control = ctrl)
 
 forest.constrained1 <- semforest(model = model, data = data, 
-                                constraints=constraints1, cluster=cl,control = ctrl)
+                                constraints=constraints1, control = ctrl)
 forest.constrained2 <- semforest(model = model, data = data, 
-                                 constraints=constraints2, cluster=cl,control = ctrl)
+                                 constraints=constraints2, control = ctrl)
 
 
-vim.constrained1 <- varimp(forest.constrained1, cluster = cl)
-vim.constrained2 <- varimp(forest.constrained2, cluster = cl)
+vim.constrained1 <- varimp(forest.constrained1)
+vim.constrained2 <- varimp(forest.constrained2)
 
-vim <- varimp(forest, cluster = cl)
+vim <- varimp(forest)
 
 opar <- par(no.readonly = TRUE)
 par(mfrow=c(3,1))
