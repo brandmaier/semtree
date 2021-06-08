@@ -5,7 +5,7 @@ OpenMx_scores_input <- function(x, control) {
   p_star <- p * (p + 1) / 2
   p_star_means <- p * (p + 3) / 2
   
-  if (control$linear) {
+  if (control$linear | imxHasDefinitionVariable(x)) {
     
     param_names <- names(x$output$estimate)
     q <- length(param_names)
