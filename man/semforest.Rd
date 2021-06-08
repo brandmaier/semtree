@@ -12,7 +12,6 @@ semforest(
   control = NULL,
   predictors = NULL,
   constraints = NULL,
-  cluster = NULL,
   ...
 )
 }
@@ -26,9 +25,6 @@ semforest(
 \item{predictors}{An optional list of covariates. See semtree code example.}
 
 \item{constraints}{An optional list of covariates. See semtree code example.}
-
-\item{cluster}{An object of class "cluster" representing a parallel socket
-cluster. See package \link[parallel]{makeCluster}.}
 
 \item{\dots}{Optional parameters.}
 }

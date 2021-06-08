@@ -6,7 +6,7 @@
 \alias{plot.semforest.proximity}
 \title{SEM Forest Case Proximity}
 \usage{
-proximity(forest, dataset = NULL, type = 0, aggregate = T, cluster = NULL, ...)
+proximity(forest, dataset = NULL, type = 0, aggregate = T, ...)
 }
 \arguments{
 \item{forest}{A \code{\link{semforest}} object.}
@@ -16,9 +16,6 @@ proximity(forest, dataset = NULL, type = 0, aggregate = T, cluster = NULL, ...)
 \item{type}{Missingness accounted for. (0 = no, 1 = yes)}
 
 \item{aggregate}{Boolean marker to compute aggregate proximity scores.}
-
-\item{cluster}{An object of class "cluster" representing a parallel socket
-cluster. See package \link[parallel]{makeCluster}.}
 
 \item{\dots}{Optional arguments.}
 }

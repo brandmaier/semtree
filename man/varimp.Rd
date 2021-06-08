@@ -11,7 +11,6 @@ varimp(
   forest,
   var.names = NULL,
   verbose = F,
-  cluster = NULL,
   eval.fun = evaluateTree,
   method = "permutation",
   conditional = FALSE,
@@ -25,9 +24,6 @@ varimp(
 will be automatically filled in by the function.}
 
 \item{verbose}{Boolean to print messages while function is running.}
-
-\item{cluster}{An object of class "cluster" representing a parallel socket
-cluster. See package \link[parallel]{makeCluster}.}
 
 \item{eval.fun}{Default is \code{\link{evaluateTree}} function. The value of
 the -2LL of the leaf nodes is compared to baseline overall model.}

@@ -6,13 +6,7 @@
 \alias{partialDependencePlot}
 \title{Partial Dependence Plot}
 \usage{
-partialDependence(
-  forest,
-  reference.var,
-  reference.param,
-  support = NULL,
-  cluster = NULL
-)
+partialDependence(forest, reference.var, reference.param, support = NULL)
 }
 \arguments{
 \item{forest}{A SEM forest}
@@ -24,9 +18,6 @@ partial dependence is plotted}
 partial dependence is plotted}
 
 \item{support}{Number of grid points for interpolating the reference.var}
-
-\item{cluster}{A reference to a cluster from parallel package for parallel
-execution. Defaults to NULL for sequential computation.}
 }
 \description{
 Partial dependence plot for the effect of an indepedent variable in the
