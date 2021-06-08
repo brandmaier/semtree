@@ -44,12 +44,12 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
     SEM trees each built on a random sample of the original data. By aggregating
     over a forest, we obtain measures of variable importance that are more robust
     than measures from single trees. A description of the method was published by
-    Brandmaier, von Oertzen, McArdle, & Lindenberger (2013; DOI: 10.1037/a0030001) 
-    and Arnold, Voelkle, & Brandmaier (2020; DOI: 10.3389/fpsyg.2020.564403).
+    Brandmaier, von Oertzen, McArdle, & Lindenberger (2013; DOI: <doi:10.1037/a0030001>) 
+    and Arnold, Voelkle, & Brandmaier (2020; DOI: <doi:10.3389/fpsyg.2020.564403>).
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.16
-Date: 2021-04-29
+Date: 2021-06-03
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
