@@ -1,7 +1,6 @@
 focusParameter			Using focus parameters
 partialDependence		Partial dependence plots
 partialDependence2		Another example of partial dependence plots
-seeds					How to properly use seeds for pseudo-randomness and reproducibility
 semtreeLGCModelOpenMx	A simple SEM Tree using OpenMx
 semtreeLGCModellavaan	A simple SEM Tree using lavaan
 semforestLGCModelOpenMx A simple SEM Forest using OpenMx
