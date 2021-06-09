@@ -232,7 +232,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
     
     
-    # Prepare objects for fast score calculation (only for linear models)
+    # Prepare objects for fast score calculation
+    ## Only for linear models (semtree$linear == TRUE) or for models with definition variables 
     # Note: model must be run - this is assured by previous code block that performs mxTryHard()
     if (control$method == "score") {
       control <- c(control,
