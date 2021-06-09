@@ -74,7 +74,7 @@ partialDependence object that can be plotted via generic plot command." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.16</span>
       </span>
     </div>
 
@@ -143,13 +143,7 @@ dataset on the dependent outcome parameter selected. Returns a
 partialDependence object that can be plotted via generic plot command.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partialDependence</span>(
-  <span class='no'>forest</span>,
-  <span class='no'>reference.var</span>,
-  <span class='no'>reference.param</span>,
-  <span class='kw'>support</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>partialDependence</span><span class='op'>(</span><span class='va'>forest</span>, <span class='va'>reference.var</span>, <span class='va'>reference.param</span>, support <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,13 +166,11 @@ partial dependence is plotted</p></td>
       <th>support</th>
       <td><p>Number of grid points for interpolating the reference.var</p></td>
     </tr>
-    <tr>
-      <th>cluster</th>
-      <td><p>A reference to a cluster from parallel package for parallel
-execution. Defaults to NULL for sequential computation.</p></td>
-    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Andreas M. Brandmaier</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -195,7 +187,7 @@ execution. Defaults to NULL for sequential computation.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.16</span>
       </span>
     </div>
 
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="forests_files/header-attrs-2.6/header-attrs.js"></script><script src="forests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="forests_files/header-attrs-2.8/header-attrs.js"></script><script src="forests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>SEM Forests</h1>
                         <h4 class="author">Andreas Brandmaier</h4>
             
-            <h4 class="date">2021-04-28</h4>
+            <h4 class="date">2021-06-09</h4>
       
       
       <div class="hidden name"><code>forests.Rmd</code></div>
@@ -103,10 +103,11 @@
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
 <p>Load affect dataset from the <code>psychTools</code> package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to study affect dimensionality and the relationship to various personality dimensions.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTools</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">affect</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psychTools</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span>
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">affect</span>))</pre></body></html></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="5%">
@@ -287,31 +288,34 @@
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">
-<span class="no">affect</span>$<span class="no">Film</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">affect</span>$<span class="no">Film</span>)
-<span class="no">affect</span>$<span class="no">lie</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.ordered</a></span>(<span class="no">affect</span>$<span class="no">lie</span>)
-<span class="no">affect</span>$<span class="no">imp</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.ordered</a></span>(<span class="no">affect</span>$<span class="no">imp</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="va">affect</span><span class="op">$</span><span class="va">Film</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">Film</span><span class="op">)</span>
+<span class="va">affect</span><span class="op">$</span><span class="va">lie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.ordered</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">lie</span><span class="op">)</span>
+<span class="va">affect</span><span class="op">$</span><span class="va">imp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.ordered</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">imp</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="create-simple-model-of-state-anxiety" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-simple-model-of-state-anxiety" class="anchor"></a>Create simple model of state anxiety</h2>
 <p>The following code implements a simple SEM with only a single manifest variables and two parameters, the mean of state anxiety after having watched a movie (<code>state2</code>), <span class="math inline">\(\mu\)</span>, and the variance of state anxiety, <span class="math inline">\(\sigma^2\)</span>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">OpenMx</span>)
-<span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"state2"</span>)
-<span class="no">latents</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>()
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"Simple Model"</span>,
-<span class="kw">type</span><span class="kw">=</span><span class="st">"RAM"</span>,
-<span class="kw">manifestVars</span> <span class="kw">=</span> <span class="no">manifests</span>,
-<span class="kw">latentVars</span> <span class="kw">=</span> <span class="no">latents</span>,
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="no">manifests</span>, <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mu"</span>) ),
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="no">manifests</span>,<span class="kw">to</span><span class="kw">=</span><span class="no">manifests</span>, <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sigma2"</span>) ),
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(<span class="no">affect</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"raw"</span>)
-);
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openmx.ssri.psu.edu">OpenMx</a></span><span class="op">)</span>
+<span class="va">manifests</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"state2"</span><span class="op">)</span>
+<span class="va">latents</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span><span class="op">(</span><span class="st">"Simple Model"</span>, 
+type<span class="op">=</span><span class="st">"RAM"</span>,
+manifestVars <span class="op">=</span> <span class="va">manifests</span>,
+latentVars <span class="op">=</span> <span class="va">latents</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span><span class="op">(</span>from<span class="op">=</span><span class="st">"one"</span>,to<span class="op">=</span><span class="va">manifests</span>, free<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>, value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.0</span><span class="op">)</span> , arrows<span class="op">=</span><span class="fl">1</span>, label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span><span class="op">)</span> <span class="op">)</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span><span class="op">(</span>from<span class="op">=</span><span class="va">manifests</span>,to<span class="op">=</span><span class="va">manifests</span>, free<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>, value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.0</span><span class="op">)</span> , arrows<span class="op">=</span><span class="fl">2</span>, label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sigma2"</span><span class="op">)</span> <span class="op">)</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span><span class="op">(</span><span class="va">affect</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>
+<span class="op">)</span>;
 
-<span class="no">result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span>(<span class="no">model</span>)
-<span class="co">#&gt; Running Simple Model with 2 parameters</span></pre></body></html></div>
+<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+<span class="co">#&gt; Running Simple Model with 2 parameters</span></code></pre></div>
 <p>These are the estimates of the model when run on the entire sample:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">result</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
 <span class="co">#&gt; Summary of Simple Model </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; free parameters:</span>
@@ -335,18 +339,19 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2021-04-28 20:11:16 </span>
-<span class="co">#&gt; Wall clock time: 0.1756461 secs </span>
+<span class="co">#&gt; timestamp: 2021-06-09 09:04:22 </span>
+<span class="co">#&gt; Wall clock time: 0.05435491 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
 <span class="co">#&gt; OpenMx version number: 2.19.5 </span>
-<span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
+<span class="co">#&gt; Need help?  See help(mxSummary)</span></code></pre></div>
 </div>
 <div id="forest" class="section level2">
 <h2 class="hasAnchor">
 <a href="#forest" class="anchor"></a>Forest</h2>
 <p>Create a forest control object that stores all tuning parameters of the forest. Note that we use only 5 trees for demo purposes. Please increase the number in real applications.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">control</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span>(<span class="kw">num.trees</span> <span class="kw">=</span> <span class="fl">5</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">control</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span><span class="op">(</span>num.trees <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">control</span><span class="op">)</span>
 <span class="co">#&gt; SEM-Forest control:</span>
 <span class="co">#&gt; -----------------</span>
 <span class="co">#&gt; Number of Trees:  5 </span>
@@ -366,9 +371,10 @@
 <span class="co">#&gt; ● Use all Cases: FALSE</span>
 <span class="co">#&gt; ● Verbosity: FALSE</span>
 <span class="co">#&gt; ● Progress Bar: TRUE</span>
-<span class="co">#&gt; ● Seed: NA</span></pre></body></html></div>
+<span class="co">#&gt; ● Seed: NA</span></code></pre></div>
 <p>Now, run the forest using the <code>control</code> object:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">forest</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span>( <span class="kw">model</span><span class="kw">=</span><span class="no">model</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">affect</span>, <span class="kw">control</span> <span class="kw">=</span> <span class="no">control</span> )
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span><span class="op">(</span> model<span class="op">=</span><span class="va">model</span>, data <span class="op">=</span> <span class="va">affect</span>, control <span class="op">=</span> <span class="va">control</span> <span class="op">)</span>
 <span class="co">#&gt; ❯ Model was not run. Estimating parameters now before running the forest.</span>
 <span class="co">#&gt; Running Simple Model with 2 parameters</span>
 <span class="co">#&gt; </span>
@@ -377,34 +383,33 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Lowest minimum so far:  1289.15758570645</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Solution found</span></pre></body></html></div>
+<span class="co">#&gt; Solution found</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Solution found!  Final fit=1289.1576 (started at 311965.65)  (1 attempt(s): 1 valid, 0 errors)
 #&gt;  Start values from best fit:
 #&gt; 115.05414693347,42.4511763398574
-#&gt; ✔ Tree construction finished [took 9s].
-#&gt; ✔ Tree construction finished [took 7s].
-#&gt; ✔ Tree construction finished [took 9s].
-#&gt; ✔ Tree construction finished [took 9s].
 #&gt; ✔ Tree construction finished [took 8s].
-#&gt; ✔ Forest completed [took 42s]</code></pre>
+#&gt; ✔ Tree construction finished [took 7s].
+#&gt; ✔ Tree construction finished [took 8s].
+#&gt; ✔ Tree construction finished [took 8s].
+#&gt; ✔ Tree construction finished [took 8s].
+#&gt; ✔ Forest completed [took 39s]</code></pre>
 </div>
 <div id="variable-importance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#variable-importance" class="anchor"></a>Variable importance</h2>
 <p>Next, we compute permutation-based variable importance.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">vim</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span>(<span class="no">forest</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">vim</span>, <span class="kw">sort.values</span><span class="kw">=</span><span class="fl">TRUE</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">vim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vim</span>, sort.values<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Variable Importance</span>
-<span class="co">#&gt;         lie         ext         NA1        Film         soc         PA2 </span>
-<span class="co">#&gt; -5.81864673 -1.83488278 -0.49880612 -0.03178454  0.00000000  0.00000000 </span>
-<span class="co">#&gt;         BDI       Study         imp         PA1         MEQ    traitanx </span>
-<span class="co">#&gt;  0.00000000  0.20779192  0.64147646  1.05353207  1.51608544  1.59209916 </span>
-<span class="co">#&gt;         TA1         EA2      state1        neur         EA1         NA2 </span>
-<span class="co">#&gt;  1.66665478  2.42382301  2.58549792  2.89040617  3.95685041  9.56304590 </span>
-<span class="co">#&gt;         TA2 </span>
-<span class="co">#&gt; 29.33086507</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">vim</span>)</pre></body></html></div>
+<span class="co">#&gt;        lie      Study        ext        imp        soc        NA1        TA2 </span>
+<span class="co">#&gt; -3.5269633  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000  0.0000000 </span>
+<span class="co">#&gt;        MEQ        BDI        EA1       neur        PA2        PA1        TA1 </span>
+<span class="co">#&gt;  0.0000000  0.0000000  0.8144743  0.8327642  1.4999646  1.7389287  2.8592936 </span>
+<span class="co">#&gt;   traitanx       Film     state1        EA2        NA2 </span>
+<span class="co">#&gt;  3.1334580  5.6242254  8.1234209 12.9210946 22.3214619</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">vim</span><span class="op">)</span></code></pre></div>
 <p><img src="forests_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>From this, we can learn that variables such as <code>NA2</code> representing negative affect (after the movie), <code>TA2</code> representing tense arousal (after the movie), and <code>state1</code> representing the state anxiety before having watched the movie, are the best predictors of difference in the distribution of state anxiety (in either mean, variance or both) after having watched the movie.</p>
 </div>
@@ -425,7 +430,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.16</span>
       </span>
     </div>
 
@@ -84,13 +84,13 @@
 
       
 
-      </header><script src="score-based-tests_files/header-attrs-2.6/header-attrs.js"></script><script src="score-based-tests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="score-based-tests_files/header-attrs-2.8/header-attrs.js"></script><script src="score-based-tests_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Score-based Tests</h1>
                         <h4 class="author">Andreas M. Brandmaier</h4>
             
-            <h4 class="date">2021-04-28</h4>
+            <h4 class="date">2021-06-09</h4>
       
       
       <div class="hidden name"><code>score-based-tests.Rmd</code></div>
@@ -103,17 +103,18 @@
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>Load data</h2>
 <p>Load affect dataset from the <code>psychTools</code> package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to study affect dimensionality and the relationship to various personality dimensions. In the following code, we replace the numeric film labels with the movie titles. Also, we select a subset of predictors including the film, personality dimensions, trait anxiety and affect before having watched the movie.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTools</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">affect</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psychTools</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span>
 
-<span class="no">affect</span>$<span class="no">Film</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">affect</span>$<span class="no">Film</span>, <span class="kw">ordered</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-                      <span class="kw">labels</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Frontline"</span>, <span class="st">"Halloween"</span>, <span class="st">"Nat. Geographic"</span>,<span class="st">"Parenthood"</span>))
+<span class="va">affect</span><span class="op">$</span><span class="va">Film</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">Film</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span>, 
+                      labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Frontline"</span>, <span class="st">"Halloween"</span>, <span class="st">"Nat. Geographic"</span>,<span class="st">"Parenthood"</span><span class="op">)</span><span class="op">)</span>
 
 
-<span class="no">tree.data</span> <span class="kw">&lt;-</span> <span class="no">affect</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Film"</span>,<span class="st">"neur"</span>,<span class="st">"ext"</span>,<span class="st">"soc"</span>,<span class="st">"traitanx"</span>,<span class="st">"NA1"</span>,<span class="st">"PA1"</span>)]
-<span class="no">tree.data</span>$<span class="no">DeltaPA</span> <span class="kw">&lt;-</span> <span class="no">affect</span>$<span class="no">PA2</span>-<span class="no">affect</span>$<span class="no">PA1</span>
+<span class="va">tree.data</span> <span class="op">&lt;-</span> <span class="va">affect</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Film"</span>,<span class="st">"neur"</span>,<span class="st">"ext"</span>,<span class="st">"soc"</span>,<span class="st">"traitanx"</span>,<span class="st">"NA1"</span>,<span class="st">"PA1"</span><span class="op">)</span><span class="op">]</span> 
+<span class="va">tree.data</span><span class="op">$</span><span class="va">DeltaPA</span> <span class="op">&lt;-</span> <span class="va">affect</span><span class="op">$</span><span class="va">PA2</span><span class="op">-</span><span class="va">affect</span><span class="op">$</span><span class="va">PA1</span>
 
-<span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">tree.data</span>))</pre></body></html></div>
+<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">tree.data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">Film</th>
@@ -193,22 +194,23 @@
 <h2 class="hasAnchor">
 <a href="#create-simple-model-of-state-anxiety" class="anchor"></a>Create simple model of state anxiety</h2>
 <p>Here, we create a simple SEM with a single observed variable. No latent variables - only two parameters: mean of <code>DeltaPA</code> and variance of <code>DeltaPA</code>.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">OpenMx</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://openmx.ssri.psu.edu">OpenMx</a></span><span class="op">)</span>
 <span class="co">#&gt; OpenMx may run faster if it is compiled to take advantage of multiple cores.</span>
-<span class="no">manifests</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"DeltaPA"</span>)
-<span class="no">latents</span><span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>()
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span>(<span class="st">"Simple Model"</span>,
-<span class="kw">type</span><span class="kw">=</span><span class="st">"RAM"</span>,
-<span class="kw">manifestVars</span> <span class="kw">=</span> <span class="no">manifests</span>,
-<span class="kw">latentVars</span> <span class="kw">=</span> <span class="no">latents</span>,
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="st">"one"</span>,<span class="kw">to</span><span class="kw">=</span><span class="no">manifests</span>, <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mu"</span>) ),
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span>(<span class="kw">from</span><span class="kw">=</span><span class="no">manifests</span>,<span class="kw">to</span><span class="kw">=</span><span class="no">manifests</span>, <span class="kw">free</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">TRUE</span>), <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.0</span>) , <span class="kw">arrows</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sigma2"</span>) ),
-<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span>(<span class="no">tree.data</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"raw"</span>)
-);
+<span class="va">manifests</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DeltaPA"</span><span class="op">)</span>
+<span class="va">latents</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html">mxModel</a></span><span class="op">(</span><span class="st">"Simple Model"</span>, 
+type<span class="op">=</span><span class="st">"RAM"</span>,
+manifestVars <span class="op">=</span> <span class="va">manifests</span>,
+latentVars <span class="op">=</span> <span class="va">latents</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span><span class="op">(</span>from<span class="op">=</span><span class="st">"one"</span>,to<span class="op">=</span><span class="va">manifests</span>, free<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>, value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.0</span><span class="op">)</span> , arrows<span class="op">=</span><span class="fl">1</span>, label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span><span class="op">)</span> <span class="op">)</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html">mxPath</a></span><span class="op">(</span>from<span class="op">=</span><span class="va">manifests</span>,to<span class="op">=</span><span class="va">manifests</span>, free<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>, value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.0</span><span class="op">)</span> , arrows<span class="op">=</span><span class="fl">2</span>, label<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sigma2"</span><span class="op">)</span> <span class="op">)</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html">mxData</a></span><span class="op">(</span><span class="va">tree.data</span>, type <span class="op">=</span> <span class="st">"raw"</span><span class="op">)</span>
+<span class="op">)</span>;
 
-<span class="no">result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span>(<span class="no">model</span>)
+<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html">mxRun</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
 <span class="co">#&gt; Running Simple Model with 2 parameters</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">result</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
 <span class="co">#&gt; Summary of Simple Model </span>
 <span class="co">#&gt;  </span>
 <span class="co">#&gt; free parameters:</span>
@@ -232,56 +234,59 @@
 <span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span>
 <span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span>
 <span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span>
-<span class="co">#&gt; timestamp: 2021-04-28 20:12:17 </span>
-<span class="co">#&gt; Wall clock time: 0.05037498 secs </span>
+<span class="co">#&gt; timestamp: 2021-06-09 09:05:16 </span>
+<span class="co">#&gt; Wall clock time: 0.04905105 secs </span>
 <span class="co">#&gt; optimizer:  SLSQP </span>
 <span class="co">#&gt; OpenMx version number: 2.19.5 </span>
-<span class="co">#&gt; Need help?  See help(mxSummary)</span></pre></body></html></div>
+<span class="co">#&gt; Need help?  See help(mxSummary)</span></code></pre></div>
 </div>
 <div id="score-based-tests" class="section level2">
 <h2 class="hasAnchor">
 <a href="#score-based-tests" class="anchor"></a>Score-based Tests</h2>
 <p>Use score-based tests to create the tree. Use Bonferroni-correction to adjust for multiple testing of predictors.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">semtree</span>)
-<span class="no">ctrl</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span>(
-  <span class="kw">method</span><span class="kw">=</span><span class="st">"score"</span>,
-  <span class="kw">bonferroni</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">tree</span> <span class="kw">=</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span>( <span class="kw">model</span> <span class="kw">=</span> <span class="no">result</span>,
-                <span class="kw">data</span> <span class="kw">=</span> <span class="no">tree.data</span>,
-                <span class="kw">control</span><span class="kw">=</span><span class="no">ctrl</span>)
-<span class="co">#&gt; ✔ Tree construction finished [took 2s].</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">semtree</span><span class="op">)</span>
+<span class="va">ctrl</span> <span class="op">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span><span class="op">(</span>
+  method<span class="op">=</span><span class="st">"score"</span>, 
+  bonferroni <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tree</span> <span class="op">=</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span> model <span class="op">=</span> <span class="va">result</span>, 
+                data <span class="op">=</span> <span class="va">tree.data</span>, 
+                control<span class="op">=</span><span class="va">ctrl</span><span class="op">)</span>
+<span class="co">#&gt; ✔ Tree construction finished [took 3s].</span></code></pre></div>
 <p>Now let us plot the tree.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tree</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></code></pre></div>
 <p><img src="score-based-tests_files/figure-html/unnamed-chunk-6-1.png" width="75%"></p>
 <p>Implied mixture model:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">tndata</span> <span class="kw">&lt;-</span> <span class="kw pkg">semtree</span><span class="kw ns">::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span>(<span class="no">tree</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tndata</span> <span class="op">&lt;-</span> <span class="fu">semtree</span><span class="fu">::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span>
 
-<span class="no">cols</span> <span class="kw">&lt;-</span> <span class="kw pkg">viridis</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/viridis/man/reexports.html">plasma</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">tndata</span>))
+<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html">plasma</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">tndata</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Registered S3 method overwritten by 'ggplot2':</span>
 <span class="co">#&gt;   method        from</span>
 <span class="co">#&gt;   print.element sets</span>
-<span class="co">#&gt; Warning: replacing previous import 'vctrs::data_frame' by 'tibble::data_frame'</span>
-<span class="co">#&gt; when loading 'dplyr'</span>
 
-<span class="no">pl</span> <span class="kw">&lt;-</span> <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">20</span>, <span class="fl">20</span>)), <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>))+
-  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Change in Positive Affect"</span>)
-<span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">tndata</span>)) {
-  <span class="no">pl</span> <span class="kw">&lt;-</span> <span class="no">pl</span> + <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span>(<span class="kw">fun</span> <span class="kw">=</span> <span class="no">dnorm</span>,
-      <span class="kw">n</span> <span class="kw">=</span> <span class="fl">101</span>, <span class="kw">col</span><span class="kw">=</span><span class="no">cols</span>[<span class="no">i</span>], <span class="kw">args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">mean</span> <span class="kw">=</span> <span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">2</span>],
-                                        <span class="kw">sd</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">1</span>])))
-}
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">20</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Change in Positive Affect"</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">tndata</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, 
+      n <span class="op">=</span> <span class="fl">101</span>, col<span class="op">=</span><span class="va">cols</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="va">tndata</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span>, 
+                                        sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tndata</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pl</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
 <p><img src="score-based-tests_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 <p>Let’s inspect the group with the largest negative change:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">i</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span>(<span class="no">tndata</span>$<span class="no">mu</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">tndata</span><span class="op">$</span><span class="va">mu</span><span class="op">)</span>
 
-<span class="no">pl</span> <span class="kw">&lt;-</span> <span class="no">pl</span> +<span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span>(<span class="kw">stat</span> <span class="kw">=</span> <span class="st">"function"</span>,
-                             <span class="kw">fun</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>){<span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span>(<span class="no">x</span>,<span class="kw">mean</span><span class="kw">=</span><span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">2</span>],<span class="kw">sd</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="no">tndata</span>[<span class="no">i</span>,<span class="fl">1</span>]))},
-                             <span class="kw">fill</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="no">i</span>])+
-      <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label</a></span>(<span class="kw">x</span><span class="kw">=</span>-<span class="fl">10</span>,<span class="kw">y</span><span class="kw">=</span><span class="fl">.12</span>, <span class="kw">label</span><span class="kw">=</span><span class="st">"People with very high positive \naffect, which then watched\n a war film"</span>)
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="va">pl</span> <span class="op">+</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span><span class="op">(</span>stat <span class="op">=</span> <span class="st">"function"</span>, 
+                             fun <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>,mean<span class="op">=</span><span class="va">tndata</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span>,sd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">tndata</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>, 
+                             fill <span class="op">=</span> <span class="va">cols</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">+</span>
+      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_label</a></span><span class="op">(</span>x<span class="op">=</span><span class="op">-</span><span class="fl">10</span>,y<span class="op">=</span><span class="fl">.12</span>, label<span class="op">=</span><span class="st">"People with very high positive \naffect, which then watched\n a war film"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pl</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pl</span><span class="op">)</span></code></pre></div>
 <p><img src="score-based-tests_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
 </div>
   </div>
@@ -301,7 +306,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

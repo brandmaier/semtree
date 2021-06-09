@@ -73,7 +73,7 @@ splits over a semforest object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.16</span>
       </span>
     </div>
 
@@ -141,16 +141,15 @@ splits over a semforest object." />
 splits over a <code><a href='semforest.html'>semforest</a></code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>varimp</span>(
-  <span class='no'>forest</span>,
-  <span class='kw'>var.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>F</span>,
-  <span class='kw'>cluster</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>eval.fun</span> <span class='kw'>=</span> <span class='no'>evaluateTree</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"permutation"</span>,
-  <span class='kw'>conditional</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>varimp</span><span class='op'>(</span>
+  <span class='va'>forest</span>,
+  var.names <span class='op'>=</span> <span class='cn'>NULL</span>,
+  verbose <span class='op'>=</span> <span class='cn'>F</span>,
+  eval.fun <span class='op'>=</span> <span class='va'>evaluateTree</span>,
+  method <span class='op'>=</span> <span class='st'>"permutation"</span>,
+  conditional <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,11 +166,6 @@ will be automatically filled in by the function.</p></td>
     <tr>
       <th>verbose</th>
       <td><p>Boolean to print messages while function is running.</p></td>
-    </tr>
-    <tr>
-      <th>cluster</th>
-      <td><p>An object of class "cluster" representing a parallel socket
-cluster. See package <a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a>.</p></td>
     </tr>
     <tr>
       <th>eval.fun</th>
@@ -199,6 +193,9 @@ marginal variable importance.</p></td>
     <p>Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., &amp; Lindenberger,
 U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
 18(1), 71-86.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Andreas M. Brandmaier, John J. Prindle</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -215,7 +212,7 @@ U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
