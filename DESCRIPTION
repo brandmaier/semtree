@@ -19,9 +19,7 @@ Imports:
     cluster,
     stringr,
     lavaan,
-    expm,
     ggplot2,
-    viridis,
     tidyr,
     methods,
     strucchange,
@@ -29,11 +27,11 @@ Imports:
     zoo,
     crayon,
     clisymbols,
-    testthat,
     future.apply
 Suggests:
     knitr,
     rmarkdown,
+    viridis,
     MASS,
     psychTools
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
