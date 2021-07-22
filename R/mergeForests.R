@@ -20,14 +20,13 @@ merge.semforest <- function(x, y, ...)
   
   
 merge.internal <- function(forest.list){
-  
   num.forests <- length(forest.list)
   
   forest <- forest.list[[1]]
   for (i in 2:num.forests) {
     
     # some checks
-    c1 <- digest::digest(forest$model)==digest::digest(forest.list[[i]]$model)
+    c1 <- digest::digest(forest$model@matrices)==digest::digest(forest.list[[i]]$model@matrices)
     tmp1 <- forest$control
     tmp1$num.trees <- NA
     tmp2 <- forest.list[[i]]$control
