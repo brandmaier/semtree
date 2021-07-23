@@ -17,7 +17,7 @@ predict.semforest <- function(object, data, type = "node_id", ...) {
       stop("Argument 'data' required.")
     })
   }
-  result <- sapply(object$forest, function(t){
+  result <- future.apply::future_sapply(X = object$forest, FUN = function(t){
     cl[["object"]] <- t
     eval.parent(cl)
   })
