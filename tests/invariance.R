@@ -78,7 +78,7 @@ model <- mxModel("Unnamed_Model",
                  mxData(data[1:50,], type = "raw")
 );
 
-result <- mxTryHard(model)
+result <- mxRun(model)
 summary(result)
 
 subset <- data[1:50, ]
@@ -87,7 +87,7 @@ subset <- data[1:50, ]
 ctr <- semtree.control(verbose=TRUE)
 ctr$exclude.heywood <- FALSE
 # naive tree should find both effects, age & ses, with age having the stronger effect 
-tree <- semtree(model = result, data=fulldata, control=ctr )
+tree <- semtree(model = result, data=fulldata, control=ctr)
 #plot(tree)
 
 # invariance tree should exclude splits wrt age and only splir wrt to ses
