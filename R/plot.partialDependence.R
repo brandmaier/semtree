@@ -17,7 +17,6 @@ plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, ...)
   col1 <- x$xgrid
   col2 <- rep(NA, length(col1))
   for (i in 1: length(col1)) {
-    #    col2[i] <- mean(x$dict[[as.character(col1[i])]], na.rm=TRUE)
     col2[i] <- x$dict[[as.character(col1[i])]]
     
   }

@@ -30,7 +30,8 @@ merge.internal <- function(forest.list){
     # check whether models are compatible
     m1 <- forest$model
     m2 <- forest.list[[i]]$model
-    if (getModelType(model)=="OpenMx") {
+    if (getModelType(m1) != getModelType(m2)) stop("Incompatible models")
+    if (getModelType(m1)=="OpenMx") {
       # for OpenMx models, we compare whether a selected set of
       # attributes instead of the entire object because eg. 
       # the output-attribute may differ on time stamps or
