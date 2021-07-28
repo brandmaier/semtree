@@ -4,7 +4,7 @@
 require("semtree")
 require("lavaan")
 require("future")
-plan(multisession)
+plan(sequential)
 
 # ORGANIZE DATA BY TYPE FOR COVARIATES.
 # SOME COVARIATES ARE ORGANIZED IN THE DATA. MODEL VARIABLES AND 
