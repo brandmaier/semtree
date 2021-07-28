@@ -45,7 +45,7 @@ merge.internal <- function(forest.list){
         if (!c1_temp) { ui_warn("Models differ on attribute '",at,"'.") }
         c1 <- c1 & c1_temp
       }
-    } else if (getModelType(model)=="lavaan") {
+    } else if (getModelType(m1)=="lavaan") {
       c1 <- digest::digest(m1)==digest::digest(m2)
     } else {
       c1 <- digest::digest(m1)==digest::digest(m2)

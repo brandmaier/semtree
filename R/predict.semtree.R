@@ -1,4 +1,8 @@
 
+#' Predict terminal nodes
+#' 
+#' This function takes a dataset and predicts the terminal node id that
+#' matches the given observation
 #' 
 #' @param object semtree. A SEM tree node.
 #' @param data a data.frame with observations used for prediction
