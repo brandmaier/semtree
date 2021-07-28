@@ -33,11 +33,18 @@ for (i in 1:4) {
   scores <- as.matrix(t(outer(lambda[[i]],cogsim))) + rnorm(Nsub*4,0,errsd)
   data <- rbind(data,scores)
 }
+
+# rescale data
+data <- scale(data)
+
+# put data into dataframe and label observed variables
 data <- data.frame(data)
 names(data) <- paste0("x",1:4)
 
+# add predictors to create full data set
 fulldata <- cbind(data, age=factor(rep(age,each=Nsub)),ses=factor(rep(ses,each=Nsub)))
-#
+
+# specify model
 model<-"
 ! regressions 
 F=~1.0*x1
