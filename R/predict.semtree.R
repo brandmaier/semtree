@@ -8,6 +8,7 @@
 #' @param data a data.frame with observations used for prediction
 #' @param type String. What type of prediction should be made? Currently, this
 #' only supports 'node_id', which returns the id of a terminal node.
+#' @param \dots Optional arguments passed to the function.
 #' @exportS3Method predict semtree
 #' @author Caspar van Lissa, Andreas Brandmaier
 #' 
