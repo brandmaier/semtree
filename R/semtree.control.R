@@ -65,7 +65,9 @@
 #' be linear without any nonlinear parameter constraints. The runtime is much
 #' smaller for linear MxRAM-type models than for models with nonlinear
 #' constraints on the parameters.
-#' @param min.bucket Minimum bucket size to continue splitting
+#' @param min.bucket Minimum bucket size. This is the minimum size any node
+#' must have, such that a given split is considered valid. Minimum bucket size
+#' is a lower bound to the sample size in the terminal nodes of a tree.
 #' @param naive.bonferroni.type Default: 0. When set to zero, bonferroni
 #' correction for the naive test counts the number of dichotomous tests. When
 #' set to one, bonferroni correction counts the number of variables tested.

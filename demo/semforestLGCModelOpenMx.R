@@ -16,7 +16,7 @@ data(lgcm)
 
 lgcm$agegroup <- as.ordered(lgcm$agegroup)
 lgcm$training <- as.factor(lgcm$training)
-lgcm$noise <- as.numeric(lgcm$noise)
+lgcm$noise <- as.factor(lgcm$noise)
 
 # LOAD IN OPENMX MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA

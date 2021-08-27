@@ -20,13 +20,38 @@ merge.semforest <- function(x, y, ...)
   
   
 merge.internal <- function(forest.list){
+
+  # determine number of forests to merge
   num.forests <- length(forest.list)
   
+  # iterate through all forests and merge them with the first
   forest <- forest.list[[1]]
   for (i in 2:num.forests) {
-    
+    # check whether models are compatible
+    m1 <- forest$model
+    m2 <- forest.list[[i]]$model
+    if (getModelType(m1) != getModelType(m2)) stop("Incompatible models")
+    if (getModelType(m1)=="OpenMx") {
+      # for OpenMx models, we compare whether a selected set of
+      # attributes instead of the entire object because eg. 
+      # the output-attribute may differ on time stamps or
+      # the compute-attribute may differ for the optimizer used or
+      # the number of iterations
+      c1 <- TRUE
+      for (at in list("matrices","algebras","constraints","latentVars","manifestVars",
+                      "data","data means","data type","submodels","expectation","fitfunction",
+                      "independent")) {
+        c1_temp <- digest::digest(attr(m1,at))==digest::digest(attr(m2,at))
+        if (!c1_temp) { ui_warn("Models differ on attribute '",at,"'.") }
+        c1 <- c1 & c1_temp
+      }
+    } else if (getModelType(m1)=="lavaan") {
+      c1 <- digest::digest(m1)==digest::digest(m2)
+    } else {
+      c1 <- digest::digest(m1)==digest::digest(m2)
+    }
     # some checks
-    c1 <- digest::digest(forest$model@matrices)==digest::digest(forest.list[[i]]$model@matrices)
+
     tmp1 <- forest$control
     tmp1$num.trees <- NA
     tmp2 <- forest.list[[i]]$control

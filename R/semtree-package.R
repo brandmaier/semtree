@@ -14,6 +14,7 @@
 #' @import OpenMx
 #' @importFrom bitops bitAnd
 #' @import rpart
+#' @importFrom methods hasArg
 NULL
 
 
