@@ -94,6 +94,9 @@ evaluateDataLikelihood <-
       #  eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',
       #                        model@Options$missing,'\')',sep="")))),silent=FALSE)
       
+      ll <- NA
+      
+      tryCatch({
       modelrun <- lavaan::lavaan(
         lavaan::parTable(model),
         data = data,
@@ -106,6 +109,11 @@ evaluateDataLikelihood <-
       # evaluate likelihood
       ll <- -2 * lavaan::logLik(modelrun)
 
+      },error = function(e) {
+        ui_warn("Could not evaluate lavaan model likelihood. Lavaan had the following error:\n ",e)
+        
+      })
+      
       return(ll)
       
     } else {
