@@ -33,11 +33,18 @@ for (i in 1:4) {
   scores <- as.matrix(t(outer(lambda[[i]],cogsim))) + rnorm(Nsub*4,0,errsd)
   data <- rbind(data,scores)
 }
+
+# rescale data
+data <- scale(data)
+
+# put data into dataframe and label observed variables
 data <- data.frame(data)
 names(data) <- paste0("x",1:4)
 
+# add predictors to create full data set
 fulldata <- cbind(data, age=factor(rep(age,each=Nsub)),ses=factor(rep(ses,each=Nsub)))
-#
+
+# specify model
 model<-"
 ! regressions 
 F=~1.0*x1
@@ -78,7 +85,7 @@ model <- mxModel("Unnamed_Model",
                  mxData(data[1:50,], type = "raw")
 );
 
-result <- mxTryHard(model)
+result <- mxRun(model)
 summary(result)
 
 subset <- data[1:50, ]
@@ -87,7 +94,7 @@ subset <- data[1:50, ]
 ctr <- semtree.control(verbose=TRUE)
 ctr$exclude.heywood <- FALSE
 # naive tree should find both effects, age & ses, with age having the stronger effect 
-tree <- semtree(model = result, data=fulldata, control=ctr )
+tree <- semtree(model = result, data=fulldata, control=ctr)
 #plot(tree)
 
 # invariance tree should exclude splits wrt age and only splir wrt to ses

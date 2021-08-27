@@ -39,7 +39,7 @@ Package documentation and use-cases with runnable R code can be found on
 our github pages: <https://brandmaier.github.io/semtree/>.
 
 You may also want to visit the semtree website:
-<https://brandmaier.de/semtree/>
+<https://brandmaier.de/semtree>
 
 Package vignettes (shipped with the package) contain documentation on
 how to use the package. Simply type this in R once you have loaded the

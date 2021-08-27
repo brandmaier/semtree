@@ -5,3 +5,5 @@
 * Manuel Arnold (author)
 
 * Michael Krause (contributor)
+
+* Caspar van Lissa (contributor)

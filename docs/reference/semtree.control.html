@@ -87,7 +87,7 @@ maximum splits across each variable on the rest of the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.17</span>
       </span>
     </div>
 
@@ -310,7 +310,9 @@ constraints on the parameters.</p></td>
     </tr>
     <tr>
       <th>min.bucket</th>
-      <td><p>Minimum bucket size to continue splitting</p></td>
+      <td><p>Minimum bucket size. This is the minimum size any node
+must have, such that a given split is considered valid. Minimum bucket size
+is a lower bound to the sample size in the terminal nodes of a tree.</p></td>
     </tr>
     <tr>
       <th>naive.bonferroni.type</th>
