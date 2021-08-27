@@ -215,6 +215,14 @@ semforest <- function(model,
   # postprocess to correct any erroneous trees
   trees <- lapply(X = trees, FUN = postprocess)
   
+  # remove NULL trees
+  if (semforest.control$remove_dead_trees) {
+    null_trees <- sapply(FUN=is.null, trees)
+    if (sum(null_trees)>0) ui_warn("Removing ", sum(null_trees)," trees with errors.")
+    trees[null_trees]<-NULL
+    forest.data[null_trees]<-NULL
+  }
+  
   # store all results in result object
   result$covariates <- covariates
   result$data <- data

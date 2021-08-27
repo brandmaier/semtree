@@ -1,5 +1,6 @@
 .git
 README.Rmd
+README.md
 CONTRIBUTORS.md
 Makefile
 ^.*\.Rproj$
