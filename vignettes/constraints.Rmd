@@ -37,7 +37,7 @@ global.invariance=NULL,
 focus.parameters=NULL)
 
 semtree(model.x, data=df, constraints=cnst)
-````
+```
 
 ## Simulation
 
