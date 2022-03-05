@@ -20,31 +20,33 @@
 #' \code{mc} number of rows from \code{data} with replacement, to estimate 
 #' marginal dependency using Monte Carlo integration. This is less
 #' computationally expensive.
-#' @param FUN Function used to integrate predictions across all elements of
-#' \code{x}.
+#' @param FUN Character string with function used to integrate predictions
+#' across all elements of \code{x}.
 #' @param ... Extra arguments passed to \code{FUN}.
 #' @author Caspar J. Van Lissa
 #' @export
-pd <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = median, ...){
+pd <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   UseMethod("pd", x)
 }
 
 #' @method pd semforest_light
 #' @export
 #' @import data.table
-pd.semforest_light <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = median, ...){
+pd.semforest_light <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   cl <- match.call()
   cl <- cl[c(1L, which(names(cl) %in% c("data", "reference.var", "support", "points", "mc")
 ))]
   cl[[1L]] <- str2lang("semtree:::pd_data")
   mp <- eval.parent(cl)
   preds <- data.table(predict(x, data = mp, type = "pars"))
-  mp[, (colnames(preds)) := preds]
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
+  mp <- cbind(mp, preds)
+  #mp[, (colnames(preds)) := preds]
+  
   # Use median or quantile
-  mp[, do.call(c, lapply(.SD, function(thiscol){
+  mp[, do.call("c", lapply(.SD, function(thiscol){
     as.list(do.call(FUN, c(list(thiscol), list(...))))
-  })), by = reference.var]
+  })), by = reference.var, .SDcol = attr(x, "parameters")]
 }
 
 #' Compute partial dependence for latent growth models
@@ -69,8 +71,8 @@ pd.semforest_light <- function(x, data, reference.var, support = 20, points = NU
 #' \code{mc} number of rows from \code{data} with replacement, to estimate 
 #' marginal dependency using Monte Carlo integration. This is less
 #' computationally expensive.
-#' @param FUN Function used to integrate predictions across all elements of
-#' \code{x}.
+#' @param FUN Character string with function used to integrate predictions
+#' across all elements of \code{x}.
 #' @param times Numeric matrix, representing the factor loadings of a latent
 #' growth model, with columns equal to the number of growth \code{parameters},
 #' and rows equal to the number of measurement occasions.
@@ -80,7 +82,7 @@ pd.semforest_light <- function(x, data, reference.var, support = 20, points = NU
 #' @param ... Extra arguments passed to \code{FUN}.
 #' @author Caspar J. Van Lissa
 #' @export
-pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = median, times = NULL, parameters = NULL, ...){
+pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", times = NULL, parameters = NULL, ...){
   cl <- match.call()
   cl <- cl[c(1L, which(names(cl) %in% c("data", "reference.var", "support", "points", "mc")
 ))]
@@ -88,10 +90,12 @@ pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = 
   mp <- eval.parent(cl)
   preds <- predict(x, data = mp, type = "pars", parameters = parameters)
   preds <- data.table(t(apply(preds, 1, .trajectory, L = times)))
-  mp[, (colnames(preds)) := preds]
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
+  #mp[, (colnames(preds)) := preds]
+  #mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
+  mp <- cbind(mp, preds)
   # Use median or quantile
-  out <- mp[, do.call(c, lapply(.SD, function(thiscol){
+  out <- mp[, do.call("c", lapply(.SD, function(thiscol){
     as.list(do.call(FUN, c(list(thiscol), list(...))))
   })), by = reference.var]
   out <- melt(out, id.vars = reference.var,
