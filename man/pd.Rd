@@ -11,7 +11,7 @@ pd(
   support = 20,
   points = NULL,
   mc = NULL,
-  FUN = median,
+  FUN = "median",
   ...
 )
 }
@@ -39,8 +39,8 @@ dependence values; for example, the mean and +/- 1SD of \code{reference.var}.}
 marginal dependency using Monte Carlo integration. This is less
 computationally expensive.}
 
-\item{FUN}{Function used to integrate predictions across all elements of
-\code{x}.}
+\item{FUN}{Character string with function used to integrate predictions
+across all elements of \code{x}.}
 
 \item{...}{Extra arguments passed to \code{FUN}.}
 }

@@ -47,6 +47,19 @@ o5 ~~ o5; o5 ~ 0*1;
  
   # PARTIAL DEPENDENCE
   
-  pd <- partialDependence(forest, "agegroup", "g0~1")  # g0 ~1
-  plot(pd)
+  # Make light forest
+  f_light <- clear_underbrush(forest)
+
+  ptm <- proc.time()
+  pd <- partialDependence(forest, "agegroup", "g0~1", support = 10)  # g0 ~1
+  time_old <- proc.time() - ptm
+  df <- forest$data
+  df$agegroup <- as.numeric(as.character(df$agegroup))
+  ptm <- proc.time()
+  f_light <- clear_underbrush(forest)
+  pd2 <- pd(f_light, data = df, reference.var = "agegroup", point = list(agegroup = c(0, 1)))
+  time_new <- proc.time() - ptm
+  expect_equivalent(pd2$`g0~1`, unlist(pd$dict), tolerance = .02)
+  #expect_true(time_old[1] > time_new[1])
+  
 }
