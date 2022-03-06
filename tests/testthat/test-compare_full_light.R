@@ -26,20 +26,6 @@ o5 ~~ o5; o5 ~ 0*1;
 '
 lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 
-# TREE CONTROL OPTIONS.
-# TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
-
-controlOptions <- semforest.control()
-
-# THE CONTENTS OF THE DEFAULT CONTROLS CAN THEN BE VIEWED.
-
-controlOptions
-
-# AND MODEL OPTIONS CAN BE CHANGED BY REDEFINING ELEMENTS OF THE 
-# CONTROL OBJECT.
-
-
-
 # RUN TREE.
 
 forest <- semforest(model=lgcModel, data=lgcm,control = controlOptions)

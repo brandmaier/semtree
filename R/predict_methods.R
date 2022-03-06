@@ -10,17 +10,24 @@
 #' @method predict semforest
 #' @export
 predict.semforest <- function(object, data, type = "node_id", ...) {
-  cl <- match.call()
-  cl[[1L]] <- quote(predict)
   if(!hasArg(data)){
-    tryCatch({cl[["data"]] <- object$data}, error = function(e){
+    tryCatch({data <- object$data}, error = function(e){
       stop("Argument 'data' required.")
     })
   }
-  result <- future.apply::future_sapply(X = object$forest, FUN = function(t){
-    cl[["object"]] <- t
-    eval.parent(cl)
-  })
+  result <- switch(type, 
+                   node_id = {
+                     f_light <- clear_underbrush(object)
+                     apply(data, 1, function(r){ sapply(f_light, traverse_light, row = r, what = "node_id")})
+                   },
+                   pars = {
+                     predict_pars(forest = object,
+                                  data = data,
+                                  ...)
+                   })
+  if (is.null(result)) 
+    ui_stop("Requested type no yet implemented in predict.semtree().")
+  class(result) <- c(paste0("semforest_", type), class(result))
   return(result)
 }
 
@@ -34,8 +41,63 @@ predict.semtree <- function(object, data, type = "node_id", ...) {
       stop("Argument 'data' required.")
     }
   }
-  result <- switch(type,
-                   "node_id" = { traverse(object, dataset = data)}
-                   )
+  result <- switch(type, 
+                   node_id = {
+                     traverse(object, dataset = data)
+                   },
+                   pars = {
+                     predict_pars(forest = object,
+                                  data = data,
+                                  ...)
+                   })
+  if (is.null(result)) 
+    ui_stop("Requested type no yet implemented in predict.semtree().")
+  class(result) <- c(paste0("semforest_", type), class(result))
   return(result)
+}
+
+#' @method predict semforest_light
+#' @export
+predict.semforest_light <- function (object, data, type = "node_id", ...) 
+{
+  if (!hasArg(data)) {
+      ui_stop("Argument 'data' required.")
+  }
+  result <- switch(type, 
+                   node_id = {
+                     apply(data, 1, function(r){ sapply(object, traverse_light, row = r, what = "node_id")})
+                   },
+                   pars = {
+                     predict_pars(forest = object,
+                                  data = data,
+                                  ...)
+                   })
+  if (is.null(result)) 
+    ui_stop("Requested type no yet implemented in predict.semtree().")
+  class(result) <- c(paste0("semforest_", type), class(result))
+  return(result)
+}
+
+predict_pars <- function(forest, data, parameters = NULL, FUN = median, ...){
+  UseMethod("predict_pars", forest)
+}
+
+predict_pars.semforest <- function(forest, data, parameters = NULL, FUN = median, ...){
+    cl <- match.call()
+    cl[["forest"]] <- clear_underbrush(forest)
+    if(!hasArg(data)) cl[["data"]] <- forest$data
+    cl[[1L]] <- str2lang("semtree:::predict_pars")
+    eval.parent(cl)
+}
+
+
+predict_pars.semforest_light <- function(forest, data, parameters = NULL, FUN = median, ...){
+  if(!inherits(data, "data.table")) setDT(data)
+  parnams <- attr(forest, "parameters")
+  out <- data[, as.list(apply(sapply(forest, function(t){ traverse_light(row = .SD, tree = t) }), 1, FUN = FUN, ...)), by = 1:nrow(data)][, -1]
+  
+  
+  setnames(out, names(out), attr(forest, "parameters"))
+  if(!is.null(parameters)) out <- out[, parameters, drop = FALSE]
+  out
 }

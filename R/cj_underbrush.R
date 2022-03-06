@@ -69,13 +69,13 @@ clear_underbrush.semforest <- function(x, parameters = NULL){
       parameters <- parameters[parameters %in% parlab | parameters %in% sums$label]
       ids <- sums$plabel[parlab %in% parameters | sums$label %in% parameters]
     }
-    out <- lapply(forest$forest, clear_underbrush_lav, parameters = ids)
+    out <- lapply(x$forest, clear_underbrush_lav, parameters = ids)
   } else {
     if(is.null(parameters)){
       sums <- summary(x$model)
       parameters <- sums$parameters$name
     }
-    out <- lapply(forest$forest, clear_underbrush_mx, parameters = parameters)
+    out <- lapply(x$forest, clear_underbrush_mx, parameters = parameters)
   }
   attr(out, "parameters") <- parameters
   class(out) <- c("semforest_light", class(out))
@@ -92,7 +92,10 @@ clear_underbrush_lav <- function(x, parameters = NULL){
 clear_underbrush_lav <- function(x, parameters = NULL){
   if(x$caption == "TERMINAL"){
     sums <- parameterTable(x$model)
-    return(list(parameters = sums$est[match(parameters, sums$plabel)]))
+    return(list(
+      parameters = sums$est[match(parameters, sums$plabel)],
+      node_id = x$node_id
+      ))
   } else {
     return(list(rule = x$rule[c("relation", "value", "name")],
                 left_child = clear_underbrush_lav(x = x$left_child, parameters = parameters),
@@ -106,7 +109,9 @@ clear_underbrush_lav <- function(x, parameters = NULL){
 clear_underbrush_mx <- function(x, parameters = NULL){
   if(x$caption == "TERMINAL"){
     sums <- summary(x$model)
-    return(list(parameters = sums$parameters$Estimate[match(parameters, sums$parameters$name)]))
+    return(list(
+      parameters = sums$parameters$Estimate[match(parameters, sums$parameters$name)],
+      node_id = x$node_id))
   } else {
     return(list(rule = x$rule[c("relation", "value", "name")],
                 left_child = clear_underbrush(x = x$left_child, parameters = parameters),
@@ -114,11 +119,12 @@ clear_underbrush_mx <- function(x, parameters = NULL){
   }  
 }
 
-traverse_light <- function(row, tree){
+traverse_light <- function(row, tree, what = "parameters"){
   if(!is.null(tree[["rule"]])){
     traverse_light(row = row,
-                   tree = tree[[c("left_child", "right_child")[(do.call(tree$rule$relation, list(row[[tree$rule$name]], tree$rule$value))+1)]]])
+                   tree = tree[[c("left_child", "right_child")[(do.call(tree$rule$relation, list(row[[tree$rule$name]], tree$rule$value))+1)]]],
+                   what = what)
   } else {
-    return(tree[["parameters"]])
+    return(tree[[what]])
   }
 }
