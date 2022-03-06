@@ -29,6 +29,17 @@ pd <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, F
   UseMethod("pd", x)
 }
 
+#' @method pd semforest
+#' @importFrom methods hasArg
+#' @export
+pd.semforest <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+  cl <- match.call()
+  cl[["x"]] <- clear_underbrush(x)
+  if(!hasArg(data)) cl[["data"]] <- x$data
+  cl[[1L]] <- quote(pd)
+  eval.parent(cl)
+}
+
 #' @method pd semforest_light
 #' @export
 #' @import data.table
@@ -105,7 +116,30 @@ pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = 
   out
 }
 
-
+#' Create dataset to compute partial dependence
+#' 
+#' Create a dataset with fixed values for \code{reference.var} for all other
+#' values of \code{data}, or using \code{mc} random samples from \code{data}
+#' (Monte Carlo integration).
+#' 
+#' @param data The \code{data.frame} that was used to train the
+#' model.
+#' @param reference.var Character vector, referring to the (independent)
+#' reference variable or variables for which partial dependence is calculated.
+#' Providing two (or more) variables allows for probing interactions, but note
+#' that this is computationally expensive.
+#' @param support Integer. Number of grid points for interpolating the
+#' \code{reference.var}. Alternatively, use \code{points} for one or more
+#' variables named in \code{reference.var}.
+#' @param points Named list, with elements corresponding to \code{reference.var}
+#' . Use this argument to provide specific points for which to obtain marginal
+#' dependence values; for example, the mean and +/- 1SD of \code{reference.var}.
+#' @param mc Integer. If \code{mc} is not \code{NULL}, the function will sample
+#' \code{mc} number of rows from \code{data} with replacement, to estimate 
+#' marginal dependency using Monte Carlo integration. This is less
+#' computationally expensive.
+#' @author Caspar J. Van Lissa
+#' @export
 pd_data <- function(data, reference.var, support = 20, points = NULL, mc = NULL) {
   if(is.null(points)){
     points <- sapply(reference.var, function(x) {
