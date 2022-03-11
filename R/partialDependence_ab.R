@@ -27,7 +27,6 @@ partialDependence_ab <- function(forest, reference.var, reference.param, support
   if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
     model.params <- names(OpenMx::omxGetParameters(forest$model))
   } else if (inherits(model,"lavaan")) {
-
     model.params <- lavNames(forest$model)
   } else {
     stop("Not supported!")
