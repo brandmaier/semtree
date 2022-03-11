@@ -94,7 +94,7 @@ predict_pars.semforest <- function(forest, data, parameters = NULL, FUN = median
 predict_pars.semforest_light <- function(forest, data, parameters = NULL, FUN = median, ...){
   if(!inherits(data, "data.table")) setDT(data)
   parnams <- attr(forest, "parameters")
-  out <- data[, as.list(apply(sapply(forest, function(t){ traverse_light(row = .SD, tree = t) }), 1, FUN = FUN, ...)), by = 1:nrow(data)][, -1]
+  out <- data[, as.list(apply(do.call(cbind, lapply(forest, function(t){ traverse_light(row = .SD, tree = t) })), 1, FUN = FUN, ...)), by = 1:nrow(data)][, -1]
   
   
   setnames(out, names(out), attr(forest, "parameters"))
