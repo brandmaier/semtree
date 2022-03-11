@@ -1,3 +1,4 @@
+# ------ TODO: CJV remove this code block? ----------
 if(FALSE){
 dotsize=1
 scores <- data.frame(restsne$Y)
@@ -86,6 +87,10 @@ vim <- varimp(forest, method="permutationFocus")
 plot(vim, main="Variable Importance")
 
 
+}
+
+# -------------
+
 
 plot_growth <- function(x, ...){
   UseMethod("plot_growth", x)
@@ -144,7 +149,7 @@ plot_growth.semtree <- function(x, lv = NULL, obs = NULL, timelv = NULL, ...){
     scale_y_continuous(limits = therange) +
     theme_bw()
 }
-}
+
 .trajectory <- function(m, L){
   colSums(m * t(L))
 }

@@ -1,10 +1,11 @@
 Package: semtree
 Type: Package
 Title: Recursive Partitioning for Structural Equation Models
-Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")),person("Manuel Arnold", email="arnoldmz@hu-berlin.de",role=c("aut")))
+Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")),person("Manuel Arnold", email="arnoldmz@hu-berlin.de",role=c("aut")),person("Caspar van Lissa", email="C.J.vanLissa@uu.nl",role=c("aut")))
 Author: Andreas M. Brandmaier [aut, cre],
     John J. Prindle [aut],
-	Manuel Arnold [aut]
+	Manuel Arnold [aut],
+	Caspar van Lissa [aut]
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     R (>= 2.10),

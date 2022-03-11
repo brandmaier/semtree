@@ -28,29 +28,19 @@ lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 
 # RUN TREE.
 
+controlOptions = semforest.control()
+
 forest <- semforest(model=lgcModel, data=lgcm,control = controlOptions)
-f_light <- clear_underbrush(forest)
+f_light <- stripTree(forest)
 
-test_that("pd is equivalent to partialDepencence", {
-  ptm <- proc.time()
-  pd <- partialDependence(forest, "agegroup", "g0~1", support = 10)  # g0 ~1
-  time_old <- proc.time() - ptm
-  df <- forest$data
-  #df$agegroup <- as.numeric(as.character(df$agegroup))
-  ptm <- proc.time()
-  pd2 <- pd(f_light, data = df, reference.var = "agegroup", support = 10)
-  time_new <- proc.time() - ptm
-  expect_equivalent(pd2$`g0~1`, unlist(pd$dict), tolerance = .02)
-  #expect_true(time_old[1] > time_new[1])
+
+test_that("partialDependence works for semforest", {
+  expect_error({partialDependence3 <- partialDependence(forest, reference.var = "agegroup")}, NA)
 })
 
-test_that("pd works for semforest", {
-  expect_error({pd3 <- pd(forest, reference.var = "agegroup")}, NA)
-})
-
-test_that("pd works for interactions", {
+test_that("partialDependence works for interactions", {
   
-  expect_error({pd3 <- pd(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)}, NA)
-  pd3 <- pd(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)
-  expect_true(nrow(pd3) == 4)
+  expect_error({partialDependence3 <- partialDependence(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)}, NA)
+  partialDependence3 <- partialDependence(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)
+  expect_true(nrow(partialDependence3) == 4)
 })

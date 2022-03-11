@@ -23,31 +23,31 @@
 #' @param FUN Character string with function used to integrate predictions
 #' across all elements of \code{x}.
 #' @param ... Extra arguments passed to \code{FUN}.
-#' @author Caspar J. Van Lissa
+#' @author Caspar J. Van Lissa, , Andreas Brandmaier
 #' @export
-pd <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
-  UseMethod("pd", x)
+partialDependence <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+  UseMethod("partialDependence", x)
 }
 
-#' @method pd semforest
+#' @method partialDependence semforest
 #' @importFrom methods hasArg
 #' @export
-pd.semforest <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+partialDependence.semforest <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   cl <- match.call()
-  cl[["x"]] <- clear_underbrush(x)
+  cl[["x"]] <- stripTree(x)
   if(!hasArg(data)) cl[["data"]] <- x$data
-  cl[[1L]] <- quote(pd)
+  cl[[1L]] <- quote(partialDependence)
   eval.parent(cl)
 }
 
-#' @method pd semforest_light
+#' @method partialDependence semforest_light
 #' @export
 #' @import data.table
-pd.semforest_light <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+partialDependence.semforest_light <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   cl <- match.call()
   cl <- cl[c(1L, which(names(cl) %in% c("data", "reference.var", "support", "points", "mc")
 ))]
-  cl[[1L]] <- str2lang("semtree:::pd_data")
+  cl[[1L]] <- str2lang("semtree:::partialDependence_data")
   mp <- eval.parent(cl)
   preds <- data.table(predict(x, data = mp, type = "pars"))
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
@@ -93,11 +93,11 @@ pd.semforest_light <- function(x, data, reference.var, support = 20, points = NU
 #' @param ... Extra arguments passed to \code{FUN}.
 #' @author Caspar J. Van Lissa
 #' @export
-pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", times = NULL, parameters = NULL, ...){
+partialDependence_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", times = NULL, parameters = NULL, ...){
   cl <- match.call()
   cl <- cl[c(1L, which(names(cl) %in% c("data", "reference.var", "support", "points", "mc")
 ))]
-  cl[[1L]] <- str2lang("semtree:::pd_data")
+  cl[[1L]] <- str2lang("semtree:::partialDependence_data")
   mp <- eval.parent(cl)
   preds <- predict(x, data = mp, type = "pars", parameters = parameters)
   preds <- data.table(t(apply(preds, 1, .trajectory, L = times)))
@@ -140,7 +140,7 @@ pd_growth <- function(x, data, reference.var, support = 20, points = NULL, mc = 
 #' computationally expensive.
 #' @author Caspar J. Van Lissa
 #' @export
-pd_data <- function(data, reference.var, support = 20, points = NULL, mc = NULL) {
+partialDependence_data <- function(data, reference.var, support = 20, points = NULL, mc = NULL) {
   if(is.null(points)){
     points <- sapply(reference.var, function(x) {
       seq_unif(data[[x]], length.out = support)

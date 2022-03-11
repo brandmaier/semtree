@@ -1,16 +1,14 @@
 #' @exportS3Method plot partialDependence
-plot.partialDependence <- function(x, type="l",xlab=NULL, ylab=NULL, ...)
+plot.partialDependence <- function(x, parameter, type="l",xlab=NULL, ylab=NULL, ...)
 {
-  #if (!(x inherits ("partialDependence"))) {
-  #  stop("Invalid x object not of class partialDependence");
-  #}
+
   
   if (is.null(xlab)) {
     xlab <- x$reference.var
   }
   
   if (is.null(ylab)) {
-    ylab <- x$reference.param
+    ylab <- parameter
   }
   
   # collect

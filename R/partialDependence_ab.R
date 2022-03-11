@@ -1,12 +1,3 @@
-partialDependencePlot <- function(forest, reference.var, reference.param, support=10, xlab=NULL, ylab=NULL,...)  {
-  .Deprecated("partialDependence")
-  pd <- partialDependence(forest, reference.var, reference.param, support)
-  plot(pd, xlab, ylab, ...)
-  return(pd)
-}
-
-
-
 #' Partial Dependence Plot
 #' 
 #' Partial dependence plot for the effect of an indepedent variable in the
@@ -23,7 +14,7 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
 #' @param support Number of grid points for interpolating the reference.var
 #' @author Andreas M. Brandmaier
 #' @export
-partialDependence <- function(forest, reference.var, reference.param, support=NULL)
+partialDependence_ab <- function(forest, reference.var, reference.param, support=NULL)
 {
   
   result <- list()
@@ -42,7 +33,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
     
     # TODO: ERROR PRONE
     if (is.null(forest$forest[[1]])) {stop("Error! First tree is NULL")}
-    model.params <- forest$forest[[1]]$param_names
+    model.params <- lavNames(forest$model)
   } else {
     stop("Not supported!")
   }
