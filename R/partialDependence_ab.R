@@ -27,12 +27,6 @@ partialDependence_ab <- function(forest, reference.var, reference.param, support
   if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
     model.params <- names(OpenMx::omxGetParameters(forest$model))
   } else if (inherits(model,"lavaan")) {
-    #if (!is.numeric(reference.param)) {
-    #  stop("Please specify numeric parameter identifier")
-    #}
-    
-    # TODO: ERROR PRONE
-    if (is.null(forest$forest[[1]])) {stop("Error! First tree is NULL")}
     model.params <- lavNames(forest$model)
   } else {
     stop("Not supported!")
