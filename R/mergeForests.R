@@ -20,7 +20,7 @@ merge.semforest <- function(x, y, ...)
   
   
 merge.internal <- function(forest.list){
-  
+
   # determine number of forests to merge
   num.forests <- length(forest.list)
   
@@ -51,7 +51,7 @@ merge.internal <- function(forest.list){
       c1 <- digest::digest(m1)==digest::digest(m2)
     }
     # some checks
-    
+
     tmp1 <- forest$control
     tmp1$num.trees <- NA
     tmp2 <- forest.list[[i]]$control

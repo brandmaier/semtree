@@ -2,7 +2,7 @@ set.seed(789)
 require("semtree")
 data(lgcm)
 
-lgcm$agegroup <- as.ordered(lgcm$agegroup)
+lgcm$agegroup <- ordered(lgcm$agegroup, labels=c("young","old") )
 lgcm$training <- as.factor(lgcm$training)
 lgcm$noise <- as.factor(lgcm$noise)
 

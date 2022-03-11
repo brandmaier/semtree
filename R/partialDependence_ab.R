@@ -1,12 +1,3 @@
-partialDependencePlot <- function(forest, reference.var, reference.param, support=10, xlab=NULL, ylab=NULL,...)  {
-  .Deprecated("partialDependence")
-  pd <- partialDependence(forest, reference.var, reference.param, support)
-  plot(pd, xlab, ylab, ...)
-  return(pd)
-}
-
-
-
 #' Partial Dependence Plot
 #' 
 #' Partial dependence plot for the effect of an indepedent variable in the
@@ -23,7 +14,7 @@ partialDependencePlot <- function(forest, reference.var, reference.param, suppor
 #' @param support Number of grid points for interpolating the reference.var
 #' @author Andreas M. Brandmaier
 #' @export
-partialDependence <- function(forest, reference.var, reference.param, support=NULL)
+partialDependence_ab <- function(forest, reference.var, reference.param, support=NULL)
 {
   
   result <- list()
@@ -36,6 +27,7 @@ partialDependence <- function(forest, reference.var, reference.param, support=NU
   if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
     model.params <- names(OpenMx::omxGetParameters(forest$model))
   } else if (inherits(model,"lavaan")) {
+
     model.params <- lavNames(forest$model)
   } else {
     stop("Not supported!")
