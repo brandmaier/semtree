@@ -26,7 +26,7 @@ if (is.na(value)) {
 log.val <- NA
 
 if (tree$rule$relation==">=") {
-  if (is.ordered(value)) { value <- as.numeric(as.character(value)) }
+  #if (is.ordered(value)) { value <- as.numeric(as.character(value)) }
   # CJ: I think ordered factors are handled incorrectly,
   # because you can have:
   # ses <- ordered(c(1,2,2,3,1,2), labels = c("low", "middle", "high"))

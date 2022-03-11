@@ -1,6 +1,6 @@
 naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, meta=NULL, 
                        pp=FALSE, constraints=NULL, ...) {
-	#mvars <- length(model@manifestVars)
+
 	n.comp <- 0
 	LL.btn <- c()
 	split.btn <- c()
@@ -36,6 +36,7 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
   if(pp) {comparedData <- max(meta$model.ids+1)}
   else {comparedData <- meta$covariate.ids}
   for (cur_col in comparedData) {
+  
     
     # parent model's likelihood (LL.baseline) is adjusted
     # for each split if there is missing data
@@ -58,9 +59,12 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    #unordered factors#####################################
 	    if(!is.ordered(mydata[,cur_col])) {
 	      var.type = 1
-	      v <- as.numeric(mydata[,cur_col])
+	      
+	 
+	      
 	      #v <- as.numeric(mydata[,cur_col])
-	      val.sets <- sort(union(v,v))
+	      #val.sets <- sort(union(v,v))
+	      val.sets <- levels(mydata[,cur_col])
 	      if(length(val.sets) > 1) {
 	        
 	        #create binaries for comparison of all combinations
@@ -113,18 +117,18 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    }
 	    #ordered factors#########################################
 	    if(is.ordered(mydata[,cur_col])) {
-	      var.type = 2
-	      v <- as.numeric(as.character(mydata[,cur_col]))
-	      val.sets <- sort(union(v,v))
-        #browser()
-        #cat("number of categories:",length(val.sets),"\n")
-	      #cat("number of comparisons:",(length(val.sets)-1),"\n")
+	      var.type = 3
+
+	      val.sets <- levels(mydata[,cur_col])
+
 	      if(length(val.sets) > 1) {
 	        for(i in 2:(length(val.sets))) {
 	          LL.temp <- c()
 	          #subset data for chosen value and store LL
-	          cond1 <- as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
-	          cond2 <- as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
+	          #cond1 <- as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
+	          #cond2 <- as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
+	          cond1 <- mydata[,cur_col] > val.sets[i-1]
+	          cond2 <- mydata[,cur_col] <= val.sets[i-1]
 	          subset1 <- subset (mydata, cond1)
 	          subset2 <- subset (mydata, cond2)
 
@@ -140,7 +144,8 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	          LL.return <- fitSubmodels(model, subset1, subset2, control, invariance=NULL)
 	          if(!is.na(LL.return)){
 	            LL.within <- cbind(LL.within, (LL.baseline-LL.return))
-	            within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
+	            #within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
+	            within.split <- cbind(within.split, val.sets[i-1])
 	            cov.col <- cbind(cov.col, cur_col)
 	            cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
 	            cov.type <- cbind(cov.type, var.type)
@@ -188,13 +193,14 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	            cov.type <- cbind(cov.type, var.type)
 	            n.comp <- n.comp + 1
 	          }
-            #browser()
+            
 	        }
 	      }
 
 	  }
 	}
 
+	
 	if(is.null(LL.within)) {return(NULL)}
 
 	btn.matrix <- rbind(LL.within,cov.name,cov.col,within.split)
@@ -262,8 +268,12 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	
   if(is.na(LL.max)){return(NULL)}
   else(
-    return(list(LL.max=LL.max,split.max=split.max,name.max=name.max,
-                col.max=col.max, type.max=type.max, n.comp=n.comp, btn.matrix=btn.matrix, 
+    return(list(LL.max=LL.max,
+                split.max=split.max,
+                name.max=name.max,
+                col.max=col.max, type.max=type.max, 
+                n.comp=n.comp, 
+                btn.matrix=btn.matrix, 
                 invariance.filter=filter ))
   )
 }
