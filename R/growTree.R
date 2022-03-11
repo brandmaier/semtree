@@ -198,21 +198,11 @@ growTree <- function(model=NULL, mydata=NULL,
     
   } else if (control$method=="score") {
     
-    # result <- tryCatch(
-    ################################################
+
 
     
     result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
-    ################################################
-    #   ,
-    #   error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
-    # );     
-    
-    # } else {
-    
-    #    stop("Unknown Test Type.")
-    
-    #  }
+
     
     
   } 
@@ -240,14 +230,7 @@ growTree <- function(model=NULL, mydata=NULL,
   }
   # 3. Traditional cross validation for covariate split selection
   else if (control$method == "cv") {
-    result <- tryCatch(
-      ################################################
-      crossvalidatedSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)
-      ################################################
-      ,
-      error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
-    );		
-    node$p.values.valid <- FALSE	
+    stop("This split selection procedure is not supported anymore. Please see the new score-based tests for split selection.")
   } else {
     ui_fail("Error. Unknown split method selected")
     stop()
@@ -361,6 +344,8 @@ growTree <- function(model=NULL, mydata=NULL,
       report("Stop splitting based on stopping rule.", 1)
     }
     
+
+    
     # store the split name (covariate name and split value) RHS is yes branch
     if(result$type.max==1) {
       # unordered factor collating and splitting
@@ -384,10 +369,17 @@ growTree <- function(model=NULL, mydata=NULL,
       }
       test2 <- test2[,-1]
       
+      # if var.type==1, then split.max corresponds to the index of
+      # the best column in the matrix that represents all subsets
+      # make sure that this is not casted to a string if there
+      # are predictors of other types (esp., factors)
+      result$split.max <- as.integer(result$split.max)
       
-      named <- colnames(result1$columns)[result$split.max]
+      #named <- colnames(result1$columns)[result$split.max]
       node$caption <- paste(colnames(result1$columns)[result$split.max])
-      node$rule = list(variable=result$col.max, relation="%in%", value=c(result1$values), name = result$name.max)
+      node$rule = list(variable=result$col.max, relation="%in%", 
+                       value=c(result1$values), 
+                       name = result$name.max)
       
       if(result1$num_sets==1) {
         sub1 <- subset (mydata, as.numeric(test2) == 2)
@@ -400,11 +392,23 @@ growTree <- function(model=NULL, mydata=NULL,
       
     }
     else if (result$type.max==2){
+      # if var.type==2, then split.max corresponds to the split point value
+      # make sure that this is not casted to a string if there
+      # are predictors of other types (esp., factors)
+      result$split.max <- as.integer(result$split.max)
+      
       # ordered factor splitting of data
       node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)])) >result$split.max)
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
+    } 
+    else if (result$type.max==3) {
+      node$caption <- paste(result$name.max,">", result$split.max,sep=" ")
+      node$rule = list(variable=result$col.max, relation=">", value=c(result$split.max), name = result$name.max)
+      sub1 <- subset( mydata, mydata[, (result$col.max)] >result$split.max)
+      sub2 <- subset( mydata, mydata[, (result$col.max)]<=result$split.max)
+      
     }
     else if (result$type.max == 99) {
       # this is an error code by score test implementation
@@ -443,6 +447,7 @@ growTree <- function(model=NULL, mydata=NULL,
         data = temp,
         formula = as.formula(paste0(result$name.max,"~.")))
     }
+    
     
     # recursively continue splitting
     # result1 - RHS; result2 - LHS

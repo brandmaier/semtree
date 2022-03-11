@@ -33,7 +33,6 @@ varimp <- function(forest,
                    conditional = FALSE,
                    ...)
 {
-  
   if (is.null(var.names)) {
     var.names <- forest$covariates
   }
@@ -54,7 +53,10 @@ varimp <- function(forest,
   
   result <- list()
   start.time <- proc.time()
-  
+  nullforests <- sapply(forest$forest, is.null)
+  if(all(nullforests)) stop("No valid trees in the forest.")
+  if(any(nullforests)) ui_warn("Removing ", sum(nullforests), " invalid trees from the forest of ", length(nullforests), " trees.")
+  forest$forest <- forest$forest[!nullforests]
   temp <- future.apply::future_mapply(
     FUN = varimpTree,
     forest$forest,
