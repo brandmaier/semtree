@@ -1,4 +1,13 @@
-# semtree 0.9.16 (ongoing)
+# semtree 0.9.17 (2022; ongoing)
+
+- happily welcoming Caspar van Lissa to the developer team
+- more efficient implementation of partial dependence and proximity
+- new predict() functions
+- bugfix in handling factors with non-numeric levels
+- removed crossvalidation splitting after deprecation in v0.9.15
+
+
+# semtree 0.9.16 (2021)
 
 - removed all code based on parallel-package and replace by future-equivalent. Thanks to Michael Krause!
 - restored semtree.print() generic function that was accidentally dropped in 0.9.15
