@@ -31,7 +31,7 @@ lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 controlOptions = semforest.control()
 
 forest <- semforest(model=lgcModel, data=lgcm,control = controlOptions)
-f_light <- stripTree(forest)
+stripped_forest <- strip(forest)
 
 
 test_that("partialDependence works for semforest", {
@@ -40,7 +40,7 @@ test_that("partialDependence works for semforest", {
 
 test_that("partialDependence works for interactions", {
   
-  expect_error({partialDependence3 <- partialDependence(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)}, NA)
-  partialDependence3 <- partialDependence(f_light, lgcm, reference.var = c("agegroup", "training"), mc = 10)
+  expect_error({partialDependence3 <- partialDependence(stripped_forest, lgcm, reference.var = c("agegroup", "training"), mc = 10)}, NA)
+  partialDependence3 <- partialDependence(stripped_forest, lgcm, reference.var = c("agegroup", "training"), mc = 10)
   expect_true(nrow(partialDependence3) == 4)
 })

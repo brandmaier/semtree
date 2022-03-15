@@ -17,8 +17,8 @@ predict.semforest <- function(object, data, type = "node_id", ...) {
   }
   result <- switch(type, 
                    node_id = {
-                     f_light <- clear_underbrush(object)
-                     apply(data, 1, function(r){ sapply(f_light, traverse_light, row = r, what = "node_id")})
+                     f_stripped <- clear_underbrush(object)
+                     apply(data, 1, function(r){ sapply(f_stripped, traverse_stripped, row = r, what = "node_id")})
                    },
                    pars = {
                      predict_pars(forest = object,
@@ -56,16 +56,16 @@ predict.semtree <- function(object, data, type = "node_id", ...) {
   return(result)
 }
 
-#' @method predict semforest_light
+#' @method predict semforest_stripped
 #' @export
-predict.semforest_light <- function (object, data, type = "node_id", ...) 
+predict.semforest_stripped <- function (object, data, type = "node_id", ...) 
 {
   if (!hasArg(data)) {
       ui_stop("Argument 'data' required.")
   }
   result <- switch(type, 
                    node_id = {
-                     apply(data, 1, function(r){ sapply(object, traverse_light, row = r, what = "node_id")})
+                     apply(data, 1, function(r){ sapply(object, traverse_stripped, row = r, what = "node_id")})
                    },
                    pars = {
                      predict_pars(forest = object,
@@ -84,17 +84,17 @@ predict_pars <- function(forest, data, parameters = NULL, FUN = median, ...){
 
 predict_pars.semforest <- function(forest, data, parameters = NULL, FUN = median, ...){
     cl <- match.call()
-    cl[["forest"]] <- clear_underbrush(forest)
+    cl[["forest"]] <- strip(forest)
     if(!hasArg(data)) cl[["data"]] <- forest$data
     cl[[1L]] <- str2lang("semtree:::predict_pars")
     eval.parent(cl)
 }
 
 
-predict_pars.semforest_light <- function(forest, data, parameters = NULL, FUN = median, ...){
+predict_pars.semforest_stripped <- function(forest, data, parameters = NULL, FUN = median, ...){
   if(!inherits(data, "data.table")) setDT(data)
   parnams <- attr(forest, "parameters")
-  out <- data[, as.list(apply(do.call(cbind, lapply(forest, function(t){ traverse_light(row = .SD, tree = t) })), 1, FUN = FUN, ...)), by = 1:nrow(data)][, -1]
+  out <- data[, as.list(apply(do.call(cbind, lapply(forest, function(t){ traverse_stripped(row = .SD, tree = t) })), 1, FUN = FUN, ...)), by = 1:nrow(data)][, -1]
   
   
   setnames(out, names(out), attr(forest, "parameters"))

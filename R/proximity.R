@@ -32,13 +32,13 @@ proximity <- function(x, data, ...){
 #' @method proximity semforest
 #' @export
 proximity.semforest <- function(x, data, ...){
-  forest_light <- stripTree(x)
-  preds <- predict(forest_light, data = x$data, type = "node_id")
+  forest_stripped <- stripTree(x)
+  preds <- predict(forest_stripped, data = x$data, type = "node_id")
   proximity(preds)
 }
-#' @method proximity semforest_light
+#' @method proximity semforest_stripped
 #' @export
-proximity.semforest_light <- function(x, data, ...){
+proximity.semforest_stripped <- function(x, data, ...){
   preds <- predict(x, data = data, type = "node_id")
   proximity(preds)
 }

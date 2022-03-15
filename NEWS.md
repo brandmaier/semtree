@@ -5,7 +5,8 @@
 - new predict() functions
 - bugfix in handling factors with non-numeric levels
 - removed crossvalidation splitting after deprecation in v0.9.15
-
+- exporting strip() function for lighter SEM trees in forests
+- introducing new classed tree_stripped and forest_stripped
 
 # semtree 0.9.16 (2021)
 

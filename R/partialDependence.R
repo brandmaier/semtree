@@ -40,10 +40,10 @@ partialDependence.semforest <- function(x, data, reference.var, support = 20, po
   eval.parent(cl)
 }
 
-#' @method partialDependence semforest_light
+#' @method partialDependence semforest_stripped
 #' @export
 #' @import data.table
-partialDependence.semforest_light <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+partialDependence.semforest_stripped <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   cl <- match.call()
   cl <- cl[c(1L, which(names(cl) %in% c("data", "reference.var", "support", "points", "mc")
 ))]

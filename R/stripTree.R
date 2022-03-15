@@ -10,7 +10,7 @@
 #' @details Objects of class \code{semforest} and \code{semtree} are very
 #' large, which complicates downstream operations such as making partial
 #' dependence plots, or using the model in interactive contexts (like Shiny
-#' apps). Running \code{stripTree} removes all elements of the model
+#' apps). Running \code{strip} removes all elements of the model
 #' except for the tree structure and terminal node parameters. Note that some
 #' methods are no longer available for the resulting object - e.g.,
 #' \code{\link{varimp}} requires the terminal node SEM models to compute the
@@ -21,15 +21,15 @@
 #'  #EXAMPLE1
 #'  }
 #' }
-#' @rdname stripTree
+#' @rdname strip
 #' @export 
-stripTree <- function(x, parameters = NULL){
-  UseMethod("stripTree", x)
+strip <- function(x, parameters = NULL){
+  UseMethod("strip", x)
 }
 
-#' @method stripTree semtree
+#' @method strip semtree
 #' @export
-stripTree.semtree <- function(x, parameters = NULL){
+strip.semtree <- function(x, parameters = NULL){
     if(inherits(x$model, "lavaan")){
       sums <- parTable(x$model)
       parlab <- do.call(paste0, sums[2:4])
@@ -42,22 +42,22 @@ stripTree.semtree <- function(x, parameters = NULL){
         parameters <- parameters[parameters %in% parlab | parameters %in% sums$label]
         ids <- sums$plabel[parlab %in% parameters | sums$label %in% parameters]
       }
-      out <- stripTree_lav(x, parameters = ids)
+      out <- strip_lav(x, parameters = ids)
     } else {
       if(is.null(parameters)){
         sums <- summary(x$model)
         parameters <- sums$parameters$name
       }
-      out <- stripTree_mx(x, parameters = parameters)
+      out <- strip_mx(x, parameters = parameters)
     }
     attr(out, "parameters") <- parameters
-    class(out) <- c("semtree_light", class(out))
+    class(out) <- c("semtree_stripped", class(out))
     out
   }
 
-#' @method stripTree semforest
+#' @method strip semforest
 #' @export
-stripTree.semforest <- function(x, parameters = NULL){
+strip.semforest <- function(x, parameters = NULL){
   if(inherits(x$model, "lavaan")){
     sums <- parTable(x$model)
     parlab <- do.call(paste0, sums[2:4])
@@ -70,27 +70,27 @@ stripTree.semforest <- function(x, parameters = NULL){
       parameters <- parameters[parameters %in% parlab | parameters %in% sums$label]
       ids <- sums$plabel[parlab %in% parameters | sums$label %in% parameters]
     }
-    out <- lapply(x$forest, stripTree_lav, parameters = ids)
+    out <- lapply(x$forest, strip_lav, parameters = ids)
   } else {
     if(is.null(parameters)){
       sums <- summary(x$model)
       parameters <- sums$parameters$name
     }
-    out <- lapply(x$forest, stripTree_mx, parameters = parameters)
+    out <- lapply(x$forest, strip_mx, parameters = parameters)
   }
   attr(out, "parameters") <- parameters
-  class(out) <- c("semforest_light", class(out))
+  class(out) <- c("semforest_stripped", class(out))
   out
 }
 
 
 # Lavaan ------------------------------------------------------------------
 
-stripTree_lav <- function(x, parameters = NULL){
-  UseMethod("stripTree_lav", x)
+strip_lav <- function(x, parameters = NULL){
+  UseMethod("strip_lav", x)
 }
 
-stripTree_lav <- function(x, parameters = NULL){
+strip_lav <- function(x, parameters = NULL){
   if(x$caption == "TERMINAL"){
     sums <- parameterTable(x$model)
     return(list(
@@ -99,15 +99,15 @@ stripTree_lav <- function(x, parameters = NULL){
       ))
   } else {
     return(list(rule = x$rule[c("relation", "value", "name")],
-                left_child = stripTree_lav(x = x$left_child, parameters = parameters),
-                right_child = stripTree_lav(x = x$right_child, parameters = parameters)))
+                left_child = strip_lav(x = x$left_child, parameters = parameters),
+                right_child = strip_lav(x = x$right_child, parameters = parameters)))
   }  
 }
 
 
 # OpenMx ------------------------------------------------------------------
 
-stripTree_mx <- function(x, parameters = NULL){
+strip_mx <- function(x, parameters = NULL){
   if(x$caption == "TERMINAL"){
     sums <- summary(x$model)
     return(list(
@@ -115,14 +115,14 @@ stripTree_mx <- function(x, parameters = NULL){
       node_id = x$node_id))
   } else {
     return(list(rule = x$rule[c("relation", "value", "name")],
-                left_child = stripTree(x = x$left_child, parameters = parameters),
-                right_child = stripTree(x = x$right_child, parameters = parameters)))
+                left_child = strip(x = x$left_child, parameters = parameters),
+                right_child = strip(x = x$right_child, parameters = parameters)))
   }  
 }
 
-traverse_light <- function(row, tree, what = "parameters"){
+traverse_stripped <- function(row, tree, what = "parameters"){
   if(!is.null(tree[["rule"]])){
-    traverse_light(row = row,
+    traverse_stripped(row = row,
                    tree = tree[[c("left_child", "right_child")[(do.call(tree$rule$relation, list(row[[tree$rule$name]], tree$rule$value))+1)]]],
                    what = what)
   } else {
