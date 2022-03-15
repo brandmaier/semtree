@@ -34,7 +34,7 @@ partialDependence <- function(x, data, reference.var, support = 20, points = NUL
 #' @export
 partialDependence.semforest <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
   cl <- match.call()
-  cl[["x"]] <- stripTree(x)
+  cl[["x"]] <- strip(x)
   if(!hasArg(data)) cl[["data"]] <- x$data
   cl[[1L]] <- quote(partialDependence)
   eval.parent(cl)

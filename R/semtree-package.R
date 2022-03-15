@@ -21,7 +21,6 @@ NULL
 
 
 
-
 #' Simulated Linear Latent Growth Curve Data
 #' 
 #' This data set provides simple data to fit with a LGCM.

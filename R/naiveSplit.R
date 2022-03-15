@@ -59,12 +59,9 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    #unordered factors#####################################
 	    if(!is.ordered(mydata[,cur_col])) {
 	      var.type = 1
-	      
-	 
-	      
-	      #v <- as.numeric(mydata[,cur_col])
-	      #val.sets <- sort(union(v,v))
-	      val.sets <- levels(mydata[,cur_col])
+	      browser()
+	      #val.sets <- levels(mydata[,cur_col]) # this does not work because we need observed levels
+	      val.sets <- unique(mydata[,cur_col]) 
 	      if(length(val.sets) > 1) {
 	        
 	        #create binaries for comparison of all combinations
@@ -119,7 +116,7 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    if(is.ordered(mydata[,cur_col])) {
 	      var.type = 3
 
-	      val.sets <- levels(mydata[,cur_col])
+	      val.sets <- unique(mydata[,cur_col])
 
 	      if(length(val.sets) > 1) {
 	        for(i in 2:(length(val.sets))) {
