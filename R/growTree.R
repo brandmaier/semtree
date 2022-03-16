@@ -408,7 +408,7 @@ growTree <- function(model=NULL, mydata=NULL,
       result$split.max <- as.numeric(result$split.max)
       
       # ordered factor splitting of data
-      node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
+      node$caption <- paste(result$name.max,">=", signif(result$split.max,6),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)])) >result$split.max)
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
@@ -424,6 +424,7 @@ growTree <- function(model=NULL, mydata=NULL,
     else if (result$type.max == 99) {
       # this is an error code by score test implementation
       # return node and stop splitting
+      # TODO (MA): Do we need to issue a warning?
       return(node)
     }
     else  {

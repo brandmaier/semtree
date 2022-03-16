@@ -1,7 +1,7 @@
 require("semtree")
 data(lgcm)
 
-lgcm$agegroup <- as.ordered(lgcm$agegroup)
+lgcm$agegroup <- ordered(lgcm$agegroup)
 lgcm$training <- as.factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
 
