@@ -383,7 +383,7 @@ growTree <- function(model=NULL, mydata=NULL,
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
       result$split.max <- as.integer(result$split.max)
-      
+
       #named <- colnames(result1$columns)[result$split.max]
       node$caption <- paste(colnames(result1$columns)[result$split.max])
       node$rule = list(variable=result$col.max, relation="%in%", 

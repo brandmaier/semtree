@@ -4,23 +4,9 @@ function( x, level=0, p.values.valid=NULL, ... )
 {
 	tree <- x	
 
-	#if (is.null(p.values.valid)) {
-	#	p.values.valid <- tree$p.values.valid
-	#}
-
 	indent <- paste(rep("|   ",level),collapse="",sep="")
 	
-	#params <- ""
-	#for (i in 1:length(tree$params))
-	#{
-	#	params <- paste(params,",",tree$param_names[i],"=", round(tree$params[i],3) )	;
-	#}
-	
 	if (level > 0) { edge_label <- tree$edge_label } else { edge_label <- "ROOT"; }
-	
-	#p <- tree$p
-	#p <- "NA"
-	#try(p<-round(tree$p,3), silent=T);
 	
 	caption <- tree$caption;
 	if (caption == "TERMINAL")
@@ -45,4 +31,10 @@ function( x, level=0, p.values.valid=NULL, ... )
 	} else {
 		return(output);	
 	}
+}
+
+#' @exportS3Method print semtree
+print.semtree_stripped <- function(x) {
+  cat("SEM tree [stripped]\n")
+  print.semtree(x)
 }

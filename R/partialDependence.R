@@ -49,7 +49,7 @@ partialDependence.semforest_stripped <- function(x, data, reference.var, support
 ))]
   cl[[1L]] <- str2lang("semtree:::partialDependence_data")
   mp <- eval.parent(cl)
-  preds <- data.table(predict(x, data = mp, type = "pars"))
+  preds <- data.table::data.table(predict(x, data = mp, type = "pars"))
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
   mp <- cbind(mp, preds)
   #mp[, (colnames(preds)) := preds]

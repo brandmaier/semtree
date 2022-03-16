@@ -4,9 +4,9 @@ require("lavaan")
 require("future")
 plan(sequential)
 data(lgcm)
-# Note: Can't use as.ordered, because this is handled incorrectly in semtree.
-lgcm$agegroup <- as.factor(lgcm$agegroup)
-lgcm$training <- as.factor(lgcm$training)
+
+lgcm$agegroup <- ordered(lgcm$agegroup)
+lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
 
 # LOAD IN LAVAAN MODEL.
