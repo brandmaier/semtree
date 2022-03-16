@@ -1,7 +1,16 @@
 #################################################
 # Tree Growing Process                         ##
 #################################################
-
+#
+# growTree implements the basic recursive splitting logic
+# and creates the tree data structure including all sorts
+# of model- and meta-information. The actual evaluation
+# of the best splits is outsourced to separate functions
+# depending on what split method is chosen.
+#
+#
+#
+#
 growTree <- function(model=NULL, mydata=NULL,
                      control=NULL, invariance=NULL, meta=NULL,
                      edgelabel=NULL, depth=0, constraints=NULL, ...)
@@ -396,7 +405,7 @@ growTree <- function(model=NULL, mydata=NULL,
       # if var.type==2, then split.max corresponds to the split point value
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
-      result$split.max <- as.integer(result$split.max)
+      result$split.max <- as.numeric(result$split.max)
       
       # ordered factor splitting of data
       node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
@@ -405,7 +414,7 @@ growTree <- function(model=NULL, mydata=NULL,
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
     } 
     else if (result$type.max==.SCALE_ORDINAL) {
-      browser()
+
       node$caption <- paste(result$name.max,">", result$split.max,sep=" ")
       node$rule = list(variable=result$col.max, relation=">", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, mydata[, (result$col.max)] >result$split.max)
@@ -420,10 +429,11 @@ growTree <- function(model=NULL, mydata=NULL,
     else  {
       # TODO: remove this bc this condition should be captured earlier in any case
       # continuous variables splitting
-      node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
-      node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
-      sub1 <- subset( mydata, as.numeric(mydata[, (result$col.max)]) >result$split.max)
-      sub2 <- subset( mydata, as.numeric(mydata[, (result$col.max)])<=result$split.max)
+      #node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
+      #node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
+      #sub1 <- subset( mydata, as.numeric(mydata[, (result$col.max)]) >result$split.max)
+      #sub2 <- subset( mydata, as.numeric(mydata[, (result$col.max)])<=result$split.max)
+      stop("An error occured!")
     }
     
     ##########################################################
