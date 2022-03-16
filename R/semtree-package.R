@@ -17,7 +17,9 @@
 #' @importFrom methods hasArg
 NULL
 
-
+.SCALE_METRIC = 2
+.SCALE_ORDINAL = 3
+.SCALE_CATEGORICAL = 1
 
 
 

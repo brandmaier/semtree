@@ -59,7 +59,7 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    #unordered factors#####################################
 	    if(!is.ordered(mydata[,cur_col])) {
 	      var.type = 1
-	      browser()
+
 	      #val.sets <- levels(mydata[,cur_col]) # this does not work because we need observed levels
 	      val.sets <- unique(mydata[,cur_col]) 
 	      if(length(val.sets) > 1) {
@@ -114,7 +114,7 @@ naiveSplit <- function(model=NULL, mydata=NULL, control=NULL, invariance=NULL, m
 	    }
 	    #ordered factors#########################################
 	    if(is.ordered(mydata[,cur_col])) {
-	      var.type = 3
+	      var.type = .SCALE_ORDINAL
 
 	      val.sets <- unique(mydata[,cur_col])
 

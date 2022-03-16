@@ -20,9 +20,9 @@
 #' 
 #' @aliases semtree.control print.semtree.control
 #' @param method Default: "naive". One out of
-#' \code{c("fair","fair3","naive","cv")} for either an unbiased two-step
-#' selection algorithm, three-step fair algorithm, a naive take-the-best, or a
-#' cross-validation scheme.
+#' \code{c("score,"fair","naive")} for either an unbiased two-step
+#' selection algorithm,  a naive take-the-best, or a
+#' score-based testing scheme.
 #' @param min.N Default: 10. Minimum sample size per a node, used to determine
 #' whether to continue splitting a tree or establish a terminal node.
 #' @param max.depth Default: NA. Maximum levels per a branch. Parameter for
@@ -204,3 +204,7 @@ semtree.control <-
     
     return(options)
   }
+
+semtree.control.score <- function() {
+  return( semtree.control(method="fair") )
+}

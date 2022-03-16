@@ -347,13 +347,13 @@ growTree <- function(model=NULL, mydata=NULL,
 
     
     # store the split name (covariate name and split value) RHS is yes branch
-    if(result$type.max==1) {
+    if(result$type.max==.SCALE_CATEGORICAL) {
       # unordered factor collating and splitting
       lvl <- (control$method == "fair")
       result1 <- recodeAllSubsets(mydata[,result$col.max],colnames(mydata)[result$col.max],
                                   growbool=T, use.levels=lvl)
       
-      
+
       test2 <- rep(NA, nrow(mydata))
       if(!is.na(result1$num_sets) & !is.null(result1$num_sets)){
         for(j in 1:result1$num_sets) {
@@ -391,7 +391,8 @@ growTree <- function(model=NULL, mydata=NULL,
       }
       
     }
-    else if (result$type.max==2){
+    else if (result$type.max==.SCALE_METRIC){
+      
       # if var.type==2, then split.max corresponds to the split point value
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
@@ -403,7 +404,8 @@ growTree <- function(model=NULL, mydata=NULL,
       sub1 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)])) >result$split.max)
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
     } 
-    else if (result$type.max==3) {
+    else if (result$type.max==.SCALE_ORDINAL) {
+      browser()
       node$caption <- paste(result$name.max,">", result$split.max,sep=" ")
       node$rule = list(variable=result$col.max, relation=">", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, mydata[, (result$col.max)] >result$split.max)
@@ -416,6 +418,7 @@ growTree <- function(model=NULL, mydata=NULL,
       return(node)
     }
     else  {
+      # TODO: remove this bc this condition should be captured earlier in any case
       # continuous variables splitting
       node$caption <- paste(result$name.max,">=", signif(result$split.max,3),sep=" ")
       node$rule = list(variable=result$col.max, relation=">=", value=c(result$split.max), name = result$name.max)
