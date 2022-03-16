@@ -23,5 +23,5 @@ Object of class \code{matrix}.
 Predict method for semtree and semforest
 }
 \author{
-Caspar J. van Lissa
+Caspar J. van Lissa, Andreas Brandmaier
 }

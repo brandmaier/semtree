@@ -36,10 +36,10 @@ semtree.control(
 )
 }
 \arguments{
-\item{method}{Default: "naive". One out of
-\code{c("fair","fair3","naive","cv")} for either an unbiased two-step
-selection algorithm, three-step fair algorithm, a naive take-the-best, or a
-cross-validation scheme.}
+\item{method}{Default: 'naive'. One out of
+\code{c("score","fair","naive")} for either an unbiased two-step
+selection algorithm,  a naive take-the-best, or a
+score-based testing scheme.}
 
 \item{min.N}{Default: 10. Minimum sample size per a node, used to determine
 whether to continue splitting a tree or establish a terminal node.}
@@ -130,18 +130,17 @@ A \code{semtree.control} object contains parameters that determine the tree
 growing process. These parameters include choices of different split
 candidate selection procedures and hyperparameters of those. Calling the
 constructor without parameters creates a default control object. A number of
-tree growing methods are included in with this package: 1. "naive" splitting
+tree growing methods are included in with this package: 1. 'naive' splitting
 takes the best split value of all possible splits on each covariate. 2.
-"fair" selection is so called because it tests all splits on half of the
+'fair' selection is so called because it tests all splits on half of the
 data, then tests the best split value for each covariate on the other half
 of the data. The equal footing of each covariate in this two phase test
 removes bias from testing variables with many possible splits compared to
 those with few. 3. "fair3" does the phases described above, with an
 additional step of retesting all of the split values on the best covariate
 found in the second phase. Variations in the sample from subsetting are
-removed and bias in split selection further reduced. 4. "crossvalidation"
-partitions the data for maximizing splits on each variable, then comparing
-maximum splits across each variable on the rest of the data.
+removed and bias in split selection further reduced. 4. 'score'
+implements modern score-based statistics.
 }
 \examples{
 

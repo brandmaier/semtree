@@ -34,7 +34,7 @@ df <- data.frame(x, var_ordered_named_single)
 model = "x ~~ x"
 fitted_model <- lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree.control())
-test_that(class(tree)=="semtree")
+test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
 test_that(getDepth(tree)==1)
 tree = semtree(fitted_model, df, control=semtree.control(method="score"))
 test_that(class(tree)=="semtree")
@@ -46,8 +46,8 @@ var_unordered_named_single <- var_unordered_named
 var_unordered_named_single[1:n] <- "red"
 df <- data.frame(x, var_unordered_named_single)
 tree = semtree(fitted_model, df, control=semtree.control())
-test_that(class(tree)=="semtree")
-test_that(getDepth(tree)==1)
+test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
+test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
 
 # NA values
 var_numeric_NA <- var_numeric
@@ -58,3 +58,4 @@ var_unordered_NA <- var_ordered
 var_unordered_NA[c(1,2,3,4,100,101,200,202,204,303,420,421,422)]<-NA
 df <- data.frame(x, var_numeric_NA, var_ordered_NA, var_unordered_NA)
 tree = semtree(fitted_model, df, control=semtree.control())
+test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})

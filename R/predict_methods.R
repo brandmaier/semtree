@@ -6,7 +6,7 @@
 #' @param type Type of prediction. One of `c('node_id')`. See Details.
 #' @param ... further arguments passed to or from other methods.
 #' @return Object of class \code{matrix}.
-#' @author Caspar J. van Lissa
+#' @author Caspar J. van Lissa, Andreas Brandmaier
 #' @method predict semforest
 #' @export
 predict.semforest <- function(object, data, type = "node_id", ...) {
@@ -59,6 +59,7 @@ predict.semtree <- function(object, data, type = "node_id", ...) {
                    })
   if (is.null(result))
     ui_stop("Requested type no yet implemented in predict.semtree().")
+  #TODO: CJVL why return type "semforest"? Probably a mistake?
   class(result) <- c(paste0("semforest_", type), class(result))
   return(result)
 }
