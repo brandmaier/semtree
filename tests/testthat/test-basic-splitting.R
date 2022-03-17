@@ -44,7 +44,7 @@ df <- data.frame(x, var_unordered_named)
 tree = semtree(fitted_model, df, control=semtree.control(verbose=TRUE,report.level = 99))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 2", { expect_equal(getDepth(tree),2) })
+test_that("tree depth is at least 2", { expect_gt(getDepth(tree),1) })
 test_that("split is optimal", { expect_equal(tree$caption, "var_unordered_named  in [ green ]")})
 
 # testing ordered, numeric

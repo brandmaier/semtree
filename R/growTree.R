@@ -385,10 +385,12 @@ growTree <- function(model=NULL, mydata=NULL,
       result$split.max <- as.integer(result$split.max)
 
       #named <- colnames(result1$columns)[result$split.max]
-      node$caption <- paste(colnames(result1$columns)[result$split.max])
+#      node$caption <- paste(colnames(result1$columns)[result$split.max])
       node$rule = list(variable=result$col.max, relation="%in%", 
                        value=c(result1$values), 
                        name = result$name.max)
+      node$caption <- paste(result$name.max, " in [", paste0(result1$values,
+                                                           collapse=" ")," ]")
       
       if(result1$num_sets==1) {
         sub1 <- subset (mydata, as.numeric(test2) == 2)

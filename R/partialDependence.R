@@ -23,9 +23,9 @@
 #' @param FUN Character string with function used to integrate predictions
 #' across all elements of \code{x}.
 #' @param ... Extra arguments passed to \code{FUN}.
-#' @author Caspar J. Van Lissa, , Andreas Brandmaier
+#' @author Caspar J. Van Lissa, , Andreas M. Brandmaier
 #' @export
-partialDependence <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+partialDependence <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...) {
   UseMethod("partialDependence", x)
 }
 
@@ -33,10 +33,16 @@ partialDependence <- function(x, data, reference.var, support = 20, points = NUL
 #' @importFrom methods hasArg
 #' @export
 partialDependence.semforest <- function(x, data, reference.var, support = 20, points = NULL, mc = NULL, FUN = "median", ...){
+  if (!all(reference.var %in% x$covariates)) {
+    ui_stop("The following predictors are not in the forest: ",
+            paste0(reference.var[!(reference.var %in% x$covariates)]),
+            ". Try any of those: ",paste0(x$covariates, collapse=","),".")
+  }
   cl <- match.call()
   cl[["x"]] <- strip(x)
   if(!hasArg(data)) cl[["data"]] <- x$data
   cl[[1L]] <- quote(partialDependence)
+  # call partialDependence function on stripped semforest
   eval.parent(cl)
 }
 
@@ -55,9 +61,13 @@ partialDependence.semforest_stripped <- function(x, data, reference.var, support
   #mp[, (colnames(preds)) := preds]
   
   # Use median or quantile
-  mp[, do.call("c", lapply(.SD, function(thiscol){
+  pd_samples <- mp[, do.call("c", lapply(.SD, function(thiscol){
     as.list(do.call(FUN, c(list(thiscol), list(...))))
   })), by = reference.var, .SDcol = attr(x, "parameters")]
+  
+  ret <- list(samples=pd_samples, reference.var = reference.var, support = support, points = points, FUN = FUN)
+  class(ret) <- "partialDependence"
+  return(ret)
 }
 
 #' Compute partial dependence for latent growth models
