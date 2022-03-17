@@ -77,8 +77,10 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     max.cov <- which(CSP == max(contrib), arr.ind = TRUE)[1, 1]
     #cutpoint <- mean(as.numeric(levels(covariate)[max.cov:(max.cov + 1)]))
     cutpoint <- levels(covariate)[max.cov] # TODO: suggestion by AB; MA please check if this is correct
-    left_n <- sum(as.numeric(levels(covariate))[covariate] < cutpoint)
-    right_n <- sum(as.numeric(levels(covariate))[covariate] > cutpoint)
+    #left_n <- sum(as.numeric(levels(covariate))[covariate] < cutpoint)
+    #right_n <- sum(as.numeric(levels(covariate))[covariate] > cutpoint)
+    left_n <- sum(levels(covariate)[covariate] < cutpoint)
+    right_n <- sum(levels(covariate)[covariate] > cutpoint)
   }
   
   if (test == "maxlmo") {
@@ -99,8 +101,10 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     max.cov <- which(CSP2 == max(CSP2), arr.ind = TRUE)[1, 1]
 #    cutpoint <- mean(as.numeric(levels(covariate)[max.cov:(max.cov + 1)]))
     cutpoint <- levels(covariate)[max.cov] # TODO: suggestion by AB; MA please check if this is correct
-    left_n <- sum(as.numeric(levels(covariate))[covariate] < cutpoint)
-    right_n <- sum(as.numeric(levels(covariate))[covariate] > cutpoint)
+  #  left_n <- sum(as.numeric(levels(covariate))[covariate] < cutpoint)
+   # right_n <- sum(as.numeric(levels(covariate))[covariate] > cutpoint)
+    left_n <- sum(levels(covariate)[covariate] < cutpoint)
+    right_n <- sum(levels(covariate)[covariate] > cutpoint)
   }
   
   # Nominal covariates

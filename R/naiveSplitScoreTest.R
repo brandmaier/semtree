@@ -122,7 +122,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         
         
         # check if cutpoint is too close to the border
-        if (!(cur.type == .SCALE_CATEGORICAL & nlevels(covariate_sorted) > 2)) { # do not use with categorical covariates with more than two levels
+        if (!(cur.type == .SCALE_CATEGORICAL & nlevels(covariate_sorted) > 2))
+          { # do not use with categorical covariates with more than two levels
           test.result <- checkBinSize(test.result = test.result,
                                       control = control,
                                       level = level,

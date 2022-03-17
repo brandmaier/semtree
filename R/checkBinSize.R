@@ -6,7 +6,7 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
         ui_warn("Boundaries NA in checkBinSize()")
         return(test.result)
       }
-      
+
       ### Start checking left
       if (test.result$left_n < control$min.bucket) {
         if (level == "metric") {
@@ -21,8 +21,8 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           mydata_up <- mydata[-ids_remove, ]
         }
         if (level %in% c("ordinal", "nominal")) {
-          ids_remove <- covariate %in% as.numeric(names(
-            which(cumsum(table(covariate)) < control$min.bucket)))
+          ids_remove <- covariate %in% names(
+            which(cumsum(table(covariate)) < control$min.bucket))
           n_remove <- sum(ids_remove)
           n_up <- n - n_remove
           if (n_up < control$min.N) {
@@ -99,8 +99,8 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
             mydata_up <- mydata_up[-ids_remove, ]
           }
           if (level %in% c("ordinal", "nominal")) {
-            ids_remove <- covariate_up %in% as.numeric(names(
-              which(rev(cumsum(rev(table(covariate_up)))) < control$min.bucket)))
+            ids_remove <- covariate_up %in% names(
+              which(rev(cumsum(rev(table(covariate_up)))) < control$min.bucket))
             n_remove <- sum(ids_remove)
             n_up <- n_up - n_remove
             if (n_up < control$min.N) {
@@ -180,8 +180,8 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
           mydata_up <- mydata[-ids_remove, ]
         }
         if (level %in% c("ordinal", "nominal")) {
-          ids_remove <- covariate %in% as.numeric(names(
-            which(rev(cumsum(rev(table(covariate)))) < control$min.bucket)))
+          ids_remove <- covariate %in% names(
+            which(rev(cumsum(rev(table(covariate)))) < control$min.bucket))
           n_remove <- sum(ids_remove)
           n_up <- n - n_remove
           if (n_up < control$min.N) {
@@ -257,8 +257,8 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
             mydata_up <- mydata_up[-ids_remove, ]
           }
           if (level %in% c("ordinal", "nominal")) {
-            ids_remove <- covariate_up %in% as.numeric(names(
-              which(cumsum(table(covariate_up)) < control$min.bucket)))
+            ids_remove <- covariate_up %in% names(
+              which(cumsum(table(covariate_up)) < control$min.bucket))
             n_remove <- sum(ids_remove)
             n_up <- n_up - n_remove
             if (n_up < control$min.N) {
