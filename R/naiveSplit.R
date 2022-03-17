@@ -78,7 +78,7 @@ naiveSplit <-
       if (is.factor(mydata[, cur_col])) {
         #unordered factors#####################################
         if (!is.ordered(mydata[, cur_col])) {
-          var.type = 1
+          var.type = .SCALE_CATEGORICAL
           
           val.sets <- unique(mydata[, cur_col])
           if (length(val.sets) > 1) {

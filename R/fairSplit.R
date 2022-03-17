@@ -6,9 +6,10 @@ fairSplit <-
            meta = NULL,
            constraints = NULL,
            ...) {
-   # browser()
-    # add a column of uniform random numbers to the data and
-    # blah blah blah
+    
+    # add a column of uniform random numbers to the data 
+    # to split into two halfes
+    # TODO: replace with sample() of row ids
     n <- nrow(mydata)
     random <- runif(n, 0, 1)
     mydata <- cbind(mydata, random)
@@ -56,9 +57,7 @@ fairSplit <-
       }
       
       
-      # if (control$verbose)
-      #    message("Testing ",c,"/",ncol(cross1), " (",colnames(cross1)[cur_col],")" )
-      
+
       if (control$report.level >= 1 || control$verbose) {
         ui_message(paste(
           "Testing predictor",
@@ -79,10 +78,12 @@ fairSplit <-
       if (is.factor(cross1[, cur_col])) {
         #unordered factors#####################################
         if (!is.ordered(cross1[, cur_col])) {
-          var.type = 1
-          v <- as.numeric(cross1[, cur_col])
-          val.sets <- sort(union(v, v))
-          #cat("Length", length(val.sets),":",paste(v),"\n")
+          var.type = .SCALE_CATEGORICAL
+          
+          v <- cross1[, cur_col]
+          val.sets <- sort(unique(v))
+         
+          
           if (length(val.sets) > 1) {
             #create binaries for comparison of all combinations
             result <-
@@ -159,19 +160,19 @@ fairSplit <-
         
         #ordered factors#########################################
         if (is.ordered(cross1[, cur_col])) {
-          var.type = 2
-          v <- as.numeric(as.character(cross1[, cur_col]))
-          val.sets <- sort(union(v, v))
+          var.type = .SCALE_ORDINAL
+          
+          v <- cross1[, cur_col]
+          val.sets <- sort(unique(v))
           if (length(val.sets) > 1) {
             for (i in 2:(length(val.sets))) {
               LL.temp <- base::c()
               #subset data for chosen value and store LL
               cond1 <-
-                as.numeric(as.character(cross1[, cur_col])) > (val.sets[i] + val.sets[(i -
-                                                                                         1)]) / 2
+                cross1[, cur_col] > val.sets[i-1]
               cond2 <-
-                as.numeric(as.character(cross1[, cur_col])) < (val.sets[i] + val.sets[(i -
-                                                                                         1)]) / 2
+                cross1[, cur_col] <= val.sets[i-1] 
+              
               subset1 <- subset (cross1, cond1)
               subset2 <- subset (cross1, cond2)
               
@@ -200,7 +201,8 @@ fairSplit <-
               if (!is.na(LL.return)) {
                 LL.within <- cbind(LL.within, (LL.baseline - LL.return))
                 within.split <-
-                  cbind(within.split, (val.sets[i] + val.sets[(i - 1)]) / 2)
+                 # cbind(within.split, (val.sets[i] + val.sets[(i - 1)]) / 2)
+                  c(within.split, as.character(val.sets[i-1]))
               }
             }
           }
@@ -209,9 +211,9 @@ fairSplit <-
       
       #numeric (continuous) covariates################################
       if (is.numeric(cross1[, cur_col])) {
-        var.type = 2
+        var.type = .SCALE_METRIC
         v <- as.numeric(cross1[, cur_col])
-        val.sets <- sort(union(v, v))
+        val.sets <- sort(unique(v))
         #if(length(val.sets) < 30|!isTRUE(control$shortcut)){
         if (length(val.sets) > 1) {
           for (i in 2:(length(val.sets))) {
@@ -301,9 +303,7 @@ fairSplit <-
           }
           
         }
-        
-        #max.LL.within
-        #max.within.split
+
         
         LL.btn <- cbind(LL.btn, max.LL.within)
         split.btn <- cbind(split.btn, max.within.split)
@@ -320,7 +320,7 @@ fairSplit <-
           ),
           2)
         }
-        #cat("COV ",c," maxLL", max.LL.within," Within:", max.within.cov,":",max.within.split,"\n")
+     
       }
       
     }
@@ -329,8 +329,8 @@ fairSplit <-
     # Phase II - select between variables using their best split
     #     use cross validation fold 2 for evaluation
     #
-    
-    
+    cat("PHASE II")
+
     if (control$report.level > 2) {
       report("Phase II - Select between variables", 1)
     }
@@ -359,7 +359,7 @@ fairSplit <-
           num.rows <- dim(missingModel@data@observed)[1]
         }
         
-        if (cov.type[cur_col] == 1) {
+        if (cov.type[cur_col] == .SCALE_CATEGORICAL) {
           if (!is.ordered(cross2[, cov.btn.cols[cur_col]])) {
             result <-
               recodeAllSubsets(cross2[, (cov.btn.cols[cur_col])], colnames(cross2)[(cov.btn.cols[cur_col])], use.levels =
@@ -386,27 +386,32 @@ fairSplit <-
             
             if (result$num_sets == 1) {
               vec <- test2
-              #   subset1 <- subset (cross2, as.numeric(test2) == 2)
-              #  subset2 <- subset (cross2, as.numeric(test2) == 1)
             }
             else {
               vec <- test2[[split.btn[cur_col]]]
             }
             
-            # if (length(unique(vec))==1) browser();
+
             
+
             subset1 <- subset (cross2, as.numeric(vec) == 2)
             subset2 <- subset (cross2, as.numeric(vec) == 1)
-            
           }
         }
-        else if (cov.type[cur_col] == 2) {
+        else if (cov.type[cur_col] == .SCALE_ORDINAL) {
           cond1 <-
-            as.numeric(as.character(cross2[, cov.btn.cols[cur_col]])) > split.btn[cur_col]
+            cross2[, cov.btn.cols[cur_col]] > split.btn[cur_col]
           cond2 <-
-            as.numeric(as.character(cross2[, cov.btn.cols[cur_col]])) <= split.btn[cur_col]
+            cross2[, cov.btn.cols[cur_col]] <= split.btn[cur_col]
           subset1 <- subset(cross2, cond1)
           subset2 <- subset(cross2, cond2)
+        } else if (cov.type[cur_col] == .SCALE_METRIC) {
+          cond1 <-
+            cross2[, cov.btn.cols[cur_col]] >= split.btn[cur_col]
+          cond2 <-
+            cross2[, cov.btn.cols[cur_col]] < split.btn[cur_col]
+          subset1 <- subset(cross2, cond1)
+          subset2 <- subset(cross2, cond2)          
         }
         
         # refit baseline model with focus parameters @TAGX
@@ -619,7 +624,7 @@ fairSplit <-
         
         #ordered factors#########################################
         if (is.ordered(mydata[, cur_col])) {
-          var.type = 2
+          var.type = .SCALE_ORDINAL
           v <- as.numeric(as.character(mydata[, cur_col]))
           val.sets <- sort(union(v, v))
           if (length(val.sets) > 1) {

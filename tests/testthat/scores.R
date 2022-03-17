@@ -2,7 +2,7 @@ require("semtree")
 data(lgcm)
 
 lgcm$agegroup <- ordered(lgcm$agegroup)
-lgcm$training <- as.factor(lgcm$training)
+lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
 
 # LOAD IN OPENMX MODEL.
@@ -76,3 +76,10 @@ ctrl <- semtree.control(method = "score")
 # RUN TREE.
 
 tree <- semtree(model=lgcModel, data=lgcm, control = ctrl)
+
+plot(tree)
+
+test_that("tree is valid", {
+expect_equal(class(tree),"semtree")
+  expect_equal(getDepth(tree),3)
+})
