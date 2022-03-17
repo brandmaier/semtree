@@ -174,7 +174,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   # Call naiveSplit to get cutpoints for categorical covariates with more than two levels
   if (p.max < 1) {
-    if (type.max == 1 & nlevels(mydata[, col.max]) > 2) {
+    if (type.max == .SCALE_CATEGORICAL & nlevels(mydata[, col.max]) > 2) {
       if (control$sem.prog == 'OpenMx') {
         mydata <- mydata[, c(fit$manifestVars, name.max)]
       }
