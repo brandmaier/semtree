@@ -2,8 +2,8 @@ set.seed(789)
 require("semtree")
 data(lgcm)
 
-lgcm$agegroup <- as.ordered(lgcm$agegroup)
-lgcm$training <- as.factor(lgcm$training)
+lgcm$agegroup <- ordered(lgcm$agegroup)
+lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
 
 # LOAD IN OPENMX MODEL.

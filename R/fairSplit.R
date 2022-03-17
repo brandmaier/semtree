@@ -329,7 +329,7 @@ fairSplit <-
     # Phase II - select between variables using their best split
     #     use cross validation fold 2 for evaluation
     #
-    cat("PHASE II")
+    #cat("PHASE II")
 
     if (control$report.level > 2) {
       report("Phase II - Select between variables", 1)

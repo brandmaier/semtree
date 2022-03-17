@@ -104,6 +104,7 @@ naiveSplit <-
               test2 <- data.frame(test2, test1)
             }
             test2 <- test2[, -1]
+           
             for (i in 1:(result$num_sets)) {
               LL.temp <- c()
               #subset data for chosen value and store LL
@@ -134,7 +135,7 @@ naiveSplit <-
                   )
                 }
               }
-              
+              #browser()
               LL.return <-
                 fitSubmodels(model, subset1, subset2, control, invariance = NULL)
               if (!is.na(LL.return)) {
@@ -278,6 +279,8 @@ naiveSplit <-
         invarianceFilter(model, mydata, btn.matrix, LL.baseline, invariance, control)
     }
     
+    # find best
+    
     LL.max <- NA
     split.max <- NA
     name.max <- NA
@@ -320,6 +323,14 @@ naiveSplit <-
           }
         }
       }
+    }
+    
+    if (control$verbose & control$report.level==99) {
+      
+      cat("LL.within:",paste0(LL.within,collapse=","),"\n")
+      cat("LL.max: ", paste0(LL.max,collapse=","),"\n")
+      cat("within.split: ",paste0(within.split,collapse=","),"\n" )
+      cat("split max",split.max,"\n")
     }
     
     # alternative way of counting the number of comparisons

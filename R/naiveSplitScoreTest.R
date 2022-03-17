@@ -82,17 +82,17 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       if (!is.factor(covariate_sorted)) {
         level <- "metric"
         test <- control$score.tests["metric"][[1]]  # default: supLM
-        cur.type <- 2
+        cur.type <- .SCALE_METRIC
       } else {
         cov_levels <- nlevels(x = covariate_sorted)
         if (is.ordered(covariate_sorted)) {
           level <- "ordinal"
           test <- control$score.tests["ordinal"][[1]] # default: "maxLMo"
-          cur.type <- 2
+          cur.type <- .SCALE_ORDINAL
         } else {
           level <- "nominal"
           test <- control$score.tests["nominal"][[1]] # default: "LM" 
-          cur.type <- 1
+          cur.type <- .SCALE_CATEGORICAL
         }
       }
       
@@ -122,7 +122,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         
         
         # check if cutpoint is too close to the border
-        if (!(cur.type == 1 & nlevels(covariate_sorted) > 2)) { # do not use with categorical covariates with more than two levels
+        if (!(cur.type == .SCALE_CATEGORICAL & nlevels(covariate_sorted) > 2)) { # do not use with categorical covariates with more than two levels
           test.result <- checkBinSize(test.result = test.result,
                                       control = control,
                                       level = level,

@@ -382,14 +382,18 @@ growTree <- function(model=NULL, mydata=NULL,
       # the best column in the matrix that represents all subsets
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
+     # browser()
       result$split.max <- as.integer(result$split.max)
 
       #named <- colnames(result1$columns)[result$split.max]
 #      node$caption <- paste(colnames(result1$columns)[result$split.max])
+      best_subset_col_id = result$split.max
+      best_values = result1$expressions[ (best_subset_col_id-1)*3 +1]$value
+      
       node$rule = list(variable=result$col.max, relation="%in%", 
-                       value=c(result1$values), 
+                       value=best_values, 
                        name = result$name.max)
-      node$caption <- paste(result$name.max, " in [", paste0(result1$values,
+      node$caption <- paste(result$name.max, " in [", paste0(best_values,
                                                            collapse=" ")," ]")
       
       if(result1$num_sets==1) {
