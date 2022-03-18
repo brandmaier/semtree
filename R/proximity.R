@@ -6,6 +6,7 @@
 #' data, reflecting the proportion of times two cases ended up in the same
 #' terminal node of a tree.
 #' @param x An object for which a method exists.
+#' @param data A data.frame on which proximity is computed
 #' @param ... Parameters passed to other functions.
 #' @return A matrix with dimensions [i, j] whose elements reflect the proportion
 #' of times case i and j were in the same terminal node of a tree. 

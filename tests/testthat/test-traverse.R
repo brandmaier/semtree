@@ -32,9 +32,9 @@ test_that("traversal works correctly", { expect_equal(node_ids[1:10], node_ids_c
 
 #
 # further test for categorical variables
-set.seed(343)
+set.seed(3433)
 pred3 <- factor(sample(c("red","green","blue","yellow"), N, replace=TRUE))
-y2 <- ifelse(pred3=="red" | pred3=="yellow",0.1*y+0.9*x,x)
+y2 <- ifelse(pred3=="red" | pred3=="yellow",0.2*y+0.8*x,0.8*y+0.2*x)
 
 model <- "x~~y; x~~x;y~~y"
 
@@ -46,12 +46,12 @@ plot(tree)
 
 node_ids = semtree:::traverse(tree, df)
 
-node_ids_correct_top10 <- c(3,2,3,3,2,2,2,3,3,3)
+node_ids_correct_top10 <- c(2,2,3,2,2,2,2,2,3,2)
 
 test_that("traversal works correctly", { expect_equal(node_ids[1:10],
                                                       node_ids_correct_top10)})
 
-test_that("rule is correct", {expect_equal(tree$caption,"pred3 in [ blue green red ]")})
+test_that("rule is correct", {expect_equal(as.character(tree$rule$value),c("blue","green"))})
 
 # more tests for stripped traversal
 
