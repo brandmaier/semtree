@@ -1,5 +1,4 @@
-#' @exportS3Method plot partialDependence
-plot.partialDependence <-
+plot_partialDependence <-
   function(x,
            parameter = NULL,
            type = "l",

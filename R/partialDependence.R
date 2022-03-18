@@ -58,15 +58,14 @@ partialDependence.semforest_stripped <- function(x, data, reference.var, support
   preds <- data.table::data.table(predict(x, data = mp, type = "pars"))
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
   mp <- cbind(mp, preds)
-  #mp[, (colnames(preds)) := preds]
   
   # Use median or quantile
   pd_samples <- mp[, do.call("c", lapply(.SD, function(thiscol){
     as.list(do.call(FUN, c(list(thiscol), list(...))))
   })), by = reference.var, .SDcol = attr(x, "parameters")]
   
-  ret <- list(samples=pd_samples, reference.var = reference.var, support = support, points = points, FUN = FUN)
-  class(ret) <- "partialDependence"
+  ret <- list(samples=pd_samples, reference.var = reference.var, support = support, points = points, FUN = FUN, type = "pd")
+  class(ret) <- c("partialDependence", class(ret))
   return(ret)
 }
 
@@ -112,8 +111,6 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
   preds <- predict(x, data = mp, type = "pars", parameters = parameters)
   preds <- data.table(t(apply(preds, 1, .trajectory, L = times)))
   mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
-  #mp[, (colnames(preds)) := preds]
-  #mp[,names(mp)[-which(names(mp) %in% c(reference.var, colnames(preds)))]:=NULL]
   mp <- cbind(mp, preds)
   # Use median or quantile
   out <- mp[, do.call("c", lapply(.SD, function(thiscol){
@@ -124,8 +121,11 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
        variable.name = "Time")
   Time <- NA # TODO this is a wild hack to fix the CRAN check issue of "Time" 
   # not being defined - is there a better way to fix, Caspar? 
+  # CJ: This is fine!
   out[, "Time" := as.integer(as.factor(Time))]
-  out
+  ret <- list(samples=out, reference.var = reference.var, support = support, points = points, FUN = FUN, type = "growth")
+  class(ret) <- c("partialDependence", class(ret))
+  return(ret)
 }
 
 #' Create dataset to compute partial dependence
@@ -231,3 +231,16 @@ seq_unif.factor <- function(x, length.out) {
 }
 
 seq_unif.logical <- seq_unif.factor
+
+
+
+# Plot methods ------------------------------------------------------------
+
+#' @method plot partialDependence
+#' @export
+plot.partialDependence <- function(x, y, ...){
+  switch(x$type, 
+         "growth" = plot_growth(x$samples, ...),
+         plot_partialDependence(x = x, ...)
+         )
+}

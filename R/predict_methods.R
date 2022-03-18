@@ -132,7 +132,9 @@ predict_pars.semforest_stripped <-
     
     
     setnames(out, names(out), attr(forest, "parameters"))
-    if (!is.null(parameters))
-      out <- out[, parameters, drop = FALSE]
-    out
+    if (!is.null(parameters)){
+      out[, ..parameters]
+    } else {
+      out
+    }
   }
