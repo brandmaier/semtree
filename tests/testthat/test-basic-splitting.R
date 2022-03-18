@@ -1,4 +1,4 @@
-context("test basic splitting based on level of covariate")
+#context("test basic splitting based on level of covariate")
 
 library(lavaan)
 # skip long running tests on CRAN
@@ -55,10 +55,10 @@ x <- x * ifelse( (var_ordered <= 2), .5, 10)
 df <- data.frame(x, var_ordered)
 model = "x ~~ x"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(verbose=TRUE,report.level = 99))
+tree = semtree(fitted_model, df, control=semtree.control(max.depth=3))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 2", { expect_equal(getDepth(tree),2) })
+test_that("tree depth is 3", { expect_equal(getDepth(tree),3) })
 test_that("split is optimal", { expect_equal(tree$caption, "var_ordered > 2")})
 
 # testing numeric

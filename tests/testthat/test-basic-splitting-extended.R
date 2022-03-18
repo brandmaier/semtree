@@ -1,7 +1,8 @@
-context("test splitting under various circumstances")
 
 # skip long running tests on CRAN
 skip_on_cran()
+
+library(lavaan)
 
 #
 # test basic splitting
@@ -35,10 +36,12 @@ model = "x ~~ x"
 fitted_model <- lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree.control())
 test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
-test_that(getDepth(tree)==1)
+test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
+
 tree = semtree(fitted_model, df, control=semtree.control(method="score"))
-test_that(class(tree)=="semtree")
-test_that(getDepth(tree)==1)
+test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
+test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
+
 
 # just a single observed value in an unordered factor, that is,
 # no split is possible, should return only root
@@ -57,5 +60,5 @@ var_ordered_NA[c(1,2,3,4,100,101,200,202,204,303)]<-NA
 var_unordered_NA <- var_ordered
 var_unordered_NA[c(1,2,3,4,100,101,200,202,204,303,420,421,422)]<-NA
 df <- data.frame(x, var_numeric_NA, var_ordered_NA, var_unordered_NA)
-tree = semtree(fitted_model, df, control=semtree.control())
+tree = semtree(fitted_model, df, control=semtree.control(max.depth=3))
 test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})

@@ -15,6 +15,7 @@
 #' @importFrom bitops bitAnd
 #' @import rpart
 #' @importFrom methods hasArg
+#' @importFrom data.table data.table
 NULL
 
 .SCALE_METRIC = 2

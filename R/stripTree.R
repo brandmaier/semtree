@@ -31,7 +31,7 @@ strip <- function(x, parameters = NULL) {
 #' @export
 strip.semtree <- function(x, parameters = NULL) {
   if (inherits(x$model, "lavaan")) {
-    sums <- parTable(x$model)
+    sums <- lavaan::parameterTable(x$model)
     parlab <- do.call(paste0, sums[2:4])
     parlab[which(!sums$label == "")] <-
       sums$label[which(!sums$label == "")]
@@ -62,7 +62,7 @@ strip.semtree <- function(x, parameters = NULL) {
 #' @export
 strip.semforest <- function(x, parameters = NULL) {
   if (inherits(x$model, "lavaan")) {
-    sums <- parTable(x$model)
+    sums <- lavaan::parameterTable(x$model)
     parlab <- do.call(paste0, sums[2:4])
     parlab[which(!sums$label == "")] <-
       sums$label[which(!sums$label == "")]
@@ -98,7 +98,7 @@ strip_lav <- function(x, parameters = NULL) {
 
 strip_lav <- function(x, parameters = NULL) {
   if (x$caption == "TERMINAL") {
-    sums <- parameterTable(x$model)
+    sums <- lavaan::parameterTable(x$model)
     return(list(parameters = sums$est[match(parameters, sums$plabel)],
                 node_id = x$node_id))
   } else {

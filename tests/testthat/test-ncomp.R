@@ -1,4 +1,4 @@
-context("number of comparisons")
+#context("number of comparisons")
 
 # skip long running tests on CRAN
 skip_on_cran()

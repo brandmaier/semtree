@@ -2,6 +2,7 @@
 README.Rmd
 README.md
 CONTRIBUTORS.md
+CONTRIBUTE.md
 Makefile
 ^.*\.Rproj$
 ^\.Rproj\.user$

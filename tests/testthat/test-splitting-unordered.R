@@ -1,4 +1,4 @@
-context("Testing unordered variable splits")
+#context("Testing unordered variable splits")
 
 skip_on_cran()
 

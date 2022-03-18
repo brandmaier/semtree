@@ -122,6 +122,8 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
   out <- melt(out, id.vars = reference.var,
        measure.vars = names(out)[!names(out) %in% reference.var],
        variable.name = "Time")
+  Time <- NA # TODO this is a wild hack to fix the CRAN check issue of "Time" 
+  # not being defined - is there a better way to fix, Caspar? 
   out[, "Time" := as.integer(as.factor(Time))]
   out
 }

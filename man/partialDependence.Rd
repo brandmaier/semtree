@@ -49,5 +49,5 @@ Compute the partial dependence of a predictor, or set of predictors,
 on a model parameter.
 }
 \author{
-Caspar J. Van Lissa, , Andreas Brandmaier
+Caspar J. Van Lissa, , Andreas M. Brandmaier
 }

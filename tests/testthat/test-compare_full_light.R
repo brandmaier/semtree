@@ -1,8 +1,8 @@
 # DEMO FOR SEMTREE
 require("semtree")
 require("lavaan")
-require("future")
-plan(sequential)
+#require("future")
+#plan(sequential)
 data(lgcm)
 
 lgcm$agegroup <- ordered(lgcm$agegroup)
@@ -42,5 +42,5 @@ test_that("partialDependence works for interactions", {
   
   expect_error({partialDependence3 <- partialDependence(stripped_forest, lgcm, reference.var = c("agegroup", "training"), mc = 10)}, NA)
   partialDependence3 <- partialDependence(stripped_forest, lgcm, reference.var = c("agegroup", "training"), mc = 10)
-  expect_true(nrow(partialDependence3) == 4)
+  expect_true(nrow(partialDependence3$samples) == 4)
 })

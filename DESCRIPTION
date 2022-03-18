@@ -28,7 +28,8 @@ Imports:
     zoo,
     crayon,
     clisymbols,
-    future.apply
+    future.apply,
+    data.table
 Suggests:
     knitr,
     rmarkdown,
@@ -50,6 +51,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.17
-Date: 2021-07-27
+Date: 2022-03-18
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr

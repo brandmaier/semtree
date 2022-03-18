@@ -1,4 +1,4 @@
-context("Test equivalence of lavaan and OpenMx results in a simple model")
+#context("Test equivalence of lavaan and OpenMx results in a simple model")
 
 skip_on_cran()
 

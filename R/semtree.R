@@ -92,10 +92,10 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   # obtain dots arguments and test for deprecated use of arguments
   arguments <- list(...)
   if ("global.constraints" %in% names(arguments)) {
-    stop("Deprecated use of 'global.constraints'. Please use constraints object")
+    stop("Deprecated use of argument 'global.constraints'. Please use constraints object")
   }
   if ("invariance" %in% names(arguments)) {
-    stop("Deprecated use of 'invariance'. Please use constraints object with property 'local.invariance'")
+    stop("Deprecated use of argument 'invariance'. Please use constraints object with property 'local.invariance'")
   }
   
   if (is.null(constraints)) {
@@ -110,7 +110,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       #report(paste("Setting arguments to ",paste(arguments$covariates)),1)
       covariates <- arguments$covariates
     } else {
-      stop("Cannot have predictors and covariates in SEM Tree model.")
+      stop("Cannot have both arguments 'predictors' and 'covariates' in SEM Tree model.")
     }
   }
   

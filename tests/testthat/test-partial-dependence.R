@@ -1,4 +1,4 @@
-context("test partial dependence")
+#context("test partial dependence")
 
 library(lavaan)
 
@@ -14,7 +14,7 @@ set.seed(325)
 N <- 200
 pred1 <- factor(sample(c("red","green","blue"),N,replace=TRUE))
 pred2 <- ordered(sample(c(0,1,2),N,replace=TRUE))
-pred3 <- numeric(sample(1:20,N,replace=TRUE))
+pred3 <- as.numeric(sample(1:20,size = N,replace=TRUE))
 
 x <- rnorm(N)+ifelse(pred2=="1",10,0)
 x <- x + pred3/10
