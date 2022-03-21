@@ -131,7 +131,17 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   
   if (control$method=="cv") {
-    warning("*****************\n* The use of method 'cv' is deprecated and discouraged\n***************+")
+    ui_error("This method ceased to exist. Please see modern score-based tests.")
+  }
+  
+  # check whether data is complete for score-tests
+  # this probably should be a more fine-grained check some day
+  # that tests only model variables and selected predictors
+  if (control$method == "score") {
+    check_complete = all(complete.cases(data))
+    if (!check_complete)
+      ui_stop("If score tests are used, data must not contain N/A in either the
+           predictors or model variables.")
   }
   
   # check for correct model entry
@@ -222,6 +232,15 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       model.ids <- simplify2array( as.vector(modid, mode="integer") )
     }
     
+    # check whether character columns are given as predictors
+    for (i in covariate.ids) {
+      if (!is.factor(dataset[,i]) && !is.numeric(dataset[,i])) {
+        # this column is neither numeric or a factor, thus cannot be handled
+        # probably a vector of strings
+        ui_stop("Predictor '", colnames(dataset)[i],"' is neither a factor nor numeric. This is likely causing trouble. Please remove or specify as factor or ordered.")
+      }
+    }
+    
  
     # for score tests, model needs to run once
     if (control$sem.prog == 'OpenMx' && control$method == "score") {
@@ -240,6 +259,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
                    list(scores_info = OpenMx_scores_input(x = model,
                                                           control = control)))
     } 
+    
+
     
   }
   
