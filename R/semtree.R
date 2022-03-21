@@ -241,6 +241,19 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       }
     }
     
+    # check whether numeric covariates have more than 9 observed values
+    # if score-tests are used, otherwise score statistics can become
+    # unstable
+    if (control$method=="score") {
+    for (i in covariate.ids) {
+      if (!is.factor(dataset[,i]) && is.numeric(dataset[,i])) {
+        # this column is numeric, should have more than 9 unique values!
+        check_9levels = length(unique(dataset[,i]))>9
+        if (!check_9levels)
+          ui_warn("Predictor '", colnames(dataset)[i],"' has 9 or fewer unique values. Consider coding as ordinal to avoid instability with score-based tests.")
+      }
+    }
+    }
  
     # for score tests, model needs to run once
     if (control$sem.prog == 'OpenMx' && control$method == "score") {

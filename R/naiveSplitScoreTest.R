@@ -140,6 +140,16 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         test.result$cutpoint <- NA
       }
       
+      # sanity check
+      # added by AB; if we cannot determine a cutpoint, we need
+      # to remove the entire predictor because we will no be able
+      # to split
+      missing_cutpoint = (hasName(test.result,"cutpoint") &&  (is.na(test.result$cutpoint))) || !hasName(test.result,"cutpoint")
+      if (missing_cutpoint) {
+       test.result$p.value <- 1
+       test.result$statistic <- 0
+      }
+      
       # Standardise output
       ts <- test.result$statistic
       pval <- test.result$p.value
@@ -168,6 +178,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       }
     }
   }
+  
   
   #######################
   # main loop ends here #
