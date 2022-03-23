@@ -196,26 +196,12 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
     }
   }
   
-  # sanity check
-  # added by AB; if we cannot determine a cutpoint, we need
-  # to remove the entire predictor because we will no be able
-  # to split
-  #missing_cutpoint = TRUE
-  #if (hasName(test.result, "cutpoint"))
-  #{
-  #  if (!is.null(test.result$cutpoint)) {
-  #    if (!is.na(test.result$cutpoint)) {
-  #      ui_warn("NA at cutpoin")
-  #      missing_cutpoint = FALSE
-  #    }
-  #  }
-  #}
-  #if (missing_cutpoint) {
-  #  test.result$p.value <- 1
-  #  test.result$statistic <- 0
-  #}
-  # ----------
-  if (is.na(split.max)) {p.max=1; LL.max=0 }
+
+  if ((is.null(split.max)) || (is.na(split.max))) {
+    if (control$report.level >= 50) cat("Split.max is null or NA!\n")
+    p.max=1 
+    LL.max=0 
+  }
   
   n.comp <- length(cmp.column.ids)
   
