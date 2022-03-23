@@ -336,7 +336,7 @@ growTree <- function(model=NULL, mydata=NULL,
   if (control$mtry > 0) {
     
     # also need to remap col.max to original data!
-    if (!is.null(result$col.max)) {
+    if (!is.null(result$col.max) && !is.na(result$col.max)) {
       col.max.name <- names(mydata)[result$col.max]
       result$col.max <- which(names(fulldata)==col.max.name)
     } else {

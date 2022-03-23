@@ -2,6 +2,8 @@
 
 skip_on_cran()
 
+library(lavaan)
+library(semtree)
 set.seed(2345)
 
 n = 200
@@ -29,6 +31,9 @@ plot(tree_fair)
 
 test_that("first split is identical across methods and correct",
           {
+            expect_true(getDepth(tree_score)==2)
+            expect_true(getDepth(tree_fair)==2)
+            expect_true(getDepth(tree_naive)==2)
             expect_true(all(tree_fair$rule$value== tree_naive$rule$value))
             expect_true(all(tree_fair$rule$value== tree_score$rule$value))
             expect_true(tree_naive$rule$value=="green")

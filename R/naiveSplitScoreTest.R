@@ -96,6 +96,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         }
       }
       
+    
+      
       # get test statstic object
       functional <- switch(test, dm = strucchange::maxBB,
                            cvm = strucchange::meanL2BB, 
@@ -140,15 +142,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         test.result$cutpoint <- NA
       }
       
-      # sanity check
-      # added by AB; if we cannot determine a cutpoint, we need
-      # to remove the entire predictor because we will no be able
-      # to split
-      missing_cutpoint = (hasName(test.result,"cutpoint") &&  (is.na(test.result$cutpoint))) || !hasName(test.result,"cutpoint")
-      if (missing_cutpoint) {
-       test.result$p.value <- 1
-       test.result$statistic <- 0
-      }
+
       
       # Standardise output
       ts <- test.result$statistic
@@ -201,6 +195,27 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       btn.matrix <- test.results$btn.matrix
     }
   }
+  
+  # sanity check
+  # added by AB; if we cannot determine a cutpoint, we need
+  # to remove the entire predictor because we will no be able
+  # to split
+  #missing_cutpoint = TRUE
+  #if (hasName(test.result, "cutpoint"))
+  #{
+  #  if (!is.null(test.result$cutpoint)) {
+  #    if (!is.na(test.result$cutpoint)) {
+  #      ui_warn("NA at cutpoin")
+  #      missing_cutpoint = FALSE
+  #    }
+  #  }
+  #}
+  #if (missing_cutpoint) {
+  #  test.result$p.value <- 1
+  #  test.result$statistic <- 0
+  #}
+  # ----------
+  if (is.na(split.max)) {p.max=1; LL.max=0 }
   
   n.comp <- length(cmp.column.ids)
   

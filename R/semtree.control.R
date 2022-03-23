@@ -203,3 +203,7 @@ semtree.control <-
     
     return(options)
   }
+
+semtree_fast <- function() {
+  semtree.control(method="score", score.tests=list(nominal = 'LMuo', ordinal = 'WDM', metric = 'DM') )
+}
