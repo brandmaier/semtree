@@ -119,9 +119,8 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
   out <- melt(out, id.vars = reference.var,
        measure.vars = names(out)[!names(out) %in% reference.var],
        variable.name = "Time")
-  Time <- NA # TODO this is a wild hack to fix the CRAN check issue of "Time" 
-  # not being defined - is there a better way to fix, Caspar? 
-  # CJ: This is fine!
+  Time <- NA # TODO this is a hack to fix the CRAN check issue of "Time" 
+  # not being defined
   out[, "Time" := as.integer(as.factor(Time))]
   ret <- list(samples=out, reference.var = reference.var, support = support, points = points, FUN = FUN, type = "growth")
   class(ret) <- c("partialDependence", class(ret))
@@ -152,7 +151,8 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
 #' computationally expensive.
 #' @author Caspar J. Van Lissa
 #' @export
-partialDependence_data <- function(data, reference.var, support = 20, points = NULL, mc = NULL) {
+partialDependence_data <- function(data, reference.var, support = 20, 
+                                   points = NULL, mc = NULL, keep_id = FALSE) {
   if(is.null(points)){
     points <- sapply(reference.var, function(x) {
       seq_unif(data[[x]], length.out = support)
@@ -181,7 +181,12 @@ partialDependence_data <- function(data, reference.var, support = 20, points = N
   out = merge(int.points,
               points,
               all = TRUE,
-              allow.cartesian = TRUE)[,!"id", with = FALSE]
+              allow.cartesian = TRUE)
+  
+  if (!keep_id) {
+    out = out[,!"id", with = FALSE]
+  }
+  
   setcolorder(out, names(data))
   out
 }
