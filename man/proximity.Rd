@@ -9,6 +9,8 @@ proximity(x, data, ...)
 \arguments{
 \item{x}{An object for which a method exists.}
 
+\item{data}{A data.frame on which proximity is computed}
+
 \item{...}{Parameters passed to other functions.}
 }
 \value{

@@ -9,7 +9,8 @@ partialDependence_data(
   reference.var,
   support = 20,
   points = NULL,
-  mc = NULL
+  mc = NULL,
+  keep_id = FALSE
 )
 }
 \arguments{
@@ -30,7 +31,9 @@ variables named in \code{reference.var}.}
 dependence values; for example, the mean and +/- 1SD of \code{reference.var}.}
 
 \item{mc}{Integer. If \code{mc} is not \code{NULL}, the function will sample
-\code{mc} number of rows from \code{data} with replacement, to estimate 
+\code{mc} number of rows from \code{data} with replacement, to estimate}
+
+\item{keep_id}{Boolean. Default is false. Should output contain a row id column?
 marginal dependency using Monte Carlo integration. This is less
 computationally expensive.}
 }

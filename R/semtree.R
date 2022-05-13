@@ -131,14 +131,14 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   }
   
   if (control$method=="cv") {
-    ui_error("This method ceased to exist. Please see modern score-based tests.")
+    ui_stop("This method ceased to exist. Please see modern score-based tests.")
   }
   
   # check whether data is complete for score-tests
   # this probably should be a more fine-grained check some day
   # that tests only model variables and selected predictors
   if (control$method == "score") {
-    check_complete = all(complete.cases(data))
+    check_complete = all(stats::complete.cases(data))
     if (!check_complete)
       ui_stop("If score tests are used, data must not contain N/A in either the
            predictors or model variables.")

@@ -133,6 +133,7 @@ predict_pars.semforest_stripped <-
     
     setnames(out, names(out), attr(forest, "parameters"))
     if (!is.null(parameters)){
+      ..parameters <- parameters # trick to avoid strict CRAN error
       out[, ..parameters]
     } else {
       out

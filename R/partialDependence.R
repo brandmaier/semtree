@@ -147,6 +147,7 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
 #' dependence values; for example, the mean and +/- 1SD of \code{reference.var}.
 #' @param mc Integer. If \code{mc} is not \code{NULL}, the function will sample
 #' \code{mc} number of rows from \code{data} with replacement, to estimate 
+#' @param keep_id Boolean. Default is false. Should output contain a row id column?
 #' marginal dependency using Monte Carlo integration. This is less
 #' computationally expensive.
 #' @author Caspar J. Van Lissa

@@ -1,4 +1,4 @@
-# semtree 0.9.17 (2022; ongoing)
+# semtree 0.9.18 (2022)
 
 - happily welcoming Caspar van Lissa to the developer team
 - more efficient implementation of partial dependence and proximity

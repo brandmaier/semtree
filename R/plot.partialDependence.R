@@ -71,7 +71,7 @@ plot_partialDependence <-
       }
       
       if (is_fac2) {
-        gp <- gp + facet_wrap(x$reference.var[2])
+        gp <- gp + ggplot2::facet_wrap(x$reference.var[2])
       } else {
         ui_stop("Plots are currently only supported if at least one reference variable is a factor.")
       }
