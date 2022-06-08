@@ -6,6 +6,11 @@ nacumsum <- function(x) {
 	return(cumsum(x))
 }
 
+nacummedian  <- function(x) {
+  x[is.na(x)] <- 0
+  sapply(1:length(x), function(xx){median(x[1:xx])})
+}
+
 plot.varimpConvergence <- function( vim, lty=NULL, idx=NULL, 
                                      legend.x="topright", clw=4, 
                                      legend.cex=1.5,ylim=NULL,

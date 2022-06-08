@@ -14,7 +14,9 @@ varimpConvergencePlot <- function( x, lty=NULL, idx=NULL,
                                      xlim=NULL, xlab=NULL,
                                      ylab=NULL, legend.bg=NULL, 
                                      legend.bty="n", na.omit=FALSE,
-                                     extra.legend=NULL, ...) {
+                                     extra.legend=NULL, 
+                                     aggregate="mean",
+                                      ...) {
 
 vim <- x
 
@@ -24,7 +26,11 @@ if (!na.omit) {
   vim$importance[is.na(vim$importance)] <- 0
 }
 
-impsum <- apply(vim$importance, 2, nacumsum)
+if (aggregate == "mean") {
+  impsum <- apply(vim$importance, 2, nacumsum)
+} else {
+  impsum <- apply(vim$importance, 2, nacummedian)
+}
 
 M <- ncol(impsum)
 N <- nrow(impsum)
@@ -44,8 +50,11 @@ colors = grDevices::rainbow(M)
 
 pdata <- matrix(0, nrow=N, ncol=M)
 for (i in 1:M) {
-	norm <- cumsum(!is.na(vim$importance[,i]))
-	#norm <- 1:N
+  if (aggregate=="mean")
+  	norm <- cumsum(!is.na(vim$importance[,i]))
+  else
+    norm <- 1
+
 	pdata[,i] <- impsum[,i]/norm
 }
 

@@ -76,3 +76,6 @@ vimp <- varimp(fr)
 print(vimp)
 print(vimp, na.omit=TRUE)
 
+varimpConvergencePlot(vimp, aggregate="mean")
+varimpConvergencePlot(vimp, aggregate="median")
+
