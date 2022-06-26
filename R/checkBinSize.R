@@ -1,5 +1,5 @@
 checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
-                         sandwich., p.max, test) {
+                         sandwich., p.max, test, meta) {
       
       # sanity check
       if (is.na(test.result$left_n) || is.na(test.result$right_n)) {
@@ -48,6 +48,19 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
             fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
             fit@Options$missing, '\')', sep = "")))), silent = TRUE)
           Scores_up <- lavScores(fit_up)
+        }
+        ## 26.06.2022: Added code for ctsem models
+        # ctsem
+        if (control$sem.prog == 'ctsem') {
+          fit_up <- suppressMessages(try(
+            ctsemOMX::ctFit(dat = mydata_up[, -meta$covariate.ids],
+                            ctmodelobj = fit$ctmodelobj,
+                            dataform = "wide",
+                            stationary = "all",
+                            retryattempts = 20)
+          ))
+          fit_up$mxobj@name <- "BASE MODEL"
+          Scores_up <- ctsemScores(fit_up)
         }
         # Vcov
         if (identical(control$information.matrix, "info")) {
@@ -126,6 +139,19 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
               fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
               fit@Options$missing, '\')', sep = "")))), silent = TRUE)
             Scores_up <- lavScores(fit_up)
+          }
+          ## 26.06.2022: Added code for ctsem models
+          # ctsem
+          if (control$sem.prog == 'ctsem') {
+            fit_up <- suppressMessages(try(
+              ctsemOMX::ctFit(dat = mydata_up[, -meta$covariate.ids],
+                              ctmodelobj = fit$ctmodelobj,
+                              dataform = "wide",
+                              stationary = "all",
+                              retryattempts = 20)
+            ))
+            fit_up$mxobj@name <- "BASE MODEL"
+            Scores_up <- ctsemScores(fit_up)
           }
           # vcov
           if (identical(control$information.matrix, "info")) {
@@ -208,6 +234,19 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
             fit@Options$missing, '\')', sep = "")))), silent = TRUE)
           Scores_up <- lavScores(fit_up)
         }
+        ## 26.06.2022: Added code for ctsem models
+        # ctsem
+        if (control$sem.prog == 'ctsem') {
+          fit_up <- suppressMessages(try(
+            ctsemOMX::ctFit(dat = mydata_up[, -meta$covariate.ids],
+                            ctmodelobj = fit$ctmodelobj,
+                            dataform = "wide",
+                            stationary = "all",
+                            retryattempts = 20)
+          ))
+          fit_up$mxobj@name <- "BASE MODEL"
+          Scores_up <- ctsemScores(fit_up)
+        }
         # vcov
         if (identical(control$information.matrix, "info")) {
           vcov_up <- solve(vcov_semtree(fit_up) * n_up)
@@ -284,6 +323,19 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
               fit@Options$model.type, '(parTable(fit), data = mydata_up, missing = \'', 
               fit@Options$missing, '\')', sep = "")))), silent = TRUE)
             Scores_up <- lavScores(fit_up)
+          }
+          ## 26.06.2022: Added code for ctsem models
+          # ctsem
+          if (control$sem.prog == 'ctsem') {
+            fit_up <- suppressMessages(try(
+              ctsemOMX::ctFit(dat = mydata_up[, -meta$covariate.ids],
+                              ctmodelobj = fit$ctmodelobj,
+                              dataform = "wide",
+                              stationary = "all",
+                              retryattempts = 20)
+            ))
+            fit_up$mxobj@name <- "BASE MODEL"
+            Scores_up <- ctsemScores(fit_up)
           }
           # vcov
           if (identical(control$information.matrix, "info")) {

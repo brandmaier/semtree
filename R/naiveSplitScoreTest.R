@@ -25,6 +25,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   level_max <- NA
   test_max <- NA
   
+  
   ### fit model once to complete data and compute maximum likelihood scores
   # OpenMx
   if(control$sem.prog == 'OpenMx'){
@@ -41,6 +42,20 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
     ### Check for error and abort
     Scores <- lavScores(fit)
   }
+  ## 26.06.2022: Added code for ctsem models
+  # ctsem
+  if (control$sem.prog == 'ctsem') {
+    fit <- suppressMessages(try(
+      ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+                      ctmodelobj = model$ctmodelobj,
+                      dataform = "wide",
+                      stationary = "all",
+                      retryattempts = 20)
+    ))
+    fit$mxobj@name <- "BASE MODEL"
+    Scores <- ctsemScores(fit)
+  }
+  
   
   # Number of cases in the node
   n <- nobs(fit)
@@ -135,7 +150,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       fit = fit,
                                       sandwich. = sandwich.,
                                       p.max = p.max,
-                                      test = test)
+                                      test = test,
+                                      meta = meta)
           
         }
       } else {
