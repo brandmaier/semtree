@@ -1,5 +1,5 @@
 checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
-                         sandwich., p.max, test, meta) {
+                         sandwich., p.max, test) {
       
       # sanity check
       if (is.na(test.result$left_n) || is.na(test.result$right_n)) {
