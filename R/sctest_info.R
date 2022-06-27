@@ -75,19 +75,16 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     CSP <- CSP / sqrt(tt * (1 - tt))
     contrib <- apply(X = CSP, MARGIN = 2, FUN = max)
     max.cov <- which(CSP == max(contrib), arr.ind = TRUE)[1, 1]
-    #cutpoint <- mean(as.numeric(levels(covariate)[max.cov:(max.cov + 1)]))
-    cutpoint <- levels(covariate)[max.cov] # TODO: suggestion by AB; MA please check if this is correct
-    #left_n <- sum(as.numeric(levels(covariate))[covariate] < cutpoint)
-    #right_n <- sum(as.numeric(levels(covariate))[covariate] > cutpoint)
-    left_n <- sum(levels(covariate)[covariate] < cutpoint)
-    right_n <- sum(levels(covariate)[covariate] > cutpoint)
+    cutpoint <- levels(covariate)[max.cov]
+    left_n <- sum(covariate <= cutpoint)
+    right_n <- sum(covariate > covariate)
   }
   
   if (test == "maxlmo") {
-    covariate <- droplevels(covariate)
+    covariate <- droplevels(covariate) # drop unused levels
     CSP <- CSP[-1, , drop = FALSE]
     freq <- prop.table(table(covariate))
-    freq <- freq / sum(freq)
+    freq <- freq / sum(freq) # Is this redundant?
     ncat <- length(freq)
     tcat <- cumsum(freq[-ncat])
     n <- NROW(CSP)
@@ -102,8 +99,8 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
     contrib <- colSums(CSP2)
     max.cov <- which.max(rows)
     cutpoint <- levels(covariate)[max.cov]
-    left_n <- sum(as.numeric(levels(covariate)[covariate]) <= as.numeric(cutpoint))
-    right_n <- sum(as.numeric(levels(covariate)[covariate]) > as.numeric(cutpoint))
+    left_n <- sum(covariate <= cutpoint)
+    right_n <- sum(covariate > covariate)
   }
   
   # Nominal covariates
