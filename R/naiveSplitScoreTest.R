@@ -163,7 +163,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       ts <- test.result$statistic
       pval <- test.result$p.value
       splt <- test.result$cutpoint
-      contrib <- test.result$par.contrib
+      cur.par.contrib <- test.result$par.contrib
       
       if (pval < p.max) { # Use p values to compare covariates
         LL.max <- ts
@@ -172,7 +172,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         name.max <- cur.name
         type.max <- cur.type
         p.max <- pval
-        contrib.max <- contrib
+        par.contrib <- cur.par.contrib
         level_max <- NA # not used outside this function
         test_max <- NA # not used outside this function
       }
@@ -222,6 +222,6 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   return(list(LL.max = LL.max, split.max = split.max, name.max = name.max,
               col.max = col.max, type.max = type.max, n.comp = n.comp,
-              btn.matrix = btn.matrix, 
-              invariance.filter = NULL, p.max = p.max, contrib.max = contrib.max))
+              btn.matrix = btn.matrix, invariance.filter = NULL, p.max = p.max,
+              par.contrib = par.contrib))
 }
