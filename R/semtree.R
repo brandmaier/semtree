@@ -182,9 +182,14 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   ###########################################################
   if((control$sem.prog=='OpenMx') || (control$sem.prog=='ctsem')){
     
-    if ((control$sem.prog=='ctsem')) mxmodel <- model$mxobj
-    else
+    if ((control$sem.prog=='ctsem')) {
+      model$mxobj@manifestVars <- paste0(model$ctmodelobj$manifestNames, "_T", 
+                                     rep(0:(model$ctmodelobj$Tpoints - 1),
+                                         each = model$ctmodelobj$n.manifest))
+      mxmodel <- model$mxobj
+    } else {
       mxmodel <- model
+    }
     
     if(is.null(dataset)) {
       if (is.null(mxmodel@data)) {
@@ -202,7 +207,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
     
     # specify covariates from model columns
-    if (is.null(covariates)) {    
+    if (is.null(covariates)) {
       model.ids <- rep(NA, length(mxmodel@manifestVars))
       # find the ids in dataset
       for (i in 1:length(model.ids)) {
@@ -267,7 +272,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     # Prepare objects for fast score calculation
     ## Only for linear models (semtree$linear == TRUE) or for models with definition variables 
     # Note: model must be run - this is assured by previous code block that performs mxTryHard()
-    if (control$method == "score") {
+    if (control$method == "score" & control$sem.prog == 'OpenMx') {
       control <- c(control,
                    list(scores_info = OpenMx_scores_input(x = model,
                                                           control = control)))

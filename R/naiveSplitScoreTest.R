@@ -25,6 +25,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   level_max <- NA
   test_max <- NA
   
+  
   ### fit model once to complete data and compute maximum likelihood scores
   # OpenMx
   if(control$sem.prog == 'OpenMx'){
@@ -41,6 +42,20 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
     ### Check for error and abort
     Scores <- lavScores(fit)
   }
+  ## 26.06.2022: Added code for ctsem models
+  # ctsem
+  if (control$sem.prog == 'ctsem') {
+    fit <- suppressMessages(try(
+      ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+                      ctmodelobj = model$ctmodelobj,
+                      dataform = "wide",
+                      stationary = "all",
+                      retryattempts = 20)
+    ))
+    fit$mxobj@name <- "BASE MODEL"
+    Scores <- ctsemScores(fit)
+  }
+  
   
   # Number of cases in the node
   n <- nobs(fit)
@@ -148,7 +163,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       ts <- test.result$statistic
       pval <- test.result$p.value
       splt <- test.result$cutpoint
-      contrib <- test.result$par.contrib
+      cur.par.contrib <- test.result$par.contrib
       
       if (pval < p.max) { # Use p values to compare covariates
         LL.max <- ts
@@ -157,7 +172,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
         name.max <- cur.name
         type.max <- cur.type
         p.max <- pval
-        contrib.max <- contrib
+        par.contrib <- cur.par.contrib
         level_max <- NA # not used outside this function
         test_max <- NA # not used outside this function
       }
@@ -207,6 +222,6 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   
   return(list(LL.max = LL.max, split.max = split.max, name.max = name.max,
               col.max = col.max, type.max = type.max, n.comp = n.comp,
-              btn.matrix = btn.matrix, 
-              invariance.filter = NULL, p.max = p.max, contrib.max = contrib.max))
+              btn.matrix = btn.matrix, invariance.filter = NULL, p.max = p.max,
+              par.contrib = par.contrib))
 }

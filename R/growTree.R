@@ -15,7 +15,8 @@ growTree <- function(model=NULL, mydata=NULL,
                      control=NULL, invariance=NULL, meta=NULL,
                      edgelabel=NULL, depth=0, constraints=NULL, ...)
 {
-  if(is.null(mydata)) {
+ 
+   if(is.null(mydata)) {
     stop("There was no data for growing the tree")
   }
   
@@ -80,6 +81,18 @@ growTree <- function(model=NULL, mydata=NULL,
       parse(text=paste(model@Options$model.type,
                        '(parTable(model),data=mydata,missing=\'',
                        model@Options$missing,'\')',sep="")))),silent=T)
+  }
+  ## 26.06.2022: Added code for ctsem models
+  if(control$sem.prog == 'ctsem'){
+    full.model <- suppressMessages(try(
+      ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+                      ctmodelobj = model$ctmodelobj,
+                      dataform = "wide",
+                      stationary = "all",
+                      retryattempts = 20)
+    ))
+    full.model$mxobj@name <- "INITIALIZED MODEL"
+    node$model <- full.model
   }
   
   if (is(node$model,"try-error"))
@@ -149,6 +162,18 @@ growTree <- function(model=NULL, mydata=NULL,
     # list of point estimates, std.dev, and names of all freely estimated parameters
     node$params_sd <- se
     node$param_names <- names(lavaan::coef(node$model))
+  }
+  ###########################################################
+  ###               ctsemOMX USED HERE                    ###
+  ###########################################################
+  if(control$sem.prog == 'ctsem'){
+    
+    # list of point estimates, std.dev, and names of all freely estimated parameters
+    ctsem_summary <- summary(node$model) # this is very slow
+    node$params <- ctsem_summary$ctparameters[, "Value"]
+    names(node$params) <- rownames(ctsem_summary$ctparameters)
+    node$params_sd <- ctsem_summary$ctparameters[, "StdError"]
+    node$param_names <- rownames(ctsem_summary$ctparameters)
   }
   
   # df
