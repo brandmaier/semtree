@@ -29,7 +29,9 @@ Imports:
     crayon,
     clisymbols,
     future.apply,
-    data.table
+    data.table,
+    ctsemOMX,
+    expm
 Suggests:
     knitr,
     rmarkdown,

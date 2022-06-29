@@ -150,7 +150,8 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       fit = fit,
                                       sandwich. = sandwich.,
                                       p.max = p.max,
-                                      test = test)
+                                      test = test,
+                                      meta = meta)
           
         }
       } else {

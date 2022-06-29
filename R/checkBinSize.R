@@ -1,5 +1,5 @@
 checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
-                         sandwich., p.max, test) {
+                         sandwich., p.max, test, meta) {
   
   # Check sample size
   if (n < control$min.N) {

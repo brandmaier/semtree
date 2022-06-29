@@ -45,7 +45,7 @@ vcov_semtree.ctsemFit <- function(x, ...) {
     warning("Calculation of the Hessian might be imprecise.")
   }
   
-  OpenMx:::vcov.MxModel(fit_untransformed)
+  vcov(fit_untransformed)
   
 }
 
