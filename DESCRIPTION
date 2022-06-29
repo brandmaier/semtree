@@ -50,7 +50,7 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.18
+Version: 0.9.19
 Date: 2022-05-13
 RoxygenNote: 7.2.0
 VignetteBuilder: knitr
