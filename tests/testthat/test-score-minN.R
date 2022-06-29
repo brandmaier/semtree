@@ -4,6 +4,9 @@ data(lgcm)
 lgcm$agegroup <- ordered(lgcm$agegroup)
 lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
+lgcm$noise2 <- factor(sample(c(0,1,2),size=length(lgcm$agegroup),replace=TRUE))
+lgcm$noise3 <- factor(sample(c(0,1,2,3),size=length(lgcm$agegroup),replace=TRUE))
+lgcm$noise4 <- ordered(sample(c(0,1,2,3,4,5),size=length(lgcm$agegroup),replace=TRUE))
 
 # LOAD IN OPENMX MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
@@ -77,8 +80,9 @@ ctrl <- semtree.control(method = "score", verbose = TRUE)
 min.N = 30
 
 forest <- semforest(model=lgcModel, data=lgcm, control = 
-                      semforest.control(control=semtree.control(method="score",
-                                                                min.N = min.N)))
+                      semforest.control(num.trees = 20, control=semtree.control(method="score",
+                                                                min.N = min.N
+                                                                )))
 
 
 find_smallest_node <- function(tree) {
