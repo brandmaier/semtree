@@ -34,18 +34,17 @@ vcov_semtree.ctsemFit <- function(x, ...) {
                                        omxStartValues = coef.ctsemFit(x),
                                        transformedParams = FALSE)
   
-  fit_untransformed <-OpenMx::mxOption(fit_untransformed$mxobj,
-                                       "Optimality tolerance",
-                                       0.1)
+  fit_untransformed <- OpenMx::mxModel(
+    model = fit_untransformed$mxobj, 
+    OpenMx::mxComputeSequence(steps = list(
+      OpenMx::mxComputeNumericDeriv(checkGradient = FALSE,
+                                    hessian = TRUE,
+                                    analytic = FALSE)
+      )))
   
   fit_untransformed <- OpenMx::mxRun(model = fit_untransformed, silent = TRUE)
   
-  if (x$mxobj$output$Minus2LogLikelihood !=
-      fit_untransformed$output$Minus2LogLikelihood) {
-    warning("Calculation of the Hessian might be imprecise.")
-  }
-  
-  vcov(fit_untransformed)
+  2 * solve(fit_untransformed$output$calculatedHessian)
   
 }
 
