@@ -1,3 +1,8 @@
+# semtree 0.9.19 (2022)
+
+- bugfix in score-based tests that sometimes did not respect min.N constraints
+- new functionality for parameter contribution evaluation
+
 # semtree 0.9.18 (2022)
 
 - happily welcoming Caspar van Lissa to the developer team
