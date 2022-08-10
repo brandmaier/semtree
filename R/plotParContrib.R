@@ -26,10 +26,10 @@ plotParContrib <- function(tree) {
     }
   }
   
-  ggplot2::ggplot(df, ggplot2::aes(x = df$Node, df$Parameter)) +
-    ggplot2::geom_tile(ggplot2::aes(fill = df$Contribution)) +
+  ggplot2::ggplot(df, ggplot2::aes(x = Node, Parameter)) +
+    ggplot2::geom_tile(ggplot2::aes(fill = Contribution)) +
     ggplot2::scale_fill_gradient(low = "white", high = "red") +
-    ggplot2::geom_text(ggplot2::aes(label = round(df$Contribution, 3))) +
+    ggplot2::geom_text(ggplot2::aes(label = round(Contribution, 3))) +
     ggplot2::theme_bw()
   
 }
