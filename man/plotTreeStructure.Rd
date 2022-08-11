@@ -8,11 +8,18 @@ plotTreeStructure(tree, type = 2, no.plot = FALSE, ...)
 }
 \arguments{
 \item{tree}{a semtree object.}
+
+\item{type}{Type of plot. See \code{prp} from \pkg{rpart.plot}.}
+
+\item{no.plot}{logical value; if TRUE structure of the tree is printed to the
+console.}
+
+\item{...}{additional arguments passed to \code{prp} from \pkg{rpart.plot}.}
 }
 \description{
-Plots the the structure of a semtree object. This function is
-similar to the \code{plot.semtree}, but is does not print the parameter
-values in the leaf nodes and instead labels each node.
+Plots the structure of a semtree object. This function is
+similar to \code{plot.semtree}, but it does not print the parameter values in
+the leaf nodes and labels the leaf nodes instead.
 }
 \author{
 Manuel Arnold

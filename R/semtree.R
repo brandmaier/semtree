@@ -183,9 +183,15 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
   if((control$sem.prog=='OpenMx') || (control$sem.prog=='ctsem')){
     
     if ((control$sem.prog=='ctsem')) {
+      ## 11.08.2022: check data format. Currently, only wide format is supported.
+      if (all(is.na(match(paste0(model$ctmodelobj$manifestNames, "_T0"),
+                          colnames(dataset))))) {                                                                               
+        stop("Long format data detected. Data need to be in wide format.")
+      }    
+      
       model$mxobj@manifestVars <- paste0(model$ctmodelobj$manifestNames, "_T", 
-                                     rep(0:(model$ctmodelobj$Tpoints - 1),
-                                         each = model$ctmodelobj$n.manifest))
+                                         rep(0:(model$ctmodelobj$Tpoints - 1),
+                                             each = model$ctmodelobj$n.manifest))
       mxmodel <- model$mxobj
     } else {
       mxmodel <- model
@@ -261,10 +267,11 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
  
     # for score tests, model needs to run once
+    ## ctsem are already estimated once
     if (control$sem.prog == 'OpenMx' && control$method == "score") {
       if (!summary(model)$wasRun) {
         ui_message("Model was not run. Estimating parameters now.")
-        model <- OpenMx::mxTryHard(model)
+        model <- OpenMx::mxTryHard(model = model)
       }
     }
     

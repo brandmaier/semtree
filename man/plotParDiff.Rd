@@ -9,6 +9,7 @@ plotParDiff(
   plot = "ballon",
   measure = "raw",
   normalize = FALSE,
+  title = TRUE,
   structure = FALSE
 )
 }
@@ -26,6 +27,8 @@ parameters to the test statistic.}
 \item{normalize}{logical value; if TRUE parameter differences of each split
 are divided by sum of all differences the corresponding split. Set to FALSE
 by default.}
+
+\item{title}{logical value; if TRUE a title is added to the plot.}
 
 \item{structure}{logical value; if TRUE the structure of the tree is plotted
 on the right side.}

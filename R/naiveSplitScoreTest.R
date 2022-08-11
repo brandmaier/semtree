@@ -25,44 +25,49 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   level_max <- NA
   test_max <- NA
   
-  
+  ## 11.08.2022: removed re-estimation. This is already done in growTree
   ### fit model once to complete data and compute maximum likelihood scores
-  # OpenMx
-  if(control$sem.prog == 'OpenMx'){
-    fit <- mxAddNewModelData(model, mydata, name = "BASE MODEL")
-    fit <- try(OpenMx::mxRun(fit, silent = TRUE, suppressWarnings = TRUE), silent = TRUE)
-    ### Check for error and abort
-    Scores <- mxScores(fit, control = control)
-  }
-  # lavaan
-  if(control$sem.prog == 'lavaan'){
-    fit <- try(suppressWarnings(eval(parse(text = paste(
-      model@Options$model.type, '(parTable(model), data = mydata, missing = \'', 
-      model@Options$missing, '\')', sep = "")))), silent = TRUE)
-    ### Check for error and abort
-    Scores <- lavScores(fit)
-  }
-  ## 26.06.2022: Added code for ctsem models
-  # ctsem
-  if (control$sem.prog == 'ctsem') {
-    fit <- suppressMessages(try(
-      ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
-                      ctmodelobj = model$ctmodelobj,
-                      dataform = "wide",
-                      stationary = "all",
-                      retryattempts = 20)
-    ))
-    fit$mxobj@name <- "BASE MODEL"
-    Scores <- ctsemScores(fit)
-  }
+  # # OpenMx
+  # if(control$sem.prog == 'OpenMx'){
+  #   fit <- mxAddNewModelData(model, mydata, name = "BASE MODEL")
+  #   fit <- try(OpenMx::mxRun(fit, silent = TRUE, suppressWarnings = TRUE), silent = TRUE)
+  #   ### Check for error and abort
+  #   Scores <- mxScores(fit, control = control)
+  # }
+  # # lavaan
+  # if(control$sem.prog == 'lavaan'){
+  #   fit <- try(suppressWarnings(eval(parse(text = paste(
+  #     model@Options$model.type, '(parTable(model), data = mydata, missing = \'', 
+  #     model@Options$missing, '\')', sep = "")))), silent = TRUE)
+  #   ### Check for error and abort
+  #   Scores <- lavScores(fit)
+  # }
+  # ## 26.06.2022: Added code for ctsem models
+  # # ctsem
+  # if (control$sem.prog == 'ctsem') {
+  #   fit <- suppressMessages(try(
+  #     ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+  #                     ctmodelobj = model$ctmodelobj,
+  #                     dataform = "wide",
+  #                     stationary = "all",
+  #                     retryattempts = 20)
+  #   ))
+  #   fit$mxobj@name <- "BASE MODEL"
+  #   Scores <- ctsemScores(fit)
+  # }
   
+  # Compute scores
+  Scores <- switch(control$sem.prog,
+                   "OpenMx" = mxScores(model, control = control),
+                   "lavaan" = lavScores(model),
+                   "ctsem" = ctsemScores(model))
   
   # Number of cases in the node
-  n <- nobs(fit)
+  n <- nobs(model)
   
   # get covariance matrix of the model parameters
   if (identical(control$information.matrix, "info")) {
-    vcov. <- solve(vcov_semtree(fit) * n)
+    vcov. <- solve(vcov_semtree(model) * n)
     vcov. <- strucchange::root.matrix(vcov.)
     sandwich. <- FALSE
   } else {
@@ -89,7 +94,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       covariate_sorted <- covariate[index]
       
       # calculate cumulative score process
-      scus <- gefp_semtree(x = fit, order.by = covariate_sorted, vcov = vcov., 
+      scus <- gefp_semtree(x = model, order.by = covariate_sorted, vcov = vcov., 
                            scores = Scores_sorted, decorrelate = TRUE,
                            sandwich = sandwich., parm = constraints$focus.parameters)
       
@@ -147,7 +152,7 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                       covariate = covariate_sorted,
                                       n = n,
                                       mydata = mydata_sorted,
-                                      fit = fit,
+                                      fit = model,
                                       sandwich. = sandwich.,
                                       p.max = p.max,
                                       test = test,
@@ -198,10 +203,10 @@ naiveSplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
   if (p.max < 1) {
     if (type.max == .SCALE_CATEGORICAL & nlevels(mydata[, col.max]) > 2) {
       if (control$sem.prog == 'OpenMx') {
-        mydata <- mydata[, c(fit$manifestVars, name.max)]
+        mydata <- mydata[, c(model$manifestVars, name.max)]
       }
       if (control$sem.prog == 'lavaan') {
-        mydata <- mydata[, c(fit@pta$vnames$ov[[1]], name.max)]
+        mydata <- mydata[, c(model@pta$vnames$ov[[1]], name.max)]
       }
       meta$covariate.ids <- NCOL(mydata)
       meta$model.ids <- seq_len(meta$covariate.ids - 1)
