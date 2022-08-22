@@ -64,7 +64,7 @@ plotParDiff <- function(tree, plot = "ballon", measure = "raw",
   if (plot == "bar") {
     p <- ggplot2::ggplot(df, ggplot2::aes(fill = Parameter, y = Value,
                                           x = Node)) + 
-      geom_bar(position = "stack", stat = "identity") +
+      ggplot2::geom_bar(position = "stack", stat = "identity") +
       ggplot2::scale_fill_viridis_d() +
       ggplot2::guides(fill = ggplot2::guide_legend(switch(measure,
                                                           "raw" = "Difference",

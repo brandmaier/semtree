@@ -72,7 +72,8 @@ growTree <- function(model=NULL, mydata=NULL,
   node$edge_label <- edgelabel
   
   ## 11.08.2022: do not estimate model in root node (already estimated)
-  if (depth == 0) {
+  ## 15.08.2022: model will be estimated again if constraints are present
+  if (depth == 0 & length(constraints) == 0) {
     
     # OpenMx
     if(control$sem.prog == 'OpenMx'){
@@ -260,7 +261,7 @@ growTree <- function(model=NULL, mydata=NULL,
     
     
     
-    result <- naiveSplitScoreTest(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
+    result <- SplitScoreTest(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
     
     
     

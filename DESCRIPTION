@@ -31,7 +31,8 @@ Imports:
     future.apply,
     data.table,
     ctsemOMX,
-    expm
+    expm,
+    gridBase
 Suggests:
     knitr,
     rmarkdown,

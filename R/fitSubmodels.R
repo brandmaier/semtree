@@ -73,8 +73,24 @@ fitSubmodels <- function(model,
       } else {
         return(LL.sum)
       }
-    }
-    else {
+    } else if (control$sem.prog == 'ctsem') {
+        ###########################################################
+        ###               ctsemOMX USED HERE                    ###
+        ###########################################################
+      model1 <- try(ctsemOMX::ctFit(dat = subset1,
+                                    ctmodelobj = model$ctmodelobj,
+                                    dataform = "wide",
+                                    retryattempts = 20), silent = TRUE)
+      if (is(model1,"try-error")) {return(NA)}
+      model2 <- try(ctsemOMX::ctFit(dat = subset2,
+                                    ctmodelobj = model$ctmodelobj,
+                                    dataform = "wide",
+                                    retryattempts = 20), silent = TRUE)
+      if (is(model2,"try-error")) {return(NA)}
+      fit1 <- minus2logLik_from_fitted_models(model1)
+      fit2 <- minus2logLik_from_fitted_models(model1)
+      LL.sum <- fit1 + fit2
+      } else {
       
       # check subgroups for empty columns in modeled variables...
       modelcheck <- unlist(model@Data@ov.names)

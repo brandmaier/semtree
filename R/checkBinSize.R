@@ -14,6 +14,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
   }
   
   ### Start checking left
+  # DELETE
+  if (is.na(test.result$left_n)){
+    browser()
+  } # DELETE
   if (test.result$left_n < control$min.bucket) {
     if (level == "metric") {
       n_remove <- control$min.bucket - 1
@@ -290,6 +294,10 @@ checkBinSize <- function(test.result, control, level, covariate, n, mydata, fit,
                                  to = control$strucchange.to))
     
     ## Continue checking left
+    # DELETE
+    if (is.na(test.result$left_n)){
+      browser()
+    } # DELETE
     if (test.result$left_n < control$min.bucket) {
       if (level == "metric") {
         n_up <- n_up - n_remove

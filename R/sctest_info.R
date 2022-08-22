@@ -44,6 +44,23 @@ sctest_info <- function(CSP, covariate, test, scaled_split, from, to) {
   if (test == "suplm") {
     CSP <- CSP[-1, , drop = FALSE]
     CSP2 <- CSP^2
+    n <- nrow(CSP2)
+    n1 <- floor(from * n)
+    n2 <- floor(to * n)
+    tt <- seq_len(n) / n
+    CSP2 <- CSP2[n1:n2, , drop = FALSE]
+    covariate <- covariate[n1:n2]
+    tt <- tt[n1:n2]
+    rows <- apply(X = CSP2, MARGIN = 1, FUN = sum)
+    scaling_factor <- tt * (1 - tt)
+    CSP2 <- CSP2 / scaling_factor 
+    rows <- rows / scaling_factor
+    contrib <- CSP2[which.max(rows), ]
+    max.cov <- covariate[which.max(rows) + n1 - 1]
+    cutpoint <- (max.cov + covariate[which(covariate > max.cov)[1]]) / 2
+    left_n <- sum(covariate < cutpoint)
+    right_n <- sum(covariate > cutpoint)
+    
     rows <- apply(X = CSP2, MARGIN = 1, FUN = sum)
     n <- length(rows)
     n1 <- floor(from * n)

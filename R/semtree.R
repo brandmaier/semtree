@@ -266,13 +266,11 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     }
     }
  
-    # for score tests, model needs to run once
+    # 15.08.2022: all OpenMx models are estimated here if not already estimated
     ## ctsem are already estimated once
-    if (control$sem.prog == 'OpenMx' && control$method == "score") {
-      if (!summary(model)$wasRun) {
+    if (control$sem.prog == 'OpenMx' && !summary(model)$wasRun) {
         ui_message("Model was not run. Estimating parameters now.")
         model <- OpenMx::mxTryHard(model = model)
-      }
     }
     
     
