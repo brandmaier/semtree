@@ -61,14 +61,16 @@ sctest_continuous <- function(cov_sort, scus, from, to, min.bucket) {
     CSP2_sub <- CSP_sub^2
     tt <- n1:n2 / n
     CSP2_sub <- CSP2_sub / (tt * (1 - tt))
-    cov_sort_sub <- cov_sort2[n1:n2]
+    cov_sort2_sub <- cov_sort2[n1:n2]
     rows <- rowSums(CSP2_sub)
     max_row <- which.max(rows)
-    max_cov <- cov_sort_sub[max_row]
+    max_cov <- cov_sort2_sub[max_row]
   } 
   par_contrib <- CSP2_sub[max_row, ]
   test_statistic <- rows[max_row]
-  cutpoint <- max_cov
+  # This is needed because relations is > in reality and not >= as under rule
+  max_cov_plus_one <- cov_sort2[which(cov_sort2 > max_cov)[1]]
+  cutpoint <- (max_cov + max_cov_plus_one) / 2
   functional <- strucchange::supLM(from = from, to = to)
   p_value <- functional$computePval(x = test_statistic,
                                     nproc = NCOL(scus$process))

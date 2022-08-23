@@ -1,4 +1,4 @@
-SplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
+scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                            invariance = NULL, meta = NULL,  pp = FALSE,
                            constraints = NULL, ...) {
 
@@ -143,7 +143,6 @@ SplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
       if (test.results$cutpoint == "naive split" &
           ((test.results$p.value == 0 & test.results$statistic > LL.ratio.max) |
            test.results$p.value < p.max)) {
-        browser()
         if (control$sem.prog == 'OpenMx') {
           mydata_cat <- mydata[, c(model$manifestVars, cur.name)]
         }
@@ -156,6 +155,7 @@ SplitScoreTest <- function(model = NULL, mydata = NULL, control = NULL,
                                    constraints = constraints)
         test.results$cutpoint <- naive.test.results$split.max
         btn.matrix <- naive.test.results$btn.matrix
+        if (is.null(naive.test.results)) {test.results$p.value <- 1}
       } else {
         btn.matrix <- NA
       }

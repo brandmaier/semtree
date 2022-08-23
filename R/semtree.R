@@ -187,6 +187,8 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
       if (all(is.na(match(paste0(model$ctmodelobj$manifestNames, "_T0"),
                           colnames(dataset))))) {                                                                               
         stop("Long format data detected. Data need to be in wide format.")
+        # Check if the model unsupported components
+        # to be done
       }    
       
       model$mxobj@manifestVars <- paste0(model$ctmodelobj$manifestNames, "_T", 
