@@ -6,13 +6,12 @@ sctest_ordinal <- function(cov_sort, scus, nrep, min.bucket) {
   CSP <- CSP[-1, , drop = FALSE]
   # min.bucket
   tab <- table(cov_sort)
-  cum_prop <- cumsum(tab)
-  low_pass <- which(cum_prop >= min.bucket)
-  cum_prop_rev <- cumsum(rev(tab)) 
-  high_pass <- which(cum_prop_rev > min.bucket)
-  high_pass <- intersect(names(high_pass), cov_levels[-length(cov_levels)])
-  passed_levels <- intersect(names(low_pass), high_pass)
-  if (identical(passed_levels, character(0))) {
+  cum_sum <- cumsum(tab)
+  low_pass <- names(which(cum_sum >= min.bucket))
+  cum_sum_rev <- cumsum(rev(tab)) 
+  high_pass <- names(which(cum_sum_rev > min.bucket))
+  passed_levels <- intersect(low_pass, high_pass)
+  if (length(passed_levels) <= 1) {
     return(list(statistic = NA,
                 p.value = 1,
                 cutpoint = NA,
