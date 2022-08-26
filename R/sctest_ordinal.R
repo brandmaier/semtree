@@ -2,6 +2,7 @@ sctest_ordinal <- function(cov_sort, scus, nrep, min.bucket) {
   
   cov_sort <- droplevels(cov_sort) # drop unused levels
   cov_levels <- levels(cov_sort)
+  n_levels <- length(cov_levels)
   CSP <- as.matrix(scus$process)
   CSP <- CSP[-1, , drop = FALSE]
   # min.bucket
@@ -17,6 +18,8 @@ sctest_ordinal <- function(cov_sort, scus, nrep, min.bucket) {
                 cutpoint = NA,
                 par.contrib = NA))
   }
+  # remove last level of predictor from passed levels
+  passed_levels <- intersect(passed_levels, cov_levels[-n_levels])
   freq <- proportions(tab)
   ncat <- length(freq)
   tcat <- cumsum(freq[-ncat])
@@ -27,7 +30,7 @@ sctest_ordinal <- function(cov_sort, scus, nrep, min.bucket) {
   tt <- tt[ix]
   CSP2 <- CSP^2
   CSP2 <- CSP2 / (tt * (1 - tt))
-  rownames(CSP2) <- cov_levels[-length(cov_levels)]
+  rownames(CSP2) <- cov_levels[-n_levels]
   CSP2_passed <- CSP2[passed_levels, , drop = FALSE]
   rows <- rowSums(CSP2_passed)
   names(rows) <- passed_levels

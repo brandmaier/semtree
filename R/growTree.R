@@ -261,7 +261,7 @@ growTree <- function(model=NULL, mydata=NULL,
     
     
     
-    result <- scoreSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
+    result <- ScoreSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
     
     
     

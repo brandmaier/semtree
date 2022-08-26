@@ -1,4 +1,4 @@
-scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
+ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                            invariance = NULL, meta = NULL,  pp = FALSE,
                            constraints = NULL, ...) {
 
@@ -137,11 +137,26 @@ scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                               scus = scus,
                               min.bucket = control$min.bucket
                             ))
+      
+      # 26.08.2022: Perform likelihood ratio test if p = 0
+      if (test.results$p.value == 0 & !test.results$cutpoint == "naive split") {
+        LL.baseline <- minus2logLik_from_fitted_models(model)
+        subset1 <- mydata_sorted[mydata_sorted[, cur_col] <= test.results$cutpoint,
+                                 -meta$covariate.ids]
+        subset2 <- mydata_sorted[mydata_sorted[, cur_col] > test.results$cutpoint, 
+                                 -meta$covariate.ids]
+        LL.return <- fitSubmodels(model = model, subset1 = subset1,
+                                  subset2 = subset2, control = control,
+                                  invariance = invariance)
+        LL.ratio <- LL.baseline - LL.return
+        test.results$p.value <- pchisq(q = LL.ratio[1], df = scus$nreg, # check scus$nreg
+                          lower.tail = FALSE)
+      } else {
+        LL.ratio <- NA
+      }
 
       # locate cutpoint on nominal predictors with more than two levels
-      if (test.results$cutpoint == "naive split" &
-          ((test.results$p.value == 0 & test.results$statistic > LL.ratio.max) |
-           test.results$p.value < p.max)) {
+      if (test.results$cutpoint %in% "naive split") {
         if (control$sem.prog == 'OpenMx') {
           mydata_cat <- mydata[, c(model$manifestVars, cur.name)]
         }
@@ -154,27 +169,20 @@ scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                                    constraints = constraints)
         test.results$cutpoint <- naive.test.results$split.max
         btn.matrix <- naive.test.results$btn.matrix
+        
+        # check if p-value is zero
+        if (test.results$p.value == 0) {
+          LL.ratio <- naive.test.results$LL.max
+          test.results$p.value <- pchisq(q = LL.ratio, df = scus$nreg, # check scus$nreg
+                            lower.tail = FALSE)
+        } else {
+          LL.ratio <- NA
+        }
+        
         if (is.null(naive.test.results)) {test.results$p.value <- 1}
       } else {
         btn.matrix <- NA
       }
-
-      # 18.08.2022: Get likelihood ratio if p = 0
-      if (test.results$p.value == 0 &
-          cur.type %in% c(.SCALE_METRIC, .SCALE_ORDINAL)) {
-        LL.baseline <- minus2logLik_from_fitted_models(model)
-        subset1 <- mydata_sorted[mydata_sorted[, cur_col] <= test.results$cutpoint,
-                                 -meta$covariate.ids]
-        subset2 <- mydata_sorted[mydata_sorted[, cur_col] > test.results$cutpoint, 
-                                 -meta$covariate.ids]
-        LL.return <- fitSubmodels(model = model, subset1 = subset1,
-                                  subset2 = subset2, control = control,
-                                  invariance = invariance)
-        LL.ratio <- LL.baseline - LL.return
-      } else {
-        LL.ratio <- -Inf
-      }
-
 
       # Standardise output
       ts <- test.results$statistic
@@ -183,7 +191,7 @@ scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
       cur.par.contrib <- test.results$par.contrib
 
       # 18.08.2022: compare LL_ratio if p-values are zero
-      if ((pval == 0 & ts > LL.ratio.max) | pval < p.max) {
+      if (pval < p.max | (pval == 0 & LL.ratio > LL.ratio.max)) {
         LL.max <- ts
         split.max <- splt
         col.max <- cur_col
@@ -191,7 +199,7 @@ scoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
         type.max <- cur.type
         btn.matrix <- btn.matrix
         p.max <- pval
-        if (!is.na(ts)) {LL.ratio.max <- ts}
+        if (!is.na(LL.ratio)) {LL.ratio.max <- LL.ratio}
         par.contrib <- cur.par.contrib
         level_max <-  level
         test_max <- test
