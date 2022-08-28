@@ -1,17 +1,15 @@
-sctest_nominal <- function(cov_sort, scus, min.bucket) {
+sctest_dummy <- function(cov_sort, scus, min.bucket) {
   
   cov_sort <- droplevels(cov_sort) # drop unused levels
   levels_cov <- levels(cov_sort)
   n_levels <- length(levels_cov)
   
   # check bin.size for nominal covariates with two levels
-  if (n_levels == 2) {
-    if (any(table(cov_sort) < min.bucket)) {
-      return(list(statistic = NA,
-                  p.value = 1,
-                  cutpoint = NA,
-                  par.contrib = NA))
-    }
+  if (any(table(cov_sort) < min.bucket)) {
+    return(list(statistic = NA,
+                p.value = 1,
+                cutpoint = NA,
+                par.contrib = NA))
   }
   
   # Get p-value, test statistic and parameter contributions
@@ -25,15 +23,12 @@ sctest_nominal <- function(cov_sort, scus, min.bucket) {
   test_statistic <- sum(par_contrib)
   p_value <- functional$computePval(x = test_statistic,
                                     nproc = NCOL(scus$process))
-  if (n_levels == 2) {
-    cutpoint <- levels_cov[1]
-  } else {
-    cutpoint = "naive split"
-  }
+  cutpoint <- levels_cov[1]
   
   res <- list(statistic = test_statistic,
               p.value = p_value,
               cutpoint = cutpoint,
-              par.contrib = par_contrib)
+              par.contrib = par_contrib,
+              btn.matrix = NA)
   
 }

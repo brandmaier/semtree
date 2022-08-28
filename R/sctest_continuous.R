@@ -78,6 +78,7 @@ sctest_continuous <- function(cov_sort, scus, from, to, min.bucket) {
   res <- list(statistic = test_statistic,
               p.value = p_value,
               cutpoint = cutpoint,
-              par.contrib = par_contrib)
+              par.contrib = par_contrib,
+              btn.matrix = NA)
   
 }
