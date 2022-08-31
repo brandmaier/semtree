@@ -27,7 +27,7 @@ sctest_continuous <- function(cov_sort, scus, from, to, min.bucket) {
   }
   
   ## select subset (considering possible bins with identical values)
-  CSP_sub <- CSP[n1:n2, ]
+  CSP_sub <- CSP[n1:n2, , drop = FALSE]
   CSP2_sub <- CSP_sub^2
   tt <- n1:n2 / n
   CSP2_sub <- CSP2_sub / (tt * (1 - tt))
@@ -57,7 +57,7 @@ sctest_continuous <- function(cov_sort, scus, from, to, min.bucket) {
                   cutpoint = NA,
                   par.contrib = NA))
     }
-    CSP_sub <- CSP[n1:n2, ]
+    CSP_sub <- CSP[n1:n2, , drop = FALSE]
     CSP2_sub <- CSP_sub^2
     tt <- n1:n2 / n
     CSP2_sub <- CSP2_sub / (tt * (1 - tt))
