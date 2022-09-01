@@ -23,6 +23,7 @@ semforest.control <-
            mtry = 2,
            remove_dead_trees = TRUE)
   {
+    
     options <- list()
     options$num.trees <- num.trees
     options$sampling <- sampling
@@ -34,6 +35,11 @@ semforest.control <-
       options$semtree.control$alpha <- 1
       options$semtree.control$exclude.heywood <- FALSE
     } else {
+      # 1.9.2022: switch refit to TRUE
+      if (isFALSE(control$refit)) {
+        warning("refit = FALSE detected. Models in root nodes require estimation for forests. Set refit to TRUE")
+        control$refit <- TRUE
+      }
       options$semtree.control <- control
     }
     options$remove_dead_trees <- remove_dead_trees

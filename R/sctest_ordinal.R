@@ -9,8 +9,18 @@ sctest_ordinal <- function(cov_sort, scus, nrep, min.bucket) {
   tab <- table(cov_sort)
   cum_sum <- cumsum(tab)
   low_pass <- names(which(cum_sum >= min.bucket))
-  cum_sum_rev <- cumsum(rev(tab)) 
-  high_pass <- names(which(cum_sum_rev > min.bucket))
+  cum_sum_rev <- cumsum(rev(tab))
+  not_enough_high <- which(cum_sum_rev < min.bucket)
+  n_not_enough_high <- length(not_enough_high)
+  if (n_not_enough_high > 0) {
+    if ((n_not_enough_high + 2) <= n_levels) {
+      high_pass <- names(cum_sum_rev)[(n_not_enough_high + 2):n_levels]
+    } else {
+      high_pass <- c()
+    }
+  } else {
+    high_pass <- names(cum_sum_rev)
+  }
   passed_levels <- intersect(low_pass, high_pass)
   if (length(passed_levels) <= 1) {
     return(list(statistic = NA,

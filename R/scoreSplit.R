@@ -68,13 +68,8 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   n_obs <- nobs(model)
   
   # get covariance matrix of the model parameters
-  if (identical(control$information.matrix, "info")) {
-    vcov. <- solve(vcov_semtree(model) * n_obs)
-    vcov. <- strucchange::root.matrix(vcov.)
-    sandwich. <- FALSE
-  } else {
-    sandwich. <- TRUE
-  }
+  vcov. <- solve(vcov_semtree(model) * n_obs)
+  vcov. <- strucchange::root.matrix(vcov.)
   
   
   ############################################
@@ -99,28 +94,28 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
       # calculate cumulative score process
       scus <- gefp_semtree(x = model, order.by = covariate_sorted, vcov = vcov.,
                            scores = Scores_sorted, decorrelate = TRUE,
-                           sandwich = sandwich.,
+                           sandwich = FALSE,
                            parm = constraints$focus.parameters)
       
       # Level of measurement and test statistic
       if (!is.factor(covariate_sorted)) {
         level <- "metric"
-        test <- control$score.tests["metric"][[1]]  # default: supLM
         cur.type <- .SCALE_METRIC
+        cur.test <- "maxLM"
       } else {
         cov_levels <- nlevels(x = covariate_sorted)
         if (is.ordered(covariate_sorted)) {
           level <- "ordinal"
-          test <- control$score.tests["ordinal"][[1]] # default: "maxLMo"
           cur.type <- .SCALE_ORDINAL
+          cur.test <- "maxLMo"
         } else {
           if (n_unique_cov_values == 2) {
             level <- "dummy"
           } else {
             level <- "multinomial"
           }
-          test <- control$score.tests["nominal"][[1]] # default: "LM"
           cur.type <- .SCALE_CATEGORICAL
+          cur.test <- "LM"
         }
       }
       
@@ -144,7 +139,6 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                                model = model,
                                vcov = vcov.,
                                scores = Scores,
-                               sandwich = sandwich.,
                                parm = constraints$focus.parameters,
                                cur_col = cur_col,
                                cov_sort = covariate_sorted,
@@ -159,13 +153,15 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
       if (test.results$p.value == 0) {
         LL.baseline <- minus2logLik_from_fitted_models(model)
         if (level == "multinomial") {
-          subset1 <- mydata[!test.results$best_partition, -meta$covariate.ids]
-          subset2 <- mydata[test.results$best_partition, -meta$covariate.ids]
+          subset1 <- mydata[!test.results$best_partition, -meta$covariate.ids,
+                            drop = FALSE]
+          subset2 <- mydata[test.results$best_partition, -meta$covariate.ids,
+                            drop = FALSE]
         } else {
           subset1 <- mydata_sorted[mydata_sorted[, cur_col] <= test.results$cutpoint,
-                                   -meta$covariate.ids]
+                                   -meta$covariate.ids, drop = FALSE]
           subset2 <- mydata_sorted[mydata_sorted[, cur_col] > test.results$cutpoint, 
-                                   -meta$covariate.ids]
+                                   -meta$covariate.ids, drop = FALSE]
         }
         LL.return <- fitSubmodels(model = model, subset1 = subset1,
                                   subset2 = subset2, control = control,
@@ -197,13 +193,13 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
         if (!is.na(LL.ratio)) {LL.ratio.max <- LL.ratio}
         par.contrib <- cur.par.contrib
         level_max <-  level
-        test_max <- test
+        test_max <- cur.test
       }
       
       if (control$verbose) {
         cat("Score test of :", cur.name, " (")
         cat("Level of measurement:", level, ")\n")
-        cat("     |--- ",test, ", test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
+        cat("     |--- ",cur.test, ", test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
         cat("     |--- Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
             LL.max, ", p-value: ", p.max, " split point: ", split.max,"\n")
         cat("     |--- ",type.max,"\n")

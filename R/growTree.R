@@ -71,24 +71,11 @@ growTree <- function(model=NULL, mydata=NULL,
   node$lr <- NA
   node$edge_label <- edgelabel
   
-  ## 11.08.2022: do not estimate model in root node (already estimated)
-  ## 15.08.2022: model will be estimated again if constraints are present
-  if (depth == 0 & length(constraints) == 0) {
-    
-    # OpenMx
-    if(control$sem.prog == 'OpenMx'){
-      node$model <- mxModel(model = model, name = "INITIALIZED MODEL")
-    }
-    # lavaan
-    if(control$sem.prog == 'lavaan'){
-      node$model <- model
-    }
-    # ctsem
-    if(control$sem.prog == 'ctsem'){
-      model$mxobj@name <- "INITIALIZED MODEL"
-      node$model <- model
-    }
-  } else { # estimate model with complete mydata
+  # Estimate model on current data set
+  ## 31.08.2022: Model in root is not refitted if refit is set to FALSE
+  if (depth == 0 & !control$refit & length(constraints) == 0) { # do not fit model
+    node$model <- model
+  } else { # fit model
     # OpenMx
     if(control$sem.prog == 'OpenMx'){
       full.model <- mxAddNewModelData(model = model, data = mydata,
@@ -115,11 +102,9 @@ growTree <- function(model=NULL, mydata=NULL,
       ))
       full.model$mxobj@name <- "BASE MODEL"
       node$model <- full.model
-    }  
+    }
   }
-  
-  # estimate model once with complete mydata
-  
+    
   
   if (is(node$model,"try-error"))
   {

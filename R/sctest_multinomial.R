@@ -1,6 +1,5 @@
 sctest_multinomial <- function(covariate, cov_name, min.bucket, model, vcov,
-                               scores, sandwich, parm, cur_col, cov_sort,
-                               scus) {
+                               scores, parm, cur_col, cov_sort, scus) {
   
   # get btn.matrix
   result <- recodeAllSubsets(covariate, cov_name)
@@ -41,7 +40,7 @@ sctest_multinomial <- function(covariate, cov_name, min.bucket, model, vcov,
     cov_temp_sort <- cov_temp[index_temp]
     scus_temp <- gefp_semtree(x = model, order.by = cov_temp_sort, vcov = vcov,
                          scores = scores_sorted, decorrelate = TRUE,
-                         sandwich = sandwich, parm = parm, cur_col = cur_col)
+                         sandwich = FALSE, parm = parm, cur_col = cur_col)
     functional_temp <- strucchange::catL2BB(cov_temp)
     test_statistic_temp <- functional_temp$computeStatistic(scus_temp$process)
     } else {

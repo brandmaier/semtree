@@ -22,9 +22,6 @@ semtree.control(
   mtry = NA,
   report.level = 0,
   exclude.code = NA,
-  score.tests = list(nominal = "LMuo", ordinal = "maxLMo", metric = "maxLM"),
-  information.matrix = "info",
-  scaled_scores = TRUE,
   linear = TRUE,
   min.bucket = 10,
   naive.bonferroni.type = 0,
@@ -32,7 +29,8 @@ semtree.control(
   use.maxlm = FALSE,
   strucchange.from = 0.15,
   strucchange.to = NULL,
-  strucchange.nrep = 50000
+  strucchange.nrep = 50000,
+  refit = TRUE
 )
 }
 \arguments{
@@ -88,19 +86,10 @@ number of onscreen reports for semtree analysis.}
 fit evaluations when finding best split. Default: Models with errors during
 fitting are retained.}
 
-\item{score.tests}{A list of score-based test statistics from the
-strucchange package to be used for different variable types.}
-
-\item{information.matrix}{A function to extract the covariance matrix for
-the coefficients of the fitted model.}
-
-\item{scaled_scores}{If TRUE (default), a scaled cumulative score process is
-used for identifying a cutpoint.}
-
 \item{linear}{If TRUE (default), the structural equation model is assumed to
-be linear without any nonlinear parameter constraints. The runtime is much
-smaller for linear MxRAM-type models than for models with nonlinear
-constraints on the parameters.}
+not contain any nonlinear parameter constraints and scores are computed
+analytically, resulting in a shorter runtime. Only relevant for models fitted
+with OpenMx.}
 
 \item{min.bucket}{Minimum bucket size. This is the minimum size any node
 must have, such that a given split is considered valid. Minimum bucket size
@@ -121,6 +110,9 @@ documentation.}
 
 \item{strucchange.nrep}{Strucchange argument. See their package
 documentation.}
+
+\item{refit}{If TRUE (default) the initial model is fitted on the data
+provided to \code{\link{semtree}}.}
 }
 \value{
 A control object containing a list of the above parameters.
