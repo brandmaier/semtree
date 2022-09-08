@@ -4,10 +4,10 @@
 #' @param tree a semtree object.
 #' @param plot a character that specifies the plot typ. Available plot types
 #' are "ballon" (default), "heatmap", and "bar".
-#' @param measure a character. "raw" (default) gives the absolut values of the
-#' parameter differences. "wald" gives the squared parameter differences devided
-#' by their pooled standard errors. "test" gives the contributions of the
-#' parameters to the test statistic.
+#' @param measure a character. "wald" (default) gives the squared parameter
+#' differences devided by their pooled standard errors. "test" gives the
+#' contributions of the parameters to the test statistic. "raw" gives the
+#' absolute values of the parameter differences.
 #' @param normalize logical value; if TRUE parameter differences of each split
 #' are divided by sum of all differences the corresponding split. Set to FALSE
 #' by default.
@@ -17,10 +17,13 @@
 #' @author Manuel Arnold
 #' @export
 
-plotParDiff <- function(tree, plot = "ballon", measure = "raw",
-                        normalize = FALSE, title = TRUE, structure = FALSE) {
+plotParDiffTree <- function(tree, plot = "ballon", measure = "wald",
+                            normalize = FALSE, title = TRUE,
+                            structure = FALSE) {
   
-  par_diff <- getParDiff(tree = tree, measure = measure, normalize = normalize)
+  par_diff <- getParDiffTree(tree = tree,
+                             measure = measure,
+                             normalize = normalize)
   
   df <- as.data.frame(matrix(NA, nrow = nrow(par_diff) * ncol(par_diff),
                              ncol = 3))

@@ -1,11 +1,11 @@
-#' @title Return table with parameter differences
+#' @title Return table with parameter differences of a tree
 #' @description Returns a table with some measure of parameter
 #' differences between post-split nodes.
 #' @param tree a semtree object.
-#' @param measure a character. "raw" (default) gives the absolut values of the
-#' parameter differences. "wald" gives the squared parameter differences devided
-#' by their pooled standard errors. "test" gives the contributions of the
-#' parameters to the test statistic.
+#' @param measure a character. "wald" (default) gives the squared parameter
+#' differences devided by their pooled standard errors. "test" gives the
+#' contributions of the parameters to the test statistic."raw" gives the
+#' absolute values of the parameter differences.
 #' @param normalize logical value; if TRUE parameter differences of each split
 #' are divided by sum of all differences the corresponding split. Set to FALSE
 #' by default.
@@ -17,7 +17,7 @@
 #' @author Manuel Arnold
 #' @export
 
-getParDiff <- function(tree, measure = "raw", normalize = FALSE) {
+getParDiffTree <- function(tree, measure = "wald", normalize = FALSE) {
   
   if (measure == "test" & !tree$control$method == "score") {
     stop("Contributions to test statistics are limited to score-guided SEM trees.")

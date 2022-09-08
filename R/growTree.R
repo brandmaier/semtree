@@ -249,7 +249,7 @@ growTree <- function(model=NULL, mydata=NULL,
       ################################################
       ,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
-    )
+    );
     
   } 
   # 2a. split half data to determine best split then use hold out set to compare one split per covariate
