@@ -54,16 +54,10 @@
 #' @param use.all Treatment of missing variables. By default, missing values
 #' stay in a decision node. If TRUE, cases are distributed according to a
 #' maximum likelihood principle to the child nodes.
-#' @param score.tests A list of score-based test statistics from the
-#' strucchange package to be used for different variable types.
-#' @param information.matrix A function to extract the covariance matrix for
-#' the coefficients of the fitted model.
-#' @param scaled_scores If TRUE (default), a scaled cumulative score process is
-#' used for identifying a cutpoint.
 #' @param linear If TRUE (default), the structural equation model is assumed to
-#' be linear without any nonlinear parameter constraints. The runtime is much
-#' smaller for linear MxRAM-type models than for models with nonlinear
-#' constraints on the parameters.
+#' not contain any nonlinear parameter constraints and scores are computed
+#' analytically, resulting in a shorter runtime. Only relevant for models fitted
+#' with OpenMx.
 #' @param min.bucket Minimum bucket size. This is the minimum size any node
 #' must have, such that a given split is considered valid. Minimum bucket size
 #' is a lower bound to the sample size in the terminal nodes of a tree.
@@ -77,6 +71,8 @@
 #' @param strucchange.to Strucchange argument. See their package documentation.
 #' @param strucchange.nrep Strucchange argument. See their package
 #' documentation.
+#' @param refit If TRUE (default) the initial model is fitted on the data
+#' provided to \code{\link{semtree}}.
 #' @return A control object containing a list of the above parameters.
 #' @author Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 #' @seealso \code{\link{semtree}}
@@ -114,11 +110,9 @@ semtree.control <-
            mtry = NA,
            report.level = 0,
            exclude.code = NA,
-           score.tests = list(nominal = 'LMuo',
-                              ordinal = 'maxLMo',
-                              metric = 'maxLM'),
-           information.matrix = "info",
-           scaled_scores = TRUE,
+          #score.tests = list(nominal = 'LMuo',  # currently only LMuo, maxLMo
+          #                   ordinal = 'maxLMo', # and maxLM are available
+          #                   metric = 'maxLM'),
            linear = TRUE,
            min.bucket = 10,
            naive.bonferroni.type = 0,
@@ -126,20 +120,12 @@ semtree.control <-
            use.maxlm = FALSE,
            strucchange.from = 0.15,
            strucchange.to = NULL,
-           strucchange.nrep = 50000)
+           strucchange.nrep = 50000,
+           refit = TRUE)
   {
     options <- list()
     # verbose output during generation of SEMTree
     options$verbose <- verbose
-    # score tests for each scale type
-    options$score.tests <- lapply(X = score.tests, FUN = tolower)
-    if (options$score.tests$metric == "maxlm") {
-      options$score.tests$metric <- "suplm"
-    }
-    # information matrix used to decorrelate scores
-    options$information.matrix <- information.matrix
-    # Scale scores for testing continuous covariates
-    options$scaled_scores <- scaled_scores
     # For OpenMx models: Is the model linear?
     ### Global Invariant parameters are currently not working with the speed up
     options$linear <- linear
@@ -197,13 +183,12 @@ semtree.control <-
     options$strucchange.to <- strucchange.to
     # nrep (for strucchange)
     options$strucchange.nrep <- strucchange.nrep
+    # refit the initial model
+    options$refit <- refit
+    
     
     
     class(options) <- "semtree.control"
     
     return(options)
   }
-
-semtree_fast <- function() {
-  semtree.control(method="score", score.tests=list(nominal = 'LMuo', ordinal = 'WDM', metric = 'DM') )
-}

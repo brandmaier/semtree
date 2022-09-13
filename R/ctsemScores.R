@@ -55,14 +55,14 @@ ctsemScores <- function(fit) {
   # Column-wise parameter names
   names_drift_parameters <- c(fit$mxobj$DRIFT$labels)
   if (free_mvar) {
-    names_mvar_parameters <- as.character(na.omit(c(fit$mxobj$MANIFESTVARbase$labels)))
+    names_mvar_parameters <- as.character(stats::na.omit(c(fit$mxobj$MANIFESTVARbase$labels)))
   }
-  names_diffusion_parameters <- as.character(na.omit(c(fit$mxobj$DIFFUSIONbase$labels)))
+  names_diffusion_parameters <- as.character(stats::na.omit(c(fit$mxobj$DIFFUSIONbase$labels)))
   if (free_cint) {
-    names_cint_parameters <- as.character(na.omit(c(fit$mxobj$CINT$labels)))
+    names_cint_parameters <- as.character(stats::na.omit(c(fit$mxobj$CINT$labels)))
   }
   if (free_trait) {
-    names_trait_parameters <- as.character(na.omit(c(fit$mxobj$TRAITVARbase$labels)))
+    names_trait_parameters <- as.character(stats::na.omit(c(fit$mxobj$TRAITVARbase$labels)))
   }
   # Number of unique time intervals
   n_unique_intervals <- max(intervalID)
