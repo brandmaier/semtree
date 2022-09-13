@@ -15,8 +15,8 @@ growTree <- function(model=NULL, mydata=NULL,
                      control=NULL, invariance=NULL, meta=NULL,
                      edgelabel=NULL, depth=0, constraints=NULL, ...)
 {
- 
-   if(is.null(mydata)) {
+  
+  if(is.null(mydata)) {
     stop("There was no data for growing the tree")
   }
   
@@ -71,29 +71,40 @@ growTree <- function(model=NULL, mydata=NULL,
   node$lr <- NA
   node$edge_label <- edgelabel
   
-  # estimate model once with complete mydata
-  if(control$sem.prog == 'OpenMx'){
-    full.model <- mxAddNewModelData(model,mydata,name="INITIALIZED MODEL")
-    node$model <- try(mxRun(full.model, suppressWarnings=T, silent=T))
+  # Estimate model on current data set
+  ## 31.08.2022: Model in root is not refitted if refit is set to FALSE
+  if (depth == 0 & !control$refit & length(constraints) == 0) { # do not fit model
+    node$model <- model
+  } else { # fit model
+    # OpenMx
+    if(control$sem.prog == 'OpenMx'){
+      full.model <- mxAddNewModelData(model = model, data = mydata,
+                                      name = "BASE MODEL")
+      node$model <- try(OpenMx::mxTryHard(model = full.model, paste = FALSE,
+                                          silent = TRUE), silent = TRUE)
+    }
+    # lavaan
+    if(control$sem.prog == 'lavaan'){
+      ## 11.08.2022 Note: fits lavaan model on mydata
+      node$model <- try(suppressWarnings(eval(
+        parse(text=paste(model@Options$model.type,
+                         '(parTable(model),data=mydata,missing=\'',
+                         model@Options$missing,'\')',sep="")))),silent=T)
+    }
+    ## 26.06.2022: Added code for ctsem models
+    if(control$sem.prog == 'ctsem'){
+      full.model <- suppressMessages(try(
+        ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+                        ctmodelobj = model$ctmodelobj,
+                        dataform = "wide",
+                        stationary = "all",
+                        retryattempts = 20)
+      ))
+      full.model$mxobj@name <- "BASE MODEL"
+      node$model <- full.model
+    }
   }
-  if(control$sem.prog == 'lavaan'){
-    node$model <- try(suppressWarnings(eval(
-      parse(text=paste(model@Options$model.type,
-                       '(parTable(model),data=mydata,missing=\'',
-                       model@Options$missing,'\')',sep="")))),silent=T)
-  }
-  ## 26.06.2022: Added code for ctsem models
-  if(control$sem.prog == 'ctsem'){
-    full.model <- suppressMessages(try(
-      ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
-                      ctmodelobj = model$ctmodelobj,
-                      dataform = "wide",
-                      stationary = "all",
-                      retryattempts = 20)
-    ))
-    full.model$mxobj@name <- "INITIALIZED MODEL"
-    node$model <- full.model
-  }
+    
   
   if (is(node$model,"try-error"))
   {
@@ -128,10 +139,10 @@ growTree <- function(model=NULL, mydata=NULL,
   ###               lavaan USED HERE                      ###
   ###########################################################
   if(control$sem.prog == 'lavaan'){
-  
+    
     node$params <- lavaan::coef(node$model) # put parameters into node 
     names(node$params) <- names(lavaan::coef(node$model)) # parameter names are stored as well
-  
+    
     #read in estimated parameters (take only those that have non-NA z values)
     #parameters <- data.frame(
     #  lavaan::parameterEstimates(node$model))[!is.na(
@@ -224,7 +235,7 @@ growTree <- function(model=NULL, mydata=NULL,
     
     result <- tryCatch(
       ################################################
-      naiveSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)	
+      naiveSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
       ################################################
       ,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
@@ -232,12 +243,13 @@ growTree <- function(model=NULL, mydata=NULL,
     
   } else if (control$method=="score") {
     
-
-
-    
-    result <- naiveSplitScoreTest(model, mydata, control, invariance, meta, constraints=constraints, ...)	
-
-    
+    result <- tryCatch(
+      ################################################
+      result <- ScoreSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)	
+      ################################################
+      ,
+      error = function(e) { cat(paste("Error occured!",e,sep="\n")); traceback(); return(NULL); }
+    );
     
   } 
   # 2a. split half data to determine best split then use hold out set to compare one split per covariate
@@ -245,7 +257,7 @@ growTree <- function(model=NULL, mydata=NULL,
     control$fair3Step <- FALSE
     result <- tryCatch(
       ################################################
-      fairSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)
+      fairSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)
       ################################################
       ,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
@@ -256,7 +268,7 @@ growTree <- function(model=NULL, mydata=NULL,
     control$fair3Step <- TRUE
     result <- tryCatch(
       ################################################ 
-      fairSplit(model, mydata, control, invariance, meta, constraints=constraints, ...)
+      fairSplit(node$model, mydata, control, invariance, meta, constraints=constraints, ...)
       ################################################
       ,
       error = function(e) { cat(paste("Error occured!",e,sep="\n")); return(NULL); }
@@ -269,7 +281,7 @@ growTree <- function(model=NULL, mydata=NULL,
     ui_fail("Error. Unknown split method selected")
     stop()
   }
-
+  
   # return values in result are:
   # LL.max		: numeric, log likelihood ratio of best split
   # split.max 	: numeric, value to split best column on 
@@ -306,7 +318,7 @@ growTree <- function(model=NULL, mydata=NULL,
       
       # Borders for continuous covariates
       if (!is.factor(mydata[, result$name.max])) {
-
+        
         props <- cumsum(table(mydata[, result$name.max])) / node$N
         split_val_lhs <- as.numeric(names(which(props >= control$strucchange.from)[1]))
         split_val_rhs <- as.numeric(names(which(props >= control$strucchange.to)[1]))
@@ -324,7 +336,7 @@ growTree <- function(model=NULL, mydata=NULL,
         if (is.na(n2)) {n2 <- length(num_split_val)}
         
         LR <- as.numeric(btn_matrix_max["LR", n1:n2])
-
+        
         max_pos <- which.max(LR) + n1 - 1
         node$result$LL.max <- node$lr <- as.numeric(btn_matrix_max["LR", max_pos])
         node$result$split.max <- as.numeric(btn_matrix_max["split val", max_pos])
@@ -378,7 +390,7 @@ growTree <- function(model=NULL, mydata=NULL,
       report("Stop splitting based on stopping rule.", 1)
     }
     
-
+    
     
     # store the split name (covariate name and split value) RHS is yes branch
     if(result$type.max==.SCALE_CATEGORICAL) {
@@ -387,7 +399,7 @@ growTree <- function(model=NULL, mydata=NULL,
       result1 <- recodeAllSubsets(mydata[,result$col.max],colnames(mydata)[result$col.max],
                                   growbool=T, use.levels=lvl)
       
-
+      
       test2 <- rep(NA, nrow(mydata))
       if(!is.na(result1$num_sets) & !is.null(result1$num_sets)){
         for(j in 1:result1$num_sets) {
@@ -407,11 +419,11 @@ growTree <- function(model=NULL, mydata=NULL,
       # the best column in the matrix that represents all subsets
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
-     # browser()
+      # browser()
       result$split.max <- as.integer(result$split.max)
-
+      
       #named <- colnames(result1$columns)[result$split.max]
-#      node$caption <- paste(colnames(result1$columns)[result$split.max])
+      #      node$caption <- paste(colnames(result1$columns)[result$split.max])
       best_subset_col_id = result$split.max
       best_values = result1$expressions[ (best_subset_col_id-1)*3 +1]$value
       
@@ -419,7 +431,7 @@ growTree <- function(model=NULL, mydata=NULL,
                        value=best_values, 
                        name = result$name.max)
       node$caption <- paste(result$name.max, " in [", paste0(best_values,
-                                                           collapse=" ")," ]")
+                                                             collapse=" ")," ]")
       
       if(result1$num_sets==1) {
         sub1 <- subset (mydata, as.numeric(test2) == 2)
@@ -445,7 +457,7 @@ growTree <- function(model=NULL, mydata=NULL,
       sub2 <- subset( mydata, as.numeric(as.character(mydata[, (result$col.max)]))<=result$split.max)
     } 
     else if (result$type.max==.SCALE_ORDINAL) {
-
+      
       node$caption <- paste(result$name.max,">", result$split.max,sep=" ")
       node$rule = list(variable=result$col.max, relation=">", value=c(result$split.max), name = result$name.max)
       sub1 <- subset( mydata, mydata[, (result$col.max)] >result$split.max)
@@ -496,8 +508,8 @@ growTree <- function(model=NULL, mydata=NULL,
     
     # recursively continue splitting
     # result1 - RHS; result2 - LHS
-    result2 <- growTree( model, sub2, control, invariance, meta, edgelabel=0, depth=depth+1, constraints)
-    result1 <- growTree( model, sub1, control, invariance, meta, edgelabel=1, depth=depth+1, constraints)
+    result2 <- growTree( node$model, sub2, control, invariance, meta, edgelabel=0, depth=depth+1, constraints)
+    result1 <- growTree( node$model, sub1, control, invariance, meta, edgelabel=1, depth=depth+1, constraints)
     
     # store results in recursive list structure
     node$left_child <- result2
