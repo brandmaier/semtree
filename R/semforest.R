@@ -62,13 +62,6 @@ semforest <- function(model,
     seeds <- NULL
   }
   
-  #if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
-  #not.npsol <- (mxOption(NULL,"Default optimizer")!="NPSOL")
-  #if (not.npsol) {
-  #  warning("semtree recommends the use of NPSOL optimizer!")
-  #}
-  #}
-  
   if ("with.error.handler" %in% names(arguments)) {
     with.error.handler <- arguments$with.error.handle
   } else {
@@ -136,8 +129,10 @@ semforest <- function(model,
   # for score tests, model needs to run once
   if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
     if (!summary(model)$wasRun) {
-      ui_message("Model was not run. Estimating parameters now before running the forest.")
-      model <- OpenMx::mxTryHard(model)
+      if (verbose) {
+        ui_message("Model was not run. Estimating parameters now before running the forest.")
+      }
+      model <- OpenMx::mxTryHard(model,silent = TRUE)
     }
   }
   
