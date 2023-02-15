@@ -31,10 +31,6 @@ parameters <- function(tree, leafs.only=TRUE) {
 	} else {
 	  data <- round(data.frame(data[,-1]),digits=3)
 	}
-	
-
-   
-	
 
 	return(data);
 }
@@ -62,9 +58,3 @@ parameters.rec <- function(tree, leafs.only=TRUE, level=0)
 	return(data);
 	
 }
-
-# parameters(result2, leafs.only=TRUE)
-# print(result2)
-# print.semtree
-# print(result2)
-# plot(subtree(result2,startNode=2))

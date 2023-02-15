@@ -62,7 +62,6 @@ plot.semtree <- function(x,
       #}
       
       row <- c(x$caption, x$N, x$N, 0, x$node_id, 0, 0, 0, num, NA, crit)
-      #		row <- c(x$node_id,x$N,x$N,0,x$caption,0,0,0, num, NA,crit)
 
       data <- rbind(data, row)
       row <- to.rpart.rec(x$left_child, append(xx, 0))

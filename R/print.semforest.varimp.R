@@ -1,11 +1,13 @@
 #' @exportS3Method print semforest.varimp
-print.semforest.varimp <- function(x, aggregate="mean",
-                                   scale="absolute", sort.values=F,
-                                   na.omit=FALSE, ...) {
-  
+print.semforest.varimp <- function(x,
+                                   aggregate = "mean",
+                                   scale = "absolute",
+                                   sort.values = FALSE,
+                                   na.omit = TRUE,
+                                   ...) {
   vimp <- x
   
-  if (is(vimp$importance,"matrix")) {
+  if (is(vimp$importance, "matrix")) {
     x <- aggregateVarimp(vimp, aggregate, scale, na.omit)
   } else {
     x <- vimp$importance
@@ -18,24 +20,19 @@ print.semforest.varimp <- function(x, aggregate="mean",
   
   
   if (sort.values) {
-    
     # replace NAs with low number
-    low <- min(x,na.rm=T)-1
+    low <- min(x, na.rm = T) - 1
     filt <- is.na(x)
     x[filt] <- low
     
-    srt <- sort(x, index.return=T)
+    srt <- sort(x, index.return = T)
     x <- x[srt$ix]
     
     # vnames <- vnames[srt$ix]
     
-    x[x<=(low+.5)] <- NA
+    x[x <= (low + .5)] <- NA
   }
   
-  
-  
-  #x <-data.frame(x)
-  #names(x) <-  vimp$var.names
   cat("Variable Importance\n")
   print(x, ...)
 }
