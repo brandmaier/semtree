@@ -10,8 +10,8 @@ aggregateVarimp <-
     } else {
       datamat <- vimp
     }
-    # omit NA
     
+    # omit NA
     if (!omit.na) {
       datamat[is.na(datamat)] <- 0
     }

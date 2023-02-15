@@ -1,3 +1,8 @@
+# semtree 0.9.20 (2023)
+
+- changed default behavior of print function of varimp, such that na.omit=TRUE,
+ which is consistent with other packages like party or partykit
+
 # semtree 0.9.19 (2022)
 
 - bugfix in score-based tests that sometimes did not respect min.N constraints
