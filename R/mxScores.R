@@ -236,7 +236,7 @@ mxScores_df <- function(x, control) {
     } else { # Numeric Jacobian matrix
       x <- OpenMx::omxSetParameters(model = x, labels = df$labels,
                                     values = df_values[df_indices])
-      x <- suppressMessages(OpenMx::mxRun(model = x, useOptimizer = FALSE))
+      x <- suppressMessages(OpenMx::mxRun(model = x, useOptimizer = FALSE, silent=TRUE))
       jac <- OpenMx::omxManifestModelByParameterJacobian(model = x)
     }
     

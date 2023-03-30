@@ -80,8 +80,10 @@ growTree <- function(model=NULL, mydata=NULL,
     if(control$sem.prog == 'OpenMx'){
       full.model <- mxAddNewModelData(model = model, data = mydata,
                                       name = "BASE MODEL")
-      node$model <- try(OpenMx::mxTryHard(model = full.model, paste = FALSE,
-                                          silent = TRUE), silent = TRUE)
+      node$model <- try(
+        suppressMessages(OpenMx::mxTryHard(model = full.model, paste = FALSE,
+                                          silent = TRUE)),
+        silent = TRUE)
     }
     # lavaan
     if(control$sem.prog == 'lavaan'){

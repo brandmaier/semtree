@@ -6,7 +6,7 @@ safeRunAndEvaluate <- function(model, return.model=F)
 	#
 	
   if(inherits(model,"MxModel") || inherits(model,"MxRAMModel")){
-    modelrun <- try(mxRun(model,silent=T, suppressWarnings=T),silent=T)
+    modelrun <- try(mxRun(model,silent=TRUE, suppressWarnings=TRUE),silent=T)
     if (is(modelrun,"try-error")) {
       return(NA)
     }  else {
