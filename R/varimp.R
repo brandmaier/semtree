@@ -95,7 +95,7 @@ varimp <- function(forest,
   
   # completeley experimental, probably not a wise idea to use this
   if (method == "prune") {
-    temp <- mapply(
+    temp <- future.apply::future_mapply(
       varimpTree,
       forest$forest,
       forest$forest.data,

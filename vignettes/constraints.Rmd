@@ -50,14 +50,18 @@ To illustrate the invariance constraints, let's set up a latent factor model wit
 
 ```{r difsim}
 N <- 2000
-p1 <- sample(size=N, x=c(0,1), replace=TRUE)
-p2 <- sample(size=N, x=c(0,1), replace=TRUE)
-lat <- rnorm(N,mean = 0+p1)
-loadings <- c(.5,.8,.7,.9)
-observed <- lat %*% t(loadings) + rnorm(N*length(loadings),sd = .1)
-observed[,3]<-observed[,3]+p2*0.5*lat
-cfa.sim <- data.frame(observed,p1,p2)
-names(cfa.sim)[1:4] <- paste0("x",1:4)
+p1 <- sample(size = N,
+             x = c(0, 1),
+             replace = TRUE)
+p2 <- sample(size = N,
+             x = c(0, 1),
+             replace = TRUE)
+lat <- rnorm(N, mean = 0 + p1)
+loadings <- c(.5, .8, .7, .9)
+observed <- lat %*% t(loadings) + rnorm(N * length(loadings), sd = .1)
+observed[, 3] <- observed[, 3] + p2 * 0.5 * lat
+cfa.sim <- data.frame(observed, p1 = factor(p1), p2 = factor(p2))
+names(cfa.sim)[1:4] <- paste0("x", 1:4)
 ```
 
 
@@ -147,7 +151,7 @@ obs <- MASS::mvrnorm(N,mu=c(0,0),
                       Sigma=Sigma)
 obs[,1] <- obs[,1] + ifelse(grp1,3,0)
 obs[,2] <- obs[,2] + ifelse(grp2,3,0)
-df.biv <- data.frame(obs, grp1, grp2)
+df.biv <- data.frame(obs, grp1=factor(grp1), grp2=factor(grp2))
 names(df.biv)[1:2] <- paste0("x",1:2)
 
 ```

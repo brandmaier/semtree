@@ -129,7 +129,7 @@ semforest <- function(model,
   # for score tests, model needs to run once
   if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
     if (!summary(model)$wasRun) {
-      if (verbose) {
+      if (semforest.control$semtree.control$verbose) {
         ui_message("Model was not run. Estimating parameters now before running the forest.")
       }
       model <- OpenMx::mxTryHard(model,silent = TRUE)

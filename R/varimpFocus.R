@@ -10,15 +10,11 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
   oob.data.permuted[, permutation.idx] <-
     sample(col.data, length(col.data), replace = F)
   
+  # generate a matrix of node ids per observation
+  # that correspond to the original data and permuted data
   ids <-
     cbind(traverse(tree, oob.data), traverse(tree, oob.data.permuted))
   colnames(ids) <- c("Original", "Permuted")
-  
-  #ui_debug("Examining focus on tree",tree$name, paste0( sapply(getLeafs(tree), function(x){x$node_id})))
-  # browser()
-  
-  speedup = TRUE
-  
   
   # compute loss in fit from original to joint model
   total <- 0
@@ -28,16 +24,16 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
  
     for (i in 1:nrow(unique.pairs)) {
       
-      id1 <- unique.pairs[i, 1]
-      id2 <- unique.pairs[i, 2]
+      id1 <- unique.pairs[i, 1] # original node id
+      id2 <- unique.pairs[i, 2] # resampled node id
       # skip if both ids are identical
       if (id1 == id2)
         next
       
-      # get data row ids that match this pair
+      # collect data rows with ids that match this pair
       data.rows <- which(apply(ids,1, function(x){all(x==unique.pairs[i,])}))
       
-      # get model and evaluate baseline likelihood
+      # get model and evaluate baseline likelihood of data in original node
       original.id <- unique.pairs[i, 1]
       original.node <- semtree::getNodeById(tree, original.id)
       ll.baseline <-
@@ -45,16 +41,18 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
       
       
 
-      # get focus model likelihood
+      # get focus model likelihood (note that the joint.model.list always
+      #    has the smaller number first)
       ident <- paste0(min(unique.pairs[i, ]), "-", max(unique.pairs[i, ]))
       fmodel <- joint.model.list[[ident]]
       
-      if (id1 < id2) {
+      if (id1 < id2) {  # original id < resampled node id
         ffmodel <- fmodel$model1
       } else {
         ffmodel <- fmodel$model2
       }
       
+      # get likelihood of scrambled data rows given the resampled model
       if (!is.null(ffmodel)) {
         ll.focus <-
           evaluateDataLikelihood(ffmodel , oob.data[data.rows, , drop = FALSE])
