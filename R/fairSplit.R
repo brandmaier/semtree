@@ -33,8 +33,6 @@ fairSplit <-
       return(NULL))
     n.comp <- 0
     
-    #browser()
-    
     if (control$report.level > 2) {
       report("Phase I - Select within variables", 1)
     }
@@ -381,7 +379,6 @@ fairSplit <-
               test2 <- data.frame(test2, test1)
             }
             test2 <- test2[, -1]
-            #browser()
             
             
             if (result$num_sets == 1) {
@@ -456,8 +453,6 @@ fairSplit <-
         LL.cur <-
           LL.baseline - fitSubmodels(model, subset1, subset2, control, invariance =
                                        NULL)
-        # browser()
-        #if(is.null(LL.cur)) LL.cur <- NA
         
         # cross2 == subset of data for Phase II
         

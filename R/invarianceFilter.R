@@ -8,7 +8,7 @@ invarianceFilter <- function(model=NULL, mydata=NULL, btn.matrix=NULL, LL.baseli
   # Submodel Fits with model parameters allowed to vary
   # If Model is significant return 1, else 0
   filter <- list()
-  #browser()
+
   # btn.matrix <- btn.matrix[,order(-as.numeric(btn.matrix[1,]))]
   # for(i in 1:6){
   for(i in 1:ncol(btn.matrix)){
@@ -89,7 +89,7 @@ invarianceFilter <- function(model=NULL, mydata=NULL, btn.matrix=NULL, LL.baseli
       btn.matrix[1,i] <- NA
     }
   }
-  #browser()
+
   # returns a vector of booleans, 1 for valid split by invariance testing, 0 for invalid
   return(btn.matrix)
 }

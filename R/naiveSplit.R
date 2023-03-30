@@ -191,7 +191,7 @@ naiveSplit <-
               if (!is.na(LL.return)) {
                 LL.within <- cbind(LL.within, (LL.baseline - LL.return))
                 #within.split <- cbind(within.split, (val.sets[i]+val.sets[(i-1)])/2)
-                #browser()
+
                 within.split <- cbind(within.split, as.character(val.sets[i - 1]))
                 cov.col <- cbind(cov.col, cur_col)
                 cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
