@@ -57,3 +57,5 @@ Version: 0.9.19
 Date: 2022-05-13
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
+BugReports: https://github.com/brandmaier/semtree/issues
+URL: https://github.com/brandmaier/semtree
