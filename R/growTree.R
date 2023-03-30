@@ -60,7 +60,7 @@ growTree <- function(model=NULL, mydata=NULL,
     
     node$colnames <- colnames(mydata)
     if (control$verbose) {
-      ui_message("Subsampled predictors: ",paste(node$colnames))
+      ui_message("Subsampled predictors: ",paste(node$colnames[meta$covariate.ids]))
     }
   }
   
@@ -479,6 +479,8 @@ growTree <- function(model=NULL, mydata=NULL,
       #sub2 <- subset( mydata, as.numeric(mydata[, (result$col.max)])<=result$split.max)
       stop("An error occured!")
     }
+    
+    flush.console()
     
     ##########################################################
     ## NEW CODE TO INCLUDE CASES MISSING ON SPLITTING VARIABLE

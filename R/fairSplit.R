@@ -443,7 +443,8 @@ fairSplit <-
             #warning("LL.sum is NA after reestimation with focus parameter")
             ui_warn(
               "Could not estimate constrained/focus model for variable ",
-              colnames(cross2)[cur_col],
+#              colnames(cross2)[cur_col],
+              names(mydata[cov.btn.cols[cur_col]]),
               ". Possibly choosing a suboptimal split."
             )
             LL.baseline <- NA
