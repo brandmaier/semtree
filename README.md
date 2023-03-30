@@ -1,5 +1,4 @@
-semtree
-=======
+# semtree
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1116294.svg)](https://doi.org/10.5281/zenodo.1116294)
 [![cran
@@ -11,13 +10,11 @@ Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://tra
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-What is this?
--------------
+## What is this?
 
 An R package for estimating Structural Equation Model Trees and Forests.
 
-Install
--------
+## Install
 
 Install the latest stable version from CRAN:
 
@@ -32,8 +29,7 @@ following line into R:
     # even better: install with package vignette (extra documentation)
     devtools::install_github("brandmaier/semtree",force=TRUE, build_opts = c())
 
-Usage
------
+## Usage
 
 Package documentation and use-cases with runnable R code can be found on
 our github pages: <https://brandmaier.github.io/semtree/>.
@@ -47,10 +43,12 @@ package:
 
     browseVignettes("semtree")
 
-References
-----------
+## References
 
 Theory and method:
+
+Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided
+structural equation model trees. Frontiers in psychology 11, 564403.
 
 Brandmaier, A. M., Driver, C., & Voelkle, M. C. (2019). Recursive
 partitioning in continuous time analysis. In K. van Montfort, J. Oud, &

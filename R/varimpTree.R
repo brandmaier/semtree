@@ -93,8 +93,6 @@ varimpTree <- function(tree,
       permutation.idx <- which(cov.name == names(data$oob.data))
       oob.data.permuted <- oob.data
       
-      # browser()
-      
       # random permutation
       if (!conditional) {
         col.data <- oob.data.permuted[, permutation.idx]
@@ -110,7 +108,7 @@ varimpTree <- function(tree,
           ui_warn("Warning! OOB DATA RESAMPLING HAD NO EFFECT")
         }
         
-        #browser()
+
         # stop("Not implemented yet!")
       }
       

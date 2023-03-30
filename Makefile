@@ -11,7 +11,7 @@ rd:
 	Rscript -e 'roxygen2::roxygenise(".")'
 
 readme:
-	Rscript -e 'rmarkdown::render("README.rmd", "md_document")'
+	Rscript -e 'rmarkdown::render("README.Rmd", "md_document")'
 
 build:
 	cd ..;\

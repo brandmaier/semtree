@@ -15,10 +15,10 @@ function(original_model, sub_model1, sub_model2, sub1_mxdata, sub2_mxdata, verbo
 		# fit original model with subsets (and no restrictions)
     	original_model$data <- sub1_mxdata;
     	try (
-    	 run_sub1_original <- OpenMx::mxRun(original_model, suppressWarnings=T, silent=T) 
+    	 run_sub1_original <- OpenMx::mxRun(original_model, suppressWarnings=TRUE, silent=TRUE) 
     	 )
     	original_model$data <- sub2_mxdata;
-    	try( run_sub2_original <- OpenMx::mxRun(original_model, suppressWarnings=T, silent=T) )    	
+    	try( run_sub2_original <- OpenMx::mxRun(original_model, suppressWarnings=TRUE, silent=TRUE) )    	
     	# get summaries of the sub model outputs (w/o constraints)
    	 	sum_sub1_original <- summary(run_sub1_original);
     	sum_sub2_original <- summary(run_sub2_original);
