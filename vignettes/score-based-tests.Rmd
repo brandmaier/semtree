@@ -68,7 +68,7 @@ ctrl = semtree.control(
   bonferroni = TRUE)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 tree = semtree( model = result, 
                 data = tree.data, 
                 control=ctrl)

@@ -29,7 +29,7 @@ library(MASS)
 
 `semtree` allows different constraints on the split evaluation (`global.invariance`, `local.invariance`, and `focus.parameters`). These can be set in the following object and then passed to the `semtree` command:
 
-```{r eval=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 library(semtree)
 
 cnst <- semtree.constraints(local.invariance=NULL, 
@@ -101,7 +101,7 @@ mxData(cfa.sim, type = "raw")
 
 Global invariance is a relatively naive way of estimating a tree, in which a chosen set of parameters is equal across all leafs. This is achieved by fixing one or more selected parameters to the sample estimate *before* the tree is grown. Global invariance assures that the chosen parameters don't differ across the possible subgroups. However, if the parameters do differ, this leads to misspecification and jeopardizes the interpretation of the resulting tree structure. Using this approach is usually not recommended because it's typically not safe to assume that parameters are identical across a wide range of splits of the data. There may be cases in which it may make sense to constrain loading structures or means but it seems particularly dangerous to constrain variance components with such an approach.
 
-```{r}
+```{r message=FALSE, echo=TRUE, warning=FALSE}
 tree.gc <- semtree(model.cfa, data=cfa.sim, constraints=
                    semtree.constraints(global.invariance = 
                                          c("F__x1","F__x2","F__x3","F__x4")))
@@ -120,7 +120,7 @@ Even though we retrieve both predictors in the tree, the tree structure does not
 Local invariance builds a tree under which all parameters across the leafs of a tree may differ but the chosen parameters may not differ significantly from each other. If they differed significantly, the respective split is not considered a valid split and is not chosen. Local constraints are implemented by means of an additional test of measurement invariance. For each possible split, we fit an additional null model, in which the locally invariant parameters are constrained to be equal across the two resulting daugther nodes of a split. Only if we reject this null hypothesis, we believe that there is measurement non-invariance and disregard the split. A typical use-case is to the set of loadings of a factor model as `local.invariance` to allow a tree with weakly measurement-invariant leafs. 
 
 
-```{r warning=FALSE, message=FALSE, error=FALSE}
+```{r warning=FALSE, message=FALSE, error=FALSE, echo=TRUE}
 tree.lc <- semtree(model.cfa, data=cfa.sim, constraints=
                    semtree.constraints(
                      local.invariance= c("F__x1","F__x2","F__x3","F__x4")))
@@ -185,7 +185,7 @@ summary(result)
 
 Now, we grow a tree without constraints:
 
-```{r growbivtree}
+```{r growbivtree, warning=FALSE, message=FALSE}
 
 tree.biv <- semtree(model.biv, data=df.biv)
 
@@ -226,18 +226,20 @@ What if we were interested only in splits with respect to one of the two dimensi
 
 Let us first set `mu1` as focus parameter:
 
-```{r}
+```{r bv2, warning=FALSE, message=FALSE}
 
 tree.biv2 <- semtree(model.biv, df.biv, constraints=
                       semtree.constraints(focus.parameters = "mu1"))
+```
 
+```{r plbv2}
 plot(tree.biv2)
 ```
 
 As expected, the resulting tree structure only has `grp1` as predictor because `grp1` predicts differences in `mu1`. Predictor `grp2` did not come up anymore. Now, if we set `mu2`, we should see the exact opposite picture:
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 tree.biv3 <- semtree(model.biv, df.biv, constraints=
                       semtree.constraints(focus.parameters = "mu2"))
