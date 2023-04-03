@@ -48,6 +48,11 @@ plotParDiffForest <- function(forest, plot = "boxplot", measure = "wald",
   df$Predictor <- factor(df$Predictor, ordered = TRUE,
                          levels = forest$covariates)
   
+  # stupid fix to stop CRAN from complaining (one possible way out could be aes_string())
+  Parameter <- NULL
+  Node <- NULL
+  Value <- NULL
+  
   # ballon
   if (plot == "boxplot") {
   

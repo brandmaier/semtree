@@ -39,6 +39,11 @@ plotParDiffTree <- function(tree, plot = "ballon", measure = "wald",
   
   df$Parameter <- factor(df$Parameter, ordered = TRUE, levels = tree$param_names)
   
+  # stupid fix to stop CRAN from complaining (one possible way out could be aes_string())
+  Parameter <- NULL
+  Node <- NULL
+  Value <- NULL
+  
   # ballon
   if (plot == "ballon") {
     p <- ggplot2::ggplot(df, ggplot2::aes(x = Node, y = Parameter)) +
