@@ -12,7 +12,7 @@
 
 plotTreeStructure <- function(tree, type = 2, no.plot = FALSE, ...) {
   
-  if (!class(tree) == "semtree") {
+  if (!is(tree, "semtree")) {
     stop("Argument 'tree' is not a SEM tree!")
   }
   

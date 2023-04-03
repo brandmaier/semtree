@@ -132,7 +132,7 @@ semforest <- function(model,
       if (semforest.control$semtree.control$verbose) {
         ui_message("Model was not run. Estimating parameters now before running the forest.")
       }
-      model <- suppressMessages(OpenMx::mxTryHard(model,silent = TRUE))
+      model <- suppressMessages(OpenMx::mxTryHard(model,silent = TRUE, paste=FALSE))
     }
   }
   

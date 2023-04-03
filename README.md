@@ -47,29 +47,34 @@ package:
 
 Theory and method:
 
-Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided
-structural equation model trees. Frontiers in psychology 11, 564403.
+-   Brandmaier, A. M., & Jacobucci, R. C. (2023). Machine-learning
+    approaches to structural equation modeling. In R. H. Hoyle (Ed.),
+    Handbook of structural equation modeling (2nd rev. ed.,
+    pp. 722–739). Guilford Press.
 
-Brandmaier, A. M., Driver, C., & Voelkle, M. C. (2019). Recursive
-partitioning in continuous time analysis. In K. van Montfort, J. Oud, &
-M. C. Voelkle (Eds.), Continuous time modeling in the behavioral and
-related sciences. New York: Springer.
+-   Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided
+    structural equation model trees. Frontiers in psychology 11, 564403.
 
-Brandmaier, A. M., Prindle, J. J., McArdle, J. J., & Lindenberger, U.
-(2016). Theory-guided exploration with structural equation model
-forests. Psychological Methods, 21, 566-582.
+-   Brandmaier, A. M., Driver, C., & Voelkle, M. C. (2019). Recursive
+    partitioning in continuous time analysis. In K. van Montfort, J.
+    Oud, & M. C. Voelkle (Eds.), Continuous time modeling in the
+    behavioral and related sciences. New York: Springer.
 
-Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
-(2014). Exploratory data mining with structural equation model trees. In
-J. J. McArdle & G. Ritschard (Eds.), Contemporary issues in exploratory
-data mining in the behavioral sciences (pp. 96-127). New York:
-Routledge.
+-   Brandmaier, A. M., Prindle, J. J., McArdle, J. J., &
+    Lindenberger, U. (2016). Theory-guided exploration with structural
+    equation model forests. Psychological Methods, 21, 566-582.
 
-Brandmaier, A. M., von Oertzen, T., McArdle, J. J., & Lindenberger, U.
-(2013). Structural equation model trees. Psychological Methods, 18,
-71-86.
+-   Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &
+    Lindenberger, U. (2014). Exploratory data mining with structural
+    equation model trees. In J. J. McArdle & G. Ritschard (Eds.),
+    Contemporary issues in exploratory data mining in the behavioral
+    sciences (pp. 96-127). New York: Routledge.
 
-Applied examples:
+-   Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &
+    Lindenberger, U. (2013). Structural equation model trees.
+    Psychological Methods, 18, 71-86.
+
+Applied examples (there are many more):
 
 Brandmaier, A. M., Ram, N., Wagner, G. G., & Gerstorf, D. (2017).
 Terminal decline in well-being: The role of multi-indicator

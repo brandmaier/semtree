@@ -272,7 +272,7 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     ## ctsem are already estimated once
     if (control$sem.prog == 'OpenMx' && !summary(model)$wasRun) {
         ui_message("Model was not run. Estimating parameters now.")
-        suppressMessages(model <- OpenMx::mxTryHard(model = model, silent = TRUE))
+        suppressMessages(model <- OpenMx::mxTryHard(model = model, paste=FALSE, silent = TRUE))
     }
     
     
