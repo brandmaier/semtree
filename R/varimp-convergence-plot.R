@@ -13,7 +13,7 @@ varimpConvergencePlot <- function( x, lty=NULL, idx=NULL,
                                      cex.lab=1,
                                      xlim=NULL, xlab=NULL,
                                      ylab=NULL, legend.bg=NULL, 
-                                     legend.bty="n", na.omit=FALSE,
+                                     legend.bty="n", na.omit=TRUE,
                                      extra.legend=NULL, 
                                      aggregate="mean",
                                       ...) {

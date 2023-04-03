@@ -1,6 +1,3 @@
-
-#vim <- varimp(forest, return.vector=T)
-
 nacumsum <- function(x) {
 	x[is.na(x)] <- 0
 	return(cumsum(x))
@@ -31,7 +28,6 @@ if (is.null(idx)) {
 	idx <- 1:N
 }
 
-#colors = c("black","blue","green","red","orange","purple","pink")
 colors = grDevices::rainbow(M)
 
 pdata <- matrix(0, nrow=N, ncol=M)
