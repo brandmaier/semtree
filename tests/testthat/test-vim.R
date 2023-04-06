@@ -4,6 +4,8 @@ imps <- c(
   rep(c(1,2,3,4,5),each=10)
 )
 
+imps[c(1,10,55,56)] <- NA
+
 set.seed(234)
 vim <- list(
   var.names = paste0("x",1:3),
@@ -19,7 +21,11 @@ vim
 plot(vim)
 
 varimpConvergencePlot(vim)
+varimpConvergencePlot(vim, aggregate = "mean")
 varimpConvergencePlot(vim, aggregate = "median")
+
+varimpConvergencePlot(vim, aggregate = "mean",na.omit = TRUE)
+varimpConvergencePlot(vim, aggregate = "mean",na.omit = FALSE)
 
 
 print(vim)

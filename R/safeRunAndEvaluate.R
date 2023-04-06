@@ -23,8 +23,7 @@ safeRunAndEvaluate <- function(model, return.model=F)
   else if(inherits(model,"lavaan")){
     data <- data.frame(model@Data@X[[1]])
     colnames(data) <- model@Data@ov$name
-    modelrun <- try(suppressWarnings(eval(parse(text=paste(model@Options$model.type,'(parTable(model),data=data,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
-    #modelrun <- try(suppressWarnings(lavaan(parTable(model),data=data,model.type=model@Options$model.type,missing="fiml")),silent=T)
+    modelrun <- try(suppressWarnings(eval(parse(text=paste("lavaan::",model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',model@Options$missing,'\')',sep="")))),silent=T)
     if (is(modelrun,"try-error")) {
       #if(control$verbose){message("try error found...")}
       return(NA)

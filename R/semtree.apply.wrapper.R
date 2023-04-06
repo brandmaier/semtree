@@ -14,24 +14,24 @@ semtree.apply.wrapper <-
     
     result <- NULL
     
-    if (with.error.handler) {
-      tryCatch({
-        result <- semtree(
-          model = model,
-          dataset = data$bootstrap.data,
-          control = semtree.control,
-          covariates = covariates,
-          ...
-        )
-        
-      }, error = function(err) {
-        errmsg <- paste(date(), paste(err), paste(traceback()), sep = "\n")
-        
-        write(errmsg, file = "error.log", append = TRUE)
-        return(NULL)
-      })
+   # if (with.error.handler) {
+  #    tryCatch({
+   #     result <- semtree(
+    #      model = model,
+     #     dataset = data$bootstrap.data,
+      #    control = semtree.control,
+    #      covariates = covariates,
+    #      ...
+    #    )
+    #    
+    #  }, error = function(err) {
+    #    errmsg <- paste(date(), paste(err), paste(traceback()), sep = "\n")
+    #    
+    #    write(errmsg, file = "error.log", append = TRUE)
+    #    return(NULL)
+    #  })
       
-    } else {
+    #} else {
       result <-
         semtree(
           model = model,
@@ -41,7 +41,7 @@ semtree.apply.wrapper <-
           ...
         )
       
-    }
+    #}
     
     return(result)
   }

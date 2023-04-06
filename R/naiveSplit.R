@@ -36,8 +36,8 @@ naiveSplit <-
       modelnew <-
         eval(parse(
           text = paste(
-            model@Options$model.type,
-            '(parTable(model),data=mydata,missing=\'',
+            "lavaan::",model@Options$model.type,
+            '(lavaan::parTable(model),data=mydata,missing=\'',
             model@Options$missing,
             '\',do.fit=F)',
             sep = ""

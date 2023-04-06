@@ -89,8 +89,8 @@ growTree <- function(model=NULL, mydata=NULL,
     if(control$sem.prog == 'lavaan'){
       ## 11.08.2022 Note: fits lavaan model on mydata
       node$model <- try(suppressWarnings(eval(
-        parse(text=paste(model@Options$model.type,
-                         '(parTable(model),data=mydata,missing=\'',
+        parse(text=paste("lavaan::",model@Options$model.type,
+                         '(lavaan::parTable(model),data=mydata,missing=\'',
                          model@Options$missing,'\')',sep="")))),silent=T)
     }
     ## 26.06.2022: Added code for ctsem models
