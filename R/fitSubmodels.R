@@ -88,7 +88,7 @@ fitSubmodels <- function(model,
                                     retryattempts = 20), silent = TRUE)
       if (is(model2,"try-error")) {return(NA)}
       fit1 <- minus2logLik_from_fitted_models(model1)
-      fit2 <- minus2logLik_from_fitted_models(model1)
+      fit2 <- minus2logLik_from_fitted_models(model2)
       LL.sum <- fit1 + fit2
       } else {
       
