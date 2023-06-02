@@ -6,6 +6,14 @@
 #
 varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NULL)
 {
+  has_constraints <- TRUE
+  if (is.null(constraints)) { has_constraints <- FALSE } else {
+    if (is.null(constraints$focus.parameters)) has_constraints <- FALSE
+  }
+  
+  if (!has_constraints) {
+    ui_fail("Forest was not run with focus parameters!")
+  }
   
   oob.data <- data$oob.data
   

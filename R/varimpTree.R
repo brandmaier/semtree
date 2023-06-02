@@ -123,7 +123,7 @@ varimpTree <- function(tree,
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
         ll.diff <-
-          varimpFocus2(
+          varimpFocus(
             tree = tree,
             data = data,
             cov.name = cov.name,
