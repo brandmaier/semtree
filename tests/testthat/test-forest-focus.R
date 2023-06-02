@@ -66,7 +66,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
                     mxData(lgcm,type="raw")
 )
 
-
+#tree <- semtree(model=lgcModel, data=lgcm)
 
 #lgcModel=mxRun(lgcModel)
 
@@ -78,8 +78,11 @@ ctrl <- semtree.control(method = "score", verbose = TRUE)
 # RUN TREE.
 
 forest <- semforest(model=lgcModel, data=lgcm, control = 
-                      semforest.control(control=semtree.control(method="score")))
+                      semforest.control(num.trees = 20, control=semtree.control(alpha=1,method="score")),
+                    constraints=semtree.constraints(focus.parameter="meani"))
 
-vim <- varimp(forest)
+vim_naive <- varimp(forest)
 
-semtree::varimpConvergencePlot(vim, aggregate="mean")
+vim <- varimp(forest, method = "permutationFocus")
+
+plot(vim)

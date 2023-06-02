@@ -107,16 +107,6 @@ evaluateDataLikelihood <-
       return(result)
       
     } else if (inherits(model, "lavaan")) {
-      # replace data
-      #model <- mxAddNewModelData(model=model,data=data)
-      
-      # fix all parameters
-      #model@ParTable$free <- rep(0, length(model@ParTable$free))
-      
-      # rerun model
-      #modelrun <- try(suppressWarnings(
-      #  eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',
-      #                        model@Options$missing,'\')',sep="")))),silent=FALSE)
       
       ll <- NA
       

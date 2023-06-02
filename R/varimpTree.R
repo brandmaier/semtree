@@ -5,7 +5,8 @@ varimpTree <- function(tree,
                        max.level = NA,
                        eval.fun = evaluateTree,
                        method = "permutation",
-                       conditional = FALSE) {
+                       conditional = FALSE,
+                       constraints = NULL) {
   # prune tree back to given level if "max.level" is specified
   if (!is.na(max.level)) {
     tree <- prune(tree, max.level)
@@ -122,11 +123,12 @@ varimpTree <- function(tree,
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
         ll.diff <-
-          varimpFocus(
+          varimpFocus2(
             tree = tree,
             data = data,
             cov.name = cov.name,
-            joint.model.list
+            joint.model.list,
+            constraints = constraints
           )
       } else {
         stop(paste("Error. Method is not implemented: ", method))
@@ -143,11 +145,5 @@ varimpTree <- function(tree,
   }
   
   return(list(total = total, ll.baseline = ll.baseline))
-  
-  
-  #		}, error=function(e) {
-  #			cat(paste("Error in tree #","\n",e));
-  #			return(list(total=rep(NA, length(var.names)),ll.baseline=NA));
-  #	});
   
 }

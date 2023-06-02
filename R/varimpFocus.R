@@ -1,5 +1,12 @@
-varimpFocus <- function(tree, data, cov.name, joint.model.list)
+#
+# alternative estimator
+# of variable importance with focus parameter
+#
+# 
+#
+varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NULL)
 {
+  
   oob.data <- data$oob.data
   
   permutation.idx <- which(cov.name == names(oob.data))
@@ -21,55 +28,51 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list)
   num.failed <- 0
   
   unique.pairs <- unique(ids)
- 
-    for (i in 1:nrow(unique.pairs)) {
-      
-      id1 <- unique.pairs[i, 1] # original node id
-      id2 <- unique.pairs[i, 2] # resampled node id
-      # skip if both ids are identical
-      if (id1 == id2)
-        next
-      
-      # collect data rows with ids that match this pair
-      data.rows <- which(apply(ids,1, function(x){all(x==unique.pairs[i,])}))
-      
-      # get model and evaluate baseline likelihood of data in original node
-      original.id <- unique.pairs[i, 1]
-      original.node <- semtree::getNodeById(tree, original.id)
-      ll.baseline <-
-        evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE])
-      
-      
-
-      # get focus model likelihood (note that the joint.model.list always
-      #    has the smaller number first)
-      ident <- paste0(min(unique.pairs[i, ]), "-", max(unique.pairs[i, ]))
-      fmodel <- joint.model.list[[ident]]
-      
-      if (id1 < id2) {  # original id < resampled node id
-        ffmodel <- fmodel$model1
-      } else {
-        ffmodel <- fmodel$model2
-      }
-      
-      # get likelihood of scrambled data rows given the resampled model
-      if (!is.null(ffmodel)) {
-        ll.focus <-
-          evaluateDataLikelihood(ffmodel , oob.data[data.rows, , drop = FALSE])
-        
-        ll.diff <- ll.focus - ll.baseline
-        
-      } else {
-        num.failed = num.failed + length(data.rows)
-        ll.diff <- 0
-      }
-      
-      total <- total + ll.diff
-      
-    }
+  
+  for (i in 1:nrow(unique.pairs)) {
     
-  
-  
+    id1 <- unique.pairs[i, 1] # original node id
+    id2 <- unique.pairs[i, 2] # resampled node id
+    # skip if both ids are identical
+    if (id1 == id2)
+      next
+    
+    # collect data rows with ids that match this pair
+    data.rows <- which(apply(ids,1, function(x){all(x==unique.pairs[i,])}))
+    
+    # get model and evaluate baseline likelihood of data in original node
+    original.id <- unique.pairs[i, 1]
+    original.node <- semtree::getNodeById(tree, original.id)
+    ll.baseline <-
+      evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE])   
+    
+    # get loss of fit by resampling
+    # ------------------------ 8< -------------------
+    
+    # obtain focus parameter estimates from resampled node
+    resampled.node <- semtree::getNodeById(tree, unique.pairs[i, 2])
+    
+    # get focus parameter names 
+    focus_parameter_names <- constraints$focus.parameters
+    
+    # get focus parameter estimates from resampled node
+    focus_parameter_values <- omxGetParameters(resampled.node$model)[focus_parameter_names]
+    
+    ui_info("Setting ", focus_parameter_names, " to ", focus_parameter_values,"\n")
+    flush.console()
+    
+    # set the focus parameter estimates from resampled model to original model
+    temp_model <- omxSetParameters(original.node$model, labels = focus_parameter_names,values = focus_parameter_values)
+    
+    # re-evaluate data likelihood
+    ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE])
+    
+    ll.diff <- ll.focus - ll.baseline
+    # ------------------------ 8< -------------
+    
+    # sum of loss of fit
+    total <- total + ll.diff
+  }
   
   # check whether some tests failed
   

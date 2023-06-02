@@ -67,7 +67,7 @@ varimp <- function(forest,
       max.level = NA,
       eval.fun = eval.fun,
       method = method,
-      conditional = conditional
+      constraints = forest$constraints
     ),
     SIMPLIFY = FALSE,
     USE.NAMES = TRUE,
