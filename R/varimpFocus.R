@@ -66,9 +66,6 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NU
     # get focus parameter estimates from resampled node
     focus_parameter_values <- omxGetParameters(resampled.node$model)[focus_parameter_names]
     
-    ui_info("Setting ", focus_parameter_names, " to ", focus_parameter_values,"\n")
-    flush.console()
-    
     # set the focus parameter estimates from resampled model to original model
     temp_model <- omxSetParameters(original.node$model, labels = focus_parameter_names,values = focus_parameter_values)
     
