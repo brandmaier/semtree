@@ -63,11 +63,27 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NU
     # get focus parameter names 
     focus_parameter_names <- constraints$focus.parameters
     
-    # get focus parameter estimates from resampled node
-    focus_parameter_values <- omxGetParameters(resampled.node$model)[focus_parameter_names]
+    if (getModelType(resampled.node$model) == "OpenMx") {
     
-    # set the focus parameter estimates from resampled model to original model
-    temp_model <- omxSetParameters(original.node$model, labels = focus_parameter_names,values = focus_parameter_values)
+      # get focus parameter estimates from resampled node
+      focus_parameter_values <- omxGetParameters(resampled.node$model)[focus_parameter_names]
+      
+      # set the focus parameter estimates from resampled model to original model
+      temp_model <- omxSetParameters(original.node$model, labels = focus_parameter_names,values = focus_parameter_values)
+    
+    } else if (getModelType(resampled.node$model) == "lavaan") {
+      
+      temp_model <- original.node$model
+      ids <- temp_model@ParTable$label == focus_parameter_names
+      if (!any(ids)) ui_fail("Error with focus parameter specification!")
+      
+      focus_parameter_values <- resampled.node$model@parTable$est[ids]
+      
+      temp_model@parTable$est[ids] <- focus_parameter_values
+      
+    } else {
+      ui_fail("Focus variable importance not implemented for this type of model.")
+    }
     
     # re-evaluate data likelihood
     ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE])

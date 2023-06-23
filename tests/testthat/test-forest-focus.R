@@ -1,6 +1,9 @@
 require("semtree")
 data(lgcm)
 
+library(future)
+future::plan(multisession, workers=5)
+
 lgcm$agegroup <- ordered(lgcm$agegroup)
 lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
@@ -78,11 +81,14 @@ ctrl <- semtree.control(method = "score", verbose = TRUE)
 # RUN TREE.
 
 forest <- semforest(model=lgcModel, data=lgcm, control = 
-                      semforest.control(num.trees = 20, control=semtree.control(alpha=1,method="score")),
+                      semforest.control(num.trees = 30, control=semtree.control(alpha=1,method="score")),
                     constraints=semtree.constraints(focus.parameter="meani"))
 
 vim_naive <- varimp(forest)
 
 vim <- varimp(forest, method = "permutationFocus")
 
-plot(vim)
+#plot(vim)
+#plot(vim_naive)
+
+aggregate()
