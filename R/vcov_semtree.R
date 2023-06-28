@@ -29,7 +29,7 @@ vcov_semtree.ctsemFit <- function(x, ...) {
   fit_untransformed <- ctsemOMX::ctFit(dat = dat,
                                        ctmodelobj = x$ctmodelobj,
                                        dataform = "wide",
-                                       stationary = "all",
+                                       stationary = x$ctfitargs$stationary,
                                        fit = FALSE,
                                        omxStartValues = coef.ctsemFit(x),
                                        transformedParams = FALSE)

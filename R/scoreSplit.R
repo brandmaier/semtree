@@ -27,6 +27,36 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   level_max <- NA
   test_max <- NA
   
+  ## 11.08.2022: removed re-estimation. This is already done in growTree
+  ### fit model once to complete data and compute maximum likelihood scores
+  # # OpenMx
+  # if(control$sem.prog == 'OpenMx'){
+  #   fit <- mxAddNewModelData(model, mydata, name = "BASE MODEL")
+  #   fit <- try(OpenMx::mxRun(fit, silent = TRUE, suppressWarnings = TRUE), silent = TRUE)
+  #   ### Check for error and abort
+  #   Scores <- mxScores(fit, control = control)
+  # }
+  # # lavaan
+  # if(control$sem.prog == 'lavaan'){
+  #   fit <- try(suppressWarnings(eval(parse(text = paste(
+  #     model@Options$model.type, '(parTable(model), data = mydata, missing = \'',
+  #     model@Options$missing, '\')', sep = "")))), silent = TRUE)
+  #   ### Check for error and abort
+  #   Scores <- lavScores(fit)
+  # }
+  # ## 26.06.2022: Added code for ctsem models
+  # # ctsem
+  # if (control$sem.prog == 'ctsem') {
+  #   fit <- suppressMessages(try(
+  #     ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
+  #                     ctmodelobj = model$ctmodelobj,
+  #                     dataform = "wide",
+  #                     retryattempts = 20)
+  #   ))
+  #   fit$mxobj@name <- "BASE MODEL"
+  #   Scores <- ctsemScores(fit)
+  # }
+  
   # Compute scores
   Scores <- switch(control$sem.prog,
                    "OpenMx" = mxScores(model, control = control),

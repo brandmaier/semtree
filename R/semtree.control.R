@@ -73,6 +73,8 @@
 #' documentation.
 #' @param refit If TRUE (default) the initial model is fitted on the data
 #' provided to \code{\link{semtree}}.
+#' @param ctsem_sd If FALSE (default) no standard errors of CT model parameters
+#' are computed. Requesting standard errors increases runtime. 
 #' @return A control object containing a list of the above parameters.
 #' @author Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 #' @seealso \code{\link{semtree}}
@@ -110,9 +112,9 @@ semtree.control <-
            mtry = NA,
            report.level = 0,
            exclude.code = NA,
-          #score.tests = list(nominal = 'LMuo',  # currently only LMuo, maxLMo
-          #                   ordinal = 'maxLMo', # and maxLM are available
-          #                   metric = 'maxLM'),
+           #score.tests = list(nominal = 'LMuo',  # currently only LMuo, maxLMo
+           #                   ordinal = 'maxLMo', # and maxLM are available
+           #                   metric = 'maxLM'),
            linear = TRUE,
            min.bucket = 10,
            naive.bonferroni.type = 0,
@@ -121,7 +123,8 @@ semtree.control <-
            strucchange.from = 0.15,
            strucchange.to = NULL,
            strucchange.nrep = 50000,
-           refit = TRUE)
+           refit = TRUE,
+           ctsem_sd = FALSE)
   {
     options <- list()
     # verbose output during generation of SEMTree
@@ -185,7 +188,8 @@ semtree.control <-
     options$strucchange.nrep <- strucchange.nrep
     # refit the initial model
     options$refit <- refit
-    
+    # should standard errors of CT models be computed? Increases runtime.
+    options$ctsem_sd <- ctsem_sd
     
     
     class(options) <- "semtree.control"

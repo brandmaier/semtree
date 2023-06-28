@@ -99,8 +99,19 @@ growTree <- function(model=NULL, mydata=NULL,
         ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
                         ctmodelobj = model$ctmodelobj,
                         dataform = "wide",
-                        stationary = "all",
-                        retryattempts = 20)
+                        objective = model$ctfitargs$objective,
+                        stationary = model$ctfitargs$stationary,
+                        optimizer = model$ctfitargs$optimizer,
+                        retryattempts = ifelse(model$ctfitargs$retryattempts >= 20,
+                                               yes = model$ctfitargs$retryattempts,
+                                               no = 20),
+                        carefulFit = model$ctfitargs$carefulFit,
+                        showInits = model$ctfitargs$showInits,
+                        asymptotes = model$ctfitargs$asymptotes,
+                        meanIntervals = model$ctfitargs$meanIntervals,
+                        discreteTime = model$ctfitargs$discreteTime,
+                        verbose = model$ctfitargs$verbose,
+                        transformedParams = model$ctfitargs$transformedParams)
       ))
       full.model$mxobj@name <- "BASE MODEL"
       node$model <- full.model
@@ -182,11 +193,18 @@ growTree <- function(model=NULL, mydata=NULL,
   if(control$sem.prog == 'ctsem'){
     
     # list of point estimates, std.dev, and names of all freely estimated parameters
-    ctsem_summary <- summary(node$model) # this is very slow
-    node$params <- ctsem_summary$ctparameters[, "Value"]
-    names(node$params) <- rownames(ctsem_summary$ctparameters)
-    node$params_sd <- ctsem_summary$ctparameters[, "StdError"]
-    node$param_names <- rownames(ctsem_summary$ctparameters)
+    if (control$ctsem_sd) { # slower
+      ctsem_summary <- summary(node$model) # this is very slow
+      node$params <- ctsem_summary$ctparameters[, "Value"]
+      names(node$params) <- rownames(ctsem_summary$ctparameters)
+      node$params_sd <- ctsem_summary$ctparameters[, "StdError"]
+      node$param_names <- rownames(ctsem_summary$ctparameters)
+    } else { # faster
+      ctsem_coef <- coef.ctsemFit(node$model)
+      node$params <- ctsem_coef
+      node$params_sd <- NA
+      node$param_names <- names(ctsem_coef)
+    }
   }
   
   # df

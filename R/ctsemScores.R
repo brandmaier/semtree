@@ -39,10 +39,22 @@ ctsemScores <- function(fit) {
                                rep(0:(fit$ctmodelobj$Tpoints - 1),
                                    each = fit$ctmodelobj$n.manifest))
   n_manifestVars <- length(names_manifestVars)
+  
   # Determine free parameters
+  free_T0means <- ifelse(test = any(fit$mxobj$T0MEANS$free),
+                         yes = TRUE,
+                         no = FALSE)
+ 
+  
   free_mvar <- ifelse(test = any(fit$mxobj$MANIFESTVARbase$free),
                       yes = TRUE,
                       no = FALSE)
+  
+  free_T0var <- ifelse(test = is.null(fit$mxobj$T0VARbase),
+                       yes = FALSE,
+                       no = ifelse(any(fit$mxobj$T0VARbase$free),
+                                   yes = TRUE,
+                                   no = FALSE))
   
   free_cint <- ifelse(test = any(fit$mxobj$CINT$free),
                       yes = TRUE,
@@ -54,6 +66,12 @@ ctsemScores <- function(fit) {
   
   # Column-wise parameter names
   names_drift_parameters <- c(fit$mxobj$DRIFT$labels)
+  if (free_T0means) {
+    names_T0means_parameters <- as.character(stats::na.omit(c(fit$mxobj$T0MEANS$labels)))
+  }
+  if (free_T0var) {
+    names_T0var_parameters <- as.character(stats::na.omit(c(fit$mxobj$T0VARbase$labels)))
+  }
   if (free_mvar) {
     names_mvar_parameters <- as.character(stats::na.omit(c(fit$mxobj$MANIFESTVARbase$labels)))
   }
@@ -64,9 +82,11 @@ ctsemScores <- function(fit) {
   if (free_trait) {
     names_trait_parameters <- as.character(stats::na.omit(c(fit$mxobj$TRAITVARbase$labels)))
   }
+  
   # Number of unique time intervals
   n_unique_intervals <- max(intervalID)
   n_timepoints <- fit$ctmodelobj$Tpoints
+  
   # Observed data
   data_obs <- fit$mxobj$data$observed[, names_manifestVars]
   ASm_dimensions <- nrow(fit$mxobj$A$values)
@@ -76,6 +96,9 @@ ctsemScores <- function(fit) {
   I_n_processes <- diag(1, nrow = n_processes)
   I_n_processes2 <- diag(1, nrow = n_processes^2)
   I_RAM <- diag(1, nrow = nrow(fit$mxobj$A$values))
+  Zero_n_processes <- matrix(0, nrow = n_processes, ncol = n_processes)
+  Zero_n_processes_vec <- matrix(0, nrow = n_processes^2)
+  zero_n_processes <- matrix(0, nrow = n_processes, ncol = 1)
   
   # Matrices consisting of parameters
   if (free_cint) {drift_inv <- fit$mxobj$invDRIFT$result}
@@ -98,7 +121,7 @@ ctsemScores <- function(fit) {
   
   S_deriv <- A_deriv
   
-  if (free_cint) {
+  if (free_T0means | free_cint) {
     m_deriv <- replicate(n = n_parameters,
                          expr = matrix(0, nrow = ASm_dimensions,
                                        ncol = 1),
@@ -113,7 +136,7 @@ ctsemScores <- function(fit) {
                            simplify = FALSE)
   names(Sigma_deriv) <- names_parameters
   
-  if (free_cint) {
+  if (free_T0means | free_cint) {
     mu_deriv <- replicate(n = n_parameters,
                           expr = matrix(0, nrow = n_manifestVars,
                                         ncol = 1),
@@ -121,7 +144,23 @@ ctsemScores <- function(fit) {
     names(mu_deriv) <- names_parameters
   }
   
+  
   # Constant derivatives of A and S matrices ----
+  
+  # T0means
+  if (free_T0means) {
+    names_T0MEANS <- rep(NA, n_processes)
+    for (i in 1:n_processes) {
+      names_T0MEANS[i] <- paste0("T0MEANS[", i, ",", 1, "]")
+    }
+    
+    for (i in 1:n_processes) {
+      m_deriv[[names_T0means_parameters[i]]] <- t(ifelse(test = fit$mxobj$M$labels == names_T0MEANS[i],
+                                                         yes = 1,
+                                                         no = 0))
+      m_deriv[[names_T0means_parameters[i]]][is.na(m_deriv[[names_T0means_parameters[i]]])] <- 0
+    }
+  }
   
   # mvar
   if (free_mvar) {
@@ -138,6 +177,19 @@ ctsemScores <- function(fit) {
     }
   }
   
+  # T0var
+  if (free_T0var) {
+    T0var_labels <- fit$mxobj$T0VARbase$labels
+    T0var_labels[upper.tri(T0var_labels)] <- t(T0var_labels)[upper.tri(T0var_labels)]
+    indices_T0var_in_S <- 1:n_processes
+    
+    for (i in seq_along(names_T0var_parameters)) {
+      S_deriv[[names_T0var_parameters[i]]][indices_T0var_in_S, indices_T0var_in_S] <-
+        ifelse(test = T0var_labels == names_T0var_parameters[i],
+               yes = 1,
+               no = 0)
+    }
+  }
   
   # traitvar
   if (free_trait) {
@@ -169,10 +221,14 @@ ctsemScores <- function(fit) {
     -drift_hash_inv %*% x %*% drift_hash_inv})
   names(derivatives_drift_hash_inv) <- names_drift_parameters
   
-  derivatives_theta_0_drift <- lapply(derivatives_drift_hash_inv,
-                                      FUN = function(x) {
-                                        matrix(-x %*% Q_row, nrow = n_processes, ncol = n_processes)})
-  
+  if (free_T0var) {
+    derivatives_theta_0_drift <- lapply(seq_len(n_processes^2),
+                                        FUN = function(X) Zero_n_processes)
+  } else {
+    derivatives_theta_0_drift <- lapply(derivatives_drift_hash_inv,
+                                        FUN = function(x) {
+                                          matrix(-x %*% Q_row, nrow = n_processes, ncol = n_processes)})
+  }
   names(derivatives_theta_0_drift) <- names_drift_parameters
   
   diffusion_labels_row <- fit$mxobj$DIFFUSIONbase$labels
@@ -183,25 +239,47 @@ ctsemScores <- function(fit) {
   derivatives_Q_row <- lapply(unique(c(diffusion_labels_row)), FUN = function(x) {
     ifelse(test = diffusion_labels_row == x, yes = 1, no = 0)})
   
-  derivatives_theta_0_diffusion <- lapply(derivatives_Q_row, FUN = function(x) {
-    -solve(fit$mxobj$DRIFTHATCH$result) %*% x})
-  
+  if (free_T0var) {
+    derivatives_theta_0_diffusion <- lapply(
+      X = seq_len(n_processes * (n_processes + 1) / 2),
+      FUN = function(X) Zero_n_processes_vec)
+  } else {
+    derivatives_theta_0_diffusion <- lapply(
+      X = derivatives_Q_row,
+      FUN = function(x) {-solve(fit$mxobj$DRIFTHATCH$result) %*% x})
+  }
   names(derivatives_theta_0_diffusion) <- names_diffusion_parameters
   
-  if (free_cint) {
-    derivatives_drift_inv <- lapply(derivatives_drift, FUN = function(x) {
-      -drift_inv %*% x %*% drift_inv})
+  if (free_T0means | free_cint) {
     
-    derivatives_cint <- lapply(c(fit$mxobj$CINT$labels), FUN = function(x) {
-      ifelse(test = fit$mxobj$CINT$labels == x, yes = 1, no = 0)})
+    if (free_cint) {
+      derivatives_drift_inv <- lapply(derivatives_drift, FUN = function(x) {
+        -drift_inv %*% x %*% drift_inv})
+      
+      derivatives_cint <- lapply(c(fit$mxobj$CINT$labels), FUN = function(x) {
+        ifelse(test = fit$mxobj$CINT$labels == x, yes = 1, no = 0)})
+    }
     
-    derivatives_tau_0_drift <- lapply(derivatives_drift_inv, FUN = function(x) {
-      -x %*% fit$mxobj$CINT$values})
+    if (free_T0means) {
+      derivatives_tau_0_drift <- lapply(
+        X = seq_len(n_processes^2),
+        FUN = function(X) zero_n_processes)
+    } else {
+      derivatives_tau_0_drift <- lapply(derivatives_drift_inv, FUN = function(x) {
+        -x %*% fit$mxobj$CINT$values})
+    }
     names(derivatives_tau_0_drift) <- names_drift_parameters
     
-    derivatives_tau_0_cint <- lapply(derivatives_cint, FUN = function(x) {
-      -drift_inv %*% x})
+    if (free_T0means) {
+      derivatives_tau_0_cint <- lapply(
+        X = seq_len(n_processes),
+        FUN = function(X) zero_n_processes)
+    } else {
+      derivatives_tau_0_cint <- lapply(derivatives_cint, FUN = function(x) {
+        -drift_inv %*% x})
+    }
     names(derivatives_tau_0_cint) <- names_cint_parameters
+    
   }
   
   
@@ -382,7 +460,7 @@ ctsemScores <- function(fit) {
     
     A_mat <- fit$mxobj$A$values
     
-    if (free_cint) {
+    if (free_T0means | free_cint) {
       m_mat <- t(fit$mxobj$M$values)
     }
     
@@ -502,7 +580,7 @@ ctsemScores <- function(fit) {
     F_I_A_inv_S_I_A_inv <- F_I_A_inv_S %*% t(I_A_inv)
     Sigma <- F_I_A_inv_S_I_A_inv %*% t(F_mat)
     Sigma_inv <- solve(Sigma)
-    if (free_cint) {
+    if (free_T0means | free_cint) {
       mu <- F_I_A_inv %*% m_mat
       mu_matrix <- matrix(mu, nrow = n_select_data, ncol = n_manifestVars,
                           byrow = TRUE)
@@ -511,6 +589,12 @@ ctsemScores <- function(fit) {
     
     
     # Compute derivative of Sigma and mu ----
+    if (free_T0means) {
+      for (select_par in names_T0means_parameters) {
+        mu_deriv[[select_par]] <- F_I_A_inv %*% m_deriv[[select_par]]
+      }
+    }
+    
     for (select_par in names_drift_parameters) {
       Sigma_deriv_P1 <- F_I_A_inv %*% S_deriv[[select_par]] %*% t(F_I_A_inv)
       Sigma_deriv_P2 <- F_I_A_inv %*% A_deriv[[select_par]] %*%
@@ -533,6 +617,12 @@ ctsemScores <- function(fit) {
       Sigma_deriv[[select_par]] <- F_I_A_inv %*% S_deriv[[select_par]] %*% t(F_I_A_inv)
     }
     
+    if (free_T0var) {
+      for (select_par in names_T0var_parameters) {
+        Sigma_deriv[[select_par]] <- F_I_A_inv %*% S_deriv[[select_par]] %*% t(F_I_A_inv)
+      }
+    }
+    
     if (free_cint) {
       for (select_par in names_cint_parameters) {
         mu_deriv[[select_par]] <- F_I_A_inv %*% m_deriv[[select_par]]
@@ -550,7 +640,7 @@ ctsemScores <- function(fit) {
     
     for (select_par in names_parameters) {
       
-      if (free_cint) {
+      if (free_T0means | free_cint) {
         
         select_data_centered <- select_data - mu_matrix
         term1 <- -2 * select_data_centered %*% Sigma_inv %*% mu_deriv[[select_par]]

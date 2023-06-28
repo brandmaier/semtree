@@ -86,27 +86,43 @@ evaluateDataLikelihood <-
       
       select_ctsem_data <- intersect(colnames(model$mxobj$data$observed),
                                      colnames(data))
+      
       model_ctsem <- ctsemOMX::ctFit(dat = data[select_ctsem_data],
                                      ctmodelobj = model$ctmodelobj,
                                      dataform = "wide",
-                                     stationary = "all",
+                                     stationary = model$ctfitargs$stationary,
                                      fit = FALSE)
-      model <- omxSetParameters(
-        model_ctsem$mxobj,
-        labels = names(omxGetParameters(model_ctsem$mxobj)),
-        free = FALSE)
-      data <- full_mxdata <- mxData(observed = model_ctsem$mxobj$data$observed,
+      
+      model_up <- OpenMx::omxSetParameters(
+        model = model_ctsem$mxobj,
+        labels = names(OpenMx::omxGetParameters(model_ctsem$mxobj)),
+        free = FALSE,
+        values = model$mxobj$output$estimate)
+      
+      full_mxdata <- OpenMx::mxData(observed = model_ctsem$mxobj$data$observed,
                                     type = "raw")
-      model <- setData(model, data)
-      run <- OpenMx::mxRun(
-        model,
+      
+      model_up <- setData(model = model_up, data = full_mxdata)
+      
+      model_up <- OpenMx::mxRun(
+        model = model_up,
         silent = TRUE,
         useOptimizer = FALSE,
         suppressWarnings = TRUE)
-      result <- getLikelihood(run)
-      return(result)
+      
+      return(getLikelihood(model_up))
       
     } else if (inherits(model, "lavaan")) {
+      # replace data
+      #model <- mxAddNewModelData(model=model,data=data)
+      
+      # fix all parameters
+      #model@ParTable$free <- rep(0, length(model@ParTable$free))
+      
+      # rerun model
+      #modelrun <- try(suppressWarnings(
+      #  eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',
+      #                        model@Options$missing,'\')',sep="")))),silent=FALSE)
       
       ll <- NA
       
