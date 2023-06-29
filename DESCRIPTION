@@ -55,7 +55,7 @@ Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.19
 Date: 2023-03-03
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 BugReports: https://github.com/brandmaier/semtree/issues
 URL: https://github.com/brandmaier/semtree
