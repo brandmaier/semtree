@@ -51,8 +51,9 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NU
     # get model and evaluate baseline likelihood of data in original node
     original.id <- unique.pairs[i, 1]
     original.node <- semtree::getNodeById(tree, original.id)
+    ll.baseline <- NA
     ll.baseline <-
-      evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE])   
+      try({evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE])  }) 
     
     # get loss of fit by resampling
     # ------------------------ 8< -------------------
@@ -85,8 +86,9 @@ varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NU
       ui_fail("Focus variable importance not implemented for this type of model.")
     }
     
-    # re-evaluate data likelihood
-    ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE])
+    # re-evaluate data likelihood (NA if fit job exits)
+    ll.focus <- NA
+    try({ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE])})
     
     ll.diff <- ll.focus - ll.baseline
     # ------------------------ 8< -------------
