@@ -52,7 +52,6 @@
 #   #     ctsemOMX::ctFit(dat = mydata[, -meta$covariate.ids],
 #   #                     ctmodelobj = model$ctmodelobj,
 #   #                     dataform = "wide",
-#   #                     stationary = "all",
 #   #                     retryattempts = 20)
 #   #   ))
 #   #   fit$mxobj@name <- "BASE MODEL"

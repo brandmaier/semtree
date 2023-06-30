@@ -1,5 +1,5 @@
 # Quick and dirty function to get untramsformed parameter estimates from a
-# ctsemFit objekct. This probably does not work for all tips of CTSEMs.
+# ctsemFit object. This probably does not work for all tips of CTSEMs.
 
 coef.ctsemFit <- function(x) {
   

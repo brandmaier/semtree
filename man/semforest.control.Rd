@@ -3,6 +3,7 @@
 \name{semforest.control}
 \alias{semforest.control}
 \alias{print.semforest.control}
+\alias{semforest_score_control}
 \title{SEM Forest Control Object}
 \usage{
 semforest.control(

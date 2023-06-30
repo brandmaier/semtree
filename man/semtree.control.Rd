@@ -30,7 +30,8 @@ semtree.control(
   strucchange.from = 0.15,
   strucchange.to = NULL,
   strucchange.nrep = 50000,
-  refit = TRUE
+  refit = TRUE,
+  ctsem_sd = FALSE
 )
 }
 \arguments{
@@ -113,6 +114,9 @@ documentation.}
 
 \item{refit}{If TRUE (default) the initial model is fitted on the data
 provided to \code{\link{semtree}}.}
+
+\item{ctsem_sd}{If FALSE (default) no standard errors of CT model parameters
+are computed. Requesting standard errors increases runtime.}
 }
 \value{
 A control object containing a list of the above parameters.

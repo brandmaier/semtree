@@ -80,12 +80,38 @@ fitSubmodels <- function(model,
       model1 <- try(ctsemOMX::ctFit(dat = subset1,
                                     ctmodelobj = model$ctmodelobj,
                                     dataform = "wide",
-                                    retryattempts = 20), silent = TRUE)
+                                    objective = model$ctfitargs$objective,
+                                    stationary = model$ctfitargs$stationary,
+                                    optimizer = model$ctfitargs$optimizer,
+                                    retryattempts = ifelse(model$ctfitargs$retryattempts >= 20,
+                                                           yes = model$ctfitargs$retryattempts,
+                                                           no = 20),
+                                    carefulFit = model$ctfitargs$carefulFit,
+                                    showInits = model$ctfitargs$showInits,
+                                    asymptotes = model$ctfitargs$asymptotes,
+                                    meanIntervals = model$ctfitargs$meanIntervals,
+                                    discreteTime = model$ctfitargs$discreteTime,
+                                    verbose = model$ctfitargs$verbose,
+                                    transformedParams = model$ctfitargs$transformedParams),
+                    silent = TRUE)
       if (is(model1,"try-error")) {return(NA)}
       model2 <- try(ctsemOMX::ctFit(dat = subset2,
                                     ctmodelobj = model$ctmodelobj,
                                     dataform = "wide",
-                                    retryattempts = 20), silent = TRUE)
+                                    objective = model$ctfitargs$objective,
+                                    stationary = model$ctfitargs$stationary,
+                                    optimizer = model$ctfitargs$optimizer,
+                                    retryattempts = ifelse(model$ctfitargs$retryattempts >= 20,
+                                                           yes = model$ctfitargs$retryattempts,
+                                                           no = 20),
+                                    carefulFit = model$ctfitargs$carefulFit,
+                                    showInits = model$ctfitargs$showInits,
+                                    asymptotes = model$ctfitargs$asymptotes,
+                                    meanIntervals = model$ctfitargs$meanIntervals,
+                                    discreteTime = model$ctfitargs$discreteTime,
+                                    verbose = model$ctfitargs$verbose,
+                                    transformedParams = model$ctfitargs$transformedParams),
+                    silent = TRUE)
       if (is(model2,"try-error")) {return(NA)}
       fit1 <- minus2logLik_from_fitted_models(model1)
       fit2 <- minus2logLik_from_fitted_models(model2)
