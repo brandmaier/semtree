@@ -13,7 +13,16 @@ plot.semforest.varimp <-
            na.omit = TRUE,
            ...)
   {
+
     vimp <- x
+    
+    if (hasName(vimp,"boruta")) {
+      filter_ids <- 1:(ncol(vimp$importance)/2)
+      vimp$var.names <- vimp$var.names[filter_ids]
+      vimp$importance <- vimp$importance[,filter_ids]
+      vimp$ll.baselines <- vimp$ll.baselines[filter_ids]
+      x <- vimp
+    }
     
     if (convergence) {
       if (!is(vimp$importance, "matrix")) {
@@ -95,6 +104,10 @@ plot.semforest.varimp <-
     linch <-  max(strwidth(vnames, "inch") + 0.4, na.rm = TRUE)
     par(mai = c(1.02, linch, 0.82, 0.42))
     
+    col <- NULL
+    if (hasName(vimp,"boruta")) {
+      col <- ifelse(vimp$filter,"grey","white")
+    }
     
     # if (!exists("x.level1")) {
     barplot(
@@ -103,7 +116,11 @@ plot.semforest.varimp <-
       horiz = horiz,
       las = las,
       xlim = xlim,
+      col = NULL,
       ...
     )
+    if (hasName(vimp,"boruta")) {
+      abline(v=vimp$boruta_threshold)
+    }
 
   }
