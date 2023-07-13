@@ -72,4 +72,6 @@ control <- semforest_score_control()
 
 vim_boruta <- boruta(lgcModel, lgcm)
 
+print(vim_boruta)
+
 plot(vim_boruta)
