@@ -9,7 +9,7 @@ getLikelihood<-function(model)
     warning("NULL Model in getLikelihood()-call")
     return(NULL)
   }
-#  return(summary(model)$Minus2LogLikelihood)
+  
   return(msm(model)$Minus2LogLikelihood)
   
   }

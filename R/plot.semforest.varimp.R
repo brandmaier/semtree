@@ -120,7 +120,7 @@ plot.semforest.varimp <-
       ...
     )
     if (hasName(vimp,"boruta")) {
-      abline(v=vimp$boruta_threshold)
+      abline(v=vimp$boruta_threshold,lwd=2)
     }
 
   }
