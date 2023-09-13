@@ -76,8 +76,6 @@ str.matrix <- matrix(NA, nrow = length(rowdata),ncol=length(all.names))
 
 colnames(str.matrix) <- all.names
 
-browser()
-
 for (i in 1:length(rowdata)) {
 #  result.row <- rep(" ",length(covariate.names))
   myrow <- rowdata[[i]][[1]]
