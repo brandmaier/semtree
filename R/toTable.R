@@ -6,6 +6,8 @@ saferound <- function(num, digits)
     return("NULL")
   }
 }
+
+
 treeToTable <- function(tree, colDataList=list(), result=list())
 {
   
@@ -35,8 +37,8 @@ treeToTable <- function(tree, colDataList=list(), result=list())
 #' 
 #' 
 #' @param tree A SEM Tree object.
-#' @param added.param.cols Add extra columns with parameter estimates.
-#' @param round.param Number of digits to round parameter estiamtes
+#' @param added.param.cols String. Add extra columns with parameter estimates. Pass a vector with the names of the parameters that should be rendered in the table.
+#' @param round.param Integer. Number of digits to round parameter estimates. Default is no rounding (NULL)
 #' @author Andreas M. Brandmaier
 #' @references
 #' 
@@ -64,11 +66,14 @@ alls <- unique(alls)
 
 
 # create table
-covariate.names <-simplify2array(tree$result$btn.matrix[2,])
+#covariate.names <-simplify2array(tree$result$btn.matrix[2,])
+covariate.names <- getCovariatesFromTree(tree)
 
+# all column names for the table to be generated (covariate names and parameter names)
 all.names <- c(covariate.names, added.param.cols)
 
 str.matrix <- matrix(NA, nrow = length(rowdata),ncol=length(all.names))
+
 colnames(str.matrix) <- all.names
 
 for (i in 1:length(rowdata)) {
@@ -82,7 +87,7 @@ for (i in 1:length(rowdata)) {
       if (myitem[[1]]$relation==">=") {
         rule <- paste(">=",saferound(myitem[[1]]$value,2))
       } else if (myitem[[1]]$relation=="%in%") {
-        rule <- paste(myitem[[1]]$value,sep=" or ")
+        rule <- paste(myitem[[1]]$value, collapse=" or ")
       } else {
         rule <- "UNKNOWN"
       }
@@ -93,7 +98,7 @@ for (i in 1:length(rowdata)) {
       if (myitem[[1]]$relation==">=") {
         rule <- paste("<",saferound(myitem[[1]]$value,2))
       } else if (myitem[[1]]$relation=="%in%") {
-        rule <- paste("not",paste(myitem[[1]]$value,sep=" or "))
+        rule <- paste("not (",paste(myitem[[1]]$value,collapse=" or "),")")
       } else 
         { rule <- "UNKNOWN" } 
         
