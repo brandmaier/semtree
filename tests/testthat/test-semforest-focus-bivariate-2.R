@@ -1,3 +1,5 @@
+skip_on_cran()
+
 N <- 2000
 
 library(semtree)

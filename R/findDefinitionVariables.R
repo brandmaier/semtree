@@ -1,6 +1,6 @@
 findDefinitionVariables <- function(model) {
   def_vars <- c()
-  for (mid in 1:length(m@matrices)) {
+  for (mid in 1:length(model@matrices)) {
     mt <- model@matrices[[mid]]
     idx <- startsWith(mt$labels,"data.")
     if (any(idx,na.rm = TRUE)) {

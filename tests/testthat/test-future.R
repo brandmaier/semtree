@@ -1,3 +1,5 @@
+skip_on_cran()
+
 library(future)
 library(lavaan)
 library(semtree)

@@ -4,7 +4,7 @@
 #
 # 
 #
-varimpFocus <- function(tree, data, cov.name, joint.model.list, constraints = NULL)
+varimpFocus <- function(tree, data, cov.name, constraints = NULL)
 {
   has_constraints <- TRUE
   if (is.null(constraints)) { has_constraints <- FALSE } else {

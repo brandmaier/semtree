@@ -1,3 +1,5 @@
+skip_on_cran()
+
 N<-100
 x<-rnorm(N)
 y<-rnorm(N)
