@@ -1,5 +1,7 @@
 skip_on_cran()
 
+if (require(future)) {
+
 library(future)
 library(lavaan)
 library(semtree)
@@ -35,5 +37,5 @@ testrun <- function(mode="sequential"){
 #result1<-testrun("sequential")
 result2<-testrun("parallel")
 
-
+}
 

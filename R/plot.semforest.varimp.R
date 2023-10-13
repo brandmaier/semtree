@@ -16,7 +16,7 @@ plot.semforest.varimp <-
 
     vimp <- x
     
-    if (hasName(vimp,"boruta")) {
+    if (utils::hasName(vimp,"boruta")) {
       filter_ids <- 1:(ncol(vimp$importance)/2)
       vimp$var.names <- vimp$var.names[filter_ids]
       vimp$importance <- vimp$importance[,filter_ids]

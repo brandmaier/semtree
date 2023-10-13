@@ -1,11 +1,12 @@
 # skip parallel tests on CRAN
 skip_on_cran()
 
+if (require("future")) {
 
 require("semtree")
 data(lgcm)
 
-library(future)
+
 future::plan(multisession, workers=5)
 
 lgcm$agegroup <- ordered(lgcm$agegroup)
@@ -96,3 +97,5 @@ vim <- varimp(forest, method = "permutationFocus")
 #plot(vim_naive)
 
 aggregate()
+
+}

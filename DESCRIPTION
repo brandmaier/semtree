@@ -39,7 +39,8 @@ Suggests:
     viridis,
     MASS,
     psychTools,
-    testthat
+    testthat,
+    future
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
     split empirical data into homogeneous groups each sharing similar data patterns

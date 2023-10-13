@@ -1,5 +1,7 @@
 skip_on_cran()
 
+if (require(future)) {
+
 N <- 2000
 
 library(semtree)
@@ -54,5 +56,8 @@ vim_focus <- varimp(forest, method="permutationFocus")
 vimdat <- data.frame( vim=rep(c("naive","focus"),each=3),
                       param=rep(c("pred1","pred2","noise"),2),
                       vals=c( semtree:::aggregateVarimp(vim_naive),semtree:::aggregateVarimp(vim_focus)))
-library(tidyverse)
+library(ggplot2)
+library(tidyr)
 vimdat %>% ggplot(aes(x=vim,y=vals,group=param,fill=param))+geom_col(position="dodge")
+
+}
