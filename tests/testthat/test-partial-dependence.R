@@ -1,3 +1,7 @@
+
+# skip long running tests on CRAN
+skip_on_cran()
+
 #context("test partial dependence")
 
 library(lavaan)

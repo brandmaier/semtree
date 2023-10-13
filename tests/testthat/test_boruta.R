@@ -1,3 +1,8 @@
+
+# skip long running tests on CRAN
+skip_on_cran()
+
+
 library("semtree")
 data(lgcm)
 

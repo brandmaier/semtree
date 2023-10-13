@@ -1,10 +1,10 @@
-context("test basic splitting based on level of covariate with score tests")
-
-library(lavaan)
-library(semtree)
+#context("test basic splitting based on level of covariate with score tests")
 
 # skip long running tests on CRAN
 skip_on_cran()
+
+library(lavaan)
+library(semtree)
 
 # generate observations of an ordered factor with labels
 set.seed(458)

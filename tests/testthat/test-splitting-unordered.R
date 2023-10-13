@@ -1,5 +1,3 @@
-#context("Testing unordered variable splits")
-
 skip_on_cran()
 
 library(lavaan)

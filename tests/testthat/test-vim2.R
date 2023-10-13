@@ -1,3 +1,5 @@
+skip_on_cran()
+
 set.seed(789)
 require("semtree")
 data(lgcm)
