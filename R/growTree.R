@@ -82,7 +82,7 @@ growTree <- function(model=NULL, mydata=NULL,
                                       name = "BASE MODEL")
       node$model <- try(
         suppressMessages(OpenMx::mxTryHard(model = full.model, paste = FALSE,
-                                          silent = TRUE)),
+                                          silent = TRUE,bestInitsOutput = FALSE)),
         silent = TRUE)
     }
     # lavaan

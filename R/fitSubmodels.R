@@ -299,7 +299,7 @@ fitSubmodels <- function(model,
         mxFitFunctionAlgebra('h12')
       )
       
-      sharedRun <- mxRun(sharedModel, silent = T)
+      sharedRun <- mxRun(sharedModel, silent = TRUE)
       
       LL.sum <-  mxEval(h12, sharedRun)
       

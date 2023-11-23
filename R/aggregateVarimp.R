@@ -1,4 +1,3 @@
-
 aggregateVarimp <-
   function(vimp,
            aggregate = "mean",
