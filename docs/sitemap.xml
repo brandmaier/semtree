@@ -31,6 +31,9 @@
     <loc>/CONTRIBUTORS.html</loc>
   </url>
   <url>
+    <loc>/cran_comments.html</loc>
+  </url>
+  <url>
     <loc>/index.html</loc>
   </url>
   <url>
@@ -158,6 +161,9 @@
   </url>
   <url>
     <loc>/reference/semforest.html</loc>
+  </url>
+  <url>
+    <loc>/reference/semtree-package.html</loc>
   </url>
   <url>
     <loc>/reference/semtree.constraints.html</loc>

@@ -68,7 +68,7 @@ Theory and method:
     Lindenberger, U. (2014). Exploratory data mining with structural
     equation model trees. In J. J. McArdle & G. Ritschard (Eds.),
     Contemporary issues in exploratory data mining in the behavioral
-    sciences (pp. 96-127). New York: Routledge.
+    sciences (pp. 96-127). New York: Routledge.
 
 -   Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &
     Lindenberger, U. (2013). Structural equation model trees.
