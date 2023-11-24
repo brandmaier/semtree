@@ -7,6 +7,9 @@ version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.or
 downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
 [![Build
 Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
+![Code
+size](https://img.shields.io/github/languages/code-size/brandmaier/semtree.svg)
+![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 

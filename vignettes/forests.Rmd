@@ -75,7 +75,7 @@ print(control)
 
 Now, run the forest using the `control` object:
 
-```{r message=FALSE, echo=TRUE, warning=FALSE, reuslts="hide"}
+```{r message=FALSE, echo=TRUE, warning=FALSE, results="hide"}
 forest <- semforest( model=model,
                      data = affect, 
                      control = control,
