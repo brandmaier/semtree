@@ -5,8 +5,10 @@
 version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
-[![Build
-Status](https://travis-ci.com/brandmaier/semtree.svg?branch=master)](https://travis-ci.com/brandmaier/semtree)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ![Code
 size](https://img.shields.io/github/languages/code-size/brandmaier/semtree.svg)
 ![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
