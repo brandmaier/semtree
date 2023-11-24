@@ -4,6 +4,7 @@
 #' 
 #' 
 #' @aliases merge.semforest
+#' 
 #' @param x A SEM Forest
 #' @param y A second SEM Forest
 #' @param \dots Extra arguments. Currently unused.
@@ -12,14 +13,15 @@
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
+#' 
 #' @exportS3Method merge semforest
 merge.semforest <- function(x, y, ...)
 {
-  return(merge.internal(list(x,y)))
+  return(merge_internal(list(x,y)))
 }
   
   
-merge.internal <- function(forest.list){
+merge_internal <- function(forest.list){
 
   # determine number of forests to merge
   num.forests <- length(forest.list)

@@ -8,11 +8,13 @@ nacummedian  <- function(x) {
   sapply(1:length(x), function(xx){median(x[1:xx])})
 }
 
-plot.varimpConvergence <- function( vim, lty=NULL, idx=NULL, 
+plot.varimpConvergence <- function( x, lty=NULL, idx=NULL, 
                                      legend.x="topright", clw=4, 
                                      legend.cex=1.5,ylim=NULL,
                                      ...) {
 
+  vim <- x
+  
 impsum <- apply(vim$importance, 2, nacumsum)
 
 M <- ncol(impsum)

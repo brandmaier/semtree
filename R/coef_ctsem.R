@@ -1,31 +1,31 @@
-# Quick and dirty function to get untramsformed parameter estimates from a
+# Quick and dirty function to get untransformed parameter estimates from a
 # ctsemFit object. This probably does not work for all tips of CTSEMs.
 
-coef.ctsemFit <- function(x) {
+coef.ctsemFit <- function(object, ...) {
   
-  res <- x$mxobj$output$estimate
+  res <- object$mxobj$output$estimate
   
-  if (any(c(x$mxobj$MANIFESTVARbase$free))) {
-    values <- x$mxobj$MANIFESTVAR$result[x$mxobj$MANIFESTVARbase$free]
-    labels <- x$mxobj$MANIFESTVARbase$labels[!is.na(x$mxobj$MANIFESTVARbase$labels)]
+  if (any(c(object$mxobj$MANIFESTVARbase$free))) {
+    values <- object$mxobj$MANIFESTVAR$result[object$mxobj$MANIFESTVARbase$free]
+    labels <- object$mxobj$MANIFESTVARbase$labels[!is.na(object$mxobj$MANIFESTVARbase$labels)]
     res[labels] <- values
   }
   
-  if (any(c(x$mxobj$DIFFUSIONbase$free))) {
-    values <- x$mxobj$DIFFUSION$result[x$mxobj$DIFFUSIONbase$free]
-    labels <- x$mxobj$DIFFUSIONbase$labels[!is.na(x$mxobj$DIFFUSIONbase$labels)]
+  if (any(c(object$mxobj$DIFFUSIONbase$free))) {
+    values <- object$mxobj$DIFFUSION$result[object$mxobj$DIFFUSIONbase$free]
+    labels <- object$mxobj$DIFFUSIONbase$labels[!is.na(object$mxobj$DIFFUSIONbase$labels)]
     res[labels] <- values
   }
   
-  if (any(c(x$mxobj$T0VARbase$free))) {
-    values <- x$mxobj$T0VAR$result[x$mxobj$T0VARbase$free]
-    labels <- x$mxobj$T0VARbase$labels[!is.na(x$mxobj$T0VARbase$labels)]
+  if (any(c(object$mxobj$T0VARbase$free))) {
+    values <- object$mxobj$T0VAR$result[object$mxobj$T0VARbase$free]
+    labels <- object$mxobj$T0VARbase$labels[!is.na(object$mxobj$T0VARbase$labels)]
     res[labels] <- values
   }
   
-  if (any(c(x$mxobj$TRAITVARbase$free))) {
-    values <- x$mxobj$TRAITVAR$result[x$mxobj$TRAITVARbase$free]
-    labels <- x$mxobj$TRAITVARbase$labels[!is.na(x$mxobj$TRAITVARbase$labels)]
+  if (any(c(object$mxobj$TRAITVARbase$free))) {
+    values <- object$mxobj$TRAITVAR$result[object$mxobj$TRAITVARbase$free]
+    labels <- object$mxobj$TRAITVARbase$labels[!is.na(object$mxobj$TRAITVARbase$labels)]
     res[labels] <- values
   }
   
