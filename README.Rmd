@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## What is this?
 
-An R package for estimating Structural Equation Model Trees and Forests.
+An R package for estimating Structural Equation Model (SEM) Trees and Forests. They are a fusion of SEM and decision trees, or SEM and random forests respectively. While SEM is a confirmatory modeling technique, SEM trees and forests allow to explore whether there are predictors that provide further information about an initial, theory-based model. Potential use cases are the search for potential predictors that explain individual differences, finding omitted variables in a model, or exploring measurement invariance over a large set of predictors. A recent overview is in our latest book chapter in the SEM handbook (Brandmaier & Jacobucci, 2023). 
 
 ## Install
 

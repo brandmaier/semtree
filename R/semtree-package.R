@@ -1,4 +1,5 @@
 #' @title SEM Tree Package
+#' @name semtree-package
 #' @importFrom stats as.formula predict
 #' @importFrom lavaan lavScores nobs vcov
 #' @importFrom utils toLatex
@@ -6,7 +7,6 @@
 #' @importFrom strucchange catL2BB maxBB meanL2BB ordL2BB ordwmax root.matrix sctest supLM
 #' @importFrom sandwich bread
 #' @importFrom methods is
-#' @importFrom sets as.set
 #' @importFrom parallel parLapply clusterMap
 #' @importFrom utils flush.console getS3method sessionInfo str setTxtProgressBar data
 #' @importFrom stats as.dist cmdscale coef cor cov logLik median pchisq qnorm runif var dist rnorm
@@ -46,7 +46,7 @@ NULL
 #' 
 #' This overrides generic base::merge() to merge two forests into one.
 #' 
-#' 
+#' @name merge.semforest
 #' @aliases merge.semforest
 #' @param x A SEM Forest
 #' @param y A second SEM Forest
@@ -71,6 +71,7 @@ NULL
 #' and the column names correspond to standard errors in the SEM. Parameter
 #' estimates can be obtained from \code{\link{parameters}}.
 #' 
+#' @name se
 #' @aliases se
 #' @param tree A SEMtree object obtained from \code{\link{semtree}}
 #' @param leafs.only Default = TRUE. Only the terminal nodes (leafs) are

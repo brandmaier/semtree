@@ -40,8 +40,10 @@ plot.diversityMatrix <- function(x, num.cluster=2, col.area = "gray",
   if (show.cluster.center) {
     for (i in 1:length(result$medoids)) {
       rad <- (max(x)-min(x))/20
-      plotrix::draw.circle(x[result$medoids][i], 
-                         y[result$medoids][i],radius=rad,col=col.medoids[i])
+      
+      graphics::symbols(x=x[result$medoids][i], 
+                        y= y[result$medoids][i],
+                        circles = rad, add=TRUE, bg=col.medoids[i], inches=FALSE)
       text(x[result$medoids][i], 
            y[result$medoids][i], labels = i)
     }

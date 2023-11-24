@@ -12,11 +12,8 @@ Depends:
     OpenMx (>= 2.6.9),
 Imports:
     bitops,
-    sets,
-    digest,
     rpart,
     rpart.plot (>= 3.0.6),
-    plotrix,
     cluster,
     stringr,
     lavaan,

@@ -6,6 +6,7 @@
 - bugfix in score-based tests that sometimes did not respect min.N constraints
 - new functionality for parameter contribution evaluation
 - more verbose vignettes
+- removed dependency on set, plotrix and digest package to make package imports leaner
 
 # semtree 0.9.18 (2022)
 
