@@ -1,5 +1,5 @@
 ---
-title: "Score-based Tests"
+title: "SEM Trees with score-based tests"
 author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 )
 ```
 
+In this example, we will explore how score-based SEM trees can be used. Score-based tests for variable and split-point selection are preferable because they are fast to compute, perform unbiased variable selection, and have better statistical power than some other selection algorithms proposed earlier. 
 
+For this illustration, we will use the `affect` dataset and a simple (non-latent) SEM, which just has one observed variable. Using such a simple model is similar to using a conventional decision tree or random forest; however, the SEM tree version not only finds differences in the mean prediction across leafs but also in the variances (ie., individual differences) of the criterion variable.
 
 ## Load data
 
@@ -89,16 +91,16 @@ cols <- viridis::plasma(nrow(tndata))
 
 pl <- ggplot2::ggplot(data = data.frame(x = c(-20, 20)), ggplot2::aes(x))+
   ggplot2::xlab("Change in Positive Affect")
+
 for (i in 1:nrow(tndata)) {
   pl <- pl + ggplot2::stat_function(fun = dnorm, 
-      n = 101, col=cols[i], args = list(mean = tndata[i,2], 
-                                        sd = sqrt(tndata[i,1])))
+      n = 101, col=cols[i], args = list(mean = tndata[i,2], sd = sqrt(tndata[i,1])))
 }
 
 plot(pl)
 ```
 
-Let's inspect the group with the largest negative change:
+Let us inspect the group with the largest negative change. This is the group of participants, who started out with a high positive affect and then had to watch a war movie.
 
 ```{r dpi=300, out.width="100%"}
 i <- which.min(tndata$mu)

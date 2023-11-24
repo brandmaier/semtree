@@ -45,7 +45,7 @@ names(df.biv)[1:2] <- paste0("x",1:2)
 manifests<-c("x1","x2")
 ```
 
-The following code specifices a bivariate Gaussian model with five parameters:
+The following code specifies a bivariate Gaussian model with five parameters:
 
 ```{r}
 model.biv <- mxModel("Bivariate_Model", 

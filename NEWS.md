@@ -5,6 +5,7 @@
 - fixed problem with focus-parameters and variable importance
 - bugfix in score-based tests that sometimes did not respect min.N constraints
 - new functionality for parameter contribution evaluation
+- more verbose vignettes
 
 # semtree 0.9.18 (2022)
 
@@ -63,6 +64,6 @@
 - deprecated partialDependencePlot and introduced partialDependence() function with S3 plotting method
 - added parallel computation option to partialDependence
 - added new demo scripts
-- added extra.legend paramter to varimpConvergencePlot
+- added extra.legend parameter to varimpConvergencePlot
 - bugfix in traverse() that led to underestimations of variable importance in some cases
 - added error message when trying to use lavaan and global constraints

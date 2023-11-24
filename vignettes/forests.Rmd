@@ -17,6 +17,10 @@ knitr::opts_chunk$set(
 library(semtree)
 ```
 
+This example demonstrates how SEM forests can be grown. SEM forests are ensembles of typically hundreds to thousands of SEM trees. Using permutation-based variable importance estimates, we can aggregate the importance of each predictor for improving model fit. 
+
+Here, we use the `affect` dataset and a simple SEM with only a single observed variable and no latent variables.
+
 ## Load data
 
 Load affect dataset from the `psychTools` package. These are data from two studies conducted in the Personality, Motivation and Cognition Laboratory at Northwestern University to  study affect dimensionality and the relationship to various personality dimensions.
@@ -81,7 +85,7 @@ forest <- semforest( model=model,
 
 ## Variable importance
 
-Next, we compute permutation-based variable importance.
+Next, we compute permutation-based variable importance. This may take some time.
 
 ```{r}
 vim <- varimp(forest)

@@ -3,7 +3,6 @@ README.Rmd
 README.md
 CONTRIBUTORS.md
 CONTRIBUTE.md
-NEWS.md
 Makefile
 ^.*\.Rproj$
 ^\.Rproj\.user$
@@ -15,3 +14,4 @@ Makefile
 ^LICENSE\.md$
 ^\.travis\.yml$
 misc
+cran_comments.md
