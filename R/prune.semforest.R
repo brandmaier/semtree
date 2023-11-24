@@ -1,4 +1,4 @@
-#' @exportS3Method prune semtree
+#' @exportS3Method prune semforest
 prune.semforest <- function(object, max.depth=NULL, num.trees=NULL, ...)
 {
   if (!is.null(num.trees)) {
