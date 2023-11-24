@@ -9,9 +9,6 @@
 simulated data. Longitudinal observations are o1-o5. Covariates are
 agegroup, training, and noise.
 }
-\usage{
-lgcm
-}
 \description{
 This data set provides simple data to fit with a LGCM.
 }

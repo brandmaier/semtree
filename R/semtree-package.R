@@ -34,7 +34,7 @@
 #' agegroup, training, and noise.
 #' @author Andreas M. Brandmaier \email{brandmaier@@mpib-berlin.mpg.de}
 #' @keywords datasets
-"lgcm"
+NULL
 
 
 

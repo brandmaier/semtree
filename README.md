@@ -12,7 +12,16 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 
 ## What is this?
 
-An R package for estimating Structural Equation Model Trees and Forests.
+An R package for estimating Structural Equation Model (SEM) Trees and
+Forests. They are a fusion of SEM and decision trees, or SEM and random
+forests respectively. While SEM is a confirmatory modeling technique,
+SEM trees and forests allow to explore whether there are predictors that
+provide further information about an initial, theory-based model.
+Potential use cases are the search for potential predictors that explain
+individual differences, finding omitted variables in a model, or
+exploring measurement invariance over a large set of predictors. A
+recent overview is in our latest book chapter in the SEM handbook
+(Brandmaier & Jacobucci, 2023).
 
 ## Install
 
@@ -53,7 +62,8 @@ Theory and method:
     pp. 722–739). Guilford Press.
 
 -   Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided
-    structural equation model trees. Frontiers in psychology 11, 564403.
+    structural equation model trees. *Frontiers in psychology*, 11,
+    564403.
 
 -   Brandmaier, A. M., Driver, C., & Voelkle, M. C. (2019). Recursive
     partitioning in continuous time analysis. In K. van Montfort, J.
@@ -62,17 +72,17 @@ Theory and method:
 
 -   Brandmaier, A. M., Prindle, J. J., McArdle, J. J., &
     Lindenberger, U. (2016). Theory-guided exploration with structural
-    equation model forests. Psychological Methods, 21, 566-582.
+    equation model forests. *Psychological Methods*, 21, 566-582.
 
 -   Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &
     Lindenberger, U. (2014). Exploratory data mining with structural
     equation model trees. In J. J. McArdle & G. Ritschard (Eds.),
     Contemporary issues in exploratory data mining in the behavioral
-    sciences (pp. 96-127). New York: Routledge.
+    sciences (pp. 96-127). New York: Routledge.
 
 -   Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &
     Lindenberger, U. (2013). Structural equation model trees.
-    Psychological Methods, 18, 71-86.
+    *Psychological Methods*, 18, 71-86.
 
 Applied examples (there are many more):
 

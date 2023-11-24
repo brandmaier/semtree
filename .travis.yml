@@ -8,11 +8,8 @@ r:
     - devel
 r_binary_packages:
     - bitops
-    - sets
-    - digest
     - rpart
     - rpart.plot
-    - plotrix
     - cluster
     - stringr
     - lavaan
