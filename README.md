@@ -1,16 +1,16 @@
 # semtree
 
+<!-- badges: start -->
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1116294.svg)](https://doi.org/10.5281/zenodo.1116294)
 [![cran
 version](http://www.r-pkg.org/badges/version/semtree)](https://cran.r-project.org/package=semtree)
 [![rstudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
-<!-- badges: start -->
 [![R-CMD-check](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
-
 ![Code
 size](https://img.shields.io/github/languages/code-size/brandmaier/semtree.svg)
+<!-- badges: end -->
 ![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
