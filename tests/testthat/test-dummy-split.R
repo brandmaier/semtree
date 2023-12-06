@@ -5,7 +5,7 @@ set.seed(458)
 n <- 500
 var_unordered <- factor(sample(c("lightning","rain","sunshine","snow"),n,TRUE))
 var_grp <- factor((var_unordered %in% c("rain","sunshine"))) 
-x <- rnorm(n)+ifelse(var_grp,20,0)
+x <- rnorm(n)+ifelse(var_grp==TRUE,20,0)
 
 # data frame has only a dummy predictor
 df <- data.frame(x=x, var_grp)
