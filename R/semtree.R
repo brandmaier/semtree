@@ -130,6 +130,14 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
   
+  #
+  
+  
+  # set min.bucket and min.N heuristically
+  if (is.null(control$min.bucket)) {
+    control$min.bucket = control$min.N / 2
+  }
+  
   if (control$method=="cv") {
     ui_stop("This method ceased to exist. Please see modern score-based tests.")
   }
