@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/cranlogs.app)
 [![R-CMD-check](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml)
 ![Code size](https://img.shields.io/github/languages/code-size/brandmaier/semtree.svg)
+![https://cranlogs.r-pkg.org/badges/grand-total/semtree]
 <!-- badges: end -->
 ![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
