@@ -23,7 +23,7 @@ jobs:
             any::devtools
 #          needs: pr-document
       - name: install package
-        run: devtools::install_package("brandmaier/semtree")
+        run: devtools::install_github("brandmaier/semtree")
           
       - name: run test
         run: testthat::test_dir("tests/testthat/")
