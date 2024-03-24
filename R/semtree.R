@@ -130,8 +130,12 @@ semtree <- function(model, data=NULL, control=NULL, constraints=NULL,
     if (checkControl(control)!=TRUE) {stop( "Unknown options in semtree.control object!");}
   }
   
-  #
-  
+  # this is a really dumb heuristic
+  # please can someone replace this with something more useful
+  # this based on (Bentler & Chou, 1987; see also Bollen, 1989)
+  if (is.null(control$min.N)) {
+    control$min.N <- 5 * npar(model)
+  }
   
   # set min.bucket and min.N heuristically
   if (is.null(control$min.bucket)) {

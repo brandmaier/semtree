@@ -36,7 +36,7 @@ semforest.control <-
       options$semtree.control$exclude.heywood <- FALSE
     } else {
       # 1.9.2022: switch refit to TRUE
-      if (isFALSE(control$refit)) {
+      if (base::isFALSE(control$refit)) {
         warning("refit = FALSE detected. Models in root nodes require estimation for forests. Set refit to TRUE")
         control$refit <- TRUE
       }
