@@ -17,8 +17,13 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::testthat
-          needs: pr-document
+          cache-version: 2
+          extra-packages: |
+            any::testthat
+            any::devtools
+#          needs: pr-document
+      - name: install package
+        run: devtools::install_package("brandmaier/semtree")
           
       - name: run test
         run: testthat::test_dir("tests/testthat/")
