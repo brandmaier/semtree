@@ -10,7 +10,7 @@ downloads](http://cranlogs.r-pkg.org/badges/semtree)](https://github.com/r-hub/c
 [![R-CMD-check](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml)
 ![Code
 size](https://img.shields.io/github/languages/code-size/brandmaier/semtree.svg)
-\[<https://cranlogs.r-pkg.org/badges/grand-total/semtree>\]
+![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/semtree)
 <!-- badges: end -->
 ![contributions](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 [![License: GPL
