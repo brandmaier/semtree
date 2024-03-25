@@ -1,3 +1,5 @@
+# check package on latest R devel version
+#
 on: workflow-dispatch
 
 name: R-CMD-check
@@ -11,4 +13,5 @@ jobs:
       with:
         r-version: 'devel' 
         # Use "renv" to retrieve R version recorded in renv.lock file.
-    - run: 'R CMD check ./'
+    - run: 'R CMD build ./'    
+    - run: 'R CMD check semtree*.tar.gz'
