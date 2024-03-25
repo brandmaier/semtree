@@ -12,7 +12,6 @@
 #' @importFrom stats as.dist cmdscale coef cor cov logLik median pchisq qnorm runif var dist rnorm
 #' @importFrom graphics barplot legend lines pairs par plot strwidth text hist
 #' @import OpenMx
-#' @importFrom bitops bitAnd
 #' @import rpart
 #' @importFrom methods hasArg
 #' @importFrom data.table data.table

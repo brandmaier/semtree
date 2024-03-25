@@ -1,3 +1,8 @@
+# semtree 0.9.20 (2024)
+
+- added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
+
+
 # semtree 0.9.19 (2023)
 
 - changed default behavior of print function of varimp, such that na.omit=TRUE, which is consistent with other packages like party or partykit

@@ -31,8 +31,7 @@ recodeAllSubsets <-
       complement <- c()
       for (j in 1:length(values_set))
       {
-        if (bitops::bitAnd(i, 2 ** (j - 1)) > 0) {
-          #print(values_set[j])
+        if (floor(i / 2^(j-1)) %% 2 > 0) {
           temp_set <- append(temp_set, values_set[j])
         }	else {
           complement <- append(complement, values_set[j])
