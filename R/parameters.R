@@ -1,12 +1,12 @@
 #' SEMtrees Parameter Estimates Table
-#' 
+#'
 #' Returns a table of parameters with columns corresponding to freely estimated
 #' parameters and rows corresponding to nodes in the tree.
-#' 
+#'
 #' The row names of the resulting data frame correspond to internal node ids
 #' and the column names correspond to parameters in the SEM. Standard errors of
 #' the estimates can be obtained from \code{\link{parameters}}.
-#' 
+#'
 #' @param tree A SEMtree object obtained from \code{\link{semtree}}
 #' @param leafs.only Default = TRUE. Only the terminal nodes (leafs) are
 #' printed. If set to FALSE, all node parameters are written to the
@@ -20,41 +20,37 @@
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
 #' @export
-parameters <- function(tree, leafs.only=TRUE) {
-	
-	data <- parameters.rec(tree, leafs.only, 0)
+parameters <- function(tree, leafs.only = TRUE) {
+  data <- parameters.rec(tree, leafs.only, 0)
 
-	if (nrow(data) > 1) {
-	 data <- round(data.frame(data[,-1], row.names=data[,1]),digits=3)
-	 names(data) <- tree$param_names;
-	 data <- t(data)
-	} else {
-	  data <- round(data.frame(data[,-1]),digits=3)
-	}
+  if (nrow(data) > 1) {
+    data <- round(data.frame(data[, -1], row.names = data[, 1]), digits = 3)
+    names(data) <- tree$param_names
+    data <- t(data)
+  } else {
+    data <- round(data.frame(data[, -1]), digits = 3)
+  }
 
-	return(data);
+  return(data)
 }
 
 
-parameters.rec <- function(tree, leafs.only=TRUE, level=0)
-{
-	v <- cbind(tree$node_id, t(tree$params));
-	
-	if (tree$caption == "TERMINAL")
-	{
-		return(v);
-	}
-	
-	l <- parameters.rec(tree$left_child, leafs.only, level+1);
-	r <- parameters.rec(tree$right_child, leafs.only, level+1);
-  
-  if(leafs.only){
-	  data <- rbind(l,r);
-  }
-	if(!leafs.only){
-	  data <- rbind(v,l,r);
-	}
+parameters.rec <- function(tree, leafs.only = TRUE, level = 0) {
+  v <- cbind(tree$node_id, t(tree$params))
 
-	return(data);
-	
+  if (tree$caption == "TERMINAL") {
+    return(v)
+  }
+
+  l <- parameters.rec(tree$left_child, leafs.only, level + 1)
+  r <- parameters.rec(tree$right_child, leafs.only, level + 1)
+
+  if (leafs.only) {
+    data <- rbind(l, r)
+  }
+  if (!leafs.only) {
+    data <- rbind(v, l, r)
+  }
+
+  return(data)
 }

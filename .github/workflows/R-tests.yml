@@ -1,0 +1,30 @@
+on:
+   workflow_dispatch 
+
+name: Tests
+
+jobs:
+  document:
+    name: run tests
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 2
+          extra-packages: |
+            any::testthat
+            any::devtools
+#          needs: pr-document
+      - name: install package
+        run: devtools::install_github("brandmaier/semtree")
+          
+      - name: run test
+        run: testthat::test_dir("tests/testthat/")
+        shell: Rscript {0}
