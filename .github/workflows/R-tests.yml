@@ -24,7 +24,8 @@ jobs:
 #          needs: pr-document
       - name: install package
         run: devtools::install_github("brandmaier/semtree")
-          
+        shell: Rscript {0}
+        
       - name: run test
         run: testthat::test_dir("tests/testthat/")
         shell: Rscript {0}
