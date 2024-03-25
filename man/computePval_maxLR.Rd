@@ -17,14 +17,14 @@ measurement from the covariate and the bin size for ordinal and
 categorical covariates.}
 
 \item{from}{numeric from interval (0, 1) specifying start of trimmed
-sample period.  With the default 
+sample period.  With the default
 from = 0.15 the first and last 15 percent of observations are
 trimmed. This is only needed for continuous covariates.}
 
 \item{to}{numeric from interval (0, 1) specifying end of trimmed
 sample period. By default, to is 1.}
 
-\item{nrep}{numeric. Number of replications used for simulating from the asymptotic 
+\item{nrep}{numeric. Number of replications used for simulating from the asymptotic
 distribution (passed to efpFunctional). Only needed for ordinal
 covariates.}
 }
