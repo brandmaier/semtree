@@ -50,11 +50,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.9.20
-<<<<<<< HEAD
 Date: 2024-03-25
-=======
-Date: 2024-03-14
->>>>>>> c1f3d72a029d525e9e8e407e29b9d0470819b468
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 BugReports: https://github.com/brandmaier/semtree/issues
