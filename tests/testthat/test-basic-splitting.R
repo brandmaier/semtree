@@ -49,13 +49,14 @@ test_that("tree depth is at least 2", { expect_gt(getDepth(tree),1) })
 test_that("first split is optimal", {expect_equal(as.character(tree$rule$value),"green")})
 
 # testing ordered, numeric
-set.seed(23334653)
+set.seed(2333463)
 x = rnorm(n)
 x <- x * ifelse( (var_ordered <= 2), .5, 10) 
 df <- data.frame(x, var_ordered)
 model = "x ~~ x"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(max.depth=3))
+tree = semtree(fitted_model, df, 
+               control=semtree.control(max.depth=3))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
 test_that("tree depth is 2", { expect_equal(getDepth(tree),2) })
