@@ -1,7 +1,7 @@
 # semtree 0.9.20 (2024)
 
 - added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
-
+- leaner package imports: removed dependency on bitops and stringr package
 
 # semtree 0.9.19 (2023)
 

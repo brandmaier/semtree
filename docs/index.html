@@ -42,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.20</span>
       </span>
     </div>
 
@@ -101,11 +101,12 @@
 <div class="section level1">
 <div class="page-header"><h1 id="semtree">semtree<a class="anchor" aria-label="anchor" href="#semtree"></a>
 </h1></div>
-<p><a href="https://doi.org/10.5281/zenodo.1116294" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1116294.svg" alt="DOI"></a> <a href="https://cran.r-project.org/package=semtree" class="external-link"><img src="http://www.r-pkg.org/badges/version/semtree" alt="cran version"></a> <a href="https://github.com/r-hub/cranlogs.app" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/semtree" alt="rstudio mirror downloads"></a> <a href="https://travis-ci.com/brandmaier/semtree" class="external-link"><img src="https://travis-ci.com/brandmaier/semtree.svg?branch=master" alt="Build Status"></a> <a href="https://www.gnu.org/licenses/gpl-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></p>
+<!-- badges: start -->
+
 <div class="section level2">
 <h2 id="what-is-this">What is this?<a class="anchor" aria-label="anchor" href="#what-is-this"></a>
 </h2>
-<p>An R package for estimating Structural Equation Model Trees and Forests.</p>
+<p>An R package for estimating Structural Equation Model (SEM) Trees and Forests. They are a fusion of SEM and decision trees, or SEM and random forests respectively. While SEM is a confirmatory modeling technique, SEM trees and forests allow to explore whether there are predictors that provide further information about an initial, theory-based model. Potential use cases are the search for potential predictors that explain individual differences, finding omitted variables in a model, or exploring measurement invariance over a large set of predictors. A recent overview is in our latest book chapter in the SEM handbook (Brandmaier &amp; Jacobucci, 2023).</p>
 </div>
 <div class="section level2">
 <h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
@@ -133,11 +134,15 @@
 <p>Theory and method:</p>
 <ul>
 <li><p>Brandmaier, A. M., &amp; Jacobucci, R. C. (2023). Machine-learning approaches to structural equation modeling. In R. H. Hoyle (Ed.), Handbook of structural equation modeling (2nd rev. ed., pp. 722–739). Guilford Press.</p></li>
-<li><p>Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided structural equation model trees. Frontiers in psychology 11, 564403.</p></li>
+<li>
+<p>Arnold, M., Voelkle, M.C., and Brandmaier, A.M. (2021). Score-guided structural equation model trees. <em>Frontiers in psychology</em>, 11,</p>
+<ol start="564403" style="list-style-type: decimal"><li>
+</li></ol>
+</li>
 <li><p>Brandmaier, A. M., Driver, C., &amp; Voelkle, M. C. (2019). Recursive partitioning in continuous time analysis. In K. van Montfort, J. Oud, &amp; M. C. Voelkle (Eds.), Continuous time modeling in the behavioral and related sciences. New York: Springer.</p></li>
-<li><p>Brandmaier, A. M., Prindle, J. J., McArdle, J. J., &amp; Lindenberger, U. (2016). Theory-guided exploration with structural equation model forests. Psychological Methods, 21, 566-582.</p></li>
+<li><p>Brandmaier, A. M., Prindle, J. J., McArdle, J. J., &amp; Lindenberger, U. (2016). Theory-guided exploration with structural equation model forests. <em>Psychological Methods</em>, 21, 566-582.</p></li>
 <li><p>Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &amp; Lindenberger, U. (2014). Exploratory data mining with structural equation model trees. In J. J. McArdle &amp; G. Ritschard (Eds.), Contemporary issues in exploratory data mining in the behavioral sciences (pp. 96-127). New York: Routledge.</p></li>
-<li><p>Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &amp; Lindenberger, U. (2013). Structural equation model trees. Psychological Methods, 18, 71-86.</p></li>
+<li><p>Brandmaier, A. M., von Oertzen, T., McArdle, J. J., &amp; Lindenberger, U. (2013). Structural equation model trees. <em>Psychological Methods</em>, 18, 71-86.</p></li>
 </ul>
 <p>Applied examples (there are many more):</p>
 <p>Brandmaier, A. M., Ram, N., Wagner, G. G., &amp; Gerstorf, D. (2017). Terminal decline in well-being: The role of multi-indicator constellations of physical health and psychosocial correlates. Developmental Psychology.</p>
@@ -181,7 +186,16 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://doi.org/10.5281/zenodo.1116294" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1116294.svg" alt="DOI"></a></li>
+<li><a href="https://cran.r-project.org/package=semtree" class="external-link"><img src="http://www.r-pkg.org/badges/version/semtree" alt="cran version"></a></li>
+<li><a href="https://github.com/r-hub/cranlogs.app" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/semtree" alt="rstudio mirror downloads"></a></li>
+<li><a href="https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/brandmaier/semtree/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></li>
+</ul>
+</div>
 
   </div>
 </div>

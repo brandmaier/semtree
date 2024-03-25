@@ -237,10 +237,13 @@ fitSubmodels <- function(model,
       newlabels1 <- names(omxGetParameters(model1))
       newlabels2 <- names(omxGetParameters(model2))
       
+      # make safe names for variables (should probably be
+      #  all non-alpha-numeric?)
+      # replace square brackets, dots, commas by underscores
       newlabels1 <-
-        stringr::str_replace_all(newlabels1, "\\[|\\]|,|\\.", "_")
+        gsub("\\[|\\]|\\.|,", "_", newlabels1)
       newlabels2 <-
-        stringr::str_replace_all(newlabels2, "\\[|\\]|,|\\.", "_")
+        gsub("\\[|\\]|\\.|,", "_", newlabels2)      
       
       # replace labels
       eqids <- which(newlabels1 %in% invariance)
