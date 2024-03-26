@@ -2,6 +2,9 @@
 
 - added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
 - leaner package imports: removed dependency on bitops and stringr package
+- prefer `semforest_control()` over `semforest.control()`
+- added heuristics for choosing `mtry` in forests (if `NULL`) and for choosing `min.N` and `min.bucket` (if `NULL`)
+- moved dependency on ctsemOMX to suggested package
 
 # semtree 0.9.19 (2023)
 
