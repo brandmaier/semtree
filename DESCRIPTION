@@ -13,8 +13,8 @@ Depends:
 Imports:
     rpart,
     rpart.plot (>= 3.0.6),
-    cluster,
     lavaan,
+    cluster,
     ggplot2,
     tidyr,
     methods,
@@ -25,7 +25,6 @@ Imports:
     clisymbols,
     future.apply,
     data.table,
-    ctsemOMX,
     expm,
     gridBase
 Suggests:
@@ -35,7 +34,8 @@ Suggests:
     MASS,
     psychTools,
     testthat,
-    future
+    future,
+    ctsemOMX
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
     split empirical data into homogeneous groups each sharing similar data patterns

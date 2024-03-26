@@ -99,7 +99,7 @@
 #' 
 #' @export
 semtree.control <-
-  function(method = "naive",
+  function(method = c("naive","score","fair","fair3"),
            min.N = 20,
            max.depth = NA,
            alpha = .05,
@@ -146,7 +146,7 @@ semtree.control <-
     # minimum number of cases in leaf
     options$min.bucket <- min.bucket
     # method
-    options$method <- method
+    options$method <- match.arg(method)
     # maximal depth of the tree , set to NA for unrestricted trees
     options$max.depth <- max.depth
     # test invariance of strong restrictions

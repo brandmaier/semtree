@@ -69,7 +69,7 @@ summary(result)
 Create a forest control object that stores all tuning parameters of the forest. Note that we use only 5 trees for illustration. Please increase the number in real applications to several hundreds. To speed up computation time, consider score-based test for variable selection in the trees.
 
 ```{r}
-control <- semforest.control(num.trees = 5)
+control <- semforest_control(num.trees = 5)
 print(control)
 ```
 

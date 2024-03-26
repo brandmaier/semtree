@@ -6,7 +6,7 @@
 \title{SEM Tree Control Object}
 \usage{
 semtree.control(
-  method = "naive",
+  method = c("naive", "score", "fair", "fair3"),
   min.N = 20,
   max.depth = NA,
   alpha = 0.05,

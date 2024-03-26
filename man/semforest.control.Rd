@@ -2,6 +2,7 @@
 % Please edit documentation in R/semforest.control.R
 \name{semforest.control}
 \alias{semforest.control}
+\alias{semforest_control}
 \alias{print.semforest.control}
 \alias{semforest_score_control}
 \title{SEM Forest Control Object}

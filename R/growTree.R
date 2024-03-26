@@ -315,10 +315,6 @@ growTree <- function(model = NULL, mydata = NULL,
         return(NULL)
       }
     )
-  }
-  # 3. Traditional cross validation for covariate split selection
-  else if (control$method == "cv") {
-    stop("This split selection procedure is not supported anymore. Please see the new score-based tests for split selection.")
   } else {
     ui_fail("Error. Unknown split method selected")
     stop()
