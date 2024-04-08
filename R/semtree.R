@@ -171,6 +171,12 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   } else if ((inherits(model, "ctsemFit")) || (inherits(model, "ctsemInit"))) {
     # if (control$verbose) { ui_message("Detected ctsem model.") }
     control$sem.prog <- "ctsem"
+    
+    ctsemomx_omx_installed <- "ctsemOMX" %in% installed.packages()[,"Package"]
+    if (!ctsemomx_omx_installed) {
+      stop("Please install ctsemOMX first.")
+    }
+    
   } else {
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!")
   }
