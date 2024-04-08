@@ -1,6 +1,6 @@
 npar <- function(x) {
   if (is(x, "OpenMx") || is(x, "MxRAMModel")) {
-    summary(x)$estimatedParameters
+    length(OpenMx:::omxGetParameters(x))
   } else if (is(x, "ctsemFit")) {
     stop("npar() not implemented yet for ctsemFit")
   } else if (is(x, "lavaan")) {

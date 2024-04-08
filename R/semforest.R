@@ -117,7 +117,7 @@ semforest <- function(model,
   # set mtry heuristically if not set manually
   if (is.null(semforest.control$mtry)) {
     num_covariates <- length(covariate.ids)
-    mtry <- ceil(sqrt(num_covariates))
+    mtry <- ceiling(sqrt(num_covariates))
     ui_message("Setting mtry = ",mtry," based on ",num_covariates," predictors.\n")
   }
   

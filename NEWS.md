@@ -2,14 +2,14 @@
 
 - added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
 - leaner package imports: removed dependency on bitops and stringr package
-- prefer `semforest_control()` over `semforest.control()`
+- prefer `semforest_control()` over `semforest.control()` and `semtree_control()` over `semtree.control()`
 - added heuristics for choosing `mtry` in forests (if `NULL`) and for choosing `min.N` and `min.bucket` (if `NULL`)
-- moved dependency on ctsemOMX to suggested package
+- moved dependency on `ctsemOMX` to suggested package
 
 # semtree 0.9.19 (2023)
 
-- changed default behavior of print function of varimp, such that na.omit=TRUE, which is consistent with other packages like party or partykit
-- fixed issues with toTable()-command, by default, all parameters are shown now, also fixed a bug with score-based tests and toTable()
+- changed default behavior of print function of `varimp`, such that na.omit=TRUE, which is consistent with other packages like party or partykit
+- fixed issues with `toTable()`-command, by default, all parameters are shown now, also fixed a bug with score-based tests and toTable()
 - fixed problem with focus-parameters and variable importance
 - bugfix in score-based tests that sometimes did not respect min.N constraints
 - new functionality for parameter contribution evaluation

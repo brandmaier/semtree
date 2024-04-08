@@ -17,7 +17,7 @@
 #' implements modern score-based statistics.
 #' 
 #' 
-#' @aliases semtree.control print.semtree.control
+#' @aliases semtree.control print.semtree.control semtree_control
 #' @param method Default: 'naive'. One out of
 #' \code{c("score","fair","naive")} for either an unbiased two-step
 #' selection algorithm,  a naive take-the-best, or a
@@ -199,3 +199,10 @@ semtree.control <-
     
     return(options)
   }
+
+
+
+#' @export
+semtree_control <- function(...) {
+  semtree.control(...)
+}
