@@ -172,7 +172,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
     # if (control$verbose) { ui_message("Detected ctsem model.") }
     control$sem.prog <- "ctsem"
     
-    ctsemomx_omx_installed <- "ctsemOMX" %in% installed.packages()[,"Package"]
+    ctsemomx_omx_installed <- "ctsemOMX" %in% utils::installed.packages()[,"Package"]
     if (!ctsemomx_omx_installed) {
       stop("Please install ctsemOMX first.")
     }
