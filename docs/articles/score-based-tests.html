@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2024-03-25</h4>
+            <h4 data-toc-skip class="date">2024-04-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/score-based-tests.Rmd" class="external-link"><code>vignettes/score-based-tests.Rmd</code></a></small>
       <div class="hidden name"><code>score-based-tests.Rmd</code></div>
@@ -220,6 +220,7 @@ latent variables - only two parameters: mean of <code>DeltaPA</code> and
 variance of <code>DeltaPA</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://openmx.ssri.psu.edu" class="external-link">OpenMx</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; OpenMx may run faster if it is compiled to take advantage of multiple cores.</span></span>
 <span><span class="va">manifests</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DeltaPA"</span><span class="op">)</span></span>
 <span><span class="va">latents</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html" class="external-link">mxModel</a></span><span class="op">(</span><span class="st">"Simple Model"</span>, </span>
@@ -257,8 +258,8 @@ variance of <code>DeltaPA</code>.</p>
 <span><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2024-03-25 12:06:18 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.112819 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2024-04-15 22:33:34 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.02639604 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.21.1 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -330,7 +331,7 @@ and then had to watch a war movie.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

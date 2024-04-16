@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2024-03-25</h4>
+            <h4 data-toc-skip class="date">2024-04-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/semforest-focus.Rmd" class="external-link"><code>vignettes/semforest-focus.Rmd</code></a></small>
       <div class="hidden name"><code>semforest-focus.Rmd</code></div>
@@ -116,6 +116,7 @@ of the two predictors is important.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/brandmaier/semtree" class="external-link">semtree</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: OpenMx</span></span>
+<span><span class="co">#&gt; OpenMx may run faster if it is compiled to take advantage of multiple cores.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">grp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, size<span class="op">=</span><span class="va">N</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -154,11 +155,11 @@ parameters:</p>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; free parameters:</span></span>
 <span><span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span></span>
-<span><span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583666 0.18149512  </span></span>
-<span><span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11385399  </span></span>
-<span><span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848900 0.14243121  </span></span>
-<span><span class="co">#&gt; 4       mu1      M   1  x1 1.4858354 0.06370452  </span></span>
-<span><span class="co">#&gt; 5       mu2      M   1  x2 1.4551364 0.05643442  </span></span>
+<span><span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583666 0.18149573  </span></span>
+<span><span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11384948  </span></span>
+<span><span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848900 0.14243161  </span></span>
+<span><span class="co">#&gt; 4       mu1      M   1  x1 1.4858354 0.06370544  </span></span>
+<span><span class="co">#&gt; 5       mu2      M   1  x2 1.4551364 0.05643474  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model Statistics: </span></span>
 <span><span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span></span>
@@ -176,8 +177,8 @@ parameters:</p>
 <span><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2024-03-25 12:06:44 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.123879 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2024-04-15 22:33:42 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.02595901 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.21.1 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -240,7 +241,7 @@ importance:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
