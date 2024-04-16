@@ -100,7 +100,7 @@
 #' @export
 semtree.control <-
   function(method = c("naive","score","fair","fair3"),
-           min.N = 20,
+           min.N = NULL,
            max.depth = NA,
            alpha = .05,
            alpha.invariance = NA,
@@ -119,7 +119,7 @@ semtree.control <-
            #                   ordinal = 'maxLMo', # and maxLM are available
            #                   metric = 'maxLM'),
            linear = TRUE,
-           min.bucket = 10,
+           min.bucket = NULL,
            naive.bonferroni.type = 0,
            missing = 'ignore',
            use.maxlm = FALSE,
@@ -199,8 +199,6 @@ semtree.control <-
     
     return(options)
   }
-
-
 
 #' @export
 semtree_control <- function(...) {
