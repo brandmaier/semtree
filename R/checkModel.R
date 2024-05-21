@@ -24,6 +24,3 @@ checkModel <- function(model, control)
   
   return(TRUE);
 }
-
-#inherits(model1,"lavaan")
-#model1@Fit@converged
