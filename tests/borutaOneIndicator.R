@@ -11,7 +11,7 @@ cutbreaks <- 3
 genModel <- mxModel(type="RAM", manifestVars=c("Y", paste0("X", 1:nPred)),
                     mxPath(paste0("X", 1:nPred), "Y", values=influence),
                     mxPath(c("Y", paste0("X", 1:nPred)), arrows=2, values=1))
-simpleData <- mxGenerateData(genModel, 1000)
+simpleData <- mxGenerateData(genModel, N)
 for(i in paste0("X", 1:nPred)) {
   simpleData[[i]] <- cut(simpleData[[i]], cutbreaks)
 }
