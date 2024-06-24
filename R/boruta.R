@@ -1,3 +1,23 @@
+
+#' Run the Boruta algorithm on a sem tree
+#' 
+#' Grows a series of SEM Forests following the boruta algorithm to determine
+#'    feature importance as moderators of the underlying model.
+#' 
+#' 
+#' @aliases boruta plot.boruta print.boruta
+#' @param model A template SEM. Same as in \code{semtree}.
+#' @param data A dataframe to boruta on. Same as in \code{semtree}.
+#' @param control A semforest control object to set forest parameters.
+#' @param predictors An optional list of covariates. See semtree code example.
+#' @param constraints An optional list of covariates. See semtree code example.
+#' @param \dots Optional parameters.
+#' @return A boruta object.
+#' @author Priyanka Paul, Timothy R. Brick, Andreas Brandmaier
+#' @seealso \code{\link{semtree}} \code{\link{semforest}}
+#' 
+#' @keywords tree models multivariate
+#' @export
 boruta <- function(model,
                    data,
                    control = NULL,

@@ -9,9 +9,9 @@ toTable(tree, added.param.cols = NULL, round.param = NULL)
 \arguments{
 \item{tree}{A SEM Tree object.}
 
-\item{added.param.cols}{Add extra columns with parameter estimates.}
+\item{added.param.cols}{String. Add extra columns with parameter estimates. Pass a vector with the names of the parameters that should be rendered in the table.}
 
-\item{round.param}{Number of digits to round parameter estiamtes}
+\item{round.param}{Integer. Number of digits to round parameter estimates. Default is no rounding (NULL)}
 }
 \description{
 Converts a tree into a tabular representation. This may be useful as a
