@@ -40,6 +40,8 @@ boruta <- function(model,
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
   
+  # TODO: Loop over runs has to start here
+  
   # stage 1 - create shadow features
 
   shadow.ids <- (ncol(data)+1):(ncol(data)+length(covariate.ids))
@@ -66,11 +68,31 @@ boruta <- function(model,
   max_shadow_importance <- max(agvim[names(agvim)%in%shadow_names])  
   agvim_filtered <- agvim[!(names(agvim)%in%shadow_names)]
   
+  # TODO: Apply binomial test across feature importance values:
+  # Code below from the Boruta package:
+  # decReg is the decision registry: one of "Tentative" "Accept" or "Reject"
+  # hitReg is a list the length of all features.
+  #     hitReg starts at all zeros, and increments each run that a given feature has
+  #     an importance greater than shadowmax.
+  # toAccept<-stats::p.adjust(stats::pbinom(hitReg-1,runs,0.5,lower.tail=FALSE),method=pAdjMethod)<pValue
+  # (decReg=="Tentative" & toAccept)->toAccept
+  # toReject<-stats::p.adjust(stats::pbinom(hitReg,runs,0.5,lower.tail=TRUE),method=pAdjMethod)<pValue
+  # (decReg=="Tentative" & toReject)->toReject
+  #
+  # The biasing here means that there are no decisions without correction before 5 runs
+  #   and no decisions with Bonferroni before 7 runs.
+  
+  # TODO: Parallelize the first five runs.
+  
   df<-data.frame(importance=agvim_filtered, predictor=names(agvim_filtered))
   
-  vim$filter <- agvim_filtered>max_shadow_importance
+  # TODO: track importance history
+  # vim$importanceHistory <- 
+  vim$filter <- agvim_filtered>max_shadow_importance  # Turns into hitreg
   vim$boruta <- TRUE
   vim$boruta_threshold = max_shadow_importance
+  
+  # TODO: Loop ends here with some reporting.
   
   return(vim)
 }
