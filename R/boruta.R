@@ -22,6 +22,10 @@ boruta <- function(model,
                    data,
                    control = NULL,
                    predictors = NULL,
+                   maxRuns = 30,
+                   pAdjMethod = "none",
+                   alpha = .05,
+                   verbose=FALSE,
                    ...) {
   
  
@@ -40,59 +44,112 @@ boruta <- function(model,
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
   
-  # TODO: Loop over runs has to start here
+  # Checks on x & y from the boruta package
+  if(length(grep('^shadow',covariate.ids)>0)) 
+    stop('Attributes with names starting from "shadow" are reserved for internal use. Please rename them.')
+  if(maxRuns<11)
+    stop('maxRuns must be greater than 10.')
+  if(!pAdjMethod %in% stats::p.adjust.methods) 
+    stop(c('P-value adjustment method not found. Must be one of:', 
+           stats::p.adjust.methods))
   
-  # stage 1 - create shadow features
-
-  shadow.ids <- (ncol(data)+1):(ncol(data)+length(covariate.ids))
-  
-  for (cur_cov_id in covariate.ids) {
-    # pick column and shuffle
-    temp_column <- data[, cur_cov_id]
-    temp_column <- sample(temp_column, length(temp_column), replace=FALSE)
-    # add to dataset as shadow feature
-    temp_colname <- paste0("shadow_", names(data)[cur_cov_id],collapse="")
-    data[temp_colname] <- temp_column
-    if (!is.null(predictors)) predictors <- c(predictors, temp_colname)
+  # Might clash with some other semtrees stuff
+  if(is.null(predictors)) {
+    predictors <- names(data)[covariate.ids]
   }
   
-  # run the forest
-  forest <- semforest(model, data, control, predictors, ...)
-  
-  # run variable importance
-  vim <- varimp(forest)
-  
-  # get variable importance from shadow features
-  shadow_names <- names(data)[shadow.ids]
-  agvim <- aggregateVarimp(vim, aggregate="mean")
-  max_shadow_importance <- max(agvim[names(agvim)%in%shadow_names])  
-  agvim_filtered <- agvim[!(names(agvim)%in%shadow_names)]
-  
-  # TODO: Apply binomial test across feature importance values:
-  # Code below from the Boruta package:
-  # decReg is the decision registry: one of "Tentative" "Accept" or "Reject"
-  # hitReg is a list the length of all features.
-  #     hitReg starts at all zeros, and increments each run that a given feature has
-  #     an importance greater than shadowmax.
-  # toAccept<-stats::p.adjust(stats::pbinom(hitReg-1,runs,0.5,lower.tail=FALSE),method=pAdjMethod)<pValue
-  # (decReg=="Tentative" & toAccept)->toAccept
-  # toReject<-stats::p.adjust(stats::pbinom(hitReg,runs,0.5,lower.tail=TRUE),method=pAdjMethod)<pValue
-  # (decReg=="Tentative" & toReject)->toReject
-  #
-  # The biasing here means that there are no decisions without correction before 5 runs
-  #   and no decisions with Bonferroni before 7 runs.
-  
+  # Initialize and then loop over runs:
+  impHistory <- data.frame(matrix(NA, nrow=0, ncol=length(predictors)+3))
+  names(impHistory) <- c(predictors, "shadowMin", "shadowMean", "shadowMax")
+  decisionList <- data.frame(predictor=predictors, decision = "Tentative",
+                             importance = NA, hitCount = 0, raw.p=NA, adjusted.p=NA)
+
   # TODO: Parallelize the first five runs.
+  for(runNo in 1:maxRuns) {
+    if(verbose) {
+      message(paste("Beginning Run", runNo))
+    }
+    
+    # stage 1 - create shadow features
+    rejected <- decisionList$predictor[decisionList$decision == "Rejected"]
+    current.predictors <- setdiff(predictors, rejected)
+    current.covariate.ids <- setdiff(covariate.ids, names(data) %in% rejected)
+    current.data <- data[, setdiff(names(data), rejected)]
+    
+    shadow.ids <- (ncol(current.data)+1):(ncol(current.data)+length(current.covariate.ids))
+    
+    for (cur_cov_id in current.covariate.ids) {
+      # pick column and shuffle
+      temp_column <- current.data[, cur_cov_id]
+      temp_column <- sample(temp_column, length(temp_column), replace=FALSE)
+      # add to dataset as shadow feature
+      temp_colname <- paste0("shadow_", names(current.data)[cur_cov_id],collapse="")
+      current.data[temp_colname] <- temp_column
+      if (!is.null(current.predictors)) current.predictors <- c(current.predictors, temp_colname)
+    }
+    
+    # TODO: Pre-run model if needed.
+    
+    # run the forest
+    forest <- semforest(model, current.data, control, current.predictors, ...)
   
-  df<-data.frame(importance=agvim_filtered, predictor=names(agvim_filtered))
+    # run variable importance
+    vim <- varimp(forest)
   
-  # TODO: track importance history
-  # vim$importanceHistory <- 
-  vim$filter <- agvim_filtered>max_shadow_importance  # Turns into hitreg
+    # get variable importance from shadow features
+    shadow_names <- names(current.data)[shadow.ids]
+    agvim <- aggregateVarimp(vim, aggregate="mean")
+    
+    # Compute shadow stats
+    shadow_importances <- agvim[names(agvim)%in%shadow_names]
+    impHistory[runNo, "shadowMax"] <- max_shadow_importance <- max(shadow_importances)  
+    impHistory[runNo, "shadowMin"] <- min(shadow_importances)
+    impHistory[runNo, "shadowMean"] <- mean(shadow_importances)
+    agvim_filtered <- agvim[!(names(agvim)%in%shadow_names)]
+    impHistory[runNo, names(agvim_filtered)] <- agvim_filtered
+    
+    # Compute "hits" 
+    hits <- decisionList$predictor %in% names(agvim_filtered[agvim_filtered>max_shadow_importance])
+    decisionList$hitCount[hits] <- decisionList$hitCount[hits] + 1
+    
+    # Run tests. 
+    # The biasing here means that there are no decisions without correction 
+    #   before 5 runs and no decisions with Bonferroni before 7 runs.
+    
+    # Run confirmation tests (pulled from Boruta package)
+    newPs <- stats::pbinom(decisionList$hitCount-1,runNo,0.5,lower.tail=FALSE)
+    adjPs <- stats::p.adjust(newPs,method=pAdjMethod)
+    acceptable <- adjPs < alpha
+    updateList <- acceptable & decisionList$decision == "Tentative"
+    decisionList$raw.p[updateList] <- newPs[updateList]
+    decisionList$adjusted.p[updateList] <- adjPs[updateList]
+    decisionList$decision[updateList] <- "Confirmed"
+    
+    # Run rejection tests (pulled from Boruta package)
+    newPs <- stats::pbinom(decisionList$hitCount,runNo,0.5,lower.tail=TRUE)
+    adjPs <- stats::p.adjust(newPs,method=pAdjMethod)
+    acceptable <- adjPs < alpha
+    updateList <- acceptable & decisionList$decision == "Tentative"
+    decisionList$raw.p[updateList] <- newPs[updateList]
+    decisionList$adjusted.p[updateList] <- adjPs[updateList]
+    decisionList$decision[updateList] <- "Rejected"
+    
+    if(!any(decisionList$decision == "Tentative")) {
+      break
+    }
+    
+  }
+  
+  vim$importance <- colMeans(impHistory, na.rm = TRUE)
+  vim$impHistory <- impHistory
+  vim$decisions <- decisionList$decision
+  vim$details <- decisionList
+
+  vim$filter <- decisionList$decision == "Confirmed"  # Turns into hitreg
   vim$boruta <- TRUE
-  vim$boruta_threshold = max_shadow_importance
   
   # TODO: Loop ends here with some reporting.
   
   return(vim)
 }
+
