@@ -10,9 +10,19 @@
 #' @param data A dataframe to boruta on. Same as in \code{semtree}.
 #' @param control A semforest control object to set forest parameters.
 #' @param predictors An optional list of covariates. See semtree code example.
-#' @param constraints An optional list of covariates. See semtree code example.
-#' @param \dots Optional parameters.
-#' @return A boruta object.
+#' @param maxRuns Maximum number of boruta search cycles
+#' @param pAdjMethod A value from \link{stats::p.adjust.methods} defining a 
+#'          multiple testing correction method
+#' @param alpha p-value cutoff for decisionmaking. Default .05
+#' @param verbose Verbosity level for boruta processing 
+#'          similar to the same argument in \link{semtree.control} and 
+#'          \link{semforest.control}
+#' @param \dots Optional parameters to undefined subfunctions
+#' @return A vim object with several elements that need work. 
+#'          Of particular note, `$importance` carries mean importance; 
+#'          `$decision` denotes Accepted/Rejected/Tentative;
+#'          `$impHistory` has the entire varimp history; and
+#'          `$details` has exit values for each parameter.
 #' @author Priyanka Paul, Timothy R. Brick, Andreas Brandmaier
 #' @seealso \code{\link{semtree}} \code{\link{semforest}}
 #' 
@@ -62,7 +72,7 @@ boruta <- function(model,
   impHistory <- data.frame(matrix(NA, nrow=0, ncol=length(predictors)+3))
   names(impHistory) <- c(predictors, "shadowMin", "shadowMean", "shadowMax")
   decisionList <- data.frame(predictor=predictors, decision = "Tentative",
-                             importance = NA, hitCount = 0, raw.p=NA, adjusted.p=NA)
+                             hitCount = 0, raw.p=NA, adjusted.p=NA)
 
   # TODO: Parallelize the first five runs.
   for(runNo in 1:maxRuns) {
