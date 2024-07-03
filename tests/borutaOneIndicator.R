@@ -7,7 +7,7 @@ N <- 1000
 influence <- c(1, 0)
 nPred <- length(influence)
 cutbreaks <- 3
-make_categorical <- FALSE
+make_categorical <- TRUE
 
 
 genModel <- mxModel(type="RAM", manifestVars=c("Y", paste0("X", 1:nPred)),
@@ -26,7 +26,7 @@ testModel <- mxModel("SimplisticModel", type="RAM", manifestVars="Y",
                      mxPath("one", "Y", values=0, free=TRUE, labels=c("mu")), 
                      mxData(simpleData, type="raw"))
 
-control <- semforest.control(control=semtree.control(method="score", alpha=1, verbose=T))
+control <- semforest.control(control=semtree.control(method="score", alpha=1))
 
 output <- boruta(testModel, simpleData, verbose=TRUE, control = control)
 output
