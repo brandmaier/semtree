@@ -24,17 +24,14 @@ OpenMx_scores_input <- function(x, control) {
     m_deriv <- lapply(q_seq, function(x) {zero})
     
     for (i in q_seq) {
-#      A_deriv[[i]][which(x$A$labels == param_names[i], arr.ind = TRUE)] <- 1
       A_deriv[[i]][which(isTRUE(x$A$free), arr.ind = TRUE)] <- 1
     }
     
     for (i in q_seq) {
-#      S_deriv[[i]][which(x$S$labels == param_names[i], arr.ind = TRUE)] <- 1
       S_deriv[[i]][which(isTRUE(x$S$free), arr.ind = TRUE)] <- 1
     }
     
     for (i in q_seq) {
-#      m_deriv[[i]][which(x$M$labels == param_names[i])] <- 1
       m_deriv[[i]][which(isTRUE(x$M$labels))] <- 1
     }
     
