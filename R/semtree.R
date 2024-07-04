@@ -85,6 +85,14 @@
 #' @export
 semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
                     predictors = NULL, ...) {
+  
+  # some checks on the data
+  if (!is.null(data)) {
+    if (!is.data.frame(data)) {
+      stop("Error with 'data' argument: semtree currently only supports data frames.")
+    }
+  }
+  
   # TODO: change this throughout
   dataset <- data
 
