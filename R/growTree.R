@@ -64,7 +64,40 @@ growTree <- function(model = NULL, mydata = NULL,
       ui_message("Subsampled predictors: ", paste(node$colnames[meta$covariate.ids]))
     }
   }
+  
+  #   override forced split?
+  arguments <- list(...)
+  if ("forced_splits" %in% names(arguments) && !is.null(arguments$forced_splits)) {
+    forced_splits <- arguments$forced_splits
+    
+    # get names of model variables before forcing
+    model.names <- names(mydata)[meta$model.ids]
+    covariate.names <- names(mydata)[meta$covariate.ids]
+    
+    # select subset with model variables and single, forced predictor
+    forcedsplit.name <- forced_splits[1]
+    
+    if (control$verbose) {
+      cat("FORCED split: ",forcedsplit.name,"\n")
+    }
+    
 
+    mydata <- fulldata[, c(model.names, forcedsplit.name) ]
+    node$colnames <- colnames(mydata)
+    
+    # get new model ids after sampling by name
+    meta$model.ids <- sapply(model.names, function(x) {
+      which(x == names(mydata))
+    })
+    names(meta$model.ids) <- NULL
+    meta$covariate.ids <- unlist(lapply(covariate.names, function(x) {
+      which(x == names(mydata))
+    }))
+    
+  } else {
+    forced_splits <- NULL
+  }
+  
   # determine whether split evaluation can be done on p values
   node$p.values.valid <- control$method != "cv"
 
@@ -432,6 +465,31 @@ growTree <- function(model = NULL, mydata = NULL,
     mydata <- fulldata
     meta <- fullmeta
   }
+  
+  # restore mydata if forced split was true
+  # and (potentially) force continuation of splitting 
+  if (!is.null(forced_splits)) {
+    
+
+    # also need to remap col.max to original data!
+    if (!is.null(result$col.max) && !is.na(result$col.max)) {
+      col.max.name <- names(mydata)[result$col.max]
+      result$col.max <- which(names(fulldata) == col.max.name)
+    } else {
+      col.max.name <- NULL
+    }
+    
+    mydata <- fulldata
+    meta <- fullmeta
+    
+    # pop first element
+    forced_splits <- forced_splits[-1]
+    # set to NULL if no splits left
+    if (length(forced_splits)==0) forced_splits <- NULL
+    
+    # force continuation of splitting ?
+    cont.split <- TRUE
+  }
 
   if ((!is.null(cont.split)) && (!is.na(cont.split)) && (cont.split)) {
     if (control$report.level > 10) {
@@ -563,8 +621,8 @@ growTree <- function(model = NULL, mydata = NULL,
 
     # recursively continue splitting
     # result1 - RHS; result2 - LHS
-    result2 <- growTree(node$model, sub2, control, invariance, meta, edgelabel = 0, depth = depth + 1, constraints)
-    result1 <- growTree(node$model, sub1, control, invariance, meta, edgelabel = 1, depth = depth + 1, constraints)
+    result2 <- growTree(node$model, sub2, control, invariance, meta, edgelabel = 0, depth = depth + 1, constraints, forced_splits = forced_splits)
+    result1 <- growTree(node$model, sub1, control, invariance, meta, edgelabel = 1, depth = depth + 1, constraints, forced_splits = forced_splits)
 
     # store results in recursive list structure
     node$left_child <- result2

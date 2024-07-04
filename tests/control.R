@@ -81,3 +81,14 @@ tree <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
 
 stopifnot(tree$control$min.N==50)
 stopifnot(tree$control$min.bucket==25)
+
+
+
+x<-semtree_control()
+semtree:::check.semtree.control(x)
+
+x<-semtree_control(min.N=100)
+semtree:::check.semtree.control(x)
+
+x<-semtree_control(min.N=100, min.bucket=10)
+semtree:::check.semtree.control(x)

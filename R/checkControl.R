@@ -11,6 +11,12 @@ checkControl <- function(control, fail = TRUE) {
 check.semtree.control <- function(control, fail = TRUE) {
   attr <- attributes(control)$names
   def.attr <- attributes(semtree.control())$names
+  
+  # add NULL-defaults
+  null_def <- c("min.N","min.bucket","strucchange.to")
+  attr <- unique(c(attr, null_def))
+  def.attr <- unique(c(def.attr, null_def))
+  
   if ((length(intersect(attr, def.attr)) != length(attr))) {
     unknown <- setdiff(attr, def.attr)
     msg <-

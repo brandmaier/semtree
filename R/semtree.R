@@ -140,16 +140,41 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
     }
   }
 
+  # here we decide between four cases depending
+  # on whether min.N is given and/or min.bucket is given
   # this is a really dumb heuristic
   # please can someone replace this with something more useful
   # this based on (Bentler & Chou, 1987; see also Bollen, 1989)
+  
   if (is.null(control$min.N)) {
-    control$min.N <- 5 * npar(model)
+    
+    if (is.null(control$min.bucket)) {
+      # both values were not specified 
+      control$min.N <- max(20, 5 * npar(model))
+      control$min.bucket <- max(10, control$min.N / 2)
+    } else {
+      # only min.bucket was given, min.N was not specified
+      control$min.N <- control$min.bucket * 2
+    }
+  } else {
+    if (is.null(control$min.bucket)) {
+      # only min.N was given, min.bucket was not specified
+      control$min.bucket <- max(10, control$min.N / 2)     
+    } else {
+      # do nothing, both values were specified
+      if (control$min.bucket > control$min.N) {
+        warning("Min.bucket parameter should probably be smaller than min.N!")
+      }
+    }
+  }
+  
+  if (is.null(control$min.N)) {
+
   }
 
   # set min.bucket and min.N heuristically
   if (is.null(control$min.bucket)) {
-    control$min.bucket <- control$min.N / 2
+
   }
 
   if (control$method == "cv") {

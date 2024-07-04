@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Andreas
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2024-03-25</h4>
+            <h4 data-toc-skip class="date">2024-04-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/forests.Rmd" class="external-link"><code>vignettes/forests.Rmd</code></a></small>
       <div class="hidden name"><code>forests.Rmd</code></div>
@@ -359,8 +359,8 @@ sample:</p>
 <span><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2024-03-25 12:03:32 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.114706 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2024-04-15 22:33:05 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.02428603 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.21.1 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -374,7 +374,7 @@ increase the number in real applications to several hundreds. To speed
 up computation time, consider score-based test for variable selection in
 the trees.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span><span class="op">(</span>num.trees <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">control</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.control.html">semforest_control</a></span><span class="op">(</span>num.trees <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">control</span><span class="op">)</span></span>
 <span><span class="co">#&gt; SEM-Forest control:</span></span>
 <span><span class="co">#&gt; -----------------</span></span>
@@ -413,8 +413,10 @@ some time.</p>
 <code class="sourceCode R"><span><span class="va">vim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vim</span>, sort.values<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Variable Importance</span></span>
-<span><span class="co">#&gt;    Study      PA2     Film      NA2   state1      TA2 </span></span>
-<span><span class="co">#&gt;  0.00000 28.06156 35.63105 38.45805 42.92733 45.01637</span></span>
+<span><span class="co">#&gt;         Study           PA2        state1           TA2          Film </span></span>
+<span><span class="co">#&gt; -9.659311e-08  9.418006e+00  1.218599e+01  2.066494e+01  2.537268e+01 </span></span>
+<span><span class="co">#&gt;           NA2 </span></span>
+<span><span class="co">#&gt;  3.658740e+01</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vim</span><span class="op">)</span></span></code></pre></div>
 <p><img src="forests_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>From this, we can learn that variables such as <code>NA2</code>
@@ -443,7 +445,7 @@ either mean, variance or both) after having watched the movie.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

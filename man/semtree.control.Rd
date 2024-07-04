@@ -3,6 +3,7 @@
 \name{semtree.control}
 \alias{semtree.control}
 \alias{print.semtree.control}
+\alias{semtree_control}
 \title{SEM Tree Control Object}
 \usage{
 semtree.control(
