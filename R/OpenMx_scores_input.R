@@ -5,6 +5,25 @@ OpenMx_scores_input <- function(x, control) {
   p_star <- p * (p + 1) / 2
   p_star_means <- p * (p + 3) / 2
   
+  # AB: give pseudo-labels to matrices if
+  # unlabelled parameters are given
+  candidate_param_id <- which(startsWith(x=names(x$output$estimate), prefix=x$name))
+  if (length(candidate_param_id)>0) {
+    for (k in candidate_param_id) {
+      candidate_param_name <- names(x$output$estimate)[k]
+      cplen <- nchar(x$name)
+      candidate_matrix <- substr(candidate_param_name, cplen+2,cplen+2)
+      candidate_pos <- as.integer(strsplit(substr(candidate_param_name, cplen+4, nchar(candidate_param_name)-1),",")[[1]])
+      if (candidate_matrix=="A") {
+        x$A$labels[candidate_pos[1], candidate_pos[2]]<-candidate_param_name        
+      } else if (candidate_matrix=="S") {
+        x$S$labels[candidate_pos[1], candidate_pos[2]]<-candidate_param_name        
+      } else if (candidate_matrix == "M") {
+        x$M$labels[candidate_pos]<-candidate_param_name        
+      }
+    }
+  }
+  
   if (control$linear | imxHasDefinitionVariable(x)) {
     
     param_names <- names(x$output$estimate)
