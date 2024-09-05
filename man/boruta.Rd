@@ -6,7 +6,17 @@
 \alias{print.boruta}
 \title{Run the Boruta algorithm on a sem tree}
 \usage{
-boruta(model, data, control = NULL, predictors = NULL, ...)
+boruta(
+  model,
+  data,
+  control = NULL,
+  predictors = NULL,
+  maxRuns = 30,
+  pAdjMethod = "none",
+  alpha = 0.05,
+  verbose = FALSE,
+  ...
+)
 }
 \arguments{
 \item{model}{A template SEM. Same as in \code{semtree}.}
@@ -17,12 +27,25 @@ boruta(model, data, control = NULL, predictors = NULL, ...)
 
 \item{predictors}{An optional list of covariates. See semtree code example.}
 
-\item{\dots}{Optional parameters.}
+\item{maxRuns}{Maximum number of boruta search cycles}
 
-\item{constraints}{An optional list of covariates. See semtree code example.}
+\item{pAdjMethod}{A value from \link{stats::p.adjust.methods} defining a 
+multiple testing correction method}
+
+\item{alpha}{p-value cutoff for decisionmaking. Default .05}
+
+\item{verbose}{Verbosity level for boruta processing 
+similar to the same argument in \link{semtree.control} and 
+\link{semforest.control}}
+
+\item{\dots}{Optional parameters to undefined subfunctions}
 }
 \value{
-A boruta object.
+A vim object with several elements that need work. 
+         Of particular note, `$importance` carries mean importance; 
+         `$decision` denotes Accepted/Rejected/Tentative;
+         `$impHistory` has the entire varimp history; and
+         `$details` has exit values for each parameter.
 }
 \description{
 Grows a series of SEM Forests following the boruta algorithm to determine

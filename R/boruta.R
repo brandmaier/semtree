@@ -27,7 +27,6 @@
 #' 
 #' @keywords tree models multivariate
 #' @export
-
 boruta <- function(model,
                    data,
                    control = NULL,
@@ -38,63 +37,21 @@ boruta <- function(model,
                    verbose=FALSE,
                    ...) {
   
-  # initial checks
-  stopifnot(percentile_threshold>=0)
-  stopifnot(percentile_threshold<=1)
-  stopifnot(is.numeric(rounds))
-  stopifnot(rounds>0)
   
-  preds_important <- c()
-  preds_unimportant <- c()
-
-  cur_round = 1
-  temp_vims <- list()
-   
-  while(cur_round <= rounds) {
-  vim_boruta <- .boruta(model=model,
-          data=data,
-          control=control,
-          predictors=predictors,
-          percentile_threshold = percentile_threshold,
-          ...) 
-  browser()
-  # add predictors to list of unimportant variables
-  preds_unimportant <- c(preds_unimportant, names(vim_boruta$filter)[!vim_boruta$filter])
-  # remove them from the dataset
-  data <- data[, -c(preds_unimportant)]
-  temp_vims[[cur_round]] <-vim_boruta
-  }
-  
-  result <- list(
-    preds_unimportant,
-    rounds = rounds
-  )
-  
-  return(result)
-}
-
-.boruta <- function(model,
-                   data,
-                   control = NULL,
-                   predictors = NULL,
-                   percentile_threshold = 1,
-                   num_shadows = 1,
-                   ...) {
-  
-  # make sure that no column names start with "shadow_" prefix
-  stopifnot(all(sapply(names(data), function(x) {!startsWith(x, "shadow_")})))
-
   # detect model (warning: duplicated code)
-  if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
-    tmp <- getPredictorsOpenMx(mxmodel = model, dataset = data, covariates = predictors)
-
-  } else if (inherits(model,"lavaan")){
+  if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
+    tmp <- getPredictorsOpenMx(mxmodel=model, dataset=data, covariates=predictors)
+    model.ids <- tmp[[1]]
+    covariate.ids <- tmp[[2]]
+    #  } else if (inherits(model,"lavaan")){
     
-    tmp <- getPredictorsLavaan(model, data, predictors)
+    # } else if ((inherits(model,"ctsemFit")) || (inherits(model,"ctsemInit"))) {
+    #
   } else {
-    ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!")
+    ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
   }
-
+  
+  # initial checks
   # Checks on x & y from the boruta package
   if(length(grep('^shadow',covariate.ids)>0)) 
     stop('Attributes with names starting from "shadow" are reserved for internal use. Please rename them.')
@@ -114,7 +71,7 @@ boruta <- function(model,
   names(impHistory) <- c(predictors, "shadowMin", "shadowMean", "shadowMax")
   decisionList <- data.frame(predictor=predictors, decision = "Tentative",
                              hitCount = 0, raw.p=NA, adjusted.p=NA)
-
+  
   # TODO: Parallelize the first five runs.
   for(runNo in 1:maxRuns) {
     if(verbose) {
@@ -143,10 +100,10 @@ boruta <- function(model,
     
     # run the forest
     forest <- semforest(model, current.data, control, current.predictors, ...)
-  
+    
     # run variable importance
     vim <- varimp(forest)
-  
+    
     # get variable importance from shadow features
     shadow_names <- names(current.data)[shadow.ids]
     agvim <- aggregateVarimp(vim, aggregate="mean")
@@ -195,12 +152,43 @@ boruta <- function(model,
   vim$impHistory <- impHistory
   vim$decisions <- decisionList$decision
   vim$details <- decisionList
-
+  
   vim$filter <- decisionList$decision == "Confirmed"  # Turns into hitreg
   vim$boruta <- TRUE
+  
+  class(vim) <- "boruta"
   
   # TODO: Loop ends here with some reporting.
   
   return(vim)
 }
 
+#' @exportS3Method plot boruta
+plot.boruta = function(vim, type=0, ...) {
+  decisionList = vim$details
+  impHistory = vim$impHistory
+  impHistory <- impHistory |>
+    dplyr::mutate(rnd=1:nrow(impHistory)) |>
+    tidyr::pivot_longer(cols = -last_col()) |> #everything()) |> 
+    dplyr::left_join(data.frame(decisionList), by=join_by("name"=="predictor")) |>
+    dplyr::mutate(decision = case_when(is.na(decision)~"Shadow", .default=decision)) |>
+    dplyr::group_by(name) |> mutate(median_value = median(value,na.rm=TRUE))
+ 
+  if (type==0) {
+   ggplot2::ggplot(impHistory, 
+                  aes(x=stats::reorder(name, median_value), 
+                      y=value, color=decision)) + 
+    ggplot2::geom_boxplot()+
+    ggplot2::xlab("")+
+    ggplot2::ylab("Importance")+
+    scale_color_discrete(name = "Predictor")+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  } else if (type==1) {
+    ggplot2::ggplot(impHistory,
+                    aes(x=rnd, y=value,group=name,col=name))+geom_line()+ geom_hline(aes(yintercept=median_value,col=name),lwd=2)+
+      xlab("Round")+ylab("Importance")+scale_color_discrete(name = "Predictor")
+  } else {
+    stop("Unknown graph type. Please choose 0 or 1.")
+  }
+  
+}

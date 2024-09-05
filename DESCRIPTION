@@ -26,7 +26,8 @@ Imports:
     future.apply,
     data.table,
     expm,
-    gridBase
+    gridBase,
+    dplyr
 Suggests:
     knitr,
     rmarkdown,

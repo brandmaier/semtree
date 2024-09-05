@@ -66,7 +66,6 @@ alls <- unique(alls)
 
 
 # create table
-#covariate.names <-simplify2array(tree$result$btn.matrix[2,])
 covariate.names <- getCovariatesFromTree(tree)
 
 # default is to display all parameters
@@ -79,10 +78,12 @@ all.names <- c(covariate.names, added.param.cols)
 
 str.matrix <- matrix(NA, nrow = length(rowdata),ncol=length(all.names))
 
+# convert to a data frame to avoid coercion to string
+str.matrix <- data.frame(str.matrix)
+
 colnames(str.matrix) <- all.names
 
 for (i in 1:length(rowdata)) {
-#  result.row <- rep(" ",length(covariate.names))
   myrow <- rowdata[[i]][[1]]
   for (j in 1:length(myrow)) {
     myitem <- myrow[[j]]
@@ -126,7 +127,6 @@ for (i in 1:length(rowdata)) {
   }
   }
   
-#  result.string <- paste(result.string,paste(result.row,collapse="\t"),"\n")
 }
 
 ## prune empty columns?
@@ -139,7 +139,7 @@ if (length(is.col.empty)>0) {
 sortby <- apply(str.matrix,2,function(x){sum(!is.na(x))})
 if (!is.null(added.param.cols)) {
  remids <- (dim(str.matrix)[2]-length(added.param.cols)+1):(dim(str.matrix)[2])
- sortby[remids] <- sortby[remids]-999999
+ sortby[remids] <- sortby[remids]-999999 # bad style ^^ #TODO
 }
 sort.ix <- sort(sortby,index.return=TRUE,decreasing = TRUE)$ix
 str.matrix <- str.matrix[, sort.ix]
@@ -156,7 +156,6 @@ str.matrix[is.na(str.matrix)]<-""
 ## and display
 #cat(result.string)
 
-#require("openxlsx")
 
 return(str.matrix)
 
