@@ -8,12 +8,16 @@ checkControl <- function(control, fail = TRUE) {
   return(fail)
 }
 
-check.semtree.control <- function(control, fail = TRUE)
-{
+check.semtree.control <- function(control, fail = TRUE) {
   attr <- attributes(control)$names
   def.attr <- attributes(semtree.control())$names
-  if ((length(intersect(attr, def.attr)) != length(attr)))
-  {
+  
+  # add NULL-defaults
+  null_def <- c("min.N","min.bucket","strucchange.to")
+  attr <- unique(c(attr, null_def))
+  def.attr <- unique(c(def.attr, null_def))
+  
+  if ((length(intersect(attr, def.attr)) != length(attr))) {
     unknown <- setdiff(attr, def.attr)
     msg <-
       paste("Control object contains unknown parameters:", unknown)
@@ -22,9 +26,8 @@ check.semtree.control <- function(control, fail = TRUE)
       stop()
     } else {
       ui_warn(msg)
-      
+
       return(FALSE)
-      
     }
   } else {
     temp <- semtree.control()
@@ -36,23 +39,20 @@ check.semtree.control <- function(control, fail = TRUE)
         }
       }
     } # end for
-    
-    return (TRUE)
+
+    return(TRUE)
   }
-  
-  
-  
-  return (length(intersect(attr, def.attr)) == length(attr))
-  
+
+
+
+  return(length(intersect(attr, def.attr)) == length(attr))
 }
 
-check.semforest.control <- function(control, fail = TRUE)
-{
+check.semforest.control <- function(control, fail = TRUE) {
   attr <- attributes(control)$names
   def.attr <- attributes(semforest.control())$names
-  
-  if ((length(intersect(attr, def.attr)) != length(attr)))
-  {
+
+  if ((length(intersect(attr, def.attr)) != length(attr))) {
     unknown <- setdiff(attr, def.attr)
     msg <-
       paste("Control object contains unknown parameters:", unknown)
@@ -61,12 +61,10 @@ check.semforest.control <- function(control, fail = TRUE)
       stop()
     } else {
       ui_warn(msg)
-      
+
       return(FALSE)
-      
     }
   } else {
-    return (TRUE)
-    
+    return(TRUE)
   }
 }

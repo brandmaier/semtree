@@ -1,4 +1,7 @@
+skip_on_cran()
+
 set.seed(123)
+
 N <- 1000
 grp1 <- ordered(sample(x = c(0,1), size=N, replace=TRUE))
 grp2 <- ordered(sample(x = c(0,1), size=N, replace=TRUE))

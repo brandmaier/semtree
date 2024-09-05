@@ -1,12 +1,20 @@
-# semtree 0.9.20 (2023)
+# semtree 0.9.20 (2024)
 
-- changed default behavior of print function of varimp, such that na.omit=TRUE,
- which is consistent with other packages like party or partykit
+- added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
+- leaner package imports: removed dependency on bitops and stringr package
+- prefer `semforest_control()` over `semforest.control()` and `semtree_control()` over `semtree.control()`
+- added heuristics for choosing `mtry` in forests (if `NULL`) and for choosing `min.N` and `min.bucket` (if `NULL`)
+- moved dependency on `ctsemOMX` to suggested package
 
-# semtree 0.9.19 (2022)
+# semtree 0.9.19 (2023)
 
+- changed default behavior of print function of `varimp`, such that na.omit=TRUE, which is consistent with other packages like party or partykit
+- fixed issues with `toTable()`-command, by default, all parameters are shown now, also fixed a bug with score-based tests and toTable()
+- fixed problem with focus-parameters and variable importance
 - bugfix in score-based tests that sometimes did not respect min.N constraints
 - new functionality for parameter contribution evaluation
+- more verbose vignettes
+- removed dependency on set, plotrix and digest package to make package imports leaner
 
 # semtree 0.9.18 (2022)
 
@@ -65,6 +73,6 @@
 - deprecated partialDependencePlot and introduced partialDependence() function with S3 plotting method
 - added parallel computation option to partialDependence
 - added new demo scripts
-- added extra.legend paramter to varimpConvergencePlot
+- added extra.legend parameter to varimpConvergencePlot
 - bugfix in traverse() that led to underestimations of variable importance in some cases
 - added error message when trying to use lavaan and global constraints

@@ -37,9 +37,18 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   n_obs <- nobs(model)
   
   # get covariance matrix of the model parameters
-  vcov. <- solve(vcov_semtree(model) * n_obs)
-  vcov. <- strucchange::root.matrix(vcov.)
+  vcov. <- tryCatch({
+     solve(vcov_semtree(model) * n_obs)
+  }, error=function(e){
+    ui_fail("An error occured inverting the vcov model matrix when computing scores! Nobs=",n_obs," Aborting.")
+     NULL
+  })
   
+  if (is.null(vcov.)) {
+    return(NULL) 
+  }
+  
+  vcov. <- strucchange::root.matrix(vcov.)
   
   ############################################
   # main loop with calls to sctest_semtree() #

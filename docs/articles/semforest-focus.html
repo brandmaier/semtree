@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.20</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@
       <a href="../articles/getting-started.html">Getting Started with the semtree package</a>
     </li>
     <li>
-      <a href="../articles/score-based-tests.html">Score-based Tests</a>
+      <a href="../articles/score-based-tests.html">SEM Trees with score-based tests</a>
     </li>
     <li>
       <a href="../articles/semforest-focus.html">Focus parameters in SEM forests</a>
@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2023-04-06</h4>
+            <h4 data-toc-skip class="date">2024-04-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/semforest-focus.Rmd" class="external-link"><code>vignettes/semforest-focus.Rmd</code></a></small>
       <div class="hidden name"><code>semforest-focus.Rmd</code></div>
@@ -116,6 +116,7 @@ of the two predictors is important.</p>
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/brandmaier/semtree" class="external-link">semtree</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: OpenMx</span></span>
+<span><span class="co">#&gt; OpenMx may run faster if it is compiled to take advantage of multiple cores.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">grp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, size<span class="op">=</span><span class="va">N</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -131,7 +132,7 @@ of the two predictors is important.</p>
 <span><span class="va">df.biv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">obs</span>, <span class="va">grp1</span>, <span class="va">grp2</span>, <span class="va">noise</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df.biv</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"x"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">manifests</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x1"</span>,<span class="st">"x2"</span><span class="op">)</span></span></code></pre></div>
-<p>The following code specifices a bivariate Gaussian model with five
+<p>The following code specifies a bivariate Gaussian model with five
 parameters:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model.biv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html" class="external-link">mxModel</a></span><span class="op">(</span><span class="st">"Bivariate_Model"</span>, </span>
@@ -154,11 +155,11 @@ parameters:</p>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt; free parameters:</span></span>
 <span><span class="co">#&gt;        name matrix row col  Estimate  Std.Error A</span></span>
-<span><span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583666 0.18149512  </span></span>
-<span><span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11385399  </span></span>
-<span><span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848900 0.14243121  </span></span>
-<span><span class="co">#&gt; 4       mu1      M   1  x1 1.4858354 0.06370452  </span></span>
-<span><span class="co">#&gt; 5       mu2      M   1  x2 1.4551364 0.05643442  </span></span>
+<span><span class="co">#&gt; 1    VAR_x1      S  x1  x1 4.0583666 0.18149573  </span></span>
+<span><span class="co">#&gt; 2 COV_x1_x2      S  x1  x2 0.1970528 0.11384948  </span></span>
+<span><span class="co">#&gt; 3    VAR_x2      S  x2  x2 3.1848900 0.14243161  </span></span>
+<span><span class="co">#&gt; 4       mu1      M   1  x1 1.4858354 0.06370544  </span></span>
+<span><span class="co">#&gt; 5       mu2      M   1  x2 1.4551364 0.05643474  </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model Statistics: </span></span>
 <span><span class="co">#&gt;                |  Parameters  |  Degrees of Freedom  |  Fit (-2lnL units)</span></span>
@@ -176,8 +177,8 @@ parameters:</p>
 <span><span class="co">#&gt; RMSEA:  0  [95% CI (NA, NA)]</span></span>
 <span><span class="co">#&gt; Prob(RMSEA &lt;= 0.05): NA</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2023-04-06 12:48:23 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.05384207 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2024-04-15 22:33:42 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.02595901 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.21.1 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -193,539 +194,36 @@ parameters:</p>
 <p>Now, we choose the mean of the second dimension <code>mu2</code> as
 focus parameter. We expect that only predictor <code>grp2</code>. This
 is what we see in a single tree.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> <span class="st">"mu2"</span> <span class="co"># predicted by grp2</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#fp &lt;- "mu1" # predicted by grp1</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tree.biv <span class="ot">&lt;-</span> <span class="fu">semtree</span>(model.biv, <span class="at">data=</span>df.biv, <span class="at">constraints =</span> <span class="fu">list</span>(<span class="at">focus.parameters=</span>fp))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">8231.94380334365</span>, new current best<span class="sc">!</span> (was <span class="fl">14702.355897412</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">8231.94380334351</span>, new current best<span class="sc">!</span> (was <span class="fl">8231.94380334365</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">3414.98309750161</span>, new current best<span class="sc">!</span> (was <span class="fl">3992.43081809465</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">3671.31100048705</span>, new current best<span class="sc">!</span> (was <span class="fl">4239.51298524885</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree.biv)</span></code></pre></div>
-<p><img src="semforest-focus_files/figure-html/unnamed-chunk-5-1.png" width="50%"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fp</span> <span class="op">&lt;-</span> <span class="st">"mu2"</span> <span class="co"># predicted by grp2</span></span>
+<span><span class="co">#fp &lt;- "mu1" # predicted by grp1</span></span>
+<span></span>
+<span><span class="va">tree.biv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span><span class="va">model.biv</span>, data<span class="op">=</span><span class="va">df.biv</span>, constraints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>focus.parameters<span class="op">=</span><span class="va">fp</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.biv</span><span class="op">)</span></span></code></pre></div>
+<p><img src="semforest-focus_files/figure-html/unnamed-chunk-6-1.png" width="50%"></p>
 <p>Now, we are repeating the same analysis in a forest.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">semforest</span>(model.biv, <span class="at">data=</span>df.biv,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">constraints =</span> <span class="fu">list</span>(<span class="at">focus.parameters=</span>fp),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control=</span><span class="fu">semforest.control</span>(<span class="at">num.trees=</span><span class="dv">10</span>, <span class="at">control=</span><span class="fu">semtree.control</span>(<span class="at">method=</span><span class="st">"score"</span>,<span class="at">alpha=</span><span class="dv">1</span>)))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">8231.94380334365</span>, new current best<span class="sc">!</span> (was <span class="fl">14702.355897412</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5178.69275033253</span>, new current best<span class="sc">!</span> (was <span class="fl">5180.52740984603</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2242.31648873494</span>, new current best<span class="sc">!</span> (was <span class="fl">2598.56536646728</span>)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1077.7538022621</span>, new current best<span class="sc">!</span> (was <span class="fl">1186.33974611505</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">559.661273239017</span>, new current best<span class="sc">!</span> (was <span class="fl">560.599391939167</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">515.994343618014</span>, new current best<span class="sc">!</span> (was <span class="fl">517.154410322937</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">944.066111945143</span>, new current best<span class="sc">!</span> (was <span class="fl">1055.97674261989</span>)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2207.90573993569</span>, new current best<span class="sc">!</span> (was <span class="fl">2580.12738386525</span>)</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">871.021088316261</span>, new current best<span class="sc">!</span> (was <span class="fl">1010.70215135666</span>)</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">444.674516077842</span>, new current best<span class="sc">!</span> (was <span class="fl">446.501442326911</span>)</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">422.307171560515</span>, new current best<span class="sc">!</span> (was <span class="fl">424.51964598935</span>)</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1076.14270906084</span>, new current best<span class="sc">!</span> (was <span class="fl">1197.20358857903</span>)</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">504.405633265828</span>, new current best<span class="sc">!</span> (was <span class="fl">505.898018540473</span>)</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">569.100934853373</span>, new current best<span class="sc">!</span> (was <span class="fl">570.244690520369</span>)</span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5160.79825542994</span>, new current best<span class="sc">!</span> (was <span class="fl">5163.81680052886</span>)</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2604.98207089739</span>, new current best<span class="sc">!</span> (was <span class="fl">2606.0029636953</span>)</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1222.44830811443</span>, new current best<span class="sc">!</span> (was <span class="fl">1337.74521959935</span>)</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">552.766803013598</span>, new current best<span class="sc">!</span> (was <span class="fl">637.512905188631</span>)</span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">486.409559895815</span>, new current best<span class="sc">!</span> (was <span class="fl">584.935402925801</span>)</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1140.0635095491</span>, new current best<span class="sc">!</span> (was <span class="fl">1267.23685129804</span>)</span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">452.900183571944</span>, new current best<span class="sc">!</span> (was <span class="fl">537.371670837026</span>)</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">516.337595533136</span>, new current best<span class="sc">!</span> (was <span class="fl">602.691838712076</span>)</span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2553.80587579795</span>, new current best<span class="sc">!</span> (was <span class="fl">2554.79529173463</span>)</span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1032.60566766376</span>, new current best<span class="sc">!</span> (was <span class="fl">1210.36542736626</span>)</span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">474.187228851012</span>, new current best<span class="sc">!</span> (was <span class="fl">526.755681493367</span>)</span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">463.276896681961</span>, new current best<span class="sc">!</span> (was <span class="fl">505.849986170391</span>)</span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1179.03242563194</span>, new current best<span class="sc">!</span> (was <span class="fl">1343.44044843169</span>)</span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5210.83471029186</span>, new current best<span class="sc">!</span> (was <span class="fl">5214.32140360433</span>)</span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2278.11329589667</span>, new current best<span class="sc">!</span> (was <span class="fl">2540.70380148129</span>)</span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">953.243936240488</span>, new current best<span class="sc">!</span> (was <span class="fl">1120.99401238131</span>)</span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">472.156232648653</span>, new current best<span class="sc">!</span> (was <span class="fl">474.002971313868</span>)</span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">477.365978081111</span>, new current best<span class="sc">!</span> (was <span class="fl">479.240964926621</span>)</span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">992.970117040024</span>, new current best<span class="sc">!</span> (was <span class="fl">1157.11928351536</span>)</span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">510.210813716902</span>, new current best<span class="sc">!</span> (was <span class="fl">511.371865325914</span>)</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">480.27179005808</span>, new current best<span class="sc">!</span> (was <span class="fl">481.598251714111</span>)</span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2431.23208369377</span>, new current best<span class="sc">!</span> (was <span class="fl">2670.13090881057</span>)</span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">944.907006562229</span>, new current best<span class="sc">!</span> (was <span class="fl">1149.48707185235</span>)</span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">454.206044862329</span>, new current best<span class="sc">!</span> (was <span class="fl">454.517384553573</span>)</span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">490.074593585721</span>, new current best<span class="sc">!</span> (was <span class="fl">490.389622008653</span>)</span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1088.77744983933</span>, new current best<span class="sc">!</span> (was <span class="fl">1281.74501184143</span>)</span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">478.388328504016</span>, new current best<span class="sc">!</span> (was <span class="fl">481.616873870189</span>)</span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">605.180523742488</span>, new current best<span class="sc">!</span> (was <span class="fl">607.160575969145</span>)</span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 3s].</span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5227.94640296686</span>, new current best<span class="sc">!</span> (was <span class="fl">5228.96755968305</span>)</span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2211.60405055463</span>, new current best<span class="sc">!</span> (was <span class="fl">2590.92067965432</span>)</span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">994.659874485375</span>, new current best<span class="sc">!</span> (was <span class="fl">1126.56279997553</span>)</span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">513.655835999792</span>, new current best<span class="sc">!</span> (was <span class="fl">515.462424769327</span>)</span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">476.870174503799</span>, new current best<span class="sc">!</span> (was <span class="fl">479.197449716048</span>)</span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">969.625662968156</span>, new current best<span class="sc">!</span> (was <span class="fl">1085.0412505791</span>)</span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">497.398315208078</span>, new current best<span class="sc">!</span> (was <span class="fl">498.358075565872</span>)</span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">470.347883255093</span>, new current best<span class="sc">!</span> (was <span class="fl">471.267587402283</span>)</span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2264.27275418977</span>, new current best<span class="sc">!</span> (was <span class="fl">2637.02572331254</span>)</span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">834.872275343585</span>, new current best<span class="sc">!</span> (was <span class="fl">1015.17540962256</span>)</span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1112.81761931247</span>, new current best<span class="sc">!</span> (was <span class="fl">1249.09734456721</span>)</span>
-<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5184.86750643105</span>, new current best<span class="sc">!</span> (was <span class="fl">5186.59551204225</span>)</span>
-<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2190.06675305854</span>, new current best<span class="sc">!</span> (was <span class="fl">2578.71640954721</span>)</span>
-<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">962.930428409359</span>, new current best<span class="sc">!</span> (was <span class="fl">1079.57269374054</span>)</span>
-<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">468.33275203863</span>, new current best<span class="sc">!</span> (was <span class="fl">469.737414941774</span>)</span>
-<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">491.665392322266</span>, new current best<span class="sc">!</span> (was <span class="fl">493.193013467588</span>)</span>
-<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">996.718293328229</span>, new current best<span class="sc">!</span> (was <span class="fl">1110.494059318</span>)</span>
-<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a>                                                                           </span>
-<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">473.874089467474</span>, new current best<span class="sc">!</span> (was <span class="fl">474.817038428952</span>)</span>
-<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">521.101689046883</span>, new current best<span class="sc">!</span> (was <span class="fl">521.901254899277</span>)</span>
-<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2264.40129646849</span>, new current best<span class="sc">!</span> (was <span class="fl">2606.15109688384</span>)</span>
-<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">907.393519012246</span>, new current best<span class="sc">!</span> (was <span class="fl">1056.63309157003</span>)</span>
-<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">470.873133305341</span>, new current best<span class="sc">!</span> (was <span class="fl">474.195617711923</span>)</span>
-<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">428.672450216341</span>, new current best<span class="sc">!</span> (was <span class="fl">433.197901300323</span>)</span>
-<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1080.41758875866</span>, new current best<span class="sc">!</span> (was <span class="fl">1207.76820489846</span>)</span>
-<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5233.6860426552</span>, new current best<span class="sc">!</span> (was <span class="fl">5234.28728765404</span>)</span>
-<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2160.53058296461</span>, new current best<span class="sc">!</span> (was <span class="fl">2527.08471422786</span>)</span>
-<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">913.538934322541</span>, new current best<span class="sc">!</span> (was <span class="fl">1022.18308196766</span>)</span>
-<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">496.033504384377</span>, new current best<span class="sc">!</span> (was <span class="fl">497.588481509527</span>)</span>
-<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">413.81323637295</span>, new current best<span class="sc">!</span> (was <span class="fl">415.950452813015</span>)</span>
-<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1034.35394048896</span>, new current best<span class="sc">!</span> (was <span class="fl">1138.34750099695</span>)</span>
-<span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-298"><a href="#cb5-298" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-299"><a href="#cb5-299" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">480.000557544742</span>, new current best<span class="sc">!</span> (was <span class="fl">480.799160645638</span>)</span>
-<span id="cb5-300"><a href="#cb5-300" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-301"><a href="#cb5-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-302"><a href="#cb5-302" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-303"><a href="#cb5-303" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">552.810391753247</span>, new current best<span class="sc">!</span> (was <span class="fl">553.554779843318</span>)</span>
-<span id="cb5-304"><a href="#cb5-304" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-305"><a href="#cb5-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-306"><a href="#cb5-306" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-307"><a href="#cb5-307" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2344.77232182562</span>, new current best<span class="sc">!</span> (was <span class="fl">2706.60132842734</span>)</span>
-<span id="cb5-308"><a href="#cb5-308" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-309"><a href="#cb5-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-310"><a href="#cb5-310" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-311"><a href="#cb5-311" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1086.0603583297</span>, new current best<span class="sc">!</span> (was <span class="fl">1086.54243824123</span>)</span>
-<span id="cb5-312"><a href="#cb5-312" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-313"><a href="#cb5-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-314"><a href="#cb5-314" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-315"><a href="#cb5-315" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1257.83999937805</span>, new current best<span class="sc">!</span> (was <span class="fl">1258.22988358439</span>)</span>
-<span id="cb5-316"><a href="#cb5-316" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-317"><a href="#cb5-317" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-318"><a href="#cb5-318" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-319"><a href="#cb5-319" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-320"><a href="#cb5-320" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5169.10647511961</span>, new current best<span class="sc">!</span> (was <span class="fl">5172.24052601194</span>)</span>
-<span id="cb5-321"><a href="#cb5-321" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-322"><a href="#cb5-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-323"><a href="#cb5-323" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-324"><a href="#cb5-324" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2175.4182702524</span>, new current best<span class="sc">!</span> (was <span class="fl">2543.78963516961</span>)</span>
-<span id="cb5-325"><a href="#cb5-325" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-326"><a href="#cb5-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-327"><a href="#cb5-327" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-328"><a href="#cb5-328" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">943.426677734199</span>, new current best<span class="sc">!</span> (was <span class="fl">1050.94979650767</span>)</span>
-<span id="cb5-329"><a href="#cb5-329" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-330"><a href="#cb5-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-331"><a href="#cb5-331" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-332"><a href="#cb5-332" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1033.08275760545</span>, new current best<span class="sc">!</span> (was <span class="fl">1124.46847374473</span>)</span>
-<span id="cb5-333"><a href="#cb5-333" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-334"><a href="#cb5-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-335"><a href="#cb5-335" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-336"><a href="#cb5-336" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2251.49288930044</span>, new current best<span class="sc">!</span> (was <span class="fl">2625.31683995</span>)</span>
-<span id="cb5-337"><a href="#cb5-337" aria-hidden="true" tabindex="-1"></a>                                                                          </span>
-<span id="cb5-338"><a href="#cb5-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-339"><a href="#cb5-339" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-340"><a href="#cb5-340" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1129.003574849</span>, new current best<span class="sc">!</span> (was <span class="fl">1130.1882063524</span>)</span>
-<span id="cb5-341"><a href="#cb5-341" aria-hidden="true" tabindex="-1"></a>                                                                          </span>
-<span id="cb5-342"><a href="#cb5-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-343"><a href="#cb5-343" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-344"><a href="#cb5-344" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1120.21578554046</span>, new current best<span class="sc">!</span> (was <span class="fl">1121.30468294804</span>)</span>
-<span id="cb5-345"><a href="#cb5-345" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-346"><a href="#cb5-346" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 1s].</span>
-<span id="cb5-347"><a href="#cb5-347" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-348"><a href="#cb5-348" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-349"><a href="#cb5-349" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5142.53054532813</span>, new current best<span class="sc">!</span> (was <span class="fl">5146.68490360203</span>)</span>
-<span id="cb5-350"><a href="#cb5-350" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-351"><a href="#cb5-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-352"><a href="#cb5-352" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-353"><a href="#cb5-353" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2268.62383556661</span>, new current best<span class="sc">!</span> (was <span class="fl">2631.08538315803</span>)</span>
-<span id="cb5-354"><a href="#cb5-354" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-355"><a href="#cb5-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-356"><a href="#cb5-356" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-357"><a href="#cb5-357" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1011.88746419846</span>, new current best<span class="sc">!</span> (was <span class="fl">1156.7178297401</span>)</span>
-<span id="cb5-358"><a href="#cb5-358" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-359"><a href="#cb5-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-360"><a href="#cb5-360" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-361"><a href="#cb5-361" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">981.246419335622</span>, new current best<span class="sc">!</span> (was <span class="fl">1111.90600582651</span>)</span>
-<span id="cb5-362"><a href="#cb5-362" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-363"><a href="#cb5-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-364"><a href="#cb5-364" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-365"><a href="#cb5-365" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">476.195249885184</span>, new current best<span class="sc">!</span> (was <span class="fl">479.36678613694</span>)</span>
-<span id="cb5-366"><a href="#cb5-366" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-367"><a href="#cb5-367" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-368"><a href="#cb5-368" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-369"><a href="#cb5-369" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">498.91444862838</span>, new current best<span class="sc">!</span> (was <span class="fl">501.879633198682</span>)</span>
-<span id="cb5-370"><a href="#cb5-370" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-371"><a href="#cb5-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-372"><a href="#cb5-372" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-373"><a href="#cb5-373" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2167.72797401224</span>, new current best<span class="sc">!</span> (was <span class="fl">2511.44516217009</span>)</span>
-<span id="cb5-374"><a href="#cb5-374" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-375"><a href="#cb5-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-376"><a href="#cb5-376" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-377"><a href="#cb5-377" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">873.759536512845</span>, new current best<span class="sc">!</span> (was <span class="fl">1001.03528880694</span>)</span>
-<span id="cb5-378"><a href="#cb5-378" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-379"><a href="#cb5-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-380"><a href="#cb5-380" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-381"><a href="#cb5-381" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1051.66666194179</span>, new current best<span class="sc">!</span> (was <span class="fl">1166.6926852053</span>)</span>
-<span id="cb5-382"><a href="#cb5-382" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-383"><a href="#cb5-383" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-384"><a href="#cb5-384" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-385"><a href="#cb5-385" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-386"><a href="#cb5-386" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5195.1320107039</span>, new current best<span class="sc">!</span> (was <span class="fl">5195.66917570974</span>)</span>
-<span id="cb5-387"><a href="#cb5-387" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-388"><a href="#cb5-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-389"><a href="#cb5-389" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-390"><a href="#cb5-390" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2104.84567333034</span>, new current best<span class="sc">!</span> (was <span class="fl">2478.50501441455</span>)</span>
-<span id="cb5-391"><a href="#cb5-391" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-392"><a href="#cb5-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-393"><a href="#cb5-393" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-394"><a href="#cb5-394" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">963.020840089404</span>, new current best<span class="sc">!</span> (was <span class="fl">1064.05663711292</span>)</span>
-<span id="cb5-395"><a href="#cb5-395" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-396"><a href="#cb5-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-397"><a href="#cb5-397" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-398"><a href="#cb5-398" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">503.583193541783</span>, new current best<span class="sc">!</span> (was <span class="fl">505.644342492912</span>)</span>
-<span id="cb5-399"><a href="#cb5-399" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-400"><a href="#cb5-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-401"><a href="#cb5-401" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-402"><a href="#cb5-402" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">454.559727721123</span>, new current best<span class="sc">!</span> (was <span class="fl">457.376497596494</span>)</span>
-<span id="cb5-403"><a href="#cb5-403" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-404"><a href="#cb5-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-405"><a href="#cb5-405" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-406"><a href="#cb5-406" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">943.873658389265</span>, new current best<span class="sc">!</span> (was <span class="fl">1040.78903621743</span>)</span>
-<span id="cb5-407"><a href="#cb5-407" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-408"><a href="#cb5-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-409"><a href="#cb5-409" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-410"><a href="#cb5-410" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">445.849116339368</span>, new current best<span class="sc">!</span> (was <span class="fl">446.46623756131</span>)</span>
-<span id="cb5-411"><a href="#cb5-411" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-412"><a href="#cb5-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-413"><a href="#cb5-413" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-414"><a href="#cb5-414" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">496.890381928505</span>, new current best<span class="sc">!</span> (was <span class="fl">497.407420827955</span>)</span>
-<span id="cb5-415"><a href="#cb5-415" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-416"><a href="#cb5-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-417"><a href="#cb5-417" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-418"><a href="#cb5-418" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2339.11289064681</span>, new current best<span class="sc">!</span> (was <span class="fl">2716.62699628935</span>)</span>
-<span id="cb5-419"><a href="#cb5-419" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-420"><a href="#cb5-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-421"><a href="#cb5-421" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-422"><a href="#cb5-422" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1132.80468694585</span>, new current best<span class="sc">!</span> (was <span class="fl">1134.64451062303</span>)</span>
-<span id="cb5-423"><a href="#cb5-423" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-424"><a href="#cb5-424" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-425"><a href="#cb5-425" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-426"><a href="#cb5-426" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">489.382732733569</span>, new current best<span class="sc">!</span> (was <span class="fl">553.609099173937</span>)</span>
-<span id="cb5-427"><a href="#cb5-427" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-428"><a href="#cb5-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-429"><a href="#cb5-429" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-430"><a href="#cb5-430" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">502.392120401274</span>, new current best<span class="sc">!</span> (was <span class="fl">579.195587771909</span>)</span>
-<span id="cb5-431"><a href="#cb5-431" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-432"><a href="#cb5-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-433"><a href="#cb5-433" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-434"><a href="#cb5-434" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1202.95750454465</span>, new current best<span class="sc">!</span> (was <span class="fl">1204.46838002379</span>)</span>
-<span id="cb5-435"><a href="#cb5-435" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-436"><a href="#cb5-436" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-437"><a href="#cb5-437" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-438"><a href="#cb5-438" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-439"><a href="#cb5-439" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">5225.90833703047</span>, new current best<span class="sc">!</span> (was <span class="fl">5226.43048234669</span>)</span>
-<span id="cb5-440"><a href="#cb5-440" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-441"><a href="#cb5-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-442"><a href="#cb5-442" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-443"><a href="#cb5-443" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2199.60280249359</span>, new current best<span class="sc">!</span> (was <span class="fl">2579.47831398517</span>)</span>
-<span id="cb5-444"><a href="#cb5-444" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-445"><a href="#cb5-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-446"><a href="#cb5-446" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-447"><a href="#cb5-447" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">936.239975684897</span>, new current best<span class="sc">!</span> (was <span class="fl">1067.02087084569</span>)</span>
-<span id="cb5-448"><a href="#cb5-448" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-449"><a href="#cb5-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-450"><a href="#cb5-450" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-451"><a href="#cb5-451" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1016.96933504167</span>, new current best<span class="sc">!</span> (was <span class="fl">1132.58193164789</span>)</span>
-<span id="cb5-452"><a href="#cb5-452" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-453"><a href="#cb5-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-454"><a href="#cb5-454" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-455"><a href="#cb5-455" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">471.216487183347</span>, new current best<span class="sc">!</span> (was <span class="fl">471.865416520928</span>)</span>
-<span id="cb5-456"><a href="#cb5-456" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-457"><a href="#cb5-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-458"><a href="#cb5-458" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-459"><a href="#cb5-459" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">544.589863907301</span>, new current best<span class="sc">!</span> (was <span class="fl">545.103918520735</span>)</span>
-<span id="cb5-460"><a href="#cb5-460" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-461"><a href="#cb5-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-462"><a href="#cb5-462" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-463"><a href="#cb5-463" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">2287.06429339587</span>, new current best<span class="sc">!</span> (was <span class="fl">2646.4300230453</span>)</span>
-<span id="cb5-464"><a href="#cb5-464" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-465"><a href="#cb5-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-466"><a href="#cb5-466" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-467"><a href="#cb5-467" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">974.636249473051</span>, new current best<span class="sc">!</span> (was <span class="fl">1116.0259213964</span>)</span>
-<span id="cb5-468"><a href="#cb5-468" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-469"><a href="#cb5-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-470"><a href="#cb5-470" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-471"><a href="#cb5-471" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">470.922597422801</span>, new current best<span class="sc">!</span> (was <span class="fl">472.00065656348</span>)</span>
-<span id="cb5-472"><a href="#cb5-472" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-473"><a href="#cb5-473" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-474"><a href="#cb5-474" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-475"><a href="#cb5-475" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">501.455298685865</span>, new current best<span class="sc">!</span> (was <span class="fl">502.635592909573</span>)</span>
-<span id="cb5-476"><a href="#cb5-476" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-477"><a href="#cb5-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-478"><a href="#cb5-478" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-479"><a href="#cb5-479" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">1040.33954685169</span>, new current best<span class="sc">!</span> (was <span class="fl">1171.03837199947</span>)</span>
-<span id="cb5-480"><a href="#cb5-480" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-481"><a href="#cb5-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-482"><a href="#cb5-482" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-483"><a href="#cb5-483" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">455.057462056803</span>, new current best<span class="sc">!</span> (was <span class="fl">458.154350326122</span>)</span>
-<span id="cb5-484"><a href="#cb5-484" aria-hidden="true" tabindex="-1"></a>                                                                             </span>
-<span id="cb5-485"><a href="#cb5-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-486"><a href="#cb5-486" aria-hidden="true" tabindex="-1"></a>Beginning initial fit attempt</span>
-<span id="cb5-487"><a href="#cb5-487" aria-hidden="true" tabindex="-1"></a>Fit attempt <span class="dv">0</span>, fit<span class="ot">=</span><span class="fl">580.132404060171</span>, new current best<span class="sc">!</span> (was <span class="fl">582.18519652557</span>)</span>
-<span id="cb5-488"><a href="#cb5-488" aria-hidden="true" tabindex="-1"></a>                                                                            </span>
-<span id="cb5-489"><a href="#cb5-489" aria-hidden="true" tabindex="-1"></a> [32m✔ [39m Tree construction finished [took 2s].</span>
-<span id="cb5-490"><a href="#cb5-490" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [32m✔ [39m Forest completed [took 21s]</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span><span class="op">(</span><span class="va">model.biv</span>, data<span class="op">=</span><span class="va">df.biv</span>,</span>
+<span>                    constraints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>focus.parameters<span class="op">=</span><span class="va">fp</span><span class="op">)</span>,</span>
+<span>                    control<span class="op">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span><span class="op">(</span>num.trees<span class="op">=</span><span class="fl">10</span>, control<span class="op">=</span><span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span>,alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>By default, we see that individual trees are fully grown (without a
 p-value threshold). The first split is according to <code>grp2</code>
 because it best explains the group differences. Subsequent splits are
 according to <code>grp1</code> even though the chi2 values are close to
 zero. They only appear because there is no p-value-based stopping
 criterion.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">forest</span><span class="op">$</span><span class="va">forest</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semforest-focus_files/figure-html/unnamed-chunk-7-1.png" width="50%"></p>
+<p><img src="semforest-focus_files/figure-html/unnamed-chunk-8-1.png" width="50%"></p>
 <p>Now, let us investigate the permutation-based variable
 importance:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">vim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span><span class="op">(</span><span class="va">forest</span>, method<span class="op">=</span><span class="st">"permutationFocus"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vim</span>, main<span class="op">=</span><span class="st">"Variable Importance"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="semforest-focus_files/figure-html/unnamed-chunk-8-1.png" width="50%"></p>
+<p><img src="semforest-focus_files/figure-html/unnamed-chunk-9-1.png" width="50%"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -743,7 +241,7 @@ importance:</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

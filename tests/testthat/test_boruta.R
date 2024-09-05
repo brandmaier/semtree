@@ -1,3 +1,8 @@
+
+# skip long running tests on CRAN
+testthat::skip_on_cran()
+
+
 library("semtree")
 data(lgcm)
 
@@ -70,7 +75,7 @@ model <- lgcModel
 data <- lgcm
 control <- semforest_score_control()
 
-vim_boruta <- boruta(lgcModel, lgcm)
+vim_boruta <- boruta(lgcModel, lgcm,percentile_threshold = 1)
 
 print(vim_boruta)
 

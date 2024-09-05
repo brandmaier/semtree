@@ -17,7 +17,7 @@
 #' implements modern score-based statistics.
 #' 
 #' 
-#' @aliases semtree.control print.semtree.control
+#' @aliases semtree.control print.semtree.control semtree_control
 #' @param method Default: 'naive'. One out of
 #' \code{c("score","fair","naive")} for either an unbiased two-step
 #' selection algorithm,  a naive take-the-best, or a
@@ -65,7 +65,7 @@
 #' correction for the naive test counts the number of dichotomous tests. When
 #' set to one, bonferroni correction counts the number of variables tested.
 #' @param missing Missing value treatment. Default is ignore
-#' @param use.maxlm Use MaxLm statistic
+#' @param use.maxlm Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)
 #' @param strucchange.from Strucchange argument. See their package
 #' documentation.
 #' @param strucchange.to Strucchange argument. See their package documentation.
@@ -81,6 +81,9 @@
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
+#' @references 
+#' Arnold, M., Voelkle, M. C., & Brandmaier, A. M. (2021). Score-guided structural equation model trees. \emph{Frontiers in Psychology}, 11, Article 564403. https://doi.org/10.3389/fpsyg.2020.564403
+
 #' @examples
 #' 
 #' 
@@ -96,8 +99,8 @@
 #' 
 #' @export
 semtree.control <-
-  function(method = "naive",
-           min.N = 20,
+  function(method = c("naive","score","fair","fair3"),
+           min.N = NULL,
            max.depth = NA,
            alpha = .05,
            alpha.invariance = NA,
@@ -116,7 +119,7 @@ semtree.control <-
            #                   ordinal = 'maxLMo', # and maxLM are available
            #                   metric = 'maxLM'),
            linear = TRUE,
-           min.bucket = 10,
+           min.bucket = NULL,
            naive.bonferroni.type = 0,
            missing = 'ignore',
            use.maxlm = FALSE,
@@ -143,7 +146,7 @@ semtree.control <-
     # minimum number of cases in leaf
     options$min.bucket <- min.bucket
     # method
-    options$method <- method
+    options$method <- match.arg(method)
     # maximal depth of the tree , set to NA for unrestricted trees
     options$max.depth <- max.depth
     # test invariance of strong restrictions
@@ -196,3 +199,8 @@ semtree.control <-
     
     return(options)
   }
+
+#' @export
+semtree_control <- function(...) {
+  semtree.control(...)
+}

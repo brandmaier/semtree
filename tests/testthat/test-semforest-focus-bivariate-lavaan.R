@@ -1,3 +1,7 @@
+skip_on_cran()
+
+if (require(future)) {
+
 N <- 2000
 
 library(semtree)
@@ -66,6 +70,8 @@ vimdat <- data.frame( vim=rep(c("naive","focus"),each=3),
                       vals=c( semtree:::aggregateVarimp(vim_naive),semtree:::aggregateVarimp(vim_focus)))
 return(vimdat)
 }
-#library(tidyverse)
+
 #vimdat %>% ggplot(aes(x=vim,y=vals,group=param,fill=param))+geom_col(position="dodge")
 rs <- sapply( c( model_lav, model_omx), FUN=sim)
+
+}

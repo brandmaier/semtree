@@ -115,11 +115,14 @@ varimp <- function(forest,
     colnames(result$importance.level1) <- var.names
   }
   
+
   if (dim(result$importance)[1] == 1) {
-    #result$importance<-t(result$importance)
+    result$importance<-t(result$importance)
+
+    # TODO: this is stupid, should be as.matrix?! or something else    
     result$ll.baselines <-
-      t(t(result$ll.baselines)) # TODO: this is stupid, should be as.matrix?!
-  }
+      t(t(result$ll.baselines)) 
+    }
   
   colnames(result$importance) <- var.names
   result$var.names <- var.names

@@ -3,10 +3,11 @@
 \name{semtree.control}
 \alias{semtree.control}
 \alias{print.semtree.control}
+\alias{semtree_control}
 \title{SEM Tree Control Object}
 \usage{
 semtree.control(
-  method = "naive",
+  method = c("naive", "score", "fair", "fair3"),
   min.N = 20,
   max.depth = NA,
   alpha = 0.05,
@@ -102,7 +103,7 @@ set to one, bonferroni correction counts the number of variables tested.}
 
 \item{missing}{Missing value treatment. Default is ignore}
 
-\item{use.maxlm}{Use MaxLm statistic}
+\item{use.maxlm}{Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)}
 
 \item{strucchange.from}{Strucchange argument. See their package
 documentation.}
@@ -156,6 +157,8 @@ implements modern score-based statistics.
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 U. (2013). Structural equation model trees. \emph{Psychological Methods},
 18(1), 71-86.
+
+Arnold, M., Voelkle, M. C., & Brandmaier, A. M. (2021). Score-guided structural equation model trees. \emph{Frontiers in Psychology}, 11, Article 564403. https://doi.org/10.3389/fpsyg.2020.564403
 }
 \seealso{
 \code{\link{semtree}}

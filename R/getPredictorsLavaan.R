@@ -7,7 +7,7 @@ getPredictorsLavaan <- function(model, dataset, covariates)
       model.ids[i] <- which(model@Data@ov.names[[1]][i] == names(dataset));
     }
     all.ids <- 1:length(names(dataset))
-    cvid <- sets::as.set(all.ids)-sets::as.set(model.ids) 
+    cvid <- all.ids[!all.ids %in% model.ids]
     if (length(cvid)==0) {
       ui_stop("No covariates contained in dataset!")
     }
@@ -18,7 +18,7 @@ getPredictorsLavaan <- function(model, dataset, covariates)
     all.ids <- 1:length(names(dataset))
     covariate.ids <- sapply(covariates, function(cv) { which(cv==names(dataset))} )
     
-    modid <- sets::as.set(all.ids)-sets::as.set(covariate.ids) 
+    modid <- all.ids[!all.ids %in% covariate.ids]
     if (length(modid)==0) {
       ui_stop("No covariates available to split on!")
     }

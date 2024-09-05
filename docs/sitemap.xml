@@ -4,6 +4,15 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/CONTRIBUTE.html</loc>
+  </url>
+  <url>
+    <loc>/CONTRIBUTORS.html</loc>
+  </url>
+  <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>/articles/constraints.html</loc>
   </url>
   <url>
@@ -25,22 +34,19 @@
     <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>/CONTRIBUTE.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTORS.html</loc>
+    <loc>/cran_comments.html</loc>
   </url>
   <url>
     <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
   </url>
   <url>
     <loc>/news/index.html</loc>
   </url>
   <url>
     <loc>/reference/biodiversity.html</loc>
+  </url>
+  <url>
+    <loc>/reference/boruta.html</loc>
   </url>
   <url>
     <loc>/reference/coef.semtree.html</loc>
@@ -158,6 +164,9 @@
   </url>
   <url>
     <loc>/reference/semforest.html</loc>
+  </url>
+  <url>
+    <loc>/reference/semtree-package.html</loc>
   </url>
   <url>
     <loc>/reference/semtree.constraints.html</loc>

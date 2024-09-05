@@ -16,7 +16,7 @@ plot.semforest.varimp <-
 
     vimp <- x
     
-    if (hasName(vimp,"boruta")) {
+    if (utils::hasName(vimp,"boruta")) {
       filter_ids <- 1:(ncol(vimp$importance)/2)
       vimp$var.names <- vimp$var.names[filter_ids]
       vimp$importance <- vimp$importance[,filter_ids]
@@ -105,7 +105,7 @@ plot.semforest.varimp <-
     par(mai = c(1.02, linch, 0.82, 0.42))
     
     col <- NULL
-    if (hasName(vimp,"boruta")) {
+    if (utils::hasName(vimp,"boruta")) {
       col <- ifelse(vimp$filter,"grey","white")
     }
     
@@ -119,8 +119,8 @@ plot.semforest.varimp <-
       col = NULL,
       ...
     )
-    if (hasName(vimp,"boruta")) {
-      abline(v=vimp$boruta_threshold,lwd=2)
+    if (utils::hasName(vimp,"boruta")) {
+      graphics::abline(v=vimp$boruta_threshold,lwd=2)
     }
 
   }

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.20</span>
       </span>
     </div>
 
@@ -41,7 +41,7 @@
       <a href="../articles/getting-started.html">Getting Started with the semtree package</a>
     </li>
     <li>
-      <a href="../articles/score-based-tests.html">Score-based Tests</a>
+      <a href="../articles/score-based-tests.html">SEM Trees with score-based tests</a>
     </li>
     <li>
       <a href="../articles/semforest-focus.html">Focus parameters in SEM forests</a>
@@ -70,13 +70,23 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.9.20" id="semtree-0920-2023">semtree 0.9.20 (2023)<a class="anchor" aria-label="anchor" href="#semtree-0920-2023"></a></h2>
-<ul><li>changed default behavior of print function of varimp, such that na.omit=TRUE, which is consistent with other packages like party or partykit</li>
+<h2 class="page-header" data-toc-text="0.9.20" id="semtree-0920-2024">semtree 0.9.20 (2024)<small>2024-04-08</small><a class="anchor" aria-label="anchor" href="#semtree-0920-2024"></a></h2>
+<ul><li>added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)</li>
+<li>leaner package imports: removed dependency on bitops and stringr package</li>
+<li>prefer <code><a href="../reference/semforest.control.html">semforest_control()</a></code> over <code><a href="../reference/semforest.control.html">semforest.control()</a></code> and <code><a href="../reference/semtree.control.html">semtree_control()</a></code> over <code><a href="../reference/semtree.control.html">semtree.control()</a></code>
+</li>
+<li>added heuristics for choosing <code>mtry</code> in forests (if <code>NULL</code>) and for choosing <code>min.N</code> and <code>min.bucket</code> (if <code>NULL</code>)</li>
+<li>moved dependency on <code>ctsemOMX</code> to suggested package</li>
 </ul></div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.9.19" id="semtree-0919-2022">semtree 0.9.19 (2022)<a class="anchor" aria-label="anchor" href="#semtree-0919-2022"></a></h2>
-<ul><li>bugfix in score-based tests that sometimes did not respect min.N constraints</li>
+<h2 class="page-header" data-toc-text="0.9.19" id="semtree-0919-2023">semtree 0.9.19 (2023)<small>2023-11-26</small><a class="anchor" aria-label="anchor" href="#semtree-0919-2023"></a></h2>
+<ul><li>changed default behavior of print function of <code>varimp</code>, such that na.omit=TRUE, which is consistent with other packages like party or partykit</li>
+<li>fixed issues with <code><a href="../reference/toTable.html">toTable()</a></code>-command, by default, all parameters are shown now, also fixed a bug with score-based tests and toTable()</li>
+<li>fixed problem with focus-parameters and variable importance</li>
+<li>bugfix in score-based tests that sometimes did not respect min.N constraints</li>
 <li>new functionality for parameter contribution evaluation</li>
+<li>more verbose vignettes</li>
+<li>removed dependency on set, plotrix and digest package to make package imports leaner</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.9.18" id="semtree-0918-2022">semtree 0.9.18 (2022)<small>2022-05-13</small><a class="anchor" aria-label="anchor" href="#semtree-0918-2022"></a></h2>
@@ -135,7 +145,7 @@
 <li>deprecated partialDependencePlot and introduced partialDependence() function with S3 plotting method</li>
 <li>added parallel computation option to partialDependence</li>
 <li>added new demo scripts</li>
-<li>added extra.legend paramter to varimpConvergencePlot</li>
+<li>added extra.legend parameter to varimpConvergencePlot</li>
 <li>bugfix in traverse() that led to underestimations of variable importance in some cases</li>
 <li>added error message when trying to use lavaan and global constraints</li>
 </ul></div>
@@ -153,7 +163,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

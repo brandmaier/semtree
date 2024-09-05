@@ -1,17 +1,17 @@
-context("test basic splitting based on level of covariate with score tests")
+#context("test basic splitting based on level of covariate with score tests")
+
+# skip long running tests on CRAN
+testthat::skip_on_cran()
 
 library(lavaan)
 library(semtree)
-
-# skip long running tests on CRAN
-skip_on_cran()
 
 # generate observations of an ordered factor with labels
 set.seed(458)
 n <- 1000
 var_unordered <- factor(sample(c("lightning","rain","sunshine","snow"),n,TRUE))
 x <- rnorm(n)+ifelse(var_unordered=="rain",20,0)
-x <- x+ifelse(var_unordered=="sunshine",40,0)
+x <- x+ifelse(var_unordered=="sunshine",20,0)
 
 df <- data.frame(x, var_unordered)
 model = "x ~~ x; x ~mu*1"

@@ -3,7 +3,7 @@
 #' differences between post-split nodes.
 #' @param forest a semforest object.
 #' @param measure a character. "wald" (default) gives the squared parameter
-#' differences devided by their pooled standard errors. test" gives the
+#' differences divided by their pooled standard errors. test" gives the
 #' contributions of the parameters to the test statistic. "raw" gives the
 #' absolute values of the parameter differences.  
 #' @param normalize logical value; if TRUE parameter differences of each split

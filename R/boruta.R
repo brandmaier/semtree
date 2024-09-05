@@ -1,4 +1,3 @@
-
 #' Run the Boruta algorithm on a sem tree
 #' 
 #' Grows a series of SEM Forests following the boruta algorithm to determine
@@ -28,6 +27,7 @@
 #' 
 #' @keywords tree models multivariate
 #' @export
+
 boruta <- function(model,
                    data,
                    control = NULL,
@@ -38,22 +38,63 @@ boruta <- function(model,
                    verbose=FALSE,
                    ...) {
   
- 
-  # TODO: make sure that no column names start with "shadow_" prefix
+  # initial checks
+  stopifnot(percentile_threshold>=0)
+  stopifnot(percentile_threshold<=1)
+  stopifnot(is.numeric(rounds))
+  stopifnot(rounds>0)
   
-  # detect model (warning: duplicated code)
-  if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
-    tmp <- getPredictorsOpenMx(mxmodel=model, dataset=data, covariates=predictors)
-    model.ids <- tmp[[1]]
-    covariate.ids <- tmp[[2]]
-#  } else if (inherits(model,"lavaan")){
+  preds_important <- c()
+  preds_unimportant <- c()
 
- # } else if ((inherits(model,"ctsemFit")) || (inherits(model,"ctsemInit"))) {
-#
-  } else {
-    ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!");
+  cur_round = 1
+  temp_vims <- list()
+   
+  while(cur_round <= rounds) {
+  vim_boruta <- .boruta(model=model,
+          data=data,
+          control=control,
+          predictors=predictors,
+          percentile_threshold = percentile_threshold,
+          ...) 
+  browser()
+  # add predictors to list of unimportant variables
+  preds_unimportant <- c(preds_unimportant, names(vim_boruta$filter)[!vim_boruta$filter])
+  # remove them from the dataset
+  data <- data[, -c(preds_unimportant)]
+  temp_vims[[cur_round]] <-vim_boruta
   }
   
+  result <- list(
+    preds_unimportant,
+    rounds = rounds
+  )
+  
+  return(result)
+}
+
+.boruta <- function(model,
+                   data,
+                   control = NULL,
+                   predictors = NULL,
+                   percentile_threshold = 1,
+                   num_shadows = 1,
+                   ...) {
+  
+  # make sure that no column names start with "shadow_" prefix
+  stopifnot(all(sapply(names(data), function(x) {!startsWith(x, "shadow_")})))
+
+  # detect model (warning: duplicated code)
+  if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
+    tmp <- getPredictorsOpenMx(mxmodel = model, dataset = data, covariates = predictors)
+
+  } else if (inherits(model,"lavaan")){
+    
+    tmp <- getPredictorsLavaan(model, data, predictors)
+  } else {
+    ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!")
+  }
+
   # Checks on x & y from the boruta package
   if(length(grep('^shadow',covariate.ids)>0)) 
     stop('Attributes with names starting from "shadow" are reserved for internal use. Please rename them.')

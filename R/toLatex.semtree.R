@@ -1,3 +1,8 @@
+#toLatex <- function(object, ... ) UseMethod("toLatex")
+
+#toLatex.default <- utils::toLatex
+
+#' @exportS3Method toLatex semtree
 toLatex.semtree <-
 function(object, alternative.edge.labels=TRUE,root=NULL,
 	 prev_node=NULL, latex.mapping=NULL,parameter.names=NULL, stars=FALSE, linewidth=1,

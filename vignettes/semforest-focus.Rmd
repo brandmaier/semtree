@@ -45,7 +45,7 @@ names(df.biv)[1:2] <- paste0("x",1:2)
 manifests<-c("x1","x2")
 ```
 
-The following code specifices a bivariate Gaussian model with five parameters:
+The following code specifies a bivariate Gaussian model with five parameters:
 
 ```{r}
 model.biv <- mxModel("Bivariate_Model", 
@@ -78,12 +78,14 @@ df.biv.pred <- data.frame(df.biv,
 
 
 Now, we choose the mean of the second dimension `mu2` as focus parameter. We expect that only predictor `grp2`. This is what we see in a single tree.
-```{r message=FALSE,eval=TRUE}
+```{r message=FALSE,eval=TRUE, results="hide"}
 fp <- "mu2" # predicted by grp2
 #fp <- "mu1" # predicted by grp1
 
 tree.biv <- semtree(model.biv, data=df.biv, constraints = list(focus.parameters=fp))
+```
 
+```{r}
 plot(tree.biv)
 
 ```
@@ -91,7 +93,7 @@ plot(tree.biv)
 
 Now, we are repeating the same analysis in a forest.
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE,results="hide"}
 forest <- semforest(model.biv, data=df.biv,
                     constraints = list(focus.parameters=fp),
                     control=semforest.control(num.trees=10, control=semtree.control(method="score",alpha=1)))

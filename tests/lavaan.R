@@ -15,7 +15,7 @@ data(lgcm)
 
 lgcm$agegroup <- as.ordered(lgcm$agegroup)
 lgcm$training <- as.factor(lgcm$training)
-lgcm$noise <- as.numeric(lgcm$noise)
+lgcm$noise <- as.factor(lgcm$noise)
 
 # LOAD IN LAVAAN MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
@@ -37,7 +37,7 @@ lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
-controlOptions <- semtree.control()
+controlOptions <- semtree.control(method="score")
 
 # THE CONTENTS OF THE DEFAULT CONTROLS CAN THEN BE VIEWED.
 
@@ -92,6 +92,4 @@ treeSub <- subtree(tree, startNode=3)
 controlOptions$method <- "fair"
 tree2 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
 
-# disabled for time restrictions on CRAN
-#controlOptions$method <- "cv"
-#tree3 <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
+toTable(tree2)

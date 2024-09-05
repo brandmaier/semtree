@@ -13,3 +13,7 @@ Makefile
 ^pkgdown$
 ^LICENSE\.md$
 ^\.travis\.yml$
+misc
+cran-comments.md
+^CRAN-SUBMISSION$
+^\.github$

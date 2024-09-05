@@ -92,7 +92,7 @@ split from this node for further testing.
 
 3. "score" uses score-based test statistics. These statistics are much
 faster than the classic SEM tree approach while having favorable
-statistical properties. 
+statistical properties.
 
 All other parameters controlling the tree growing process are available
 through a separate \code{\link{semtree.control}} object.

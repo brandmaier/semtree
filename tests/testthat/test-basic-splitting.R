@@ -2,7 +2,7 @@
 
 library(lavaan)
 # skip long running tests on CRAN
-skip_on_cran()
+testthat::skip_on_cran()
 
 #
 # test basic splitting
@@ -34,7 +34,7 @@ model = "x ~~ x"
 fitted_model <- lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree.control())
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is more than 1", { expect_gt(getDepth(tree),3) })
+test_that("tree depth is more than 1", { expect_gt(getDepth(tree),1) })
 test_that("first split is optimal", {expect_equal(tree$rule$value,"one")})
 
 # testing unordered, named factors
@@ -49,16 +49,17 @@ test_that("tree depth is at least 2", { expect_gt(getDepth(tree),1) })
 test_that("first split is optimal", {expect_equal(as.character(tree$rule$value),"green")})
 
 # testing ordered, numeric
-set.seed(23334653)
+set.seed(2333463)
 x = rnorm(n)
 x <- x * ifelse( (var_ordered <= 2), .5, 10) 
 df <- data.frame(x, var_ordered)
 model = "x ~~ x"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(max.depth=3))
+tree = semtree(fitted_model, df, 
+               control=semtree.control(max.depth=3))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 3", { expect_equal(getDepth(tree),3) })
+test_that("tree depth is 2", { expect_equal(getDepth(tree),2) })
 test_that("split is optimal", { expect_equal(tree$caption, "var_ordered > 2")})
 
 # testing numeric

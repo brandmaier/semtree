@@ -78,7 +78,6 @@ varimpTree <- function(tree,
             tree = tree,
             data = data,
             cov.name = cov.name,
-            joint.model.list,
             constraints = constraints
           )
       } else {

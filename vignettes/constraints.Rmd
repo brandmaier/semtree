@@ -29,7 +29,7 @@ library(MASS)
 
 `semtree` allows different constraints on the split evaluation (`global.invariance`, `local.invariance`, and `focus.parameters`). These can be set in the following object and then passed to the `semtree` command:
 
-```{r eval=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, results="hide"}
 library(semtree)
 
 cnst <- semtree.constraints(local.invariance=NULL, 
@@ -117,7 +117,7 @@ Even though we retrieve both predictors in the tree, the tree structure does not
 
 ## Local Invariance
 
-Local invariance builds a tree under which all parameters across the leafs of a tree may differ but the chosen parameters may not differ significantly from each other. If they differed significantly, the respective split is not considered a valid split and is not chosen. Local constraints are implemented by means of an additional test of measurement invariance. For each possible split, we fit an additional null model, in which the locally invariant parameters are constrained to be equal across the two resulting daugther nodes of a split. Only if we reject this null hypothesis, we believe that there is measurement non-invariance and disregard the split. A typical use-case is to the set of loadings of a factor model as `local.invariance` to allow a tree with weakly measurement-invariant leafs. 
+Local invariance builds a tree under which all parameters across the leafs of a tree may differ but the chosen parameters may not differ significantly from each other. If they differed significantly, the respective split is not considered a valid split and is not chosen. Local constraints are implemented by means of an additional test of measurement invariance. For each possible split, we fit an additional null model, in which the locally invariant parameters are constrained to be equal across the two resulting daughter nodes of a split. Only if we reject this null hypothesis, we believe that there is measurement non-invariance and disregard the split. A typical use-case is to the set of loadings of a factor model as `local.invariance` to allow a tree with weakly measurement-invariant leafs. 
 
 
 ```{r warning=FALSE, message=FALSE, error=FALSE, echo=TRUE}

@@ -1,8 +1,7 @@
 # DEMO FOR SEMTREE
 require("semtree")
 require("lavaan")
-#require("future")
-#plan(sequential)
+
 data(lgcm)
 
 lgcm$agegroup <- ordered(lgcm$agegroup)

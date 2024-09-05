@@ -1,3 +1,5 @@
+skip_on_cran()
+
 imps <- c(
   1:50,
   rep(c(10,20),each=25),

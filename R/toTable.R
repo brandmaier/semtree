@@ -69,6 +69,11 @@ alls <- unique(alls)
 #covariate.names <-simplify2array(tree$result$btn.matrix[2,])
 covariate.names <- getCovariatesFromTree(tree)
 
+# default is to display all parameters
+if (is.null(added.param.cols)) {
+  added.param.cols <- names(tree$params)
+}
+
 # all column names for the table to be generated (covariate names and parameter names)
 all.names <- c(covariate.names, added.param.cols)
 

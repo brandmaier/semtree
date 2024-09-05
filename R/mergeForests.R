@@ -4,6 +4,7 @@
 #' 
 #' 
 #' @aliases merge.semforest
+#' 
 #' @param x A SEM Forest
 #' @param y A second SEM Forest
 #' @param \dots Extra arguments. Currently unused.
@@ -12,14 +13,15 @@
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
+#' 
 #' @exportS3Method merge semforest
 merge.semforest <- function(x, y, ...)
 {
-  return(merge.internal(list(x,y)))
+  return(merge_internal(list(x,y)))
 }
   
   
-merge.internal <- function(forest.list){
+merge_internal <- function(forest.list){
 
   # determine number of forests to merge
   num.forests <- length(forest.list)
@@ -33,7 +35,7 @@ merge.internal <- function(forest.list){
     if (getModelType(m1) != getModelType(m2)) stop("Incompatible models")
     if (getModelType(m1)=="OpenMx") {
       # for OpenMx models, we compare whether a selected set of
-      # attributes instead of the entire object because eg. 
+      # attributes are identical instead of the entire object because eg. 
       # the output-attribute may differ on time stamps or
       # the compute-attribute may differ for the optimizer used or
       # the number of iterations
@@ -41,14 +43,14 @@ merge.internal <- function(forest.list){
       for (at in list("matrices","algebras","constraints","latentVars","manifestVars",
                       "data","data means","data type","submodels","expectation","fitfunction",
                       "independent")) {
-        c1_temp <- digest::digest(attr(m1,at))==digest::digest(attr(m2,at))
+        c1_temp <- identical(attr(m1,at), attr(m2,at))
         if (!c1_temp) { ui_warn("Models differ on attribute '",at,"'.") }
         c1 <- c1 & c1_temp
       }
     } else if (getModelType(m1)=="lavaan") {
-      c1 <- digest::digest(m1)==digest::digest(m2)
+      c1 <- identical(m1, m2)
     } else {
-      c1 <- digest::digest(m1)==digest::digest(m2)
+      c1 <- identical(m1, m2)
     }
     # some checks
 
@@ -56,7 +58,7 @@ merge.internal <- function(forest.list){
     tmp1$num.trees <- NA
     tmp2 <- forest.list[[i]]$control
     tmp2$num.trees <- NA
-    c2 <- digest::digest(tmp1)==digest::digest(tmp2)
+    c2 <- identical(tmp1, tmp2)
     if (!c1) {
       stop("Cannot merge forests! Models differ.");
     }

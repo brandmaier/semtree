@@ -10,7 +10,7 @@ getParDiffTree(tree, measure = "wald", normalize = FALSE)
 \item{tree}{a semtree object.}
 
 \item{measure}{a character. "wald" (default) gives the squared parameter
-differences devided by their pooled standard errors. "test" gives the
+differences divided by their pooled standard errors. "test" gives the
 contributions of the parameters to the test statistic."raw" gives the
 absolute values of the parameter differences.}
 
