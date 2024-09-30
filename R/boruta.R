@@ -35,6 +35,7 @@ boruta <- function(model,
                    pAdjMethod = "none",
                    alpha = .05,
                    verbose = FALSE,
+                   quant = 1,
                    ...) {
   # detect model (warning: duplicated code)
   if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
@@ -136,8 +137,11 @@ boruta <- function(model,
     
     # Compute shadow stats
     shadow_importances <- agvim[names(agvim) %in% shadow_names]
-    impHistory[runNo, "shadowMax"] <-
-      max_shadow_importance <- max(shadow_importances, na.rm=TRUE)
+    impHistory[runNo, "shadowMax"] <- max(shadow_importances, na.rm=TRUE)
+    
+    max_shadow_importance <- stats::quantile(shadow_importances,
+                                             probs=quant,na.rm=TRUE)
+    
     impHistory[runNo, "shadowMin"] <- min(shadow_importances, na.rm=TRUE)
     impHistory[runNo, "shadowMean"] <- mean(shadow_importances, na.rm=TRUE)
     agvim_filtered <- agvim[!(names(agvim) %in% shadow_names)]
