@@ -2,38 +2,62 @@
 % Please edit documentation in R/boruta.R
 \name{boruta}
 \alias{boruta}
-\title{BORUTA algorithm for SEM trees}
+\alias{plot.boruta}
+\alias{print.boruta}
+\title{Run the Boruta algorithm on a sem tree}
 \usage{
 boruta(
   model,
   data,
   control = NULL,
   predictors = NULL,
-  percentile_threshold = 100,
-  rounds = 1,
+  maxRuns = 30,
+  pAdjMethod = "none",
+  alpha = 0.05,
+  verbose = FALSE,
+  quant = 1,
   ...
 )
 }
 \arguments{
-\item{model}{A template model specification from \code{\link{OpenMx}} using
-the \code{\link{mxModel}} function (or a \code{\link[lavaan]{lavaan}} model
-using the \code{\link[lavaan]{lavaan}} function with option fit=FALSE).
-Model must be syntactically correct within the framework chosen, and
-converge to a solution.}
+\item{model}{A template SEM. Same as in \code{semtree}.}
 
-\item{data}{Data.frame used in the model creation using
-\code{\link{mxModel}} or \code{\link[lavaan]{lavaan}} are input here. Order
-of modeled variables and predictors is not important when providing a
-dataset to \code{semtree}.}
+\item{data}{A dataframe to boruta on. Same as in \code{semtree}.}
 
-\item{control}{\code{\link{semtree}} model specifications from
-\code{\link{semtree.control}} are input here. Any changes from the default
-setting can be specified here.}
+\item{control}{A semforest control object to set forest parameters.}
 
-\item{percentile_threshold}{Numeric.}
+\item{predictors}{An optional list of covariates. See semtree code example.}
 
-\item{rounds}{Numeric. Number of rounds of the BORUTA algorithm.}
+\item{maxRuns}{Maximum number of boruta search cycles}
+
+\item{pAdjMethod}{A value from \link{stats::p.adjust.methods} defining a
+multiple testing correction method}
+
+\item{alpha}{p-value cutoff for decisionmaking. Default .05}
+
+\item{verbose}{Verbosity level for boruta processing
+similar to the same argument in \link{semtree.control} and
+\link{semforest.control}}
+
+\item{\dots}{Optional parameters to undefined subfunctions}
+}
+\value{
+A vim object with several elements that need work.
+         Of particular note, `$importance` carries mean importance;
+         `$decision` denotes Accepted/Rejected/Tentative;
+         `$impHistory` has the entire varimp history; and
+         `$details` has exit values for each parameter.
 }
 \description{
-BORUTA algorithm for SEM trees
+Grows a series of SEM Forests following the boruta algorithm to determine
+   feature importance as moderators of the underlying model.
 }
+\seealso{
+\code{\link{semtree}} \code{\link{semforest}}
+}
+\author{
+Priyanka Paul, Timothy R. Brick, Andreas Brandmaier
+}
+\keyword{models}
+\keyword{multivariate}
+\keyword{tree}

@@ -8,7 +8,7 @@
 \usage{
 semtree.control(
   method = c("naive", "score", "fair", "fair3"),
-  min.N = 20,
+  min.N = NULL,
   max.depth = NA,
   alpha = 0.05,
   alpha.invariance = NA,
@@ -24,7 +24,7 @@ semtree.control(
   report.level = 0,
   exclude.code = NA,
   linear = TRUE,
-  min.bucket = 10,
+  min.bucket = NULL,
   naive.bonferroni.type = 0,
   missing = "ignore",
   use.maxlm = FALSE,

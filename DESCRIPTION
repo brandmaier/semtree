@@ -17,6 +17,7 @@ Imports:
     cluster,
     ggplot2,
     tidyr,
+    dplyr,
     methods,
     strucchange,
     sandwich,
