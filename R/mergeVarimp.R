@@ -1,9 +1,10 @@
 #' @exportS3Method merge semforest.varimp
-merge.semforest.varimp <- function(x, y, ...){
-  return(merge_internal_varimp(list(x, y)))
+merge.semforest.varimp <- function(...){
+  if (length(list(...))<2) stop("Need at least two arguments to merge!")
+  return(.merge_varimp( list(...) ))
 }
 
-merge_internal_varimp <- function (varimp_list) 
+.merge_varimp <- function (varimp_list) 
 {
   numtrees <- sapply(varimp_list, function(x){length(x$ll.baselines)})
   numfeatures <- sapply(varimp_list, function(x){dim(x$importance)[2]})
