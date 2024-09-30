@@ -1,3 +1,9 @@
+# semtree 0.9.21 (2024)
+
+- added merge functions for varimp objects
+- fixed error in to.table() which convert everything to strings
+- fixed issue in OpenMx models with unnamed parameters in matrices
+
 # semtree 0.9.20 (2024)
 
 - added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)
