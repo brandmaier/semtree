@@ -17,3 +17,4 @@ misc
 cran-comments.md
 ^CRAN-SUBMISSION$
 ^\.github$
+^\.httr-oauth$
