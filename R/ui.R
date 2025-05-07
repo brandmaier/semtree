@@ -52,11 +52,11 @@ human_readable_time <- function(x)
   } else if (x < 60) {
     return (paste0(round(x),"s"))
   } else if (x < 600) {
-   # round to half-minutes:
-    paste0("~",(round(x/30)*30)/60,"min")
+   # round to nearest half-minute:
+    return( paste0("~",(round(x/30)*30)/60,"min") )
   } else if (x < 3600) {
-    paste0("~",round(x/60),"min")
+    return( paste0("~",round(x/60),"min") )
   } else {
-    paste0("~",round(x/3600*10)/10,"h")
+    return( paste0("~",round(x/3600*10)/10,"h") )
   }
 }

@@ -1,7 +1,9 @@
+#' currently not in use
+#'
 cvLikelihood <- function( model, subset1, subset2, fold_association1,fold_association2, control, invariance=NULL )
 {
 	folds <- length(unique(c(fold_association1, fold_association2)))	
-	#cat("Num Folds:",folds,"\n")
+
 	lrs <- rep(NA, folds)
   	for (fold in 1:folds)
   	{
@@ -15,17 +17,12 @@ cvLikelihood <- function( model, subset1, subset2, fold_association1,fold_associ
   		  
   		  result <- fitSubmodels(model, training_subset1, training_subset2, control, invariance,return.models=TRUE)		
   		  if(!is.list(result)){return(NA)}
-        #cat(is.null(result), sep=" ")
-  		  #if(is.null(result)){return(NA)}
-  		  #ll1 <- 0
-        #ll2 <- 0
+       
         ll1 <- evaluateDataLikelihood(result$model1, test_subset1) 
   		  ll2 <- evaluateDataLikelihood(result$model2, test_subset2)  			
       } 
       else {
- 			#return(NA)
-        ##model1 <- mxModel(model,mxData(observed=training_subset1,type="raw"),
-        #                  name=paste("MODEL",fold,sep=" "))
+
         model1 <- mxAddNewModelData(model=model, data=training_subset1, name=paste("MODEL",fold,sep=" "))
         
 			  out1 <- safeRunAndEvaluate(model1,return.model=T)

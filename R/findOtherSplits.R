@@ -29,14 +29,12 @@ function(node, tree)
 	cvalues <- as.numeric( round( node$lr_values[idx], 3) )
 	cnames <- names(tree$recoding$dataset)[idx2]
 	
-	#cat(cvalues)
-	#cat(cnames)
-	#print(cvalues)
+
 	
 	df<-data.frame( cbind(cnames,  cvalues ) )
 	df<-data.frame( cnames, cvalues  )
 	
-	#df <- sort(df, by =~ df[,2])
+
 	df <- df[with(df,order(-df[,2])) ,]
 	
 	return(df)

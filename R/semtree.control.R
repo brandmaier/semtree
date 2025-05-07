@@ -75,6 +75,10 @@
 #' provided to \code{\link{semtree}}.
 #' @param ctsem_sd If FALSE (default) no standard errors of CT model parameters
 #' are computed. Requesting standard errors increases runtime. 
+#' @oaram loglik  Character. Algorithm to compute log likelihood. The default is 'model' and
+#' refers to a model-based computation. This is preferable because it is more
+#' general. As an alternative, 'mvn' computes the log likelihood based on the
+#' multivariate normal density and the model-implied mean and covariance matrix.
 #' @return A control object containing a list of the above parameters.
 #' @author Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 #' @seealso \code{\link{semtree}}
@@ -127,7 +131,8 @@ semtree.control <-
            strucchange.to = NULL,
            strucchange.nrep = 50000,
            refit = TRUE,
-           ctsem_sd = FALSE)
+           ctsem_sd = FALSE,
+           loglik = c("model","mvn"))
   {
     options <- list()
     # verbose output during generation of SEMTree
@@ -193,7 +198,8 @@ semtree.control <-
     options$refit <- refit
     # should standard errors of CT models be computed? Increases runtime.
     options$ctsem_sd <- ctsem_sd
-    
+    # algorithm to compute log likelihood
+    options$loglik <- match.arg(loglik)
     
     class(options) <- "semtree.control"
     

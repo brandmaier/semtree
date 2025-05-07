@@ -6,6 +6,8 @@
 #
 varimpFocus <- function(tree, data, cov.name, constraints = NULL)
 {
+  loglik = tree$control$loglik
+  
   has_constraints <- TRUE
   if (is.null(constraints)) { has_constraints <- FALSE } else {
     if (is.null(constraints$focus.parameters)) has_constraints <- FALSE
@@ -53,7 +55,7 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
     original.node <- semtree::getNodeById(tree, original.id)
     ll.baseline <- NA
     ll.baseline <-
-      try({evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE])  }) 
+      try({evaluateDataLikelihood(original.node$model , oob.data[data.rows, , drop = FALSE], loglik=loglik)  }) 
     
     # get loss of fit by resampling
     # ------------------------ 8< -------------------
@@ -88,7 +90,7 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
     
     # re-evaluate data likelihood (NA if fit job exits)
     ll.focus <- NA
-    try({ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE])})
+    try({ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE], loglik=loglik)})
     
     ll.diff <- ll.focus - ll.baseline
     # ------------------------ 8< -------------

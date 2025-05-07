@@ -1,5 +1,6 @@
+#' see documentation of evaluateTree
 evaluateTreeConditional <-
-  function(tree, test_set_list, data_type="raw", leaf_ids=NULL)
+  function(tree, test_set_list, data_type="raw", leaf_ids=NULL, loglik = "model")
   {
     test_set1 <- test_set_list[[1]]
     
@@ -21,7 +22,7 @@ evaluateTreeConditional <-
       leaf <- getNodeById( tree, leaf_id)
       
       # add up log-likelihoods
-      dev <- dev + evaluateDataLikelihood(leaf$model, temp_set[,,drop=F], data_type )
+      dev <- dev + evaluateDataLikelihood(leaf$model, temp_set[,,drop=F], data_type, loglik=loglik )
     }
     
     result <- list()

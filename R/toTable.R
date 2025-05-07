@@ -1,9 +1,12 @@
-saferound <- function(num, digits)
+#' rounds only up to given number of digits if a number is passed
+#' @param x
+#' @param digits integer indicating the number of decimpal places to be used
+saferound <- function(x, digits = 0)
 {
-  if (is.numeric(num)) {
-    return(round(num, digits))
+  if (is.numeric(x)) {
+    return(round(x, digits))
   } else {
-    return("NULL")
+    return(x)
   }
 }
 
@@ -92,6 +95,8 @@ toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
       if (state==1) { # state encodes whether TRUE OR FALSE
         if (myitem[[1]]$relation==">=") {
           rule <- paste(">=",saferound(myitem[[1]]$value,2))
+        } else if (myitem[[1]]$relation=="<") {
+          rule <- paste("<",saferound(myitem[[1]]$value,2))
         } else if (myitem[[1]]$relation=="%in%") {
           rule <- paste(myitem[[1]]$value, collapse=" or ")
         } else {
@@ -103,6 +108,8 @@ toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
         rule <- ""
         if (myitem[[1]]$relation==">=") {
           rule <- paste("<",saferound(myitem[[1]]$value,2))
+        } else if (myitem[[1]]$relation=="<") {
+          rule <- paste(">=",saferound(myitem[[1]]$value,2))
         } else if (myitem[[1]]$relation=="%in%") {
           rule <- paste("not (",paste(myitem[[1]]$value,collapse=" or "),")")
         } else 

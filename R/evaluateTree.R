@@ -12,6 +12,10 @@
 #' @param leaf_ids Identifies which nodes are leaf nodes. Default is NULL,
 #' which checks model for leaf nodes and fills this information in
 #' automatically.
+#' @param loglik Algorithm to compute log likelihood. The default is 'model' and
+#' refers to a model-based computation. This is preferable because it is more
+#' general. As an alternative, 'mvn' computes the log likelihood based on the
+#' multivariate normal density and the model-implied mean and covariance matrix.
 #' @return A list with two elements: \item{deviance}{Combined -2LL for leaf
 #' node models of the tree.} \item{num_models}{Number of leaf nodes used for
 #' the deviance calculations.} %% ...
@@ -26,29 +30,31 @@ evaluateTree <-
   function(tree,
            test_set,
            data_type = "raw",
-           leaf_ids = NULL) {
+           leaf_ids = NULL,
+           loglik = "model") {
     # get a mapping of dataset rows to leaf ids
     if (is.null(leaf_ids)) {
       leaf_ids <- traverse(tree, test_set)
     }
-
+    
     # for each leaf, calculate deviance of each data row
     dev <- 0
     for (leaf_id in unique(leaf_ids))
     {
       temp_set <- test_set[leaf_ids == leaf_id, ]
-
-
+      
+      
       leaf <- getNodeById(tree, leaf_id)
-
+      
       # add up log-likelihoods
       dev <-
-        dev + evaluateDataLikelihood(leaf$model, temp_set[, , drop = F], data_type)
+        dev + evaluateDataLikelihood(leaf$model, temp_set[, , drop = F], data_type, loglik =
+                                       loglik)
     }
-
+    
     result <- list()
     result$deviance <- dev
     result$num_models <- length(unique(leaf_ids))
-
+    
     return(result)
   }
