@@ -16,7 +16,6 @@
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
 findOtherSplits <-
-<<<<<<< HEAD
 function(node, tree)
 {
 	if (tree$p.values.valid) {
@@ -40,29 +39,4 @@ function(node, tree)
 	
 	return(df)
 }
-=======
-  function(node, tree) {
-    if (tree$p.values.valid) {
-      idx <- which(node$p_values <= tree$options$alpha)
-    } else {
-      idx <- which(node$lr_values > 0)
-    }
 
-    idx2 <- node$covariate.ids[idx]
-
-    cvalues <- as.numeric(round(node$lr_values[idx], 3))
-    cnames <- names(tree$recoding$dataset)[idx2]
-
-    # cat(cvalues)
-    # cat(cnames)
-    # print(cvalues)
-
-    df <- data.frame(cbind(cnames, cvalues))
-    df <- data.frame(cnames, cvalues)
-
-    # df <- sort(df, by =~ df[,2])
-    df <- df[with(df, order(-df[, 2])), ]
-
-    return(df)
-  }
->>>>>>> 9a7926a3bf1e5f51959f1be17a1319e7167d49c5
