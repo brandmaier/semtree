@@ -13,10 +13,6 @@ require("lavaan")
 
 data(lgcm)
 
-lgcm$agegroup <- as.ordered(lgcm$agegroup)
-lgcm$training <- as.factor(lgcm$training)
-lgcm$noise <- as.factor(lgcm$noise)
-
 # LOAD IN LAVAAN MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
 
