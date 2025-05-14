@@ -95,7 +95,7 @@ fairSplit <-
             test2 <- rep(NA, length(cross1[, cur_col]))
 
             for (j in 1:ncol(result$columns)) {
-              # cat("RUN",j,"\n")
+              
               test1 <- rep(0, length(cross1[, cur_col]))
               for (i in 1:length(cross1[, cur_col])) {
                 if (isTRUE(result$columns[i, j])) {
@@ -584,7 +584,7 @@ fairSplit <-
             test2 <- rep(NA, length(mydata[, cur_col]))
 
             for (j in 1:ncol(result$columns)) {
-              # cat("RUN",j,"\n")
+              
               test1 <- rep(0, length(mydata[, cur_col]))
               for (i in 1:length(mydata[, cur_col])) {
                 if (isTRUE(result$columns[i, j])) {
@@ -771,7 +771,7 @@ fairSplit <-
       report("", 1)
     }
 
-    # cat("Best ",LL.max, " ",split.max," ",name.max," ",col.max,"\n")
+    
     return(
       list(
         LL.max = LL.max,

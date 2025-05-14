@@ -18,9 +18,12 @@
 #' 18(1), 71-86.
 
 evaluateDataLikelihood <-
-  function(model, data, data_type = "raw")
+  function(model, data, data_type = "raw", loglik="model")
   {
     if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
+
+      if (loglik!="model") stop("Not implemented")
+      
       # this is to trick the strict CRAN check
       objective <- NULL
       #
@@ -84,6 +87,8 @@ evaluateDataLikelihood <-
       
     } else if (inherits(model, "ctsemFit")) {
       
+      if (loglik!="model") stop("Not implemented")
+      
       select_ctsem_data <- intersect(colnames(model$mxobj$data$observed),
                                      colnames(data))
       
@@ -113,38 +118,45 @@ evaluateDataLikelihood <-
       return(getLikelihood(model_up))
       
     } else if (inherits(model, "lavaan")) {
-      # replace data
-      #model <- mxAddNewModelData(model=model,data=data)
-      
-      # fix all parameters
-      #model@ParTable$free <- rep(0, length(model@ParTable$free))
-      
-      # rerun model
-      #modelrun <- try(suppressWarnings(
-      #  eval(parse(text=paste(model@Options$model.type,'(lavaan::parTable(model),data=data,missing=\'',
-      #                        model@Options$missing,'\')',sep="")))),silent=FALSE)
-      
+
       ll <- NA
       
-      tryCatch({
-        modelrun <- lavaan::lavaan(
-          lavaan::parTable(model),
-          data = data,
-          control = list(
-            optim.method = "none",
-            optim.force.converged = TRUE
+      if (loglik=="mvn") {
+     
+          # filter relevant variables
+          model_observed_names <- model@Data@ov.names[[1]]
+          data <- data[, model_observed_names]
+        
+          # compute likelihood based on multivariate normal density
+          # and model-impled mean and covariance matrix
+          implied <- lavInspect(model, "implied")
+          Sigma <- implied$cov
+          mu <- implied$mean
+          ll<- -2*sum(lavaan_casewise_loglik_matrices(data, mu = mu, Sigma = Sigma ))
+        
+      } else {
+     
+        
+        tryCatch({
+          modelrun <- lavaan::lavaan(
+            lavaan::parTable(model),
+            data = data,
+            control = list(
+              optim.method = "none",
+              optim.force.converged = TRUE
+            )
           )
-        )
+          
+          # evaluate likelihood
+          ll <- -2 * as.numeric(lavaan::logLik(modelrun))
+        },error = function(e) {
+          ui_warn("Could not evaluate lavaan model likelihood. Lavaan had the following error:\n ",e)
+          
+        })
         
-        # evaluate likelihood
-        ll <- -2 * lavaan::logLik(modelrun)
-        
-      },error = function(e) {
-        ui_warn("Could not evaluate lavaan model likelihood. Lavaan had the following error:\n ",e)
-        
-      })
+      }
       
-      return(ll)
+      return(ll) 
       
     } else {
       stop(

@@ -70,8 +70,6 @@ conditionalSample <- function(tree, dataset, id) {
       dataset[selected.rowids, permutation.idx] <- dataset[sample(selected.rowids), permutation.idx]
     }
 
-
-    cat(bit.filter, " : ", length(selected.rowids), "\n")
   }
 
   return(dataset)

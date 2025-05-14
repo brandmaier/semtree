@@ -1,8 +1,14 @@
+# semtree 0.9.22 (2025)
+
+- added multivariate density to evaluate loglikelihood of lavaan models (thanks
+ to Yves Rosseel for support)
+
 # semtree 0.9.21 (2024)
 
 - added merge functions for varimp objects
 - fixed error in to.table() which convert everything to strings
 - fixed issue in OpenMx models with unnamed parameters in matrices
+- fixed a bug in toLatex() of trees, where edge labels were undefined
 
 # semtree 0.9.20 (2024)
 

@@ -67,7 +67,8 @@ varimp <- function(forest,
       max.level = NA,
       eval.fun = eval.fun,
       method = method,
-      constraints = forest$constraints
+      constraints = forest$constraints,
+      loglik = forest$control$semtree.control$loglik
     ),
     SIMPLIFY = FALSE,
     USE.NAMES = TRUE,
@@ -115,9 +116,14 @@ varimp <- function(forest,
     colnames(result$importance.level1) <- var.names
   }
   
-
-  if (dim(result$importance)[1] == 1) {
-    result$importance<-t(result$importance)
+  # at this stage, result$importance should be a k x p matrix
+  # with k being the number of trees and p being the number
+  # of predictors
+  # result$ll.baselines is a vector of length k
+  
+ 
+  if (nrow(result$importance) == 1) {
+    #result$importance<-t(result$importance)
 
     # TODO: this is stupid, should be as.matrix?! or something else    
     result$ll.baselines <-

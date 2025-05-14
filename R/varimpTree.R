@@ -6,7 +6,8 @@ varimpTree <- function(tree,
                        eval.fun = evaluateTree,
                        method = "permutation",
                        conditional = FALSE,
-                       constraints = NULL) {
+                       constraints = NULL,
+                       loglik = "model") {
   # prune tree back to given level if "max.level" is specified
   if (!is.na(max.level)) {
     tree <- prune(tree, max.level)
@@ -19,15 +20,11 @@ varimpTree <- function(tree,
   
   # obtain likelihood of unpermuted data
   ll.baseline <- eval.fun(tree, oob.data)$deviance
-  #if (verbose) {
-  #  ui_info("LL baseline", ll.baseline, "\n")
-  #}
-  
   
   # get all predictors that appeared in the tree
   treecovs <- getCovariatesFromTree(tree)
   
-  # all covariates
+  # cycle through all covariates
   for (cov.name in var.names) {
     if (verbose) {
       ui_message("- Testing ", cov.name, "\n")
@@ -49,7 +46,7 @@ varimpTree <- function(tree,
       if (!conditional) {
         col.data <- oob.data.permuted[, permutation.idx]
         oob.data.permuted[, permutation.idx] <-
-          sample(col.data, length(col.data), replace = F)
+          sample(col.data, length(col.data), replace = FALSE)
       } else {
         stop("Not yet implemented!")
         
@@ -66,8 +63,10 @@ varimpTree <- function(tree,
       
       # obtain likelihood of permuted data
       if (method == "permutation") {
-        ll.permuted <- eval.fun(tree, oob.data.permuted)$deviance
+
+        ll.permuted <- eval.fun(tree, oob.data.permuted, loglik = loglik)$deviance
         ll.diff <- -ll.baseline + ll.permuted
+        
       } else if (method == "permutationInteraction") {
         ll.permuted <-
           evaluateTreeConditional(tree, list(oob.data.permuted, oob.data))$deviance

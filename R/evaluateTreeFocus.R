@@ -4,7 +4,7 @@
 # computes the difference in log-likelihoods considering focus parameters
 #
 evaluateTreeFocus <-
-  function(tree, test_set, data_type = "raw", leaf_ids = NULL) {
+  function(tree, test_set, data_type = "raw", leaf_ids = NULL, loglik = "model") {
     # get a mapping of dataset rows to leaf ids
     if (is.null(leaf_ids)) {
       leaf_ids <- traverse(tree, test_set)
@@ -30,7 +30,7 @@ evaluateTreeFocus <-
       # baseline = evaluateDataLikelihood(leaf$model, temp_set[,,drop=F], data_type )
       ll.focus <- evaluateDataLikelihood(
         leaf$focus.model,
-        temp_set[, , drop = F], data_type
+        temp_set[, , drop = F], data_type, loglik = loglik
       )
 
       # evaluate log-likelihood after permutation
