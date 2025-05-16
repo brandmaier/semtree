@@ -101,8 +101,10 @@ find_smallest_node <- function(tree) {
   }
 }
 
-observed.min.N <- sapply(FUN=find_smallest_node, forest$forest)
+observed.min.N <- sapply(forest$forest, FUN=function(tree) {find_smallest_node(tree)})
 
+test_that("min.N works" ,
 testthat::expect_true(
   all(observed.min.N >= min.N)
+)
 )

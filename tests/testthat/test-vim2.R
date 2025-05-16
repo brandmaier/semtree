@@ -1,4 +1,4 @@
-skip_on_cran()
+testthat::skip_on_cran()
 
 set.seed(789)
 require("semtree")
@@ -87,4 +87,5 @@ lgcm <- lgcm[, sample(1:ncol(lgcm),ncol(lgcm),FALSE)]
 fr2 <- semforest(lgcModel, lgcm, control = ctrl)
 vimp2 <- varimp(fr2)
 
-print(vim, scale="relative.baseline")
+print(vimp, scale="relative.baseline")
+print(vimp2, scale="relative.baseline")

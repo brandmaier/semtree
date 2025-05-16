@@ -1,4 +1,6 @@
-skip_on_cran()
+testthat::skip_on_cran()
+
+library(semtree)
 
 imps <- c(
   1:50,

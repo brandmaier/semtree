@@ -85,13 +85,13 @@ varimp <- function(forest,
       try({
         x$ll.baseline
       })
-    })
+    }, simplify="matrix")
   result$importance <-
     t(sapply(temp, function(x) {
       try({
         x$total
       })
-    }))
+    }, simplify="matrix"))
   result$elapsed <- elapsed
   
   # completeley experimental, probably not a wise idea to use this
@@ -120,15 +120,15 @@ varimp <- function(forest,
   # with k being the number of trees and p being the number
   # of predictors
   # result$ll.baselines is a vector of length k
-  
  
-  if (nrow(result$importance) == 1) {
-    #result$importance<-t(result$importance)
-
-    # TODO: this is stupid, should be as.matrix?! or something else    
-    result$ll.baselines <-
-      t(t(result$ll.baselines)) 
-    }
+  # in case, the result is only from a single predictor, 
+  # then transpose results accordingly such that is k x p 
+  if (length(var.names) == 1) {
+    result$importance<-matrix(result$importance, ncol=1)
+  
+   # result$ll.baselines <-
+  #    matrix(result$ll.baselines, ncol=1) 
+   }
   
   colnames(result$importance) <- var.names
   result$var.names <- var.names
