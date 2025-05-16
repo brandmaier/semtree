@@ -22,7 +22,7 @@ evaluateDataLikelihood <-
   {
     if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
 
-      if (loglik!="model") stop("Not implemented")
+      if (loglik=="mvn") stop("Not implemented")
       
       # this is to trick the strict CRAN check
       objective <- NULL
@@ -87,7 +87,7 @@ evaluateDataLikelihood <-
       
     } else if (inherits(model, "ctsemFit")) {
       
-      if (loglik!="model") stop("Not implemented")
+      if (loglik=="mvn") stop("Not implemented")
       
       select_ctsem_data <- intersect(colnames(model$mxobj$data$observed),
                                      colnames(data))
@@ -121,7 +121,7 @@ evaluateDataLikelihood <-
 
       ll <- NA
       
-      if (loglik=="mvn") {
+      if (loglik %in% c("mvn","default")) {
      
           # filter relevant variables
           model_observed_names <- model@Data@ov.names[[1]]
