@@ -1,7 +1,10 @@
 # semtree 0.9.22 (2025)
 
 - added multivariate density to evaluate loglikelihood of lavaan models (thanks
- to Yves Rosseel for support)
+ to Yves Rosseel for support). New option in semtree.control allows to choose
+ between different approaches for lavaan models. New default ist multivariate normal
+ computation for lavaan models as it fixes bug with likelihood evaluation when
+ the number of cases is small
 
 # semtree 0.9.21 (2024)
 
