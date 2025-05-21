@@ -17,9 +17,9 @@ OpenMx_scores_input <- function(x, control) {
       if (candidate_matrix=="A") {
         x$A$labels[candidate_pos[1], candidate_pos[2]]<-candidate_param_name        
       } else if (candidate_matrix=="S") {
-        x$S$labels[candidate_pos[1], candidate_pos[2]]<-candidate_param_name        
+        x$S$labels[candidate_pos[1], candidate_pos[2]] <- x$S$labels[candidate_pos[2], candidate_pos[1]] <- candidate_param_name        
       } else if (candidate_matrix == "M") {
-        x$M$labels[candidate_pos]<-candidate_param_name        
+        x$M$labels[1, candidate_pos[2]]<-candidate_param_name        
       }
     }
   }
