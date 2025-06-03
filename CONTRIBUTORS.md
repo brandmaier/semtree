@@ -7,3 +7,5 @@
 * Michael Krause (contributor)
 
 * Caspar van Lissa (contributor)
+
+* Moritz John (contributor)
