@@ -31,4 +31,3 @@ this in your local semtree directory:
 devtools::check(".")
 ```
 - please use camel case for function names indicating the separation of words with a single capitalized letter, and the first word starting with lower case, e.g., `checkBinSize()` or `getExpectedMean()`.
-- 

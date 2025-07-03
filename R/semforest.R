@@ -63,7 +63,7 @@ semforest <- function(model,
   }
   
   if ("with.error.handler" %in% names(arguments)) {
-    with.error.handler <- arguments$with.error.handle
+    with.error.handler <- arguments$with.error.handler
   } else {
     with.error.handler <- TRUE
   }
@@ -124,7 +124,7 @@ semforest <- function(model,
   # pass mtry from forest to tree control
   if (!is.na(semforest.control$semtree.control$mtry)) {
     ui_stop(
-      "mtry manualy set in  semforest.control$semtree.control object! Please set mtry in semforest.control object only!"
+      "mtry manually set in semforest.control$semtree.control object! Please set mtry in semforest.control object only!"
     )
   }
   semforest.control$semtree.control$mtry <- semforest.control$mtry
