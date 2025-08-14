@@ -46,7 +46,7 @@
 #' nodeFunSemtree
 #' @param model A template model specification from \code{\link{OpenMx}} using
 #' the \code{\link{mxModel}} function (or a \code{\link[lavaan]{lavaan}} model
-#' using the \code{\link[lavaan]{lavaan}} function with option fit=FALSE).
+#' using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).
 #' Model must be syntactically correct within the framework chosen, and
 #' converge to a solution.
 #' @param data Data.frame used in the model creation using
