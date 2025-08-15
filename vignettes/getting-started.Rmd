@@ -1,6 +1,8 @@
 ---
 title: "Getting Started with the semtree package"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    tabset: TRUE
 vignette: >
   %\VignetteIndexEntry{Getting Started with the semtree package}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,11 +18,12 @@ knitr::opts_chunk$set(
 
 ## Load the Package
 
-We first load the `semtree` package and the `OpenMx` package for specifying our SEM.
+We first load the `semtree` package and both the `OpenMx` and `lavaan` packages for specifying our SEM.
 
 ```{r setup}
 library(semtree)
 library(OpenMx)
+library(lavaan)
 ```
 
 ## Simulate data
@@ -43,7 +46,9 @@ growth.data <- data.frame(x, factor(p1))
 names(growth.data) <- c(paste0("X", 1:M), "P1")
 ```
 
-## Specify an OpenMx model
+## Specify an SEM Model {.tabset}
+
+### OpenMx
 
 Now, we specify a linear latent growth curve model using OpenMx's path specification. The model has five observed variables. Residual variances are assumed to be identical over time.
 
@@ -108,6 +113,22 @@ growthCurveModel <- mxModel("Linear Growth Curve Model Path Specification",
 
 # fit the model to the entire dataset
 growthCurveModel <- mxRun(growthCurveModel)
+```
+
+### lavaan
+
+Now, we specify a linear latent growth curve model using lavaan. The model has five observed variables. Residual variances are assumed to be identical over time.
+
+```{r, eval=FALSE}
+model <- "
+intercept =~ 1*X1 + 1*X2 + 1*X3 + 1*X4 + 1*X5
+slope  =~ 0*X1 + 1*X2 + 2*X3 + 3*X4 + 4*X5
+"
+growthCurveModel <- lavaan::growth(
+  model = model,
+  data = growth.data,
+  do.fit = FALSE
+)
 ```
 
 ## Run a tree

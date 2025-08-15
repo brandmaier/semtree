@@ -2,7 +2,9 @@
 title: "Constraints in semtree"
 author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    tabset: TRUE
 vignette: >
   %\VignetteIndexEntry{Constraints in semtree}
   %\VignetteEngine{knitr::rmarkdown}
@@ -64,6 +66,9 @@ cfa.sim <- data.frame(observed, p1 = factor(p1), p2 = factor(p2))
 names(cfa.sim)[1:4] <- paste0("x", 1:4)
 ```
 
+## Model Specification {.tabset}
+
+### OpenMx
 
 Here is the OpenMx model specification
 
@@ -94,6 +99,21 @@ mxPath(from="F",to=c("F"), free=c(FALSE),
 mxPath(from="one",to=c("x1"), free=F, value=0, arrows=1),
 mxData(cfa.sim, type = "raw")
 );
+```
+
+### lavaan
+
+Here is the lavaan model specification
+
+```{r, eval = FALSE}
+model <- "
+F =~ x1 + x2 + x3 + x4
+F ~~ 1*F
+x2 ~ 1
+x3 ~ 1
+x4 ~ 1
+"
+model.cfa <- lavaan::sem(model, cfa.sim, do.fit = FALSE)
 ```
 
 
