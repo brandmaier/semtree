@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     tabset: TRUE
+    highlight: "tango"
 vignette: >
   %\VignetteIndexEntry{Constraints in semtree}
   %\VignetteEngine{knitr::rmarkdown}

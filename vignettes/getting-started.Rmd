@@ -3,6 +3,7 @@ title: "Getting Started with the semtree package"
 output: 
   rmarkdown::html_vignette:
     tabset: TRUE
+    highlight: "tango"
 vignette: >
   %\VignetteIndexEntry{Getting Started with the semtree package}
   %\VignetteEngine{knitr::rmarkdown}

@@ -2,7 +2,9 @@
 title: "SEM Forests"
 author: "Andreas Brandmaier"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    highlight: "tango"
 vignette: >
   %\VignetteIndexEntry{SEM Forests}
   %\VignetteEngine{knitr::rmarkdown}

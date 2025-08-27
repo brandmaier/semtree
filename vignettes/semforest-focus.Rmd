@@ -2,7 +2,9 @@
 title: "Focus parameters in SEM forests"
 author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    highlight: "tango"
 vignette: >
   %\VignetteIndexEntry{Focus parameters in SEM forests}
   %\VignetteEngine{knitr::rmarkdown}

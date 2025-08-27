@@ -2,7 +2,9 @@
 title: "SEM Trees with score-based tests"
 author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    highlight: "tango"
 vignette: >
   %\VignetteIndexEntry{Score-based Tests}
   %\VignetteEngine{knitr::rmarkdown}
