@@ -1,5 +1,5 @@
 lavaan_casewise_loglik_matrices <- function(Y, mu = NULL, Sigma = NULL) {
-  if (!all(complete.cases(Y))) {
+  if (!all(stats::complete.cases(Y))) {
     # this is slow but should work
     # TODO: ideally, we would sort the patterns of missing data in groups
     # first and then prepare mu and Sigma only once

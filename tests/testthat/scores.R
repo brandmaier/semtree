@@ -5,6 +5,8 @@ skip_on_cran()
 require("semtree")
 data(lgcm)
 
+set.seed(34958)
+
 lgcm$agegroup <- ordered(lgcm$agegroup)
 lgcm$training <- factor(lgcm$training)
 lgcm$noise <- as.numeric(lgcm$noise)
@@ -85,7 +87,6 @@ plot(tree)
 
 test_that("tree is valid", {
 expect_equal(class(tree),"semtree")
-  expect_equal(getDepth(tree),3)
   expect_equal(getDepth(tree),3)
   expect_equal(tree$rule$name,"agegroup")
   expect_equal(tree$right_child$rule$name,"training")

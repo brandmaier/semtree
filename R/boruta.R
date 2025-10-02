@@ -10,12 +10,13 @@
 #' @param control A semforest control object to set forest parameters.
 #' @param predictors An optional list of covariates. See semtree code example.
 #' @param maxRuns Maximum number of boruta search cycles
-#' @param pAdjMethod A value from \link{stats::p.adjust.methods} defining a
+#' @param pAdjMethod A value from \link[stats]{p.adjust.methods} defining a
 #'          multiple testing correction method
-#' @param alpha p-value cutoff for decisionmaking. Default .05
+#' @param alpha p-value cutoff for decision making. Default .05
 #' @param verbose Verbosity level for boruta processing
 #'          similar to the same argument in \link{semtree.control} and
 #'          \link{semforest.control}
+#' @param quant Quantile for selection. Default 1.
 #' @param \dots Optional parameters to undefined subfunctions
 #' @return A vim object with several elements that need work.
 #'          Of particular note, `$importance` carries mean importance;
@@ -201,18 +202,25 @@ boruta <- function(model,
 }
 
 
+#' @importFrom dplyr %>%
 #' @exportS3Method plot boruta
-plot.boruta = function(vim, type = 0, ...) {
+plot.boruta = function(x, type = 0, ...) {
+  
+  # get type argument from triple dots
+  args <- list(...)
+  type <- if ("type" %in% names(args)) args$type else 0
+  
+  vim <- x
   decisionList = vim$details
   impHistory = vim$impHistory
-  impHistory <- impHistory |>
-    dplyr::mutate(rnd = 1:nrow(impHistory)) |>
-    tidyr::pivot_longer(cols = -last_col()) |> #everything()) |>
+  impHistory <- impHistory %>%
+    dplyr::mutate(rnd = 1:nrow(impHistory)) %>%
+    tidyr::pivot_longer(cols = -last_col()) %>% #everything()) %>%
     dplyr::left_join(data.frame(decisionList),
-                     by = dplyr::join_by("name" == "predictor")) |>
+                     by = dplyr::join_by("name" == "predictor")) %>%
     dplyr::mutate(decision =
-                    dplyr::case_when(is.na(decision) ~ "Shadow", .default = decision)) |>
-    dplyr::group_by(name) |>
+                    dplyr::case_when(is.na(decision) ~ "Shadow", .default = decision)) %>%
+    dplyr::group_by(name) %>%
     dplyr::mutate(median_value = median(value, na.rm = TRUE))
   
   if (type == 0) {

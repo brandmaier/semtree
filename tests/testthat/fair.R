@@ -7,7 +7,7 @@ data(lgcm)
 
 lgcm$agegroup <- ordered(lgcm$agegroup, labels=c("young","old"))
 lgcm$training <- factor(lgcm$training)
-lgcm$noise <- as.numeric(lgcm$noise)
+lgcm$noise <- factor(lgcm$noise)
 
 # LOAD IN OPENMX MODEL.
 # A SIMPLE LINEAR GROWTH MODEL WITH 5 TIME POINTS FROM SIMULATED DATA
@@ -75,6 +75,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
+set.seed(3453598)
 ctrl <- semtree.control(method = "fair", verbose=TRUE, report.level = 99)
 
 # RUN TREE.

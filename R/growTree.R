@@ -392,7 +392,7 @@ growTree <- function(model = NULL, mydata = NULL,
   } else {
     node$p <- pchisq(node$lr, df = node$df, lower.tail = F)
 
-    if (control$use.maxlm) {
+    if (control$use.maxlr) {
       # Borders for continuous covariates
       if (!is.factor(mydata[, result$name.max])) {
         props <- cumsum(table(mydata[, result$name.max])) / node$N

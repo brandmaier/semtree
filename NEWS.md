@@ -1,10 +1,12 @@
+# semtree 0.9.23 (XXX)
+
+- In semtree control object, the option 'use.maxlm' was renamed to 'use.maxlr' for clarity because it refers to the maxLR statistic as proposed by Arnold et al. (2021)
+- bug fixes in score function: ensured symmetric labeling in the S matrix — this prevents issues with S_deriv creation; corrected labeling in the M matrix to allow proper subsetting and avoid duplicated mean labels; contributed by Moritz John
+
 # semtree 0.9.22 (2025)
 
-- added multivariate density to evaluate loglikelihood of lavaan models (thanks
- to Yves Rosseel for support). New option in semtree.control allows to choose
- between different approaches for lavaan models. New default ist multivariate normal
- computation for lavaan models as it fixes bug with likelihood evaluation when
- the number of cases is small
+- added multivariate density to evaluate loglikelihood of lavaan models (thanks to Yves Rosseel for support). New option in semtree.control allows to choose between different approaches for lavaan models. New default ist multivariate normal computation for lavaan models as it fixes bug with likelihood evaluation when the number of cases is small
+- now shipping a preliminary boruta implementation
 
 # semtree 0.9.21 (2024)
 

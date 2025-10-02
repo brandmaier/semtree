@@ -1,5 +1,6 @@
-#' currently not in use
-#'
+# currently not in use
+#
+#
 cvLikelihood <- function( model, subset1, subset2, fold_association1,fold_association2, control, invariance=NULL )
 {
 	folds <- length(unique(c(fold_association1, fold_association2)))	

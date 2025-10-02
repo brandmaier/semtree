@@ -16,4 +16,5 @@ tree <- semtree(fit, df, control = semtree.control(method="score"))
 
 testthat::expect_equal(tree$rule$name, "var_grp")
 testthat::expect_equal(tree$rule$value, "FALSE")
+testthat::expect_equal(tree$left_child$N, 271)
 
