@@ -1,11 +1,12 @@
 Package: semtree
 Type: Package
 Title: Recursive Partitioning for Structural Equation Models
-Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")),person("Manuel Arnold", email="arnoldmz@hu-berlin.de",role=c("aut")),person("Caspar J. Van Lissa", email="C.J.vanLissa@uu.nl",role=c("aut")))
+Authors@R: c(person("Andreas M. Brandmaier", email="andy@brandmaier.de", role=c("aut","cre")), person("John J. Prindle", email="jprindle@usc.edu",role=c("aut")),person("Manuel Arnold", email="arnoldmz@hu-berlin.de",role=c("aut")),person("Caspar J. Van Lissa", email="C.J.vanLissa@uu.nl",role=c("aut")), person("Moritz John",role="ctb"))
 Author: Andreas M. Brandmaier [aut, cre],
     John J. Prindle [aut],
 	Manuel Arnold [aut],
-	Caspar J. Van Lissa [aut]
+	Caspar J. Van Lissa [aut],
+	Moritz John [ctb]
 Maintainer: Andreas M. Brandmaier <andy@brandmaier.de>
 Depends:
     R (>= 2.10),
@@ -50,8 +51,8 @@ Description: SEM Trees and SEM Forests -- an extension of model-based decision
 License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
-Version: 0.9.21
-Date: 2025-07-23
+Version: 0.9.22
+Date: 2025-07-28
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 BugReports: https://github.com/brandmaier/semtree/issues
