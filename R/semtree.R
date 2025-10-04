@@ -7,14 +7,14 @@
 #' recursively selecting optimal predictors of these differences from a
 #' potentially large set of predictors.
 #'
-#' Calling \code{semtree} with an \code{\link{OpenMx}} or
+#' Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
 #' \code{\link[lavaan]{lavaan}} model creates a tree that recursively
 #' partitions a dataset such that the partitions maximally differ with respect
 #' to the model-predicted distributions. Each resulting subgroup (represented
 #' as a leaf in the tree) is represented by a SEM with a distinct set of
 #' parameter estimates.
 #'
-#' Predictors (yet unmodeled variables) can take on any form for the splitting
+#' Predictors  can take on any form for the splitting
 #' algorithm to function (categorical, ordered categories, continuous). Care
 #' must be taken in choosing how many predictors to include in analyses because
 #' as the number of categories grows for unordered categorical variables, the
@@ -44,13 +44,13 @@
 #'
 #' @aliases semtree plot.semtree print.semtree summary.semtree toLatex.semtree
 #' nodeFunSemtree
-#' @param model A template model specification from \code{\link{OpenMx}} using
-#' the \code{\link{mxModel}} function (or a \code{\link[lavaan]{lavaan}} model
-#' using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).
+#' @param model A template model specification from \pkg{OpenMx} using
+#' the \code{\link[OpenMx]{mxModel}} function or a \pkg{lavaan} model
+#' using the \code{\link[lavaan]{lavaan}} function with option fit=FALSE).
 #' Model must be syntactically correct within the framework chosen, and
 #' converge to a solution.
 #' @param data Data.frame used in the model creation using
-#' \code{\link{mxModel}} or \code{\link[lavaan]{lavaan}} are input here. Order
+#' \code{\link[OpenMx]{mxModel}} or \code{\link[lavaan]{lavaan}} are input here. Order
 #' of modeled variables and predictors is not important when providing a
 #' dataset to \code{semtree}.
 #' @param control \code{\link{semtree}} model specifications from

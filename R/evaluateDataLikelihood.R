@@ -6,20 +6,26 @@
 #' \code{\link{proximity}} aggregate functions.
 #' 
 #' 
-#' @param model A \code{\link{OpenMx}} model as used in \code{\link{semtree}}
+#' @param model A model as used in \code{\link{semtree}}
 #' and \code{\link{semforest}}.
+#' 
 #' @param data Data set to apply to a fitted model.
 #' @param data_type Type of data ("raw", "cov", "cor")
+#' @param loglik Character. Either 'model' for model-based evaluation or 'mvn' for multivariate normal density.
+#'
 #' @return Returns a -2LL model fit for the model
 #' @author Andreas M. Brandmaier, John J. Prindle
 #' @seealso \code{\link{semtree}}, \code{\link{semforest}}
+#' 
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
 
 evaluateDataLikelihood <-
-  function(model, data, data_type = "raw", loglik="model")
+  function(model, data, data_type = "raw", loglik=c("default", "model","mvn"))
   {
+    loglik = match.arg(loglik)
+    
     if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
 
       if (loglik=="mvn") stop("Not implemented")
@@ -129,7 +135,7 @@ evaluateDataLikelihood <-
         
           # compute likelihood based on multivariate normal density
           # and model-impled mean and covariance matrix
-          implied <- lavInspect(model, "implied")
+          implied <- lavaan::lavInspect(model, "implied")
           Sigma <- implied$cov
           mu <- implied$mean
           ll<- -2*sum(lavaan_casewise_loglik_matrices(data, mu = mu, Sigma = Sigma ))

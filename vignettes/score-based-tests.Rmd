@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     highlight: "tango"
 vignette: >
-  %\VignetteIndexEntry{Score-based Tests}
+  %\VignetteIndexEntry{SEM Trees with score-based tests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

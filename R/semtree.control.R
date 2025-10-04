@@ -65,7 +65,7 @@
 #' correction for the naive test counts the number of dichotomous tests. When
 #' set to one, bonferroni correction counts the number of variables tested.
 #' @param missing Missing value treatment. Default is ignore
-#' @param use.maxlm Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)
+#' @param use.maxlr Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)
 #' @param strucchange.from Strucchange argument. See their package
 #' documentation.
 #' @param strucchange.to Strucchange argument. See their package documentation.
@@ -75,7 +75,7 @@
 #' provided to \code{\link{semtree}}.
 #' @param ctsem_sd If FALSE (default) no standard errors of CT model parameters
 #' are computed. Requesting standard errors increases runtime. 
-#' @oaram loglik  Character. Algorithm to compute log likelihood. The 'default' algorithm 
+#' @param loglik  Character. Algorithm to compute log likelihood. The 'default' algorithm 
 #' depends on the chosen SEM package. It is 'mvn' for lavaan and 'model' for all
 #' other packages. 'model'refers to a model-based computation. 
 #' This is preferable because it is more general. As an alternative, 'mvn' computes 
@@ -128,7 +128,7 @@ semtree.control <-
            min.bucket = NULL,
            naive.bonferroni.type = 0,
            missing = 'ignore',
-           use.maxlm = FALSE,
+           use.maxlr = FALSE,
            strucchange.from = 0.15,
            strucchange.to = NULL,
            strucchange.nrep = 50000,
@@ -186,7 +186,7 @@ semtree.control <-
     # missing data treatment
     options$missing <- missing
     # max LM stat
-    options$use.maxlm <- use.maxlm
+    options$use.maxlr <- use.maxlr
     # from (for strucchange)
     options$strucchange.from <- strucchange.from
     # to (for strucchange)

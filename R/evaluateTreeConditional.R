@@ -1,4 +1,5 @@
-#' see documentation of evaluateTree
+# see documentation of evaluateTree
+# @keywords internal
 evaluateTreeConditional <-
   function(tree, test_set_list, data_type="raw", leaf_ids=NULL, loglik = "model")
   {

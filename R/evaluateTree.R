@@ -31,7 +31,10 @@ evaluateTree <-
            test_set,
            data_type = "raw",
            leaf_ids = NULL,
-           loglik = "model") {
+           loglik = c("default", "model","mvn")) {
+    
+    loglik = match.arg(loglik)
+    
     # get a mapping of dataset rows to leaf ids
     if (is.null(leaf_ids)) {
       leaf_ids <- traverse(tree, test_set)

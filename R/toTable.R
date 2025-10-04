@@ -1,6 +1,7 @@
-#' rounds only up to given number of digits if a number is passed
-#' @param x
-#' @param digits integer indicating the number of decimpal places to be used
+# rounds only up to given number of digits if a number is passed
+# @param x Numeric. The number to be rounded
+# @param digits integer indicating the number of decimpal places to be used
+# @keywords internal
 saferound <- function(x, digits = 0)
 {
   if (is.numeric(x)) {
