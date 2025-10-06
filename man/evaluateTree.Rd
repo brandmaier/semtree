@@ -4,7 +4,13 @@
 \alias{evaluateTree}
 \title{Evaluate Tree -2LL}
 \usage{
-evaluateTree(tree, test_set, data_type = "raw", leaf_ids = NULL)
+evaluateTree(
+  tree,
+  test_set,
+  data_type = "raw",
+  leaf_ids = NULL,
+  loglik = c("default", "model", "mvn")
+)
 }
 \arguments{
 \item{tree}{A fitted \code{\link{semtree}} object}
@@ -16,6 +22,11 @@ evaluateTree(tree, test_set, data_type = "raw", leaf_ids = NULL)
 \item{leaf_ids}{Identifies which nodes are leaf nodes. Default is NULL,
 which checks model for leaf nodes and fills this information in
 automatically.}
+
+\item{loglik}{Algorithm to compute log likelihood. The default is 'model' and
+refers to a model-based computation. This is preferable because it is more
+general. As an alternative, 'mvn' computes the log likelihood based on the
+multivariate normal density and the model-implied mean and covariance matrix.}
 }
 \value{
 A list with two elements: \item{deviance}{Combined -2LL for leaf

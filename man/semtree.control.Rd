@@ -32,7 +32,8 @@ semtree.control(
   strucchange.to = NULL,
   strucchange.nrep = 50000,
   refit = TRUE,
-  ctsem_sd = FALSE
+  ctsem_sd = FALSE,
+  loglik = c("default", "model", "mvn")
 )
 }
 \arguments{
@@ -118,6 +119,13 @@ provided to \code{\link{semtree}}.}
 
 \item{ctsem_sd}{If FALSE (default) no standard errors of CT model parameters
 are computed. Requesting standard errors increases runtime.}
+
+\item{loglik}{Character. Algorithm to compute log likelihood. The 'default' algorithm 
+depends on the chosen SEM package. It is 'mvn' for lavaan and 'model' for all
+other packages. 'model'refers to a model-based computation. 
+This is preferable because it is more general. As an alternative, 'mvn' computes 
+the log likelihood based on the
+multivariate normal density and the model-implied mean and covariance matrix.}
 }
 \value{
 A control object containing a list of the above parameters.

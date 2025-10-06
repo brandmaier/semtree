@@ -30,14 +30,16 @@ boruta(
 
 \item{maxRuns}{Maximum number of boruta search cycles}
 
-\item{pAdjMethod}{A value from \link{stats::p.adjust.methods} defining a
+\item{pAdjMethod}{A value from \link[stats]{p.adjust.methods} defining a
 multiple testing correction method}
 
-\item{alpha}{p-value cutoff for decisionmaking. Default .05}
+\item{alpha}{p-value cutoff for decision making. Default .05}
 
 \item{verbose}{Verbosity level for boruta processing
 similar to the same argument in \link{semtree.control} and
 \link{semforest.control}}
+
+\item{quant}{Quantile for selection. Default 1.}
 
 \item{\dots}{Optional parameters to undefined subfunctions}
 }

@@ -4,15 +4,22 @@
 \alias{evaluateDataLikelihood}
 \title{Compute the Negative Two-Loglikelihood of some data given a model (either OpenMx or lavaan)}
 \usage{
-evaluateDataLikelihood(model, data, data_type = "raw")
+evaluateDataLikelihood(
+  model,
+  data,
+  data_type = "raw",
+  loglik = c("default", "model", "mvn")
+)
 }
 \arguments{
-\item{model}{A \code{\link{OpenMx}} model as used in \code{\link{semtree}}
+\item{model}{A model as used in \code{\link{semtree}}
 and \code{\link{semforest}}.}
 
 \item{data}{Data set to apply to a fitted model.}
 
 \item{data_type}{Type of data ("raw", "cov", "cor")}
+
+\item{loglik}{Character. Either 'model' for model-based evaluation or 'mvn' for multivariate normal density.}
 }
 \value{
 Returns a -2LL model fit for the model
