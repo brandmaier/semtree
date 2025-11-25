@@ -136,7 +136,7 @@ naiveSplit <-
                   )
                 }
               }
-              # browser()
+
               LL.return <-
                 fitSubmodels(model, subset1, subset2, control, invariance = NULL)
               if (!is.na(LL.return)) {

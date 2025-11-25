@@ -391,7 +391,6 @@ growTree <- function(model = NULL, mydata = NULL,
   if (!is.null(result$p.max)) {
     node$p <- result$p.max
   } else {
-    browser()
     
     node$p <- pchisq(node$lr, df = node$df, lower.tail = F)
 
@@ -534,7 +533,7 @@ growTree <- function(model = NULL, mydata = NULL,
       # the best column in the matrix that represents all subsets
       # make sure that this is not casted to a string if there
       # are predictors of other types (esp., factors)
-      # browser()
+
       if (!all(is.na(result$btn.matrix))) {
         result$split.max <- as.integer(result$split.max)
 

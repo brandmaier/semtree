@@ -8,7 +8,8 @@ stoppingRuleDefault <- function(node, result, control)
     
     if (control$bonferroni && !is.null(result$n.comp)) {
       node$p.uncorrected <- node$p
-      node$p <- 1-(1-node$p)**result$n.comp
+      # this is less accurate, but numerically more stable
+      node$p <- node$p * result$n.comp
       node$p.numtests <- result$n.comp
       
     }

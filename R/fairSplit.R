@@ -466,7 +466,7 @@ fairSplit <-
         # cross2 == subset of data for Phase II
 
         if (nrow(subset1) + nrow(subset2) != num.rows) {
-          # browser()
+
           ui_fail(
             paste(
               "SERIOUS INCONSISTENCY ERROR. Numbers of rows do not match. Type="

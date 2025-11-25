@@ -23,7 +23,6 @@ for(i in (manif+1):ncol(mydata))
 			#og.var <- cbind(og.var,rep(i,ncol(result$columns)))
 		}
 		else {
-		  #browser()
 		  x <- as.numeric(mydata[,i])
 		  result<-recodeAllSubsets(x,colnames(mydata)[i])
 		  #num.bin <- cbind(num.bin, ncol(result$columns))
