@@ -4,23 +4,6 @@ stoppingRuleDefault <- function(node, result, control)
   
   if (node$p.values.valid) {
     
-
-    
-    if (control$bonferroni && !is.null(result$n.comp)) {
-      node$p.uncorrected <- node$p
-      # this is less accurate, but numerically more stable
-      node$p <- node$p * result$n.comp
-      node$p.numtests <- result$n.comp
-      
-    }
-    
-    if (control$report.level > 5) {
-      report(paste("Stopping rule applied based on p value ",node$p), 1)
-      if (control$bonferroni) {
-        report(paste("Uncorrected p value was ",node$p.uncorrected), 2)       
-      }
-    }
-    
     stop.rule <- node$p > control$alpha;
     
   } else {

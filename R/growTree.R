@@ -432,9 +432,27 @@ growTree <- function(model = NULL, mydata = NULL,
     }
   }
   
+  
+  #   # Multiple-Testing Correction is hidden here
+  if (node$p.values.valid) {
+  if (control$bonferroni && !is.null(result$n.comp)) {
+    node$p.uncorrected <- node$p
+    # this is less accurate, but numerically more stable
+    node$p <- min(1, node$p * result$n.comp)
+    node$p.numtests <- result$n.comp
+    
+  }
+  
+  if (control$report.level > 5) {
+    report(paste("Stopping rule applied based on p value ",node$p), 1)
+    if (control$bonferroni) {
+      report(paste("Uncorrected p value was ",node$p.uncorrected), 2)       
+    }
+  }
+  }
 
   # ---------	determine whether to continue splitting	--------------
-  #   # Multiple-Testing Correction is hidden here
+
   if (is(control$custom.stopping.rule, "function")) {
     stopping.rule <- control$custom.stopping.rule
   } else {

@@ -25,9 +25,8 @@ semtree.control(
   exclude.code = NA,
   linear = TRUE,
   min.bucket = NULL,
-  naive.bonferroni.type = 0,
   missing = "ignore",
-  use.maxlm = FALSE,
+  use.maxlr = FALSE,
   strucchange.from = 0.15,
   strucchange.to = NULL,
   strucchange.nrep = 50000,
@@ -67,7 +66,7 @@ growth.}
 messages during tree growth.}
 
 \item{bonferroni}{Default: FALSE. Correct for multiple tests with Bonferroni
-type correction.}
+type correction. p-values are adjusted for the number of variables tested.}
 
 \item{use.all}{Treatment of missing variables. By default, missing values
 stay in a decision node. If TRUE, cases are distributed according to a
@@ -98,13 +97,9 @@ with OpenMx.}
 must have, such that a given split is considered valid. Minimum bucket size
 is a lower bound to the sample size in the terminal nodes of a tree.}
 
-\item{naive.bonferroni.type}{Default: 0. When set to zero, bonferroni
-correction for the naive test counts the number of dichotomous tests. When
-set to one, bonferroni correction counts the number of variables tested.}
-
 \item{missing}{Missing value treatment. Default is ignore}
 
-\item{use.maxlm}{Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)}
+\item{use.maxlr}{Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021). This corrects the bias in the LR statistics incurred by testing multiple split points within one variable.}
 
 \item{strucchange.from}{Strucchange argument. See their package
 documentation.}

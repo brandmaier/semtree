@@ -160,7 +160,8 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
       btn <- test.results$btn.matrix
       
       # 18.08.2022: compare LL_ratio if p-values are zero
-      if (pval < p.max | (pval == 0 & LL.ratio > LL.ratio.max)) {
+      # 25.11.2025: added isTRUE to catch NA in both 
+      if (isTRUE(pval < p.max | (pval == 0 & LL.ratio > LL.ratio.max))) {
         LL.max <- ts
         split.max <- splt
         col.max <- cur_col

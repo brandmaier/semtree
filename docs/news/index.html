@@ -46,6 +46,9 @@
     <li>
       <a href="../articles/semforest-focus.html">Focus parameters in SEM forests</a>
     </li>
+    <li>
+      <a href="../articles/spi-semtree.html">Multiple-Testing Corrections: Personality Structure in the spi Dataset</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -73,6 +76,7 @@
 <h2 class="page-header" data-toc-text="0.9.23" id="semtree-0923-xxx">semtree 0.9.23 (XXX)<a class="anchor" aria-label="anchor" href="#semtree-0923-xxx"></a></h2>
 <ul><li>In semtree control object, the option ‘use.maxlm’ was renamed to ‘use.maxlr’ for clarity because it refers to the maxLR statistic as proposed by Arnold et al. (2021)</li>
 <li>bug fixes in score function: ensured symmetric labeling in the S matrix — this prevents issues with S_deriv creation; corrected labeling in the M matrix to allow proper subsetting and avoid duplicated mean labels; contributed by Moritz John</li>
+<li>removed <code>naive.bonferroni.correction</code> in <code>semtree.control</code> object. This used to be an option to choose how the number of test was computed. This is now always the number of variables. Bonferroni correction is now also numerically more stable</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.9.22" id="semtree-0922-2025">semtree 0.9.22 (2025)<small>2025-07-28</small><a class="anchor" aria-label="anchor" href="#semtree-0922-2025"></a></h2>

@@ -60,6 +60,9 @@ implements modern score-based statistics."><!-- mathjax --><script src="https://
     <li>
       <a href="../articles/semforest-focus.html">Focus parameters in SEM forests</a>
     </li>
+    <li>
+      <a href="../articles/spi-semtree.html">Multiple-Testing Corrections: Personality Structure in the spi Dataset</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -122,9 +125,8 @@ implements modern score-based statistics.</p>
 <span>  exclude.code <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  linear <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  min.bucket <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  naive.bonferroni.type <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  missing <span class="op">=</span> <span class="st">"ignore"</span>,</span>
-<span>  use.maxlm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  use.maxlr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  strucchange.from <span class="op">=</span> <span class="fl">0.15</span>,</span>
 <span>  strucchange.to <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  strucchange.nrep <span class="op">=</span> <span class="fl">50000</span>,</span>
@@ -187,7 +189,7 @@ messages during tree growth.</p></dd>
 
 <dt id="arg-bonferroni">bonferroni<a class="anchor" aria-label="anchor" href="#arg-bonferroni"></a></dt>
 <dd><p>Default: FALSE. Correct for multiple tests with Bonferroni
-type correction.</p></dd>
+type correction. p-values are adjusted for the number of variables tested.</p></dd>
 
 
 <dt id="arg-use-all">use.all<a class="anchor" aria-label="anchor" href="#arg-use-all"></a></dt>
@@ -235,18 +237,12 @@ must have, such that a given split is considered valid. Minimum bucket size
 is a lower bound to the sample size in the terminal nodes of a tree.</p></dd>
 
 
-<dt id="arg-naive-bonferroni-type">naive.bonferroni.type<a class="anchor" aria-label="anchor" href="#arg-naive-bonferroni-type"></a></dt>
-<dd><p>Default: 0. When set to zero, bonferroni
-correction for the naive test counts the number of dichotomous tests. When
-set to one, bonferroni correction counts the number of variables tested.</p></dd>
-
-
 <dt id="arg-missing">missing<a class="anchor" aria-label="anchor" href="#arg-missing"></a></dt>
 <dd><p>Missing value treatment. Default is ignore</p></dd>
 
 
-<dt id="arg-use-maxlm">use.maxlm<a class="anchor" aria-label="anchor" href="#arg-use-maxlm"></a></dt>
-<dd><p>Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)</p></dd>
+<dt id="arg-use-maxlr">use.maxlr<a class="anchor" aria-label="anchor" href="#arg-use-maxlr"></a></dt>
+<dd><p>Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021). This corrects the bias in the LR statistics incurred by testing multiple split points within one variable.</p></dd>
 
 
 <dt id="arg-strucchange-from">strucchange.from<a class="anchor" aria-label="anchor" href="#arg-strucchange-from"></a></dt>
