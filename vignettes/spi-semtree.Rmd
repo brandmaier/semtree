@@ -1,0 +1,128 @@
+---
+title: "Personality Structure in the spi Dataset"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Personality Structure in the spi Dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+This vignette demonstrates how to build a simple SEM tree based on two personality dimensions from the `spi` dataset included in the `psychTools` package. We will
+
+1. score two higher-order personality dimensions,
+2. specify a bivariate structural equation model in `OpenMx` that captures their variances and covariance,
+3. grow a SEM tree with demographic predictors, and
+4. illustrate the Bonferroni correction for multiple testing.
+
+```{r setup}
+library(psychTools)
+library(psych)
+library(OpenMx)
+library(semtree)
+```
+
+## Prepare the spi data
+
+The `psychTools::spi` data frame contains a large set of personality items along with demographic variables such as age, education, and gender. The companion object `spi.keys` holds scoring keys that map items to broad personality dimensions. Using `psych::scoreFast()`, we can quickly compute scale scores while handling reverse-keyed items.
+
+```{r}
+data(spi)
+data(spi.keys)
+
+# score all available scales and extract two broad dimensions
+spi_scored <- psych::scoreFast(keys = spi.keys, items = spi)
+key_names <- colnames(spi_scored$scores)
+
+selected_traits <- c("Agreeableness", "Extraversion")
+selected_traits <- selected_traits[selected_traits %in% key_names]
+if (length(selected_traits) < 2 && length(key_names) >= 2) {
+  selected_traits <- key_names[1:2]
+}
+trait_scores <- spi_scored$scores[, selected_traits, drop = FALSE]
+
+# potential predictors available in the dataset
+candidate_covariates <- intersect(c("age", "education", "gender"), names(spi))
+spi_analysis <- cbind(trait_scores, spi[, candidate_covariates, drop = FALSE])
+spi_analysis <- na.omit(spi_analysis)
+```
+
+The resulting `spi_analysis` data frame contains the two selected personality scales along with any demographic predictors that are present in the dataset.
+
+## Specify a two-dimensional OpenMx model
+
+We now specify a concise bivariate SEM that estimates the means, variances, and covariance of the two personality dimensions.
+
+```{r}
+manifest_vars <- colnames(trait_scores)
+
+two_dim_model <- mxModel(
+  "TwoDimensions",
+  type = "RAM",
+  manifestVars = manifest_vars,
+  mxData(spi_analysis[, manifest_vars, drop = FALSE], type = "raw"),
+  # freely estimate the variances and their covariance
+  mxPath(
+    from = manifest_vars,
+    arrows = 2,
+    connect = "unique.pairs",
+    free = TRUE,
+    values = c(1, 0.2, 1),
+    labels = c("var_trait1", "cov_traits", "var_trait2")
+  ),
+  # estimate manifest means
+  mxPath(
+    from = "one",
+    to = manifest_vars,
+    arrows = 1,
+    free = TRUE,
+    values = 0,
+    labels = paste0("mean_", manifest_vars)
+  )
+)
+
+two_dim_fit <- mxRun(two_dim_model)
+```
+
+## Grow a SEM tree
+
+With the fitted model in place, we can grow a SEM tree to search for subgroups that differ in their personality covariance structure. Any columns in `spi_analysis` not used as manifest variables automatically serve as candidate splitting variables.
+
+```{r message=FALSE, warning=FALSE, results="hide"}
+spi_tree <- semtree(
+  model = two_dim_fit,
+  data = spi_analysis
+)
+```
+
+The resulting tree captures how demographic variables partition the sample into groups with distinct estimates for the two personality dimensions.
+
+## Applying the Bonferroni correction
+
+To adjust for the inflated Type I error rate that arises from testing multiple candidate split variables, enable the Bonferroni correction in the control settings. This reduces the per-test significance threshold.
+
+```{r message=FALSE, warning=FALSE, results="hide"}
+bonf_ctrl <- semtree.control(bonferroni = TRUE, alpha = 0.05)
+spi_tree_bonf <- semtree(
+  model = two_dim_fit,
+  data = spi_analysis,
+  control = bonf_ctrl
+)
+```
+
+You can compare the Bonferroni-corrected tree to the uncorrected version to see how stricter multiplicity control affects the discovered subgroups.
+
+```{r}
+plot(spi_tree)
+plot(spi_tree_bonf)
+```
+
+The Bonferroni-adjusted tree will typically be smaller or include fewer splits because candidate partitions must meet the more conservative significance threshold.
