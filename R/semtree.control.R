@@ -39,7 +39,7 @@
 #' @param verbose Default: FALSE. Option to turn on or off \emph{all} model
 #' messages during tree growth.
 #' @param bonferroni Default: FALSE. Correct for multiple tests with Bonferroni
-#' type correction.
+#' type correction. p-values are adjusted for the number of variables tested.
 #' @param seed Default: NA. Set a random number seed for repeating random fold
 #' generation in tree analysis.
 #' @param custom.stopping.rule Default: NA. Otherwise, this can be a boolean
@@ -61,11 +61,8 @@
 #' @param min.bucket Minimum bucket size. This is the minimum size any node
 #' must have, such that a given split is considered valid. Minimum bucket size
 #' is a lower bound to the sample size in the terminal nodes of a tree.
-#' @param naive.bonferroni.type Default: 0. When set to zero, bonferroni
-#' correction for the naive test counts the number of dichotomous tests. When
-#' set to one, bonferroni correction counts the number of variables tested.
 #' @param missing Missing value treatment. Default is ignore
-#' @param use.maxlr Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021)
+#' @param use.maxlr Use MaxLR statistic for split point selection (as proposed by Arnold et al., 2021). This corrects the bias in the LR statistics incurred by testing multiple split points within one variable.
 #' @param strucchange.from Strucchange argument. See their package
 #' documentation.
 #' @param strucchange.to Strucchange argument. See their package documentation.
@@ -126,7 +123,6 @@ semtree.control <-
            #                   metric = 'maxLM'),
            linear = TRUE,
            min.bucket = NULL,
-           naive.bonferroni.type = 0,
            missing = 'ignore',
            use.maxlr = FALSE,
            strucchange.from = 0.15,
@@ -181,8 +177,6 @@ semtree.control <-
     options$custom.stopping.rule <- custom.stopping.rule
     # report level (similar to verbose but prettier)
     options$report.level <- report.level
-    # type of counting the number of tests (0=all splits, 1=# of variables)
-    options$naive.bonferroni.type <- naive.bonferroni.type
     # missing data treatment
     options$missing <- missing
     # max LM stat

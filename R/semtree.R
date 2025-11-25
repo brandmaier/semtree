@@ -191,6 +191,11 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
            predictors or model variables.")
     }
   }
+  
+  # check whether maxLR was used with score-based tests
+  if (isTRUE(control$use.maxlr) && control$method == "score") {
+    strop("Score-based tests and usage of maxLR is incompatible.")
+  }
 
   # check for correct model entry
   if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {

@@ -7,7 +7,7 @@ naiveSplit <-
            pp = FALSE,
            constraints = NULL,
            ...) {
-    n.comp <- 0
+
     LL.btn <- c()
     split.btn <- c()
     cov.btn.names <- c()
@@ -145,7 +145,7 @@ naiveSplit <-
                 cov.col <- cbind(cov.col, cur_col)
                 cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
                 cov.type <- cbind(cov.type, var.type)
-                n.comp <- n.comp + 1
+
               }
             }
           }
@@ -198,7 +198,7 @@ naiveSplit <-
                 cov.col <- cbind(cov.col, cur_col)
                 cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
                 cov.type <- cbind(cov.type, var.type)
-                n.comp <- n.comp + 1
+
               }
             }
           }
@@ -254,7 +254,7 @@ naiveSplit <-
               cov.col <- cbind(cov.col, cur_col)
               cov.name <- cbind(cov.name, colnames(mydata[cur_col]))
               cov.type <- cbind(cov.type, var.type)
-              n.comp <- n.comp + 1
+
             }
           }
         }
@@ -330,11 +330,10 @@ naiveSplit <-
       cat("split max", split.max, "\n")
     }
 
-    # alternative way of counting the number of comparisons
-    # count the number of variables instead of tests
-    if (control$naive.bonferroni.type == 1) {
-      n.comp <- length(comparedData)
-    }
+    # count the number of variables tested
+    # for possible later Bonferroni correction
+    n.comp <- length(comparedData)
+    
 
 
     if (is.na(LL.max)) {

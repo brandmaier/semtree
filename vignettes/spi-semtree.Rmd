@@ -1,5 +1,5 @@
 ---
-title: "Personality Structure in the spi Dataset"
+title: "Multiple-Testing Corrections: Personality Structure in the spi Dataset"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Personality Structure in the spi Dataset}
@@ -16,12 +16,14 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-This vignette demonstrates how to build a simple SEM tree based on two personality dimensions from the `spi` dataset included in the `psychTools` package. We will
+This vignette demonstrates the application of multiple-testing corrections in SEM trees. It shows this with a simple SEM tree based on two personality dimensions from the `spi` dataset included in the `psychTools` package. We will
 
-1. score two higher-order personality dimensions,
+1. compute two higher-order personality dimensions,
 2. specify a bivariate structural equation model in `OpenMx` that captures their variances and covariance,
 3. grow a SEM tree with demographic predictors, and
 4. illustrate the Bonferroni correction for multiple testing.
+
+First, we load the necessary packages:
 
 ```{r setup}
 library(psychTools)
@@ -40,38 +42,46 @@ data(spi.keys)
 
 # score all available scales and extract two broad dimensions
 spi_scored <- psych::scoreFast(keys = spi.keys, items = spi)
-key_names <- colnames(spi_scored$scores)
 
-selected_traits <- c("Agreeableness", "Extraversion")
-selected_traits <- selected_traits[selected_traits %in% key_names]
-if (length(selected_traits) < 2 && length(key_names) >= 2) {
-  selected_traits <- key_names[1:2]
-}
-trait_scores <- spi_scored$scores[, selected_traits, drop = FALSE]
+
+selected_traits <- c("Agree-A", "Extra-A")
+
+trait_scores <- spi_scored[, selected_traits, drop = FALSE]
 
 # potential predictors available in the dataset
 candidate_covariates <- intersect(c("age", "education", "gender"), names(spi))
 spi_analysis <- cbind(trait_scores, spi[, candidate_covariates, drop = FALSE])
 spi_analysis <- na.omit(spi_analysis)
+
+selected_traits <- c("Agreeableness", "Extraversion")
+names(spi_analysis)[1:2] <- selected_traits
+
+# add some noise
+set.seed(104358)
+spi_analysis$noise1 <- ordered(sample(c(0,1), nrow(spi_analysis), TRUE))
+spi_analysis$noise2 <- ordered(sample(c(1:10), nrow(spi_analysis), TRUE))
+spi_analysis$noise3 <- ordered(sample(c(1:10), nrow(spi_analysis), TRUE))
+spi_analysis$noise4 <- ordered(sample(c(1:20), nrow(spi_analysis), TRUE))
+
+spi_analysis$education <- ordered(spi_analysis$education)
 ```
 
-The resulting `spi_analysis` data frame contains the two selected personality scales along with any demographic predictors that are present in the dataset.
+The resulting `spi_analysis` data frame contains the two selected personality scales along with any demographic predictors that are present in the dataset. In addition, we simulate some uninformative _noise_ predictors.
 
 ## Specify a two-dimensional OpenMx model
 
 We now specify a concise bivariate SEM that estimates the means, variances, and covariance of the two personality dimensions.
 
 ```{r}
-manifest_vars <- colnames(trait_scores)
 
 two_dim_model <- mxModel(
   "TwoDimensions",
   type = "RAM",
-  manifestVars = manifest_vars,
-  mxData(spi_analysis[, manifest_vars, drop = FALSE], type = "raw"),
+  manifestVars = selected_traits,
+  mxData(spi_analysis[, selected_traits, drop = FALSE], type = "raw"),
   # freely estimate the variances and their covariance
   mxPath(
-    from = manifest_vars,
+    from = selected_traits,
     arrows = 2,
     connect = "unique.pairs",
     free = TRUE,
@@ -81,11 +91,11 @@ two_dim_model <- mxModel(
   # estimate manifest means
   mxPath(
     from = "one",
-    to = manifest_vars,
+    to = selected_traits,
     arrows = 1,
     free = TRUE,
     values = 0,
-    labels = paste0("mean_", manifest_vars)
+    labels = paste0("mean_", selected_traits)
   )
 )
 
@@ -94,13 +104,15 @@ two_dim_fit <- mxRun(two_dim_model)
 
 ## Grow a SEM tree
 
-With the fitted model in place, we can grow a SEM tree to search for subgroups that differ in their personality covariance structure. Any columns in `spi_analysis` not used as manifest variables automatically serve as candidate splitting variables.
+With the fitted model in place, we can grow a SEM tree to search for subgroups that differ in their personality means and covariance structure. Any columns in `spi_analysis` not used as manifest variables automatically serve as candidate splitting variables.
 
 ```{r message=FALSE, warning=FALSE, results="hide"}
 spi_tree <- semtree(
   model = two_dim_fit,
-  data = spi_analysis
+  data = spi_analysis,
+  control = semtree_control(method="score")
 )
+
 ```
 
 The resulting tree captures how demographic variables partition the sample into groups with distinct estimates for the two personality dimensions.
@@ -110,7 +122,9 @@ The resulting tree captures how demographic variables partition the sample into 
 To adjust for the inflated Type I error rate that arises from testing multiple candidate split variables, enable the Bonferroni correction in the control settings. This reduces the per-test significance threshold.
 
 ```{r message=FALSE, warning=FALSE, results="hide"}
-bonf_ctrl <- semtree.control(bonferroni = TRUE, alpha = 0.05)
+bonf_ctrl <- semtree.control(bonferroni = TRUE, 
+                             alpha = 0.05,
+                             method = "score")
 spi_tree_bonf <- semtree(
   model = two_dim_fit,
   data = spi_analysis,

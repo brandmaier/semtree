@@ -386,13 +386,16 @@ growTree <- function(model = NULL, mydata = NULL,
     ui_ok("Best split is  ", result$name.max, " with statistic = ", round(node$lr, 2))
   }
 
-  # compute p value from chi2
+  # compute p value from chi2 unless the p value
+  # was already provided
   if (!is.null(result$p.max)) {
     node$p <- result$p.max
   } else {
+    browser()
+    
     node$p <- pchisq(node$lr, df = node$df, lower.tail = F)
 
-    if (control$use.maxlr) {
+    if (isTRUE(control$use.maxlr)) {
       # Borders for continuous covariates
       if (!is.factor(mydata[, result$name.max])) {
         props <- cumsum(table(mydata[, result$name.max])) / node$N
@@ -429,9 +432,10 @@ growTree <- function(model = NULL, mydata = NULL,
       )
     }
   }
-
+  
 
   # ---------	determine whether to continue splitting	--------------
+  #   # Multiple-Testing Correction is hidden here
   if (is(control$custom.stopping.rule, "function")) {
     stopping.rule <- control$custom.stopping.rule
   } else {
@@ -617,6 +621,7 @@ growTree <- function(model = NULL, mydata = NULL,
         formula = as.formula(paste0(result$name.max, "~."))
       )
     }
+    
 
 
     # recursively continue splitting
