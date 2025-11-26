@@ -37,8 +37,8 @@ fitSubmodels <- function(model,
       return(NA)
     }
   }
-  #browser()
   
+  # -------- No Invariance Constraints -------
   if (is.null(invariance)) {
     if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
       ###########################################################
@@ -217,6 +217,10 @@ fitSubmodels <- function(model,
     
     
   }
+  #######################################
+  # Invariance Testing Block
+  #
+  
   else {
     #
     # invariance testing works as follow:
@@ -322,42 +326,62 @@ fitSubmodels <- function(model,
     } else if (inherits(model, "lavaan")) {
       # invariance testing with lavaan
       
-      joinset <- rbind(subset1, subset2)
-      grp <- c(rep(1, nrow(subset1)), rep(2, nrow(subset2)))
-      joinset <- cbind(joinset, grp)
-      names(joinset)[length(names(joinset))] <- "yc90wr3jdv9234jtt"
+      # joinset <- rbind(subset1, subset2)
+      # grp <- c(rep(1, nrow(subset1)), rep(2, nrow(subset2)))
+      # joinset <- cbind(joinset, grp)
+      # names(joinset)[length(names(joinset))] <- "yc90wr3jdv9234jtt"
+      # 
+      # # TODO - change user parameter labels!
+      # jpart <- rbind(lavaan::partable(model), lavaan::partable(model))
+      # pgrp <-
+      #   c(rep(1, nrow(lavaan::partable(model))), rep(2, nrow(lavaan::partable(model))))
+      # jpart$group <- pgrp
+      # jpart$block <- pgrp
+      # 
+      # fit <-
+      #   lavaan::sem(jpart, data = joinset, group = "yc90wr3jdv9234jtt")
+      # 
+      # #
+      # # TODO: modify parTable and refit
+      # #
+      # ind <-
+      #   !(jpart$label %in% invariance) &
+      #   (jpart$label != "") & (1:length(jpart$label) <= dim(jpart)[1] / 2)
+      # jpart$label[ind] <-
+      #   paste0("yc90wr3jdv9234jtt_", jpart$label[ind])
+      # 
+      # modelrun <-
+      #   try(suppressWarnings(eval(parse(
+      #     text = paste(
+      #       model@Options$model.type,
+      #       '(lavaan::parTable(model),data=data,missing=\'',
+      #       model@Options$missing,
+      #       '\')',
+      #       sep = ""
+      #     )
+      #   ))), silent = T)
       
-      # TODO - change user parameter labels!
-      jpart <- rbind(lavaan::partable(model), lavaan::partable(model))
-      pgrp <-
-        c(rep(1, nrow(lavaan::partable(model))), rep(2, nrow(lavaan::partable(model))))
-      jpart$group <- pgrp
-      jpart$block <- pgrp
+      #TODO: Assume there is no variable called grp!
       
-      fit <-
-        lavaan::sem(jpart, data = joinset, group = "yc90wr3jdv9234jtt")
+      subset1$grp <- "g1"
+      subset2$grp <- "g2"
       
-      #
-      # TODO: modify parTable and refit
-      #
-      ind <-
-        !(jpart$label %in% invariance) &
-        (jpart$label != "") & (1:length(jpart$label) <= dim(jpart)[1] / 2)
-      jpart$label[ind] <-
-        paste0("yc90wr3jdv9234jtt_", jpart$label[ind])
+      alldata <- rbind(data1, data2)
       
-      modelrun <-
-        try(suppressWarnings(eval(parse(
-          text = paste(
-            model@Options$model.type,
-            '(lavaan::parTable(model),data=data,missing=\'',
-            model@Options$missing,
-            '\')',
-            sep = ""
-          )
-        ))), silent = T)
+      ## 2. Extract model syntax from fitted model
+      mod_syntax <- lavInspect(model, "syntax")
+      
+      ## 3. Fit multi-group model with equality constraints
+      modelrun <- try(suppressWarnings(eval(parse(
+             text = paste(
+               model@Options$model.type,
+        '(model       = mod_syntax,
+        data        = alldata,
+        group       = "grp",
+        group.equal = invariance)'
+      )))))
+      
       LL.sum <- -2 * lavaan::logLik(modelrun)
-      #   stop("Not yet implemented!")
       
       if (return.models) {
         # result <- c()

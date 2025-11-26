@@ -1,5 +1,7 @@
 ---
 title: "Getting Started with the semtree package"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with the semtree package}
