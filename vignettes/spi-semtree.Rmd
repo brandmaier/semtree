@@ -1,8 +1,10 @@
 ---
 title: "Multiple-Testing Corrections: Personality Structure in the spi Dataset"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Personality Structure in the spi Dataset}
+  %\VignetteIndexEntry{Multiple-Testing Corrections: Personality Structure in the spi Dataset}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -41,7 +43,7 @@ data(spi)
 data(spi.keys)
 
 # score all available scales and extract two broad dimensions
-spi_scored <- psych::scoreFast(keys = spi.keys, items = spi)
+spi_scored <- scoreFast(keys = spi.keys, items = spi)
 
 
 selected_traits <- c("Agree-A", "Extra-A")

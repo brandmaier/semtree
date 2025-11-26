@@ -20,7 +20,7 @@ y ~ 1
 fit_lav <- lavaan(model = m_lav, data = Data)
 
 tree_lav <- semtree::semtree(model = fit_lav, data = Data,
-                             control = semtree.control(use.maxlm = TRUE, method = "naive"))
+                             control = semtree.control(use.maxlr = TRUE, method = "naive"))
 
 
 tree_lav <- semtree::semtree(model = fit_lav, data = Data)

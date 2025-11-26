@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   constraints: constraints.html
   forests: forests.html
+  future-parallel-semforest: future-parallel-semforest.html
   getting-started: getting-started.html
   score-based-tests: score-based-tests.html
   semforest-focus: semforest-focus.html
   spi-semtree: spi-semtree.html
-last_built: 2025-11-25T15:40Z
+last_built: 2025-11-26T10:42Z

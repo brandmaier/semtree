@@ -73,25 +73,13 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 )
 
 
-test_that("number of comparisons in naive split with factors (type=0)", {
-  
-  lgcm$noise2 <- as.factor(sample(c(0,1,2),size=nrow(lgcm),replace=TRUE)) # 3 splits
-  
-  control = semtree.control(method="naive",naive.bonferroni.type=0, max.depth=1)
-  
-  tree <- semtree(model=lgcModel, data=lgcm, control = control)
-  
-  expect_equal( tree$result$n.comp, 8 )
-  
-})
-
 
 
 test_that("number of comparisons in naive split with factors (type=1)", {
   
   lgcm$noise2 <- as.factor(sample(c(0,1,2),size=nrow(lgcm),replace=TRUE)) # 3 splits
   
-  control = semtree.control(method="naive",naive.bonferroni.type=1, max.depth=1)
+  control = semtree.control(method="naive", max.depth=1)
   
   tree <- semtree(model=lgcModel, data=lgcm, control = control)
   
@@ -100,7 +88,9 @@ test_that("number of comparisons in naive split with factors (type=1)", {
 })
 
 
-test_that("number of comparisons in naive split with numeric (type=0)", {
+
+
+test_that("number of comparisons in naive split", {
   
   data(lgcm)
   
@@ -108,26 +98,7 @@ test_that("number of comparisons in naive split with numeric (type=0)", {
   lgcm$training <- as.factor(lgcm$training) # 1 split
   lgcm$noise <- rep(1:50,8) # 5 splits
   
-  control = semtree.control(method="naive",naive.bonferroni.type=0,min.bucket = 2,
-                            min.N = 2, verbose=TRUE,exclude.heywood = FALSE,
-                            max.depth=1)
-  
-  tree <- semtree(model=lgcModel, data=lgcm, control = control)
-  
-  expect_equal( tree$result$n.comp, 49+1+1 )
-  
-})
-
-
-test_that("number of comparisons in naive split with numeric (type=1)", {
-  
-  data(lgcm)
-  
-  lgcm$agegroup <- as.ordered(lgcm$agegroup) # 1 split
-  lgcm$training <- as.factor(lgcm$training) # 1 split
-  lgcm$noise <- rep(1:50,8) # 5 splits
-  
-  control = semtree.control(method="naive",naive.bonferroni.type=1,min.bucket = 2,
+  control = semtree.control(method="naive",min.bucket = 2,
                             min.N = 2, verbose=TRUE,exclude.heywood = FALSE,
                             max.depth=1)
   

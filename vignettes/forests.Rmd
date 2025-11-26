@@ -29,6 +29,9 @@ Load affect dataset from the `psychTools` package. These are data from two studi
 library(psychTools)
 data(affect)
 
+affect <- affect[complete.cases(affect$state2), ]
+affect$BDI <- NULL
+
 knitr::kable(head(affect))
 
 affect$Film <- as.factor(affect$Film)
@@ -69,7 +72,7 @@ summary(result)
 Create a forest control object that stores all tuning parameters of the forest. Note that we use only 5 trees for illustration. Please increase the number in real applications to several hundreds. To speed up computation time, consider score-based test for variable selection in the trees.
 
 ```{r}
-control <- semforest_control(num.trees = 5)
+control <- semforest_score_control(num.trees = 50)
 print(control)
 ```
 
@@ -94,3 +97,13 @@ plot(vim)
 ```
 
 From this, we can learn that variables such as `NA2` representing negative affect (after the movie), `TA2` representing tense arousal (after the movie), and `state1` representing the state anxiety before having watched the movie, are the best predictors of difference in the distribution of state anxiety (in either mean, variance or both) after having watched the movie. 
+
+# Partial Dependence
+
+Partial dependence plots visualize the relationship of a predictor and a selected model parameter. This is a powerful tool to help with interpreting SEM forests. 
+
+```{r pdp}
+pdp <- partialDependence(forest,reference.var = "TA2")
+
+plot(pdp, parameter="mu")
+```

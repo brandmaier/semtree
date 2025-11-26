@@ -1,6 +1,6 @@
 ---
 title: "Parallel SEM Forests with the future Package"
-author: "" 
+author: "Andreas M. Brandmaier"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -17,8 +17,9 @@ knitr::opts_chunk$set(
 ```
 
 This vignette shows how to run SEM forests in parallel using the [`future`](https://future.futureverse.org/) package.
-We build on the latent growth curve model from the *Getting Started* vignette and
-use a `future::plan()` to distribute trees across the available CPU cores.
+The future package provides a standardized way of evaluating R expressions asynchronously using the computing resources available to the user -- whether it is a single machine with multiple cores or a computing cluster.
+
+We build on the latent growth curve model from the *Getting Started* vignette and use a `future::plan()` to distribute trees across the available CPU cores of a local machine.
 
 ## Packages
 
@@ -46,8 +47,8 @@ x <-
   (slope + p1 * 5) %*% t(loadings) +
   matrix(rep(icept, each = M), byrow = TRUE, ncol = M) +
   rnorm(N * M, sd = .08)
-growth.data <- data.frame(x, factor(p1))
-names(growth.data) <- c(paste0("X", 1:M), "P1")
+growth.data <- data.frame(x, factor(p1), factor(sample(c(0,1),N,TRUE)))
+names(growth.data) <- c(paste0("X", 1:M), "P1","Noise")
 ```
 
 ## Specify and fit the SEM
@@ -119,10 +120,8 @@ growthCurveModel <- mxRun(growthCurveModel)
 
 ## Enable parallelism with `future`
 
-`semtree::semforest()` uses the `future.apply` infrastructure internally, so
-registering a parallel plan automatically parallelizes tree construction. Here
-we choose a conservative number of workers to keep vignette builds light-weight,
-and we restore the previous plan when we're done.
+`semtree::semforest()` uses the `future.apply` infrastructure internally, so registering a parallel plan automatically parallelizes tree construction. Here we choose a conservative number of workers to keep vignette builds light-weight, that is, a maximum of two workers (if available), and we restore the previous plan when we're done. 
+Please see the documentation of `future` for other plans, such as `sequential` for non-parallel execution or `cluster` for using a computing cluster.
 
 ```{r}
 old_plan <- future::plan()
@@ -135,17 +134,17 @@ future::plan(future::multisession, workers = workers)
 ## Grow the SEM forest in parallel
 
 With the plan in place, we can grow a forest. We keep the number of trees modest
-for the sake of a fast example; in practice, increase `num.trees` (e.g., 200–500)
+for the sake of a fast example; in practice, increase `num.trees` (e.g., 200--500)
 for stable variable importance estimates.
 
-```{r message=FALSE, warning=FALSE}
+```{r runforest, message=FALSE, warning=FALSE, echo=FALSE}
 set.seed(99)
-control <- semforest_control(num.trees = 20, mtry = 2)
+control <- semforest_control(num.trees = 20, 
+                             mtry = 1)
 forest <- semforest(
   model = growthCurveModel,
   data = growth.data,
-  control = control,
-  covariates = "P1"
+  control = control
 )
 ```
 

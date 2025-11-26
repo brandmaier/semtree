@@ -1,8 +1,10 @@
-# semtree 0.9.23 (XXX)
+# semtree 0.9.23 (2025)
 
 - In semtree control object, the option 'use.maxlm' was renamed to 'use.maxlr' for clarity because it refers to the maxLR statistic as proposed by Arnold et al. (2021)
 - bug fixes in score function: ensured symmetric labeling in the S matrix — this prevents issues with S_deriv creation; corrected labeling in the M matrix to allow proper subsetting and avoid duplicated mean labels; contributed by Moritz John
 - removed `naive.bonferroni.correction` in `semtree.control` object. This used to be an option to choose how the number of test was computed. This is now always the number of variables. Bonferroni correction is now also numerically more stable
+- moved code for Bonferroni correction outside the stopping rule code.
+- new vignettes to demonstrate parallel processing and Bonferroni correction
 
 # semtree 0.9.22 (2025)
 

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.23</span>
       </span>
     </div>
 
@@ -36,6 +36,9 @@
     </li>
     <li>
       <a href="../articles/forests.html">SEM Forests</a>
+    </li>
+    <li>
+      <a href="../articles/future-parallel-semforest.html">Parallel SEM Forests with the future Package</a>
     </li>
     <li>
       <a href="../articles/getting-started.html">Getting Started with the semtree package</a>
@@ -73,10 +76,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.9.23" id="semtree-0923-xxx">semtree 0.9.23 (XXX)<a class="anchor" aria-label="anchor" href="#semtree-0923-xxx"></a></h2>
+<h2 class="page-header" data-toc-text="0.9.23" id="semtree-0923-2025">semtree 0.9.23 (2025)<a class="anchor" aria-label="anchor" href="#semtree-0923-2025"></a></h2>
 <ul><li>In semtree control object, the option ‘use.maxlm’ was renamed to ‘use.maxlr’ for clarity because it refers to the maxLR statistic as proposed by Arnold et al. (2021)</li>
 <li>bug fixes in score function: ensured symmetric labeling in the S matrix — this prevents issues with S_deriv creation; corrected labeling in the M matrix to allow proper subsetting and avoid duplicated mean labels; contributed by Moritz John</li>
 <li>removed <code>naive.bonferroni.correction</code> in <code>semtree.control</code> object. This used to be an option to choose how the number of test was computed. This is now always the number of variables. Bonferroni correction is now also numerically more stable</li>
+<li>moved code for Bonferroni correction outside the stopping rule code.</li>
+<li>new vignettes to demonstrate parallel processing and Bonferroni correction</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.9.22" id="semtree-0922-2025">semtree 0.9.22 (2025)<small>2025-07-28</small><a class="anchor" aria-label="anchor" href="#semtree-0922-2025"></a></h2>

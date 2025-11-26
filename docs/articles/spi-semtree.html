@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.23</span>
       </span>
     </div>
 
@@ -53,6 +53,9 @@
     </li>
     <li>
       <a href="../articles/forests.html">SEM Forests</a>
+    </li>
+    <li>
+      <a href="../articles/future-parallel-semforest.html">Parallel SEM Forests with the future Package</a>
     </li>
     <li>
       <a href="../articles/getting-started.html">Getting Started with the semtree package</a>
@@ -94,7 +97,10 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multiple-Testing Corrections: Personality
 Structure in the spi Dataset</h1>
+                        <h4 data-toc-skip class="author">Andreas M.
+Brandmaier</h4>
             
+            <h4 data-toc-skip class="date">2025-11-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/spi-semtree.Rmd" class="external-link"><code>vignettes/spi-semtree.Rmd</code></a></small>
       <div class="hidden name"><code>spi-semtree.Rmd</code></div>
@@ -143,7 +149,7 @@ while handling reverse-keyed items.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">spi.keys</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># score all available scales and extract two broad dimensions</span></span>
-<span><span class="va">spi_scored</span> <span class="op">&lt;-</span> <span class="fu">psych</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/psych/man/score.items.html" class="external-link">scoreFast</a></span><span class="op">(</span>keys <span class="op">=</span> <span class="va">spi.keys</span>, items <span class="op">=</span> <span class="va">spi</span><span class="op">)</span></span>
+<span><span class="va">spi_scored</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/score.items.html" class="external-link">scoreFast</a></span><span class="op">(</span>keys <span class="op">=</span> <span class="va">spi.keys</span>, items <span class="op">=</span> <span class="va">spi</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="va">selected_traits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Agree-A"</span>, <span class="st">"Extra-A"</span><span class="op">)</span></span>
