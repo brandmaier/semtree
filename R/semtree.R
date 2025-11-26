@@ -225,12 +225,20 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
   # some checks
   if (!is.null(constraints$focus.parameters)) {
-    if (control$sem.prog != "OpenMx") {
+    if (!control$sem.prog %in% c("OpenMx")) {
       ui_stop("Focus parameters are only supported with OpenMx!")
     }
 
-    num.match <- length(constraints$focus.parameters %in%
+    if (control$sem.prog == "OpenMx")
+     num.match <- length(constraints$focus.parameters %in%
       OpenMx::omxGetParameters(model))
+    else if (control$sem.prog == "lavaan") {
+      num.match <- length(constraints$focus.parameters %in% 
+                           lavaan::parameterTable(model)$label)
+    } else {
+      stop()
+    }
+    
     if (num.match != length(constraints$focus.parameters)) {
       ui_stop("Error! Not all focus parameters are free parameters in the model!")
     }
