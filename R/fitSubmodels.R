@@ -366,10 +366,10 @@ fitSubmodels <- function(model,
       subset1$grp <- "g1"
       subset2$grp <- "g2"
       
-      alldata <- rbind(data1, data2)
+      alldata <- rbind(subset1, subset2)
       
       ## 2. Extract model syntax from fitted model
-      mod_syntax <- lavInspect(model, "syntax")
+      mod_syntax <- parameterTable(model)
       
       ## 3. Fit multi-group model with equality constraints
       modelrun <- try(suppressWarnings(eval(parse(
