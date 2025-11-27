@@ -317,55 +317,13 @@ fitSubmodels <- function(model,
         return(LL.sum)
       }
       
-      #return(NA)
       
     } else if (inherits(model, "lavaan")) {
-      # invariance testing with lavaan
-      
-      joinset <- rbind(subset1, subset2)
-      grp <- c(rep(1, nrow(subset1)), rep(2, nrow(subset2)))
-      joinset <- cbind(joinset, grp)
-      names(joinset)[length(names(joinset))] <- "yc90wr3jdv9234jtt"
-      
-      # TODO - change user parameter labels!
-      jpart <- rbind(lavaan::partable(model), lavaan::partable(model))
-      pgrp <-
-        c(rep(1, nrow(lavaan::partable(model))), rep(2, nrow(lavaan::partable(model))))
-      jpart$group <- pgrp
-      jpart$block <- pgrp
-      
-      fit <-
-        lavaan::sem(jpart, data = joinset, group = "yc90wr3jdv9234jtt")
-      
-      #
-      # TODO: modify parTable and refit
-      #
-      ind <-
-        !(jpart$label %in% invariance) &
-        (jpart$label != "") & (1:length(jpart$label) <= dim(jpart)[1] / 2)
-      jpart$label[ind] <-
-        paste0("yc90wr3jdv9234jtt_", jpart$label[ind])
-      
-      modelrun <-
-        try(suppressWarnings(eval(parse(
-          text = paste(
-            model@Options$model.type,
-            '(lavaan::parTable(model),data=data,missing=\'',
-            model@Options$missing,
-            '\')',
-            sep = ""
-          )
-        ))), silent = T)
-      LL.sum <- -2 * lavaan::logLik(modelrun)
-      #   stop("Not yet implemented!")
+ 
+      LL.sum <-  lav_multigroup(model, subset1, subset2, invariance)
       
       if (return.models) {
-        # result <- c()
-        # result$model1 <- sharedRun$group1
-        # result$model2 <- sharedRun$group2
-        # result$LL.sum <- LL.sum
-        stop("Not implemented for lavaan")
-        #	      return(result)
+        stop("Returning subgroup models is not implemented in lavaan")
       } else {
         return(LL.sum)
       }

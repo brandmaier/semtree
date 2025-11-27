@@ -7,6 +7,6 @@ npar <- function(x) {
     pt <- lavaan::parameterTable(x)
     sum(pt$free != 0)
   } else {
-    stop("npar() not implemented yet")
+    stop(paste0("npar() not implemented yet for models of class ",class(x)))
   }
 }

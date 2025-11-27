@@ -31,7 +31,8 @@ semforest.control <-
     options$mtry <- mtry
     if (all(is.na(control))) {
       options$semtree.control <- semtree.control()
-      options$semtree.control$method <- "fair"
+      options$semtree.control$method <- "naive"
+      options$semtree.control$use.maxlr <- TRUE
       options$semtree.control$alpha <- 1
       options$semtree.control$exclude.heywood <- FALSE
     } else {

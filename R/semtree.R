@@ -149,8 +149,12 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   if (is.null(control$min.N)) {
     
     if (is.null(control$min.bucket)) {
+      
+      npars <- 0
+      try({npars <- npar(model)})
+      
       # both values were not specified 
-      control$min.N <- max(20, 5 * npar(model))
+      control$min.N <- max(20, 5 * npars)
       control$min.bucket <- max(10, control$min.N / 2)
     } else {
       # only min.bucket was given, min.N was not specified
@@ -225,8 +229,8 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
   # some checks
   if (!is.null(constraints$focus.parameters)) {
-    if (!control$sem.prog %in% c("OpenMx")) {
-      ui_stop("Focus parameters are only supported with OpenMx!")
+    if (!control$sem.prog %in% c("OpenMx","lavaan")) {
+      ui_stop("Focus parameters are only supported with OpenMx or lavaan!")
     }
 
     if (control$sem.prog == "OpenMx")
@@ -236,7 +240,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
       num.match <- length(constraints$focus.parameters %in% 
                            lavaan::parameterTable(model)$label)
     } else {
-      stop()
+      stop("This type of SEM is not supported with focus parameters.")
     }
     
     if (num.match != length(constraints$focus.parameters)) {

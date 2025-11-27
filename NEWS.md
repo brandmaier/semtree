@@ -1,3 +1,8 @@
+# semtree 0.10.0 (2025)
+
+- semtree now supports focus parameters in lavaan (but not for "fair" rule, yet)
+- default construction method for forests changed from "fair" to maxLR-based computation
+
 # semtree 0.9.23 (2025)
 
 - In semtree control object, the option 'use.maxlm' was renamed to 'use.maxlr' for clarity because it refers to the maxLR statistic as proposed by Arnold et al. (2021)
