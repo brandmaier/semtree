@@ -54,45 +54,49 @@ A \code{semtree} object is created which can be examined with
 \code{summary}, \code{plot}, and \code{print}.
 }
 \description{
-Structural equation model (SEM) trees are a combination of SEM and decision
-trees (also known as classification and regression trees or recursive
-partitioning). SEM trees hierarchically split empirical data into
-homogeneous groups sharing similar data patterns with respect to a SEM by
-recursively selecting optimal predictors of these differences from a
-potentially large set of predictors.
+Structural equation model (SEM) trees combine SEM with decision-tree style
+recursive partitioning. Starting from a single template SEM, \code{semtree}
+repeatedly searches for subgroups in which the model parameters differ and
+yields a tree of locally homogeneous SEMs.
 }
 \details{
 Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
-\code{\link[lavaan]{lavaan}} model creates a tree that recursively
-partitions a dataset such that the partitions maximally differ with respect
-to the model-predicted distributions. Each resulting subgroup (represented
-as a leaf in the tree) is represented by a SEM with a distinct set of
-parameter estimates.
+\code{\link[lavaan]{lavaan}} model fits the template to the full dataset and
+then recurses over the following steps until no further meaningful partition
+is found:
+\enumerate{
+  \item Fit the model on the current node's data (respecting any predefined
+  constraints) and compute the baseline fit.
+  \item For each predictor, generate candidate split points (or score tests)
+  and quantify the improvement in model fit using the chosen method in
+  \code{\link{semtree.control}}.
+  \item Select the best-performing predictor/split combination and apply it
+  when it passes the statistical threshold (\code{alpha}) and satisfies the
+  size limitations (\code{min.N}, \code{min.bucket}, \code{max.depth}, or a
+  custom stopping rule).
+  \item Continue the procedure independently on each resulting child node so
+  that terminal nodes (leaves) contain SEMs with subgroup-specific parameter
+  estimates.
+}
 
-Predictors  can take on any form for the splitting
-algorithm to function (categorical, ordered categories, continuous). Care
-must be taken in choosing how many predictors to include in analyses because
-as the number of categories grows for unordered categorical variables, the
-number of multigroup comparisons increases exponentially for unordered
-categories.
+Predictors can be categorical (ordered or unordered) or continuous. When
+using unordered categorical predictors with many levels, the number of
+candidate partitions grows quickly, so limiting the predictor set can reduce
+computation and the number of multiple comparisons.
 
-Currently available evaluation methods for assessing partitions:
+Splitting quality can be evaluated with three built-in strategies:
 
-1. "naive" selection method compares all possible split values to one
-another over all predictors included in the dataset.
+1. "naive" selection compares all possible split values across all
+predictors and chooses the best overall improvement.
 
-2. "fair" selection uses a two step procedure for analyzing split values on
-predictors at each node of the tree. The first phase uses half of the sample
-to examine the model improvement for each split value on each predictor, and
-retains the the value that presents the largest improvement for each
-predictor. The second phase then evaluates these best split points for each
-predictor on the second half of the sample. The best improvement for the c
-splits tested on c predictors is selected for the node and the dataset is
-split from this node for further testing.
+2. "fair" selection uses a two-step procedure at each node: a first phase on
+half the sample identifies the best split value per predictor, and a second
+phase on the remaining data picks the most promising predictor among those
+candidates.
 
-3. "score" uses score-based test statistics. These statistics are much
-faster than the classic SEM tree approach while having favorable
-statistical properties.
+3. "score" relies on score-based statistics that provide faster evaluations
+while retaining favorable statistical properties for detecting parameter
+instabilities.
 
 All other parameters controlling the tree growing process are available
 through a separate \code{\link{semtree.control}} object.
