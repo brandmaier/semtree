@@ -30,7 +30,8 @@ library(psychTools)
 data(affect)
 
 affect <- affect[complete.cases(affect$state2), ]
-affect$BDI <- NULL
+affect$BDI <- NULL # Drop affect because it is NA
+affect$Study <- NULL # Drop Study because it is constant
 
 knitr::kable(head(affect))
 
@@ -82,7 +83,7 @@ Now, run the forest using the `control` object:
 forest <- semforest( model=model,
                      data = affect, 
                      control = control,
-                     covariates = c("Study","Film", "state1",
+                     covariates = c("Film", "state1",
                                     "PA2","NA2","TA2"))
 ```
 

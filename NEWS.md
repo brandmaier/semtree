@@ -2,6 +2,8 @@
 
 - semtree now supports focus parameters in lavaan (but not for "fair" rule, yet)
 - default construction method for forests changed from "fair" to maxLR-based computation
+- bugfix in toTable() which would sometimes not show the decisions properly; also introduced default rounding of estimates
+- fixed bug in counting depth of a tree
 
 # semtree 0.9.23 (2025)
 

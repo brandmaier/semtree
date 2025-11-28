@@ -57,11 +57,11 @@ tree.biv <- semtree(fit_lav_model, data=df.biv, control=semtree.control(method="
 plot(tree.biv)
 
 
-testthat::expect_error(
+
 tree.biv <- semtree(fit_lav_model, data=df.biv,
                     control=semtree.control(method="score"),
                     constraints = semtree.constraints(focus.parameters = "mu1"))
-)
+
 
 tree_mx_score_focus <- semtree(mx_model, data=df.biv,
                     control=semtree.control(method="score"),

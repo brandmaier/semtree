@@ -6,7 +6,7 @@ N <- 500
 
 # simulate data with Cohen's d = 2
 Data <- data.frame(y = c(rnorm(N/2, mean = -1), rnorm(N/2, mean = 1)),
-                   z = rep(c(0,1),each=N/2) )
+                   z = factor(rep(c(0,1),each=N/2) ))
 
 m_lav <- '
 y ~~ y
@@ -23,7 +23,7 @@ fit_lav <- lavaan(model = m_lav, data = Data)
 
 forest <- semforest(model=fit_lav, data = Data, 
           control = semforest.control(
-            num.trees = 5, control=semtree_control(method="score")))
+            num.trees = 25, control=semtree_control(method="score")))
 
 vim <- varimp(forest)
 

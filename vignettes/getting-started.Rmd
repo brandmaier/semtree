@@ -1,5 +1,7 @@
 ---
 title: "Getting Started with the semtree package"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting Started with the semtree package}
@@ -25,7 +27,7 @@ library(OpenMx)
 
 ## Simulate data
 
-Now, we simulate some data from a linear latent growth curve model (that is, a random intercept and random slope over time). The dataset will be called `growth.data`. The dataset contains five observations for each individual (`X1` to `X5`) and one predictor `P1`. The predictor is dichotomous and predicts a (quite large) difference in mean slope.
+Now, we simulate some data from a linear latent growth curve model of educational attainment over time (that is, a random intercept and random slope over time). The dataset will be called `growth_data`. The dataset contains five observations for each individual (`X1` to `X5`) and two predictors representing children's `SES` (low/high) and the `preschool quality`. 
 
 ```{r simdata}
 set.seed(23)
@@ -33,14 +35,15 @@ N <- 1000
 M <- 5
 icept <- rnorm(N, 10, sd = 4)
 slope <- rnorm(N, 3, sd = 1.2)
-p1 <- sample(c(0, 1), size = N, replace = TRUE)
+ses <- factor(sample(c("low", "high"), size = N, replace = TRUE))
+preschool_quality <- sample(c(1:5), N, TRUE)
 loadings <- 0:4
 x <-
-  (slope + p1 * 5) %*% t(loadings) + 
-  matrix(rep(icept, each = M), byrow = TRUE, ncol = M) + 
+  (slope + as.numeric(ses) * 5) %*% t(loadings) + 
+  matrix(rep(icept+preschool_quality+as.numeric(ses), each = M), byrow = TRUE, ncol = M) + 
   rnorm(N * M, sd = .08)
-growth.data <- data.frame(x, factor(p1))
-names(growth.data) <- c(paste0("X", 1:M), "P1")
+growth_data <- data.frame(x, factor(ses), ordered(preschool_quality))
+names(growth_data) <- c(paste0("X", 1:M), "SES","Preschool Quality")
 ```
 
 ## Specify an OpenMx model
@@ -48,12 +51,12 @@ names(growth.data) <- c(paste0("X", 1:M), "P1")
 Now, we specify a linear latent growth curve model using OpenMx's path specification. The model has five observed variables. Residual variances are assumed to be identical over time.
 
 ```{r}
-manifests <- names(growth.data)[1:5]
+manifests <- names(growth_data)[1:5]
 growthCurveModel <- mxModel("Linear Growth Curve Model Path Specification",
     type="RAM",
        manifestVars=manifests,
     latentVars=c("intercept","slope"),
-    mxData(growth.data, type="raw"),
+    mxData(growth_data, type="raw"),
     # residual variances
     mxPath(
         from=manifests,
@@ -116,7 +119,7 @@ Now, we grow a SEM tree using the `semtree` function, which takes the model and 
 
 ```{r message=FALSE,warning=FALSE,results="hide"}
 tree <- semtree(model = growthCurveModel, 
-                data = growth.data)
+                data = growth_data)
 ```
 
 ## Plotting
@@ -124,5 +127,49 @@ tree <- semtree(model = growthCurveModel,
 Once the tree is grown, we can plot it:
 
 ```{r}
+plot(tree)
+```
+
+## Table
+
+We can also obtain the parameter estimates for each leaf (terminal node) of the tree. Here we use knitr to pretty print the table:
+
+```{r}
+knitr::kable(
+  toTable(tree)
+)
+```
+
+## Pruning
+
+Large trees can be pruned back to display only the first few levels of splits. The argument `max.depth` determines the maximal depth of the resulting tree by counting the maximal number of decision nodes until a leaf is reached. For example, `max.depth=1` results in trees that only show one or zero decision nodes.
+
+```{r}
+plot( prune(tree, max.depth=1))
+```
+
+# Hyper-parameters
+
+There are various (hyper)parameters that govern the tree growing process. These hyperparameters can be adjusted by a `semtree.control` object that can be passed to the `semtree()` function. For example, the following control object specifies that:
+
+- the significance level for the likelihood ratio tests to determine splitting is set to 1% (instead of the default 5%),
+- the minimum number of cases in each leaf needs to be 25 if further splits should be investigated
+- the maximum depth of the tree is 5 decisions
+- Bonferroni-correction is used when determining significance of splits
+
+```{r}
+tree_control = semtree.control(alpha = 0.01,
+                          min.N = 25,
+                          max.depth = 5,
+                          bonferroni = TRUE)
+```
+
+Here is a tree that is grown using the adjusted hyper-parameters in `tree_control`.
+
+```{r}
+tree <- semtree(model = growthCurveModel, 
+                data = growth_data,
+                control = tree_control)
+
 plot(tree)
 ```

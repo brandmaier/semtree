@@ -46,7 +46,8 @@ forest <- semforest(model=model.biv, data=datf,
                     constraints = semtree.constraints(focus.parameters="mu2"),
                     control = 
                       semforest.control(num.trees = 30,
-                                        control=semtree.control(min.N = 50, min.bucket = 100,alpha=1,
+                                        control=semtree.control(min.N = 100, 
+                                                                min.bucket = 50,alpha=1,
                                                                 method="score")))
 
 vim_naive <- varimp(forest)

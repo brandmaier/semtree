@@ -38,7 +38,7 @@ mxPath(from = "one", to = "y", arrows = 1, free = TRUE, values = 0, labels = "mu
 fit_mx <- mxTryHard(model = m_mx)
 
 tree_mx <- semtree::semtree(model = fit_mx, data = Data,
-control = semtree.control(use.maxlm = TRUE, method = "naive"))
+control = semtree.control(use.maxlr = TRUE, method = "naive"))
 plot(tree_mx)
 
 test_that("results are identical", {

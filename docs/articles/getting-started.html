@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">semtree</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.23</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -96,7 +96,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started with the semtree package</h1>
+                        <h4 data-toc-skip class="author">Andreas M.
+Brandmaier</h4>
             
+            <h4 data-toc-skip class="date">2025-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -105,9 +108,9 @@
 
     
     
-<div class="section level2">
-<h2 id="load-the-package">Load the Package<a class="anchor" aria-label="anchor" href="#load-the-package"></a>
-</h2>
+<div class="section level3">
+<h3 id="load-the-package">Load the Package<a class="anchor" aria-label="anchor" href="#load-the-package"></a>
+</h3>
 <p>We first load the <code>semtree</code> package and the
 <code>OpenMx</code> package for specifying our SEM.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -115,43 +118,45 @@
 <span><span class="co">#&gt; Loading required package: OpenMx</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://openmx.ssri.psu.edu/" class="external-link">OpenMx</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="simulate-data">Simulate data<a class="anchor" aria-label="anchor" href="#simulate-data"></a>
-</h2>
-<p>Now, we simulate some data from a linear latent growth curve model
-(that is, a random intercept and random slope over time). The dataset
-will be called <code>growth.data</code>. The dataset contains five
-observations for each individual (<code>X1</code> to <code>X5</code>)
-and one predictor <code>P1</code>. The predictor is dichotomous and
-predicts a (quite large) difference in mean slope.</p>
+<div class="section level3">
+<h3 id="simulate-data">Simulate data<a class="anchor" aria-label="anchor" href="#simulate-data"></a>
+</h3>
+<p>Now, we simulate some data from a linear latent growth curve model of
+educational attainment over time (that is, a random intercept and random
+slope over time). The dataset will be called <code>growth_data</code>.
+The dataset contains five observations for each individual
+(<code>X1</code> to <code>X5</code>) and two predictors representing
+children’s <code>SES</code> (low/high) and the
+<code>preschool quality</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">23</span><span class="op">)</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
 <span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
 <span><span class="va">icept</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="va">slope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span>, <span class="fl">3</span>, sd <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">ses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">N</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">preschool_quality</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="va">N</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">loadings</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="fl">4</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span></span>
-<span>  <span class="op">(</span><span class="va">slope</span> <span class="op">+</span> <span class="va">p1</span> <span class="op">*</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">loadings</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">icept</span>, each <span class="op">=</span> <span class="va">M</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="va">M</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="op">(</span><span class="va">slope</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">ses</span><span class="op">)</span> <span class="op">*</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">loadings</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">icept</span><span class="op">+</span><span class="va">preschool_quality</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">ses</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">M</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="va">M</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">M</span>, sd <span class="op">=</span> <span class="fl">.08</span><span class="op">)</span></span>
-<span><span class="va">growth.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">p1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">growth.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span><span class="op">)</span>, <span class="st">"P1"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">growth_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ses</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="va">preschool_quality</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">growth_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span><span class="op">)</span>, <span class="st">"SES"</span>,<span class="st">"Preschool Quality"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="specify-an-openmx-model">Specify an OpenMx model<a class="anchor" aria-label="anchor" href="#specify-an-openmx-model"></a>
-</h2>
+<div class="section level3">
+<h3 id="specify-an-openmx-model">Specify an OpenMx model<a class="anchor" aria-label="anchor" href="#specify-an-openmx-model"></a>
+</h3>
 <p>Now, we specify a linear latent growth curve model using OpenMx’s
 path specification. The model has five observed variables. Residual
 variances are assumed to be identical over time.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">manifests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">growth.data</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">manifests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">growth_data</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
 <span><span class="va">growthCurveModel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html" class="external-link">mxModel</a></span><span class="op">(</span><span class="st">"Linear Growth Curve Model Path Specification"</span>,</span>
 <span>    type<span class="op">=</span><span class="st">"RAM"</span>,</span>
 <span>       manifestVars<span class="op">=</span><span class="va">manifests</span>,</span>
 <span>    latentVars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"intercept"</span>,<span class="st">"slope"</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html" class="external-link">mxData</a></span><span class="op">(</span><span class="va">growth.data</span>, type<span class="op">=</span><span class="st">"raw"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxData.html" class="external-link">mxData</a></span><span class="op">(</span><span class="va">growth_data</span>, type<span class="op">=</span><span class="st">"raw"</span><span class="op">)</span>,</span>
 <span>    <span class="co"># residual variances</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxPath.html" class="external-link">mxPath</a></span><span class="op">(</span></span>
 <span>        from<span class="op">=</span><span class="va">manifests</span>,</span>
@@ -206,30 +211,165 @@ variances are assumed to be identical over time.</p>
 <span></span>
 <span><span class="co"># fit the model to the entire dataset</span></span>
 <span><span class="va">growthCurveModel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/OpenMx/man/mxRun.html" class="external-link">mxRun</a></span><span class="op">(</span><span class="va">growthCurveModel</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Running Linear Growth Curve Model Path Specification with 6 parameters</span></span>
-<span><span class="co">#&gt; Warning: In model 'Linear Growth Curve Model Path Specification' Optimizer</span></span>
-<span><span class="co">#&gt; returned a non-zero status code 5. The Hessian at the solution does not appear</span></span>
-<span><span class="co">#&gt; to be convex. See ?mxCheckIdentification for possible diagnosis (Mx status</span></span>
-<span><span class="co">#&gt; RED).</span></span></code></pre></div>
+<span><span class="co">#&gt; Running Linear Growth Curve Model Path Specification with 6 parameters</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="run-a-tree">Run a tree<a class="anchor" aria-label="anchor" href="#run-a-tree"></a>
-</h2>
+<div class="section level3">
+<h3 id="run-a-tree">Run a tree<a class="anchor" aria-label="anchor" href="#run-a-tree"></a>
+</h3>
 <p>Now, we grow a SEM tree using the <code>semtree</code> function,
 which takes the model and the dataset as input. If not specified
 otherwise, SEM tree will assume that all variables in the dataset, which
 are not observed variables in the dataset are potential predictors.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">growthCurveModel</span>, </span>
-<span>                data <span class="op">=</span> <span class="va">growth.data</span><span class="op">)</span></span></code></pre></div>
+<span>                data <span class="op">=</span> <span class="va">growth_data</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
-</h2>
+<div class="section level3">
+<h3 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
+</h3>
 <p>Once the tree is grown, we can plot it:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div>
 <p><img src="getting-started_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="table">Table<a class="anchor" aria-label="anchor" href="#table"></a>
+</h3>
+<p>We can also obtain the parameter estimates for each leaf (terminal
+node) of the tree. Here we use knitr to pretty print the table:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/toTable.html">toTable</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="24%">
+<col width="17%">
+<col width="12%">
+<col width="9%">
+<col width="9%">
+<col width="8%">
+<col width="9%">
+<col width="9%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Preschool Quality</th>
+<th align="left">SES</th>
+<th align="right">residual</th>
+<th align="right">vari</th>
+<th align="right">cov</th>
+<th align="right">vars</th>
+<th align="right">meani</th>
+<th align="right">means</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">&lt;= 3 &amp; &lt;= 2</td>
+<td align="left">not ( high )</td>
+<td align="right">0.006</td>
+<td align="right">14.792</td>
+<td align="right">0.478</td>
+<td align="right">1.538</td>
+<td align="right">13.715</td>
+<td align="right">12.967</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;= 3 &amp; &gt; 2</td>
+<td align="left">not ( high )</td>
+<td align="right">0.007</td>
+<td align="right">14.384</td>
+<td align="right">0.088</td>
+<td align="right">1.098</td>
+<td align="right">14.940</td>
+<td align="right">13.052</td>
+</tr>
+<tr class="odd">
+<td align="left">&gt; 3</td>
+<td align="left">not ( high )</td>
+<td align="right">0.006</td>
+<td align="right">17.054</td>
+<td align="right">-0.052</td>
+<td align="right">1.439</td>
+<td align="right">17.115</td>
+<td align="right">12.980</td>
+</tr>
+<tr class="even">
+<td align="left">&lt;= 4 &amp; &lt;= 3</td>
+<td align="left">high</td>
+<td align="right">0.006</td>
+<td align="right">17.533</td>
+<td align="right">-0.003</td>
+<td align="right">1.417</td>
+<td align="right">12.871</td>
+<td align="right">8.011</td>
+</tr>
+<tr class="odd">
+<td align="left">&lt;= 4 &amp; &gt; 3</td>
+<td align="left">high</td>
+<td align="right">0.006</td>
+<td align="right">18.046</td>
+<td align="right">-0.743</td>
+<td align="right">1.388</td>
+<td align="right">14.718</td>
+<td align="right">7.831</td>
+</tr>
+<tr class="even">
+<td align="left">&gt; 4</td>
+<td align="left">high</td>
+<td align="right">0.007</td>
+<td align="right">13.541</td>
+<td align="right">0.541</td>
+<td align="right">1.438</td>
+<td align="right">16.438</td>
+<td align="right">7.923</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="pruning">Pruning<a class="anchor" aria-label="anchor" href="#pruning"></a>
+</h3>
+<p>Large trees can be pruned back to display only the first few levels
+of splits. The argument <code>max.depth</code> determines the maximal
+depth of the resulting tree by counting the maximal number of decision
+nodes until a leaf is reached. For example, <code>max.depth=1</code>
+results in trees that only show one or zero decision nodes.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span> <span class="fu"><a href="../reference/prune.html">prune</a></span><span class="op">(</span><span class="va">tree</span>, max.depth<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="hyper-parameters">Hyper-parameters<a class="anchor" aria-label="anchor" href="#hyper-parameters"></a>
+</h2>
+<p>There are various (hyper)parameters that govern the tree growing
+process. These hyperparameters can be adjusted by a
+<code>semtree.control</code> object that can be passed to the
+<code><a href="../reference/semtree.html">semtree()</a></code> function. For example, the following control
+object specifies that:</p>
+<ul>
+<li>the significance level for the likelihood ratio tests to determine
+splitting is set to 1% (instead of the default 5%),</li>
+<li>the minimum number of cases in each leaf needs to be 25 if further
+splits should be investigated</li>
+<li>the maximum depth of the tree is 5 decisions</li>
+<li>Bonferroni-correction is used when determining significance of
+splits</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tree_control</span> <span class="op">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>                          min.N <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>                          max.depth <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                          bonferroni <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Here is a tree that is grown using the adjusted hyper-parameters in
+<code>tree_control</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">growthCurveModel</span>, </span>
+<span>                data <span class="op">=</span> <span class="va">growth_data</span>,</span>
+<span>                control <span class="op">=</span> <span class="va">tree_control</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=7745.53852713508, new current best! (was 7745.53852713964)                                                                             Beginning initial fit attemptFit attempt 0, fit=2836.90806227974, new current best! (was 3687.59332338577)                                                                             Beginning initial fit attemptFit attempt 0, fit=1713.80837616561, new current best! (was 1739.87876535343)                                                                             Beginning initial fit attemptFit attempt 0, fit=1061.98006591109, new current best! (was 1097.02929672133)                                                                             Beginning initial fit attemptFit attempt 0, fit=3206.09542712537, new current best! (was 4057.94520393808)                                                                             Beginning initial fit attemptFit attempt 0, fit=2454.87187575858, new current best! (was 2466.44438222973)                                                                             Beginning initial fit attemptFit attempt 0, fit=691.794906946785, new current best! (was 739.651045009226)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 3s].</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
   </div>
 

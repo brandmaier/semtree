@@ -2,6 +2,10 @@
 #'
 #' Returns height of a SEM Tree, which equals to the length of the longest path
 #' from root to a terminal node.
+#' 
+#' Example:
+#' A SEM tree with only the root node has depth 0.
+#' A SEM tree with one decision node has depth 1.
 #'
 #'
 #' @param tree A SEM tree.
@@ -12,7 +16,7 @@
 
 getHeight <- function(tree) {
   if ((is.null(tree$left_child)) && (is.null(tree$right_child))) {
-    return(1)
+    return(0)
   }
 
   if (tree$left_child$caption != "TERMINAL") {

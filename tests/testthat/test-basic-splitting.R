@@ -7,6 +7,7 @@ testthat::skip_on_cran()
 #
 # test basic splitting
 #
+set.seed(9358)
 n <- 500
 var_numeric <- 1:n
 var_ordered <- ordered( sample(c(1,2,3,4), 
@@ -42,7 +43,7 @@ set.seed(3490843)
 x <- rnorm(n)
 x <- x * ifelse( var_unordered_named=="green" , 1, 10)
 df <- data.frame(x, var_unordered_named)
-tree = semtree(fitted_model, df, control=semtree.control(verbose=TRUE,report.level = 99))
+tree = semtree(fitted_model, df, control=semtree.control(verbose=FALSE,report.level = 99))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
 test_that("tree depth is at least 2", { expect_gt(getDepth(tree),1) })
@@ -81,7 +82,7 @@ x <- x * ifelse( (var_ordered <= 2), .5, 10)
 df <- data.frame(x, var_ordered, var_numeric, var_unordered_named)
 model = "x ~~ x"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(verbose=TRUE,report.level = 99))
+tree = semtree(fitted_model, df, control=semtree.control(verbose=FALSE,report.level = 99))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
 test_that("tree depth is 6", { expect_equal(getDepth(tree),6) })
