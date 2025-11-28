@@ -335,7 +335,6 @@ fairSplit <-
     # Phase II - select between variables using their best split
     #     use cross validation fold 2 for evaluation
     #
-    # cat("PHASE II")
 
     if (control$report.level > 2) {
       report("Phase II - Select between variables", 1)
@@ -572,15 +571,15 @@ fairSplit <-
           var.type <- 1
           v <- as.numeric(mydata[, cur_col])
           val.sets <- sort(union(v, v))
-          # cat("Length", length(val.sets),":",paste(v),"\n")
+
           if (length(val.sets) > 1) {
             # create binaries for comparison of all combinations
             result <-
               recodeAllSubsets(mydata[, cur_col], colnames(mydata)[cur_col],
                 use.levels =
-                  T
+                  TRUE
               )
-            test1 <- rep(0, length(mydata[, cur_col])) # base::c()
+            test1 <- rep(0, length(mydata[, cur_col])) 
             test2 <- rep(NA, length(mydata[, cur_col]))
 
             for (j in 1:ncol(result$columns)) {

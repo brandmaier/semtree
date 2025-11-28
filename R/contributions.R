@@ -26,7 +26,6 @@ contributions <- function(tree, normalize=TRUE)
     nodes <- getNodeList(tree)
     for (node in nodes) {
       if (node$caption == "TERMINAL") next;
-      print(node$caption)
       x <- rbind(x, c(node$result$contrib.max,id=node$node_id))
     }
     

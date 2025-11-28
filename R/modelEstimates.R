@@ -30,7 +30,7 @@ modelEstimates <- function(tree, ...)
     
     v <- list()
     v[[1]] <- list(node=tree$node_id,Parms=parms)
-    #cat(tree$caption,"\n")
+
     return(v)
   }
   

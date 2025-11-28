@@ -3,10 +3,6 @@ lgcm.forest.evaluate.prediction <- function(forest, dataset)
 
   # get forest predictions
   all.predictions <- lapply(forest$forest, FUN=lgcm.tree.predict, dataset)
-  #for (i in 1:1000) {
-  #  print(i)
-  #  lgcm.tree.predict(forest$forest[[i]], dataset)
-#  }#
 
   # average predictions (without weighting them)
   avg <- Reduce("+",all.predictions)

@@ -78,7 +78,7 @@ growTree <- function(model = NULL, mydata = NULL,
     forcedsplit.name <- forced_splits[1]
     
     if (control$verbose) {
-      cat("FORCED split: ",forcedsplit.name,"\n")
+      ui_message("FORCED split: ",forcedsplit.name,"\n")
     }
     
 
@@ -303,7 +303,7 @@ growTree <- function(model = NULL, mydata = NULL,
       ################################################
       ,
       error = function(e) {
-        cat(paste("Error occured!", e, sep = "\n"))
+        ui_error(paste0("Error occured! ", e, sep = "\n"))
         traceback()
         return(NULL)
       }
@@ -315,7 +315,7 @@ growTree <- function(model = NULL, mydata = NULL,
       ################################################
       ,
       error = function(e) {
-        cat(paste("Error occured!", e, sep = "\n"))
+        ui_error(paste0("Error occured! ", e, sep = "\n"))
         traceback()
         return(NULL)
       }
@@ -330,7 +330,7 @@ growTree <- function(model = NULL, mydata = NULL,
       ################################################
       ,
       error = function(e) {
-        cat(paste("Error occured!", e, sep = "\n"))
+        ui_error(paste0("Error occured! ", e, sep = "\n"))
         return(NULL)
       }
     )
@@ -344,7 +344,7 @@ growTree <- function(model = NULL, mydata = NULL,
       ################################################
       ,
       error = function(e) {
-        cat(paste("Error occured!", e, sep = "\n"))
+        ui_error(paste0("Error occured!", e, sep = "\n"))
         return(NULL)
       }
     )

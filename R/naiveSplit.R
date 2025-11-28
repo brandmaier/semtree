@@ -246,7 +246,6 @@ naiveSplit <-
 
             LL.return <-
               fitSubmodels(model, subset1, subset2, control, invariance = NULL)
-            # cat("LLreturn:",LL.return," and value split at:",(val.sets[i]+val.sets[(i-1)])/2,"\n")
             if (!is.na(LL.return)) {
               LL.within <- cbind(LL.within, (LL.baseline - LL.return))
               within.split <-
@@ -324,10 +323,10 @@ naiveSplit <-
     }
 
     if (control$verbose & control$report.level == 99) {
-      cat("LL.within:", paste0(LL.within, collapse = ","), "\n")
-      cat("LL.max: ", paste0(LL.max, collapse = ","), "\n")
-      cat("within.split: ", paste0(within.split, collapse = ","), "\n")
-      cat("split max", split.max, "\n")
+      ui_verbose("LL.within:", paste0(LL.within, collapse = ","), "\n")
+      ui_verbose("LL.max: ", paste0(LL.max, collapse = ","), "\n")
+      ui_verbose("within.split: ", paste0(within.split, collapse = ","), "\n")
+      ui_verbose("split max", split.max, "\n")
     }
 
     # count the number of variables tested

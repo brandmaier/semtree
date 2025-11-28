@@ -34,29 +34,47 @@ lav_multigroup <- function(model, subset1, subset2, constraints) {
   # unless they are mentioned in constraints
   row_ids_lower <- 1:(nrow(jpart) / 2)
   row_ids_upper <- (nrow(jpart) / 2 + 1):nrow(jpart)
-  jpart[row_ids_upper, "plabel"] <-  sapply(jpart[row_ids_lower, "plabel"], function(x) {
-    ifelse(is.na(x), NA, ifelse(x %in% constraints, x, paste0(grpname, "_", x)))
-  })
-  jpart[row_ids_upper, "label"] <-  sapply(jpart[row_ids_lower, "label"], function(x) {
-    ifelse(is.na(x), NA, ifelse(x %in% constraints, x, paste0(grpname, "_", x)))
-  })
+  offset <- max(row_ids_lower)
   max_free_id <- max(jpart$free[row_ids_lower]) + 1
-  jpart[row_ids_upper, "free"] <- sapply(jpart[row_ids_lower, "free"], function(x) {
-    if (x %in% constraints)
-      return(x)
-    ifelse(x == 0, 0, max_free_id)
-    max_free_id <<- max_free_id + 1
-  })
+  for (rid in row_ids_lower) {
+    cur_plabel <- jpart[rid, "plabel"]
+    cur_label <- jpart[rid, "label"]
+    # adjust plabel
+    jpart[offset + rid, "plabel"] <-
+      ifelse(is.na(cur_plabel), NA, ifelse(cur_plabel %in% constraints, cur_plabel, paste0(grpname, "_", cur_plabel)))
+    # adjust label
+    jpart[offset + rid, "label"] <- 
+      ifelse(is.na(cur_label), NA, ifelse(cur_label %in% constraints, cur_label, paste0(grpname, "_", cur_label)))
+    if (cur_label %in% constraints) {
+      jpart[offset + rid, "free"] <- jpart[rid, "free"]
+    } else {
+      if (jpart[rid,"free"] == 0) {
+        jpart[offset + rid, "free"] <- 0
+      } else {
+        jpart[offset + rid, "free"] <- max_free_id
+        max_free_id <- max_free_id + 1
+      }
+    }
+      
+  }
+
+  jpart$id <- 1:nrow(jpart)
   # (3) add equality constraints explicitly (not necessary?!)
   
   for (pname in constraints) {
+    # find the identical pairs (TODO: this could be more than one!)
     eqnames <- jpart$plabel[jpart$label==pname]
+    if (length(eqnames) != 2) stop("Not implemented! Probably you have constraints within a model")
     row <- data.frame(id=nrow(jpart)+1, lhs=eqnames[1], op="==",
                       rhs=eqnames[2],user=2,block=0,group=0,
                       free=0,ustart=NA,exo=0,start=0,est=0,se=0,
                       label="", plabel="")
     jpart <- rbind(jpart, row)
   }
+  
+  # only for debugging - delete soon
+  #pt<-parTable(lavaan(model=raw_model,data=joinset, group=grpname, do.fit=TRUE))
+  # 1:25 26:50 + 51:60 constraints on free params
   
   # (4) run the model
   

@@ -37,8 +37,8 @@ function(original_model, sub_model1, sub_model2, sub1_mxdata, sub2_mxdata, verbo
     	p_invariance <- pchisq(lr_invariance, df_invariance, lower.tail=F)
     	
     	if (verbose) {
-    	  cat(sum_sub1_original$estimatedParameters ,":", sum_sub2_original$estimatedParameters, ":",sum_sub1$estimatedParameters ,":",sum_sub2$estimatedParameters);
-    	  cat(paste(" |-- Invariance result: LR ",lr_invariance,df1,df2,p_invariance,"\n") );
+    	  ui_verbose(sum_sub1_original$estimatedParameters ,":", sum_sub2_original$estimatedParameters, ":",sum_sub1$estimatedParameters ,":",sum_sub2$estimatedParameters);
+    	  ui_verbose(paste(" |-- Invariance result: LR ",lr_invariance,df1,df2,p_invariance,"\n") );
     	}
     	
     	#if (p_invariance <= alpha.level) {

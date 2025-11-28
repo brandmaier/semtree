@@ -42,7 +42,7 @@ treeToTable <- function(tree, colDataList=list(), result=list())
 #' 
 #' @param tree A SEM Tree object.
 #' @param added.param.cols String. Add extra columns with parameter estimates. Pass a vector with the names of the parameters that should be rendered in the table.
-#' @param round.param Integer. Number of digits to round parameter estimates. Default is no rounding (NULL)
+#' @param round.param Integer. Number of digits to round parameter estimates. Default is rounding to three digits after the decimal point.
 #' @author Andreas M. Brandmaier
 #' @references
 #' 
@@ -51,7 +51,7 @@ treeToTable <- function(tree, colDataList=list(), result=list())
 #' of physical health and psychosocial correlates. \emph{Developmental
 #' Psychology}.
 #' @export
-toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
+toTable <- function(tree, added.param.cols=NULL, round.param=3) {
   
   
   
@@ -100,6 +100,8 @@ toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
           rule <- paste("<",saferound(myitem[[1]]$value,2))
         } else if (myitem[[1]]$relation=="%in%") {
           rule <- paste(myitem[[1]]$value, collapse=" or ")
+        } else if (myitem[[1]]$relation==">") {
+          rule <- paste(">",saferound(myitem[[1]]$value,2))
         } else {
           rule <- "UNKNOWN"
         }
@@ -111,6 +113,8 @@ toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
           rule <- paste("<",saferound(myitem[[1]]$value,2))
         } else if (myitem[[1]]$relation=="<") {
           rule <- paste(">=",saferound(myitem[[1]]$value,2))
+        } else if (myitem[[1]]$relation==">") {
+          rule <- paste("<=",saferound(myitem[[1]]$value,2))
         } else if (myitem[[1]]$relation=="%in%") {
           rule <- paste("not (",paste(myitem[[1]]$value,collapse=" or "),")")
         } else 
@@ -154,15 +158,6 @@ toTable <- function(tree, added.param.cols=NULL, round.param=NULL) {
   
   
   str.matrix[is.na(str.matrix)]<-""
-  
-  ## format output
-  #result.string <- paste(paste(colnames(str.matrix),collapse="\t"),"\n")
-  #for (i in 1:dim(str.matrix)[1]) {
-  #  result.string <- paste(result.string,paste(str.matrix[i,],collapse="\t"),"\n")
-  #}
-  
-  ## and display
-  #cat(result.string)
   
   
   return(str.matrix)

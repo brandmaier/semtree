@@ -176,12 +176,12 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
       }
       
       if (control$verbose) {
-        cat("Score test of :", cur.name, " (")
-        cat("Level of measurement:", level, ")\n")
-        cat("     |--- ",cur.test, ", test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
-        cat("     |--- Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
+        ui_verbose("Score test of :", cur.name, " (")
+        ui_verbose("Level of measurement:", level, ")\n")
+        ui_verbose("     |--- ",cur.test, ", test statistic: ", ts, ", p-value: ", pval, "\n", sep = "")
+        ui_verbose("     |--- Best so far: ", name.max, " (", level_max, "), ", test_max, ": ",
             LL.max, ", p-value: ", p.max, " split point: ", split.max,"\n")
-        cat("     |--- ",type.max,"\n")
+        ui_verbose("     |--- ",type.max,"\n")
       }
     }
   }
@@ -192,7 +192,7 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   #######################
   
   if ((is.null(split.max)) || (is.na(split.max))) {
-    if (control$report.level >= 50) cat("Split.max is null or NA!\n")
+    if (control$report.level >= 50) ui_warn("Split.max is null or NA!\n")
     p.max=1
     LL.max=0
   }

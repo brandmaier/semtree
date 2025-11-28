@@ -10,6 +10,8 @@ ui_fail<- function(...) {
   ui(crayon::red(clisymbols::symbol$cross), ...)
 }
 
+ui_error <- function(...) { ui_fail(...) }
+
 ui_stop <- function(...) {
   ui_fail(...)
   stop(call.=FALSE)
@@ -31,6 +33,7 @@ ui_debug <- function(...) {
   ui(crayon::blue(clisymbols::symbol$circle_circle), ...) 
 }
 
+ui_verbose <- function(...) { ui_message(...) }
 
 ui <- function(symbol, ...) {
   x <- list(...)

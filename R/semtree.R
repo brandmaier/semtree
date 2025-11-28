@@ -202,9 +202,9 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   }
   
   # check whether maxLR was used with score-based tests
-  if (isTRUE(control$use.maxlr) && control$method == "score") {
-    stop("Score-based tests and usage of maxLR is incompatible.")
-  }
+ # if (isTRUE(control$use.maxlr) && control$method == "score") {
+#    stop("Score-based tests and usage of maxLR is incompatible.")
+#  }
 
   # check for correct model entry
   if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {
@@ -219,10 +219,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
     # if (control$verbose) { ui_message("Detected ctsem model.") }
     control$sem.prog <- "ctsem"
     
-    ctsemomx_omx_installed <- "ctsemOMX" %in% utils::installed.packages()[,"Package"]
-    if (!ctsemomx_omx_installed) {
-      stop("Please install ctsemOMX first.")
-    }
+    check_ctsem_available()
     
   } else {
     ui_stop("Unknown model type selected. Use OpenMx or lavaanified lavaan models!")

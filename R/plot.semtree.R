@@ -4,7 +4,7 @@ plot.semtree <- function(x,
                          no.plot = FALSE,
                          ...) {
   if (is.null(x)) {
-    cat("Argument is not a SEM tree!")
+    ui_error("Argument is not a SEM tree!")
 
     return(NULL)
   }

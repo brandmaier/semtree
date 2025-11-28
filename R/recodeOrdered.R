@@ -21,9 +21,7 @@ function(v, name="unknown", id=NA) {
 	
 	for (i in 2:num_sets)
 	{
-		#print(values_set[i])
-		#print(values_set[i-1])
-		
+
 		if (is.double(values_set[i])) {
 			threshold <- (values_set[i-1]+values_set[i])/2.0
 		} else {

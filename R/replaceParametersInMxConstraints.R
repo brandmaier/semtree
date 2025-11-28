@@ -1,10 +1,9 @@
 replaceSymbol <- function(x, original.names, replacement.names) {
 
   mtch <- which( original.names %in% as.character(x))
-#  cat("LM",paste0(length(mtch)),"\n")
   if (length(mtch)>0) {
     x <- as.symbol(replacement.names[mtch])
-    cat("Replacing ",paste0(x), " with ", replacement.names[mtch] ,"\n")
+    ui_info("Replacing ",paste0(x), " with ", replacement.names[mtch] ,"\n")
   }
   return(x)
 }
