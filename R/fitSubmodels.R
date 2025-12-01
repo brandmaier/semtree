@@ -37,7 +37,7 @@ fitSubmodels <- function(model,
       return(NA)
     }
   }
-  #browser()
+
   
   if (is.null(invariance)) {
     if (inherits(model, "MxModel") || inherits(model, "MxRAMModel")) {

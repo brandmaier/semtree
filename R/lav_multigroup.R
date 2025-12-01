@@ -4,6 +4,8 @@
 #' from a fitted lavaan model
 #' 
 #' @returns negative two log-likelihood of the fitted model given the constraints
+#' 
+#' @noRd
 lav_multigroup <- function(model, subset1, subset2, constraints) {
   
   stopifnot(is(subset1, "data.frame"))

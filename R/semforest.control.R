@@ -21,7 +21,8 @@ semforest.control <-
            sampling = "subsample",
            control = NA,
            mtry = 2,
-           remove_dead_trees = TRUE)
+           remove_dead_trees = TRUE,
+           logfile = FALSE)
   {
     
     options <- list()

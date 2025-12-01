@@ -13,6 +13,11 @@ getHeight(tree)
 Returns height of a SEM Tree, which equals to the length of the longest path
 from root to a terminal node.
 }
+\details{
+Example:
+A SEM tree with only the root node has depth 0.
+A SEM tree with one decision node has depth 1.
+}
 \references{
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 U. (2013). Structural equation model trees. \emph{Psychological Methods},

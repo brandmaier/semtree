@@ -3,8 +3,10 @@
 #' in the remaining columns. This can be used to present SEM tree
 #' estimates in tabular form
 #'
-#' @tree A SEM tree
+#' @param tree A SEM tree
 #' @returns a table with a list of node ids and corresponding parameter estimates
+#' 
+#' @noRd
 getIdParameterMapping <-
 function(tree)
 {

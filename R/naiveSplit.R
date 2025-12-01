@@ -160,8 +160,6 @@ naiveSplit <-
             for (i in 2:(length(val.sets))) {
               LL.temp <- c()
               # subset data for chosen value and store LL
-              # cond1 <- as.numeric(as.character(mydata[,cur_col])) > (val.sets[i]+val.sets[(i-1)])/2
-              # cond2 <- as.numeric(as.character(mydata[,cur_col])) < (val.sets[i]+val.sets[(i-1)])/2
 
               cond1 <- mydata[, cur_col] > val.sets[i - 1]
               cond2 <- mydata[, cur_col] <= val.sets[i - 1]

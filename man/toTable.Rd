@@ -4,14 +4,14 @@
 \alias{toTable}
 \title{Tabular Representation of a SEM Tree}
 \usage{
-toTable(tree, added.param.cols = NULL, round.param = NULL)
+toTable(tree, added.param.cols = NULL, round.param = 3)
 }
 \arguments{
 \item{tree}{A SEM Tree object.}
 
 \item{added.param.cols}{String. Add extra columns with parameter estimates. Pass a vector with the names of the parameters that should be rendered in the table.}
 
-\item{round.param}{Integer. Number of digits to round parameter estimates. Default is no rounding (NULL)}
+\item{round.param}{Integer. Number of digits to round parameter estimates. Default is rounding to three digits after the decimal point.}
 }
 \description{
 Converts a tree into a tabular representation. This may be useful as a

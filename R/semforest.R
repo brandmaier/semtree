@@ -198,7 +198,8 @@ semforest <- function(model,
       semtree.control = semforest.control$semtree.control,
       with.error.handler,
       predictors = covariates,
-      constraints = constraints
+      constraints = constraints,
+      logfile=semforest.control$write.logfile
     ),
     SIMPLIFY = FALSE,
     future.seed = TRUE

@@ -8,6 +8,7 @@ semtreeApplyWrapper <- function(data,
                                 with.error.handler = TRUE,
                                 predictors,
                                 constraints,
+                                logfile = FALSE,
                                 ...)
 {
   if (!is.na(seed)) {
@@ -35,8 +36,15 @@ semtreeApplyWrapper <- function(data,
       
     }, error = function(err) {
       errmsg <- paste(date(), paste(err), paste(traceback()), sep = "\n")
+      if (isFALSE(logfile)) {
+        ui_error(errmsg)
+      } else {
+        stopifnot(is(logfile, "character"))
+        write(errmsg, file = logfile, append = TRUE)
+      }
       
-      write(errmsg, file = "error.log", append = TRUE)
+      
+      #
       return(NULL)
     })
     

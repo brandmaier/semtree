@@ -3,6 +3,11 @@
 #' This is useful for creating temporary split variables representing 
 #' a given dichotomous split.
 #' 
+#' @param df A data.frame
+#' @param prefix String. A prefix for the column
+#' @param n The length of the random string
+#' 
+#' @noRd
 generate_unique_colname <- function(df, prefix = "col", n = 12) {
   repeat {
     name <- paste0(prefix, "_",
