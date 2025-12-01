@@ -56,7 +56,14 @@ naiveSplit <-
     } else {
       comparedData <- meta$covariate.ids
     }
-    for (cur_col in comparedData) {
+    LL.baseline <- LL.overall
+    process_column <- function(cur_col) {
+      LL.within <- c()
+      within.split <- c()
+      cov.col <- c()
+      cov.name <- c()
+      cov.type <- c()
+
       # parent model's likelihood (LL.baseline) is adjusted
       # for each split if there is missing data
       LL.baseline <- LL.overall
@@ -258,7 +265,39 @@ naiveSplit <-
           }
         }
       }
+
+      if (is.null(LL.within)) {
+        return(NULL)
+      }
+
+      list(
+        LL.within = LL.within,
+        within.split = within.split,
+        cov.col = cov.col,
+        cov.name = cov.name,
+        cov.type = cov.type
+      )
     }
+
+    split_results <- future.apply::future_lapply(
+      comparedData,
+      function(cur_col) {
+        process_column(cur_col)
+      },
+      future.seed = TRUE
+    )
+
+    split_results <- Filter(Negate(is.null), split_results)
+
+    if (length(split_results) == 0) {
+      return(NULL)
+    }
+
+    LL.within <- do.call(cbind, lapply(split_results, function(x) x$LL.within))
+    within.split <- do.call(cbind, lapply(split_results, function(x) x$within.split))
+    cov.col <- do.call(cbind, lapply(split_results, function(x) x$cov.col))
+    cov.name <- do.call(cbind, lapply(split_results, function(x) x$cov.name))
+    cov.type <- do.call(cbind, lapply(split_results, function(x) x$cov.type))
 
 
     if (is.null(LL.within)) {
