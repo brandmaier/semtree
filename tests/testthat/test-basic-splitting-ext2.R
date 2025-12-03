@@ -1,3 +1,8 @@
+# skip long running tests on CRAN
+testthat::skip_on_cran()
+
+testthat::test_that("Trees worked",{
+  
 set.seed(345)
 N <- 2000
 p1 <- factor(sample( c("retired","in workforce","unemployed"), N, TRUE))
@@ -12,7 +17,7 @@ x1 <- xdat[,1]
 x2 <- xdat[,2]
 x3 <- xdat[,3]
 x4 <- xdat[,4] + ifelse(p1=="retired",1,0)
-x4 <- ifelse(p3>13, x4, (x4+x3)/2)
+
 df<-data.frame(x1,x2,x3,x4, p1, p2,p3)
 model <- "L =~ 1*x1+x2+x3+x4"
 
@@ -26,3 +31,10 @@ plot(tree_bf)
 plot(tree_score)
 
 plot(prune(tree,2))
+
+
+  testthat::expect_equal(tree$rule$name,"p1") # p1 is strongest predictor
+  testthat::expect_equal(tree_bf$rule$name,"p1") # p1 is strongest predictor
+  testthat::expect_equal(tree_score$rule$name,"p1") # p1 is strongest predictor
+  
+})

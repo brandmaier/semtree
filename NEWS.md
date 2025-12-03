@@ -4,6 +4,8 @@
 - default construction method for forests changed from "fair" to maxLR-based computation
 - bugfix in toTable() which would sometimes not show the decisions properly; also introduced default rounding of estimates
 - fixed bug in counting depth of a tree
+- convergence warnings in OpenMx models with focus parameter are now suppressed
+- the feature global invariance was removed because it was just a wrapper to fix parameters at their ML estimate
 
 # semtree 0.9.23 (2025)
 

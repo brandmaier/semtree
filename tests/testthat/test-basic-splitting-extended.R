@@ -36,11 +36,11 @@ model = "x ~~ x"
 fitted_model <- lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree.control())
 test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
-test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
+test_that("tree depth is correct", {expect_equal(getDepth(tree),0)})
 
 tree = semtree(fitted_model, df, control=semtree.control(method="score"))
 test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
-test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
+test_that("tree depth is correct", {expect_equal(getDepth(tree),0)})
 
 
 # just a single observed value in an unordered factor, that is,
@@ -50,9 +50,9 @@ var_unordered_named_single[1:n] <- "red"
 df <- data.frame(x, var_unordered_named_single)
 tree = semtree(fitted_model, df, control=semtree.control())
 test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
-test_that("tree depth is correct", {expect_equal(getDepth(tree),1)})
+test_that("tree depth is correct", {expect_equal(getDepth(tree),0)})
 
-# NA values
+# NA values and still no effect of any predictor
 var_numeric_NA <- var_numeric
 var_numeric_NA[c(1,10,11,12,16,100,400,401,402)]<-NA
 var_ordered_NA <- var_ordered
@@ -61,4 +61,5 @@ var_unordered_NA <- var_ordered
 var_unordered_NA[c(1,2,3,4,100,101,200,202,204,303,420,421,422)]<-NA
 df <- data.frame(x, var_numeric_NA, var_ordered_NA, var_unordered_NA)
 tree = semtree(fitted_model, df, control=semtree.control(max.depth=3))
-test_that("return object is a valid tree", {expect_equal(class(tree),"semtree")})
+test_that("return object is a valid tree", {
+  expect_equal(class(tree),"semtree")})

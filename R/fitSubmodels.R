@@ -193,7 +193,7 @@ fitSubmodels <- function(model,
         }
         return(NA)
       }
-      run2 <- safeRunAndEvaluate(model2, return.model = T)
+      run2 <- safeRunAndEvaluate(model2, return.model = TRUE)
       if (is.na(run2)[1]) {
         return(NA)
       }
@@ -302,7 +302,8 @@ fitSubmodels <- function(model,
         mxFitFunctionAlgebra('h12')
       )
       
-      sharedRun <- mxRun(sharedModel, silent = TRUE)
+      
+      sharedRun <- mxRun(sharedModel, silent = TRUE,suppressWarnings = TRUE)
       
       LL.sum <-  mxEval(h12, sharedRun)
       

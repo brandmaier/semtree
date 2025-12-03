@@ -1,11 +1,11 @@
 calculateBestSubsets <- function(model, mydata, sub1, sub2, result)
 {
-	#message(paste(result,collapse="\n"))
+
 	missingSet <- mydata[is.na(mydata[,result$col.max]),]
 	model1 <- OpenMx::mxModel(model, OpenMx::mxData(sub1, type="raw"))
 	model2 <- OpenMx::mxModel(model, OpenMx::mxData(sub2, type="raw"))
-	values1 <- OpenMx::omxGetParameters(OpenMx::mxRun(model1, silent=T, useOptimizer=T, suppressWarnings=T))
-	values2 <- OpenMx::omxGetParameters(OpenMx::mxRun(model2, silent=T, useOptimizer=T, suppressWarnings=T))
+	values1 <- OpenMx::omxGetParameters(OpenMx::mxRun(model1, silent=TRUE, useOptimizer=T, suppressWarnings=T))
+	values2 <- OpenMx::omxGetParameters(OpenMx::mxRun(model2, silent=TRUE, useOptimizer=T, suppressWarnings=T))
 	model1 <- OpenMx::omxSetParameters(model1, labels=names(OpenMx::omxGetParameters(model)),free=FALSE, values=values1 )
 	model2 <- OpenMx::omxSetParameters(model2, labels=names(OpenMx::omxGetParameters(model)),free=FALSE, values=values2 )
   compareLL <- c()

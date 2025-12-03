@@ -1,4 +1,8 @@
-safeRunAndEvaluate <- function(model, return.model=F)
+#'
+#' Fit a model and return the negative two log-likelihood
+#'
+#' @noRd
+safeRunAndEvaluate <- function(model, return.model=FALSE)
 {
 	# this is to trick the strict CRAN check which hates
   # OpenMx style, actually this can be removed in future
@@ -6,7 +10,11 @@ safeRunAndEvaluate <- function(model, return.model=F)
 	#
 	
   if(inherits(model,"MxModel") || inherits(model,"MxRAMModel")){
-    modelrun <- try(mxRun(model,silent=TRUE, suppressWarnings=TRUE),silent=T)
+    modelrun <- try(
+      {
+      mxRun(model,silent=TRUE, suppressWarnings=TRUE)
+      },silent=TRUE # suppress error messages in the try block
+      )
     if (is(modelrun,"try-error")) {
       return(NA)
     }  else {

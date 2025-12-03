@@ -104,8 +104,9 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   # obtain dots arguments and test for deprecated use of arguments
   arguments <- list(...)
   if ("global.constraints" %in% names(arguments)) {
-    stop("Deprecated use of argument 'global.constraints'. Please use constraints object")
+    stop("Deprecated use of argument 'global.constraints'.")
   }
+  
   if ("invariance" %in% names(arguments)) {
     stop("Deprecated use of argument 'invariance'. Please use constraints object with property 'local.invariance'")
   }
@@ -129,7 +130,6 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
 
   invariance <- constraints$local.invariance
-  global.constraints <- constraints$global.invariance
 
 
 
@@ -435,26 +435,6 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   ###########################################################
   ###               OPENMX USED HERE                      ###
   ###########################################################
-  # global constraints - estimate once and then regarded fixed in the tree
-  if (!is.null(global.constraints)) {
-    if (control$sem.prog != "OpenMx") {
-      ui_stop("Global constraints are not yet supported!")
-    }
-
-    run.global <- OpenMx::mxRun(model, silent = TRUE, useOptimizer = TRUE, suppressWarnings = TRUE)
-    labels <- names(OpenMx::omxGetParameters(model))
-    eqids <- which(labels %in% global.constraints)
-    neqids <- which(!labels %in% global.constraints)
-    values <- OpenMx::omxGetParameters(run.global)[eqids]
-    model <- OpenMx::omxSetParameters(model,
-      labels = global.constraints, free = FALSE, values = values
-    )
-    # FIX THIS LINE HERE
-
-    # Read Global Constraints and New model Parameters Here.
-    ui_message("Global Constraints:\n", paste(global.constraints, collapse = " "))
-    ui_message("Freely Estimated Parameters:\n", paste(names(OpenMx::omxGetParameters(model)), collapse = " "))
-  }
 
 
   # grow tree

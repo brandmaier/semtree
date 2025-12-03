@@ -37,8 +37,8 @@ tree3<-semtree(fitted, df.biv, control=semtree_control(verbose=TRUE),
 frst <- semforest(fitted, df.biv,constraints = semtree.constraints(focus.parameters = "e"))
 
 
-testthat::expect(tree2$rule$name, "grp1")
-testthat::expect(tree3$rule$name, "grp2")
+testthat::expect_identical(tree2$rule$name, "grp1")
+testthat::expect_identical(tree3$rule$name, "grp2")
 
 
 

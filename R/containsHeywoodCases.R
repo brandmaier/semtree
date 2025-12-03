@@ -10,27 +10,35 @@ if (!(inherits(sem,"MxRAMModel")|| inherits(sem,"lavaan"))) {
   return(FALSE);
 }
 
-if (is.null(sem) || is.null(sem@matrices) || is.null(sem@matrices$S))
-{
-  warning("An error occured when accessing S matrix in RAM model. Heywood checking impossible.")
-  return(FALSE);
-}
+
 
 # get the values of the symmetric covariance matrix
 if(inherits(sem,"MxRAMModel")){
+  
+  if (is.null(sem) || is.null(sem@matrices) || is.null(sem@matrices$S))
+  {
+    warning("An error occured when accessing S matrix in RAM model. Heywood checking impossible.")
+    return(FALSE);
+  }
+  
   covarianceMatrix <- sem@matrices$S@values	
+  
+  # check whether all entries on diagonal are positive
+  for (i in 1:dim(covarianceMatrix)[1]) {
+    if (covarianceMatrix[i,i] < 0) {
+      return(TRUE);
+    }
+  }
+  
+  return(FALSE);
 }
 else {
   return(any(sem@Fit@est[lavaan::parTable(sem)$lhs==lavaan::parTable(sem)$rhs] < 0))
 }
 	
-# check whether all entries on diagonal are positive
-for (i in 1:dim(covarianceMatrix)[1]) {
-	if (covarianceMatrix[i,i] < 0) {
-		return(TRUE);
-	}
-}
-
+stop("Could not check this model class for Heywood cases! Please adjust semtree_control() object accordingly.")
 return(FALSE);
+
+
 
 }

@@ -10,18 +10,16 @@
 # skip long running tests on CRAN
 testthat::skip_on_cran()
 
+
+#
+# test numeric predictors
+#
+
 test_that("partial dependence works for numeric predictors", {
   
   
   library(lavaan)
-  
-  #
-  # test numeric predictors
-  #
-  
-  # skip long running tests on CRAN
-  skip_on_cran()
-  
+
   # draw predictors randomly
   set.seed(325)
   N <- 200
@@ -35,7 +33,8 @@ test_that("partial dependence works for numeric predictors", {
   
   model = "x ~~ var*x; x~ mu*0"
   fitted_model <- lavaan(model, df)
-  tree = semtree(fitted_model, df, control = semtree.control(verbose = TRUE, report.level = 99))
+  tree = semtree(fitted_model, df, 
+        control = semtree.control(verbose = FALSE, report.level = 99))
   plot(tree)
   
   
@@ -64,9 +63,9 @@ test_that("partial dependence works for numeric predictors", {
 pd = partialDependence(forest, reference.var = "pred1")
 plot(pd, parameter="mu")
 test_that("partial dependence works for numeric predictors", {
-  expect_equal(class(forest), "semforest")
-  expect_s3_class(pd, "partialDependence")
-  expect_equal(dim(pd$samples), c(3, 3))
+  testthat::expect_equal(class(forest), "semforest")
+  testthat::expect_s3_class(pd, "partialDependence")
+  testthat::expect_equal(dim(pd$samples), c(3, 3))
 })
 
 })
@@ -79,11 +78,11 @@ test_that("partial dependence works for ordered predictors", {
 
 pd = partialDependence(forest, reference.var = "pred2")
 
-expect_equal(class(forest), "semforest")
-expect_s3_class(pd, "partialDependence")
-expect_equal(dim(pd$samples), c(3, 3))
-expect_true(pd$samples[pd$samples$pred2==2,"mu"] < pd$samples[pd$samples$pred2==1,"mu"] )
-expect_true(pd$samples[pd$samples$pred2==0,"mu"] < pd$samples[pd$samples$pred2==1,"mu"] )
+testthat::expect_equal(class(forest), "semforest")
+testthat::expect_s3_class(pd, "partialDependence")
+testthat::expect_equal(dim(pd$samples), c(3, 3))
+testthat::expect_true(pd$samples[pd$samples$pred2==2,"mu"] < pd$samples[pd$samples$pred2==1,"mu"] )
+testthat::expect_true(pd$samples[pd$samples$pred2==0,"mu"] < pd$samples[pd$samples$pred2==1,"mu"] )
 
 })
 
@@ -91,5 +90,5 @@ expect_true(pd$samples[pd$samples$pred2==0,"mu"] < pd$samples[pd$samples$pred2==
 # expect error here
 #
 test_that("missing reference variable is detected", {
-  expect_error(pd = partialDependence(forest, reference.var = "reallyweirdPredictor958Qz6"))
+  testthat::expect_error(pd = partialDependence(forest, reference.var = "reallyweirdPredictor958Qz6"))
 })

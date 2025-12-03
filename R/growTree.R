@@ -432,6 +432,7 @@ growTree <- function(model = NULL, mydata = NULL,
     }
   }
   
+  if (!is.null(result$n.comp)) node$n.comp = result$n.comp
   
   #   # Multiple-Testing Correction is hidden here
   if (node$p.values.valid) {
