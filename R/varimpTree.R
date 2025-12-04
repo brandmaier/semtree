@@ -25,6 +25,8 @@ varimpTree <- function(tree,
   treecovs <- getCovariatesFromTree(tree)
   
   # cycle through all covariates
+  oob.data.permuted <- oob.data
+
   for (cov.name in var.names) {
     if (verbose) {
       ui_message("- Testing ", cov.name, "\n")
@@ -40,13 +42,13 @@ varimpTree <- function(tree,
     } else {
       # permute variable with name "cov.name" in data and store result in "oob.data.permuted"
       permutation.idx <- which(cov.name == names(data$oob.data))
-      oob.data.permuted <- oob.data
-      
+
+      original.column <- oob.data.permuted[, permutation.idx]
+
       # random permutation
       if (!conditional) {
-        col.data <- oob.data.permuted[, permutation.idx]
         oob.data.permuted[, permutation.idx] <-
-          sample(col.data, length(col.data), replace = FALSE)
+          sample(original.column, length(original.column), replace = FALSE)
       } else {
         stop("Not yet implemented!")
         
@@ -82,15 +84,18 @@ varimpTree <- function(tree,
       } else {
         stop(paste("Error. Method is not implemented: ", method))
       }
-      
-      
+
+
       if (verbose) {
         ui_info(cov.name, "LL Difference", ll.diff, "\n")
       }
-      
+
       total[index] <- ll.diff
+
+      # restore original data for next permutation
+      oob.data.permuted[, permutation.idx] <- original.column
     }
-    
+
   }
   
   return(list(total = total, ll.baseline = ll.baseline))

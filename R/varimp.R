@@ -74,24 +74,20 @@ varimp <- function(forest,
     USE.NAMES = TRUE,
     future.seed = TRUE
   )
-  
-  
-  
+
   elapsed <- proc.time() - start.time
-  
-  # extract results and put them into result-object
-  result$ll.baselines <-
-    sapply(temp, function(x) {
-      try({
-        x$ll.baseline
-      })
-    }, simplify="matrix")
-  result$importance <-
-    t(sapply(temp, function(x) {
-      try({
-        x$total
-      })
-    }, simplify="matrix"))
+
+  num.trees <- length(temp)
+  num.vars <- length(var.names)
+  result$ll.baselines <- numeric(num.trees)
+  result$importance <- matrix(NA_real_, nrow = num.trees, ncol = num.vars)
+
+  for (i in seq_len(num.trees)) {
+    tree.res <- temp[[i]]
+    result$ll.baselines[[i]] <- tree.res$ll.baseline
+    result$importance[i, ] <- tree.res$total
+  }
+
   result$elapsed <- elapsed
   
   # completeley experimental, probably not a wise idea to use this
