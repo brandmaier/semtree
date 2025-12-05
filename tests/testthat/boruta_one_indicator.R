@@ -20,7 +20,7 @@ testModel <- mxModel("SimplisticModel", type="RAM", manifestVars="Y",
                      mxPath("one", "Y", values=0, free=TRUE, labels=c("mu")), 
                      mxData(simpleData, type="raw"))
 
-control <- semforest.control(control=semtree.control(method="score", alpha=1))
+control <- semforest_control(control=semtree_control(method="score", alpha=1))
 
 output <- boruta(testModel, simpleData, verbose=TRUE, control = control)
 output

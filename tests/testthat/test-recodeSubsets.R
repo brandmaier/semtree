@@ -12,7 +12,7 @@ df <- data.frame(x, var_unordered)
 model = "x ~~ x; x~mu*0"
 fitted_model <- lavaan(model, df)
 
-tree <- semtree(fitted_model, df, control=semtree.control(verbose=TRUE, report.level=99))
+tree <- semtree(fitted_model, df, control=semtree_control(verbose=TRUE, report.level=99))
 
 plot(tree)
 

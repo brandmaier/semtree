@@ -20,7 +20,7 @@ y ~ 1
 fit_lav <- lavaan(model = m_lav, data = Data)
 
 tree_lav <- semtree::semtree(model = fit_lav, data = Data,
-                             control = semtree.control(use.maxlr = TRUE, method = "naive"))
+                             control = semtree_control(use.maxlr = TRUE, method = "naive"))
 
 
 tree_lav <- semtree::semtree(model = fit_lav, data = Data)
@@ -38,7 +38,7 @@ mxPath(from = "one", to = "y", arrows = 1, free = TRUE, values = 0, labels = "mu
 fit_mx <- mxTryHard(model = m_mx)
 
 tree_mx <- semtree::semtree(model = fit_mx, data = Data,
-control = semtree.control(use.maxlr = TRUE, method = "naive"))
+control = semtree_control(use.maxlr = TRUE, method = "naive"))
 plot(tree_mx)
 
 test_that("results are identical", {

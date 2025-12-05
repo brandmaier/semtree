@@ -21,7 +21,7 @@ m <- mxModel(manifestVars = man_vars,
 
 fit <- mxRun(m)
 
-ctrl <- semtree.control(method = "score")
+ctrl <- semtree_control(method = "score")
 ctrl <- c(ctrl, list(scores_info = semtree:::OpenMx_scores_input(
   x = fit,
   control = ctrl

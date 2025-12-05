@@ -45,8 +45,8 @@ summary(result)
 forest <- semforest(model=model.biv, data=datf, 
                     constraints = semtree.constraints(focus.parameters="COV_x1_x2"),
                     control = 
-                      semforest.control(num.trees = 30,
-                                        control=semtree.control(min.N = 50, min.bucket = 100,alpha=1,
+                      semforest_control(num.trees = 30,
+                                        control=semtree_control(min.N = 50, min.bucket = 100,alpha=1,
                                                                 method="score")))
 
 vim_naive <- varimp(forest)
@@ -55,9 +55,11 @@ vim_focus <- varimp(forest, method="permutationFocus")
 
 vimdat <- data.frame( vim=rep(c("naive","focus"),each=3),
                       param=rep(c("pred1","pred2","noise"),2),
-                      vals=c( semtree:::aggregateVarimp(vim_naive),semtree:::aggregateVarimp(vim_focus)))
+                      vals=c( semtree:::aggregateVarimp(vim_naive),
+                              semtree:::aggregateVarimp(vim_focus)))
 library(ggplot2)
 library(tidyr)
-vimdat %>% ggplot(aes(x=vim,y=vals,group=param,fill=param))+geom_col(position="dodge")
+vimdat %>% ggplot(aes(x=vim,y=vals,group=param,fill=param))+
+  geom_col(position="dodge")
 
 }

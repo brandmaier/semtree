@@ -78,12 +78,12 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
-ctrl <- semtree.control(method = "score", verbose = TRUE)
+ctrl <- semtree_control(method = "score", verbose = TRUE)
 
 # RUN TREE.
 
 forest <- semforest(model=lgcModel, data=lgcm, control = 
-                      semforest.control(control=semtree.control(method="score")))
+                      semforest_control(control=semtree_control(method="score")))
 
 vim <- varimp(forest)
 

@@ -124,7 +124,7 @@ The resulting tree captures how demographic variables partition the sample into 
 To adjust for the inflated Type I error rate that arises from testing multiple candidate split variables, enable the Bonferroni correction in the control settings. This reduces the per-test significance threshold.
 
 ```{r message=FALSE, warning=FALSE, results="hide"}
-bonf_ctrl <- semtree.control(bonferroni = TRUE, 
+bonf_ctrl <- semtree_control(bonferroni = TRUE, 
                              alpha = 0.05,
                              method = "score")
 spi_tree_bonf <- semtree(

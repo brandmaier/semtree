@@ -1,5 +1,7 @@
 #'
-#' Fit multigroup model for evaluating a candidate split
+#' Fit multigroup model for evaluating a candidate split. This function
+#' has the fundamental logic for fitting two-group models in 
+#' different variants
 #'
 #' @param model A model specification that is used as template for each of the two groups
 #' @param subset1 Dataset for the first group model
@@ -120,7 +122,8 @@ fitSubmodels <- function(model,
       
       # check subgroups for empty columns in modeled variables...
       modelcheck <- unlist(model@Data@ov.names)
-#      modelcheck <- names(model@data$observed)
+      # remove interaction terms that are created separately
+      modelcheck <- modelcheck[!grepl(":", modelcheck)]
       for (i in 1:length(modelcheck)) {
         if (is.nan(mean(subset1[, modelcheck[i]], na.rm = TRUE))) {
           if (control$verbose) {
@@ -175,7 +178,6 @@ fitSubmodels <- function(model,
       
       LL.sum <- run1$LL
       #other groups are compared to the chosen value and LL stored
-      #if (control$verbose) {message("Evaluating Subset 2")}
       model2 <-
         try(suppressWarnings(eval(parse(
           text = paste(
@@ -186,7 +188,6 @@ fitSubmodels <- function(model,
             sep = ""
           )
         ))), silent = T)
-      #model2 <- try(suppressWarnings(lavaan::lavaan(lavaan::parTable(model),data=subset2,model.type=model@Options$model.type,do.fit=FALSE)),silent=TRUE)
       if (is(model2, "try-error")) {
         if (control$verbose) {
           message(paste0("Error in fitting submodel  #2", model2))

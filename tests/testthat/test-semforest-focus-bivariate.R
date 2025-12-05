@@ -1,4 +1,4 @@
-skip_on_cran()
+testthat::skip_on_cran()
 
 if (require(future)) {
 
@@ -9,6 +9,7 @@ library(semtree)
 library(future)
 future::plan(multisession, workers=5)
 
+set.seed(3459)
 observed <- MASS::mvrnorm(n=N, mu=c(0,0), Sigma=matrix(c(1,0.2,0.2,1),nrow=2))
 
 pred1 <- rnorm(N)
@@ -46,11 +47,19 @@ forest <- semforest(model=model.biv, data=datf,
                     constraints = semtree.constraints(focus.parameters="mu2"),
                     control = 
                       semforest.control(num.trees = 30,
-                                        control=semtree.control(min.N = 100, 
-                                                                min.bucket = 50,alpha=1,
+                                        control=semtree_control(min.N = 100, 
+
+                                                                #                                                                min.bucket = 50,alpha=1,
                                                                 method="score")))
 
+set.seed(390)
 vim_naive <- varimp(forest)
+
+#
+#
+#Variable Importance
+#pred1      pred2      noise 
+#566.31188 1614.39083   13.97491 
 
 vim_focus <- varimp(forest, method="permutationFocus")
 

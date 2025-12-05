@@ -19,9 +19,9 @@ model = "x ~~ x; x~mu*0"
 fitted_model <- lavaan(model, df)
 
 
-tree_fair = semtree(fitted_model, df, control=semtree.control(method="fair"))
-tree_score = semtree(fitted_model, df, control=semtree.control(method="score"))
-tree_naive = semtree(fitted_model, df, control=semtree.control(method="naive"))
+tree_fair = semtree(fitted_model, df, control=semtree_control(method="fair"))
+tree_score = semtree(fitted_model, df, control=semtree_control(method="score"))
+tree_naive = semtree(fitted_model, df, control=semtree_control(method="naive"))
 
 plot(tree_score)
 plot(tree_naive)

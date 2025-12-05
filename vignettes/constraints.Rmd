@@ -27,13 +27,12 @@ library(MASS)
 
 
 
-`semtree` allows different constraints on the split evaluation (`global.invariance`, `local.invariance`, and `focus.parameters`). These can be set in the following object and then passed to the `semtree` command:
+`semtree` allows different constraints on the split evaluation (`local.invariance`, and `focus.parameters`). These can be set in the following object and then passed to the `semtree` command:
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, results="hide"}
 library(semtree)
 
 cnst <- semtree.constraints(local.invariance=NULL, 
-global.invariance=NULL, 
 focus.parameters=NULL)
 
 semtree(model.x, data=df, constraints=cnst)
@@ -96,24 +95,6 @@ mxData(cfa.sim, type = "raw")
 );
 ```
 
-
-## Global Invariance
-
-Global invariance is a relatively naive way of estimating a tree, in which a chosen set of parameters is equal across all leafs. This is achieved by fixing one or more selected parameters to the sample estimate *before* the tree is grown. Global invariance assures that the chosen parameters don't differ across the possible subgroups. However, if the parameters do differ, this leads to misspecification and jeopardizes the interpretation of the resulting tree structure. Using this approach is usually not recommended because it's typically not safe to assume that parameters are identical across a wide range of splits of the data. There may be cases in which it may make sense to constrain loading structures or means but it seems particularly dangerous to constrain variance components with such an approach.
-
-```{r message=FALSE, echo=TRUE, warning=FALSE}
-tree.gc <- semtree(model.cfa, data=cfa.sim, constraints=
-                   semtree.constraints(global.invariance = 
-                                         c("F__x1","F__x2","F__x3","F__x4")))
-
-```
-
-
-```{r fig.height=3}
-plot(tree.gc)
-```
-
-Even though we retrieve both predictors in the tree, the tree structure does not represent the data generating model (`p2` is found to be conditional only on `p1`>=.5) and the misspecification in the loadings leads to bias in the mean structure.
 
 ## Local Invariance
 

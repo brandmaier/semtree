@@ -87,7 +87,7 @@ if (require("future")) {
   # TREE CONTROL OPTIONS.
   # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
   
-  ctrl <- semtree.control(method = "score", verbose = TRUE)
+  ctrl <- semtree_control(method = "score", verbose = TRUE)
   
   # RUN TREE.
   
@@ -95,9 +95,9 @@ if (require("future")) {
     model = lgcModel,
     data = lgcm,
     control =
-      semforest.control(
+      semforest_control(
         num.trees = 30,
-        control = semtree.control(alpha =
+        control = semtree_control(alpha =
                                     1, method = "score")
       ),
     constraints = semtree.constraints(focus.parameter =

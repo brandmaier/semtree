@@ -18,7 +18,7 @@ df <- data.frame(x, var_unordered, p1=rnorm(N),p2=rnorm(N))
 model = "x ~~ x; x ~mu*1"
 fitted_model <- lavaan(model, df)
 
-tree<-semtree(fitted_model, df,control = semtree.control(method="score"))
+tree<-semtree(fitted_model, df,control = semtree_control(method="score"))
 
 testrun <- function(mode="sequential"){
 
@@ -28,7 +28,10 @@ testrun <- function(mode="sequential"){
     future::plan(multisession, workers=5)
   }
   
-  sf<-semforest(fitted_model, df, with.error.handler=FALSE, control=semforest.control(num.trees=5, control=semtree.control(method="score")))
+  sf<-semforest(fitted_model, df, 
+                with.error.handler=FALSE, 
+                control=semforest_control(num.trees=5,
+                    control=semtree_control(method="score")))
   
   return(sf)
 }

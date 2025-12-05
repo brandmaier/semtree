@@ -76,7 +76,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
 set.seed(3453598)
-ctrl <- semtree.control(method = "fair", verbose=TRUE, report.level = 99)
+ctrl <- semtree_control(method = "fair", verbose=TRUE, report.level = 99)
 
 # RUN TREE.
 

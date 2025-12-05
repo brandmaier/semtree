@@ -96,7 +96,7 @@ Now, we are repeating the same analysis in a forest.
 ```{r message=FALSE, warning=FALSE,results="hide"}
 forest <- semforest(model.biv, data=df.biv,
                     constraints = list(focus.parameters=fp),
-                    control=semforest.control(num.trees=10, control=semtree.control(method="score",alpha=1)))
+                    control=semforest_control(num.trees=10, control=semtree_control(method="score",alpha=1)))
 
 ```
 

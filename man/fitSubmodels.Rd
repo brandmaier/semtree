@@ -2,7 +2,9 @@
 % Please edit documentation in R/fitSubmodels.R
 \name{fitSubmodels}
 \alias{fitSubmodels}
-\title{Fit multigroup model for evaluating a candidate split}
+\title{Fit multigroup model for evaluating a candidate split. This function
+has the fundamental logic for fitting two-group models in 
+different variants}
 \usage{
 fitSubmodels(
   model,
@@ -28,5 +30,7 @@ fitSubmodels(
 returns NA if fit fails}
 }
 \description{
-Fit multigroup model for evaluating a candidate split
+Fit multigroup model for evaluating a candidate split. This function
+has the fundamental logic for fitting two-group models in 
+different variants
 }

@@ -83,7 +83,7 @@ lgcModel <- mxModel("Linear Growth Curve Model Path Specification",
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
-controlOptions <- semtree.control()
+controlOptions <- semtree_control()
 
 # THE CONTENTS OF THE DEFAULT CONTROLS CAN THEN BE VIEWED.
 

@@ -1,6 +1,6 @@
 #' SEM Tree Control Object
 #' 
-#' A \code{semtree.control} object contains parameters that determine the tree
+#' A \code{semtree_control} object contains parameters that determine the tree
 #' growing process. These parameters include choices of different split
 #' candidate selection procedures and hyperparameters of those. Calling the
 #' constructor without parameters creates a default control object. A number of
@@ -30,8 +30,6 @@
 #' node.
 #' @param alpha.invariance Default: NA. Significance level for invariance
 #' tests. If NA, the value of alpha is used.
-#' @param folds Default: 5. Defines the number of folds for the \code{"cv"}
-#' method.
 #' @param exclude.heywood Default: TRUE. Reports whether there is an
 #' identification problem in the covariance structure of an SEM tested.
 #' @param progress.bar Default: NA. Option to disable the progress bar for tree
@@ -91,23 +89,22 @@
 #' 
 #' 
 #' 	# create a control object with an alpha level of 1%
-#' 	my.control <- semtree.control(alpha=0.01)
+#' 	my_control <- semtree_control(alpha=0.01)
 #' 
 #' 	# set the minimum number of cases per node to ten
-#' 	my.control$min.N <- 10
+#' 	my_control$min.N <- 10
 #' 	
 #' 	# print contents of the control object
-#' 	print(my.control)
+#' 	print(my_control)
 #' 
 #' 
 #' @export
-semtree.control <-
+semtree_control <-
   function(method = c("naive","score","fair","fair3"),
            min.N = NULL,
            max.depth = NA,
            alpha = .05,
            alpha.invariance = NA,
-           folds = 5,
            exclude.heywood = TRUE,
            progress.bar = TRUE,
            verbose = FALSE,
@@ -138,10 +135,6 @@ semtree.control <-
     # For OpenMx models: Is the model linear?
     ### Global Invariant parameters are currently not working with the speed up
     options$linear <- linear
-    # number of cross validation folds
-    options$num.folds <- folds
-    # individual CV folds for data under missingess (should be no option in the long run)
-    #options$individual.cv.folds <- TRUE
     # exclude heywood cases from further evaluation
     options$exclude.heywood <- exclude.heywood
     # minimum number of cases for SEM evaluation
@@ -202,7 +195,9 @@ semtree.control <-
     return(options)
   }
 
+#' @deprecated since version 0.10.0
 #' @export
-semtree_control <- function(...) {
-  semtree.control(...)
+semtree.control <- function(...) {
+  warning("Calling semtree.control() is deprecated! Please use semtree_control() instead.")
+  semtree_control(...)
 }

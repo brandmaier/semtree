@@ -19,8 +19,6 @@ print.semtree.control <- function(x, ...)
 	ui_bullet("Bonferroni Correction:", x$bonferroni,"\n")
 	ui_bullet("Minimum Number of Cases: ", x$min.N,"\n")
 	ui_bullet("Maximum Tree Depth: ", x$max.depth,"\n")
-	ui_bullet("Number of CV Folds: ", x$num.folds,"\n");
-  #ui_bullet("Individual CV Folds: ", x$individual.cv.folds,"\n")
 	ui_bullet("Exclude Heywood Cases: ", x$exclude.heywood,"\n")
 	ui_bullet("Test Invariance Alpha Level: ", x$alpha.invariance,"\n");
 	ui_bullet("Use all Cases: ", x$use.all,"\n");

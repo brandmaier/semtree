@@ -79,7 +79,7 @@ test_that("number of comparisons in naive split with factors (type=1)", {
   
   lgcm$noise2 <- as.factor(sample(c(0,1,2),size=nrow(lgcm),replace=TRUE)) # 3 splits
   
-  control = semtree.control(method="naive", max.depth=1)
+  control = semtree_control(method="naive", max.depth=1)
   
   tree <- semtree(model=lgcModel, data=lgcm, control = control)
   
@@ -98,7 +98,7 @@ test_that("number of comparisons in naive split", {
   lgcm$training <- as.factor(lgcm$training) # 1 split
   lgcm$noise <- rep(1:50,8) # 5 splits
   
-  control = semtree.control(method="naive",min.bucket = 2,
+  control = semtree_control(method="naive",min.bucket = 2,
                             min.N = 2, verbose=TRUE,exclude.heywood = FALSE,
                             max.depth=1)
   

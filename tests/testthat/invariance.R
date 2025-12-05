@@ -91,7 +91,7 @@ summary(result)
 subset <- data[1:50, ]
 
 
-ctr <- semtree.control(verbose=TRUE)
+ctr <- semtree_control(verbose=TRUE)
 ctr$exclude.heywood <- FALSE
 # naive tree should find both effects, age & ses, with age having the stronger effect 
 tree <- semtree(model = result, data=fulldata, control=ctr)

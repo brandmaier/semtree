@@ -53,18 +53,19 @@ plot(tree.biv)
 #                       semtree.constraints(focus.parameters = "mu1"))
 
 
-tree.biv <- semtree(fit_lav_model, data=df.biv, control=semtree.control(method="score"))
+tree.biv <- semtree(fit_lav_model, data=df.biv, 
+        control=semtree_control(method="score"))
 plot(tree.biv)
 
 
 
 tree.biv <- semtree(fit_lav_model, data=df.biv,
-                    control=semtree.control(method="score"),
+                    control=semtree_control(method="score"),
                     constraints = semtree.constraints(focus.parameters = "mu1"))
 
 
 tree_mx_score_focus <- semtree(mx_model, data=df.biv,
-                    control=semtree.control(method="score"),
+                    control=semtree_control(method="score"),
                     constraints = semtree.constraints(focus.parameters = "mu1"))
 
 test_that("return object is a valid tree", {expect_equal(class(tree_mx_score_focus),"semtree")})
@@ -73,5 +74,5 @@ test_that("first split is optimal", {expect_equal(tree_mx_score_focus$rule$name,
 test_that("first split is optimal", {expect_equal(tree_mx_score_focus$rule$value,"0")})
 
 tree_mx_score_focus <- semtree(mx_model, data=df.biv2,
-                               control=semtree.control(method="score"),
+                               control=semtree_control(method="score"),
                                constraints = semtree.constraints(focus.parameters = "mu1"))

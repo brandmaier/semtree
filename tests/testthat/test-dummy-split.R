@@ -12,7 +12,7 @@ df <- data.frame(x=x, var_grp)
 
 fit <- lavaan("x~~x",df)
 
-tree <- semtree(fit, df, control = semtree.control(method="score"))
+tree <- semtree(fit, df, control = semtree_control(method="score"))
 
 testthat::expect_equal(tree$rule$name, "var_grp")
 testthat::expect_equal(tree$rule$value, "FALSE")

@@ -10,7 +10,7 @@ checkControl <- function(control, fail = TRUE) {
 
 check.semtree.control <- function(control, fail = TRUE) {
   attr <- attributes(control)$names
-  def.attr <- attributes(semtree.control())$names
+  def.attr <- attributes(semtree_control())$names
   
   # add NULL-defaults
   null_def <- c("min.N","min.bucket","strucchange.to")
@@ -30,7 +30,7 @@ check.semtree.control <- function(control, fail = TRUE) {
       return(FALSE)
     }
   } else {
-    temp <- semtree.control()
+    temp <- semtree_control()
     for (nms in attributes(temp)$names) {
       val <- control[[nms]]
       if (!all(is.na(val)) && !all(is.na(temp[[nms]]))) {

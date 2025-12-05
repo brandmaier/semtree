@@ -16,7 +16,7 @@ x <- x+ifelse(var_unordered=="sunshine",20,0)
 df <- data.frame(x, var_unordered)
 model = "x ~~ x; x ~mu*1"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(method="score"))
+tree = semtree(fitted_model, df, control=semtree_control(method="score"))
 test_that("optimal split is chosen", {
   expect_true(all(tree$rule$value==c("lightning","snow")))
   expect_equal(tree$rule$relation,"%in%")
@@ -33,14 +33,14 @@ x <- rnorm(n) + ifelse(var_ordered>="C",10,0)
 df <- data.frame(x, var_ordered)
 model = "x ~~ x; x ~mu*1"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(method="score"))
+tree = semtree(fitted_model, df, control=semtree_control(method="score"))
 plot(tree)
 test_that("optimal split is chosen", {
   expect_equal(tree$rule$value,"B")
   expect_equal(tree$rule$relation,">")
 })
 
-tree = semtree(fitted_model, df, control=semtree.control(method="score",min.bucket = 50))
+tree = semtree(fitted_model, df, control=semtree_control(method="score",min.bucket = 50))
 
 
 # generate observations of an ordered factor with labels
@@ -52,7 +52,7 @@ x <- rnorm(n)+var_metric
 df <- data.frame(x, var_metric)
 model = "x ~~ x; x ~mu*1"
 fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree.control(method="score"))
+tree = semtree(fitted_model, df, control=semtree_control(method="score"))
 test_that("optimal split is chosen", {
 #  expect_true(all(tree$rule$value==c("lightning","snow")))
   expect_equal(tree$rule$relation,">=")

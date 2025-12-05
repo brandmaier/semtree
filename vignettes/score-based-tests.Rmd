@@ -65,7 +65,7 @@ Use score-based tests to create the tree. Use Bonferroni-correction to adjust fo
 
 ```{r}
 library(semtree)
-ctrl = semtree.control(
+ctrl = semtree_control(
   method="score", 
   bonferroni = TRUE)
 ```

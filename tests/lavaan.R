@@ -33,7 +33,7 @@ lgcModel <- lavaan(lgcModelstr, lgcm, do.fit=TRUE)
 # TREE CONTROL OPTIONS.
 # TO OBTAIN BASIC/DEFAULT SMETREE OPTIONS, SIMPLY TPYE THE FOLLOWING:
 
-controlOptions <- semtree.control(method="score")
+controlOptions <- semtree_control(method="score")
 
 # THE CONTENTS OF THE DEFAULT CONTROLS CAN THEN BE VIEWED.
 

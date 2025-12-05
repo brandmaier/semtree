@@ -158,7 +158,7 @@ There are various (hyper)parameters that govern the tree growing process. These 
 - Bonferroni-correction is used when determining significance of splits
 
 ```{r}
-tree_control = semtree.control(alpha = 0.01,
+tree_control = semtree_control(alpha = 0.01,
                           min.N = 25,
                           max.depth = 5,
                           bonferroni = TRUE)

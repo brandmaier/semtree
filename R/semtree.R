@@ -135,7 +135,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
   # create default control object, if not specified
   if (is.null(control)) {
-    control <- semtree.control()
+    control <- semtree_control()
     if (control$verbose) {
       ui_message("Default SEMtree settings established since no Controls provided.")
     }

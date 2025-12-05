@@ -70,11 +70,10 @@ observed.model <- mxModel("Linear Growth Curve Model Path Specification",
                           )
 ) # close model
 
-#tree <- semtree(model = observed.model, data=sim.data,control = semtree.control(method="score"))
 
 ctrl <- semforest_score_control(num.trees=200)
 
-ctrl <- semforest.control(num.trees=200)
+ctrl <- semforest_control(num.trees=200)
 ctrl$semtree.control$method <- "score"
 
 tic()

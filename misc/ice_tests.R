@@ -30,7 +30,7 @@ df <- data.frame(x, pred3,noisy,noisy2,noisy3)
 model = "x ~~ var*x; x~ mu*0"
 fitted_model <- lavaan(model, df)
 forst = semforest(fitted_model, df,
-                  control=semforest.control(control=semtree.control(method="score",
+                  control=semforest_control(control=semtree_control(method="score",
                                                                     verbose=FALSE,report.level=99,alpha = 1),num.trees = 100))
 
 

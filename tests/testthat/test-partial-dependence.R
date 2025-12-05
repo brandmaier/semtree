@@ -34,7 +34,7 @@ test_that("partial dependence works for numeric predictors", {
   model = "x ~~ var*x; x~ mu*0"
   fitted_model <- lavaan(model, df)
   tree = semtree(fitted_model, df, 
-        control = semtree.control(verbose = FALSE, report.level = 99))
+        control = semtree_control(verbose = FALSE, report.level = 99))
   plot(tree)
   
   

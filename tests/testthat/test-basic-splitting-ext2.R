@@ -23,9 +23,9 @@ model <- "L =~ 1*x1+x2+x3+x4"
 
 fit_model <- lavaan::cfa(model, df)
 
-tree <- semtree(fit_model, df, semtree.control(bonferroni = FALSE))
-tree_bf <- semtree(fit_model, df, semtree.control(bonferroni = TRUE))
-tree_score <- semtree(fit_model, df, semtree.control(method="score"))
+tree <- semtree(fit_model, df, semtree_control(bonferroni = FALSE))
+tree_bf <- semtree(fit_model, df, semtree_control(bonferroni = TRUE))
+tree_score <- semtree(fit_model, df, semtree_control(method="score"))
 plot(tree)
 plot(tree_bf)
 plot(tree_score)

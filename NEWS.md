@@ -6,6 +6,10 @@
 - fixed bug in counting depth of a tree
 - convergence warnings in OpenMx models with focus parameter are now suppressed
 - the feature global invariance was removed because it was just a wrapper to fix parameters at their ML estimate
+- trees now store the number of comparisons per node (for later pruning)
+- removed deprecated folds argument in semtree.control()
+- removed unused fold option from semtree.control()
+- make semtree_control() the standard constructor
 
 # semtree 0.9.23 (2025)
 
