@@ -1,11 +1,11 @@
 #' @exportS3Method plot semforest.varimp
 plot.semforest.varimp <-
   function(x,
-           sort.values = T,
+           sort.values = TRUE,
            aggregate = "mean",
-           horiz = T,
+           horiz = TRUE,
            las = 1,
-           convergence = F,
+           convergence = FALSE,
            scale = "absolute",
            xlim = NULL,
            head = NULL,

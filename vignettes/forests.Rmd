@@ -99,6 +99,19 @@ plot(vim)
 
 From this, we can learn that variables such as `NA2` representing negative affect (after the movie), `TA2` representing tense arousal (after the movie), and `state1` representing the state anxiety before having watched the movie, are the best predictors of difference in the distribution of state anxiety (in either mean, variance or both) after having watched the movie. 
 
+Variable importance estimates are averaged across all trees by taking the mean importance of each variable over all trees. Sometimes, these estimates may be distorted if a single tree produces unstable estimates. To obtain a more robust estimate, it may make sense to take the median across all trees to obtain the variable importance estimates:
+
+```{r}
+print(vim, sort.values=TRUE, aggregate="median")
+plot(vim, aggregate="median")
+```
+
+To inspect, how well these estimates converged, we can look at the convergence plot that shows the estimates as a function of the number of trees considered:
+
+```{r}
+plot(vim, convergence=TRUE)
+```
+
 # Partial Dependence
 
 Partial dependence plots visualize the relationship of a predictor and a selected model parameter. This is a powerful tool to help with interpreting SEM forests. 
