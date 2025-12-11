@@ -84,7 +84,7 @@ tree <- semtree(model=lgcModel, data=lgcm, control = controlOptions)
 # TESTED AT EACH NODE FOR GROUP DIFFERENCES. IN THIS EXAMPLE THE MODEL 
 # RESIDUALS ARE CONSTRAINED OVER THE NODES.
 
-constraints <- semtree.constraints(global.invariance = names(omxGetParameters(lgcModel))[1:5])
+constraints <- semtree.constraints(focus.parameters = names(omxGetParameters(lgcModel))[1:5])
 
 treeConstrained <- semtree(model=lgcModel, data=lgcm, control = controlOptions,
                            constraints=constraints)

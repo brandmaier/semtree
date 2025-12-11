@@ -10,8 +10,7 @@
 #' @param var.names Covariates used in the forest creation process. NULL value
 #' will be automatically filled in by the function.
 #' @param verbose Boolean to print messages while function is running.
-#' @param method Experimental. Some alternative methods to compute importance.
-#' Default is "permutation".
+#' @param method Character. Define the method, with which importance is computed. The default is NULL and picks the appropriate permutation-based estimation method depending on whether no focus parameters are given ("permutation") or focus parameters are given ("permutationFocus")
 #' @param eval.fun Default is \code{\link{evaluateTree}} function. The value of
 #' the -2LL of the leaf nodes is compared to baseline overall model.
 #' @param conditional Conditional variable importance if TRUE, otherwise
@@ -26,10 +25,10 @@
 #' 
 varimp <- function(forest,
                    var.names = NULL,
-                   verbose = F,
+                   verbose = FALSE,
                    #                   main.effects = F,
                    eval.fun = evaluateTree,
-                   method = "permutation",
+                   method = NULL,
                    conditional = FALSE,
                    ...)
 {
@@ -37,9 +36,18 @@ varimp <- function(forest,
     var.names <- forest$covariates
   }
   
+  has_focus_params =  !is.null(forest$constraints$focus.parameters)
   
-  if (method == "permutation" &&
-      !is.null(forest$constraints$focus.parameters))
+  # choose appropriate method if no explicit method is given
+  if (is.null(method)) {
+    if (has_focus_params) {
+      method="permutationFocus"
+    } else {
+      method="permutation"      
+    }
+  }
+  
+  if (method == "permutation" && has_focus_params)
   {
     ui_warn(
       "Consider switching to method='permutationFocus' because forest has focus parameters."
@@ -135,13 +143,3 @@ varimp <- function(forest,
 }
 
 
-colMedians <- function(x, na.rm = TRUE)
-{
-  return(apply(
-    X = x,
-    FUN = function(x) {
-      median(x, na.rm = na.rm)
-    },
-    MARGIN = 2
-  ))
-}
