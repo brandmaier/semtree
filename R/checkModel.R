@@ -6,8 +6,8 @@
 #' 
 #' Otherwise return TRUE
 #' 
-#' @param model
-#' @param control
+#' @param model A lavaan or OpenMx model
+#' @param control  A semtree_control object
 #'
 #' @noRd
 checkModel <- function(model, control)

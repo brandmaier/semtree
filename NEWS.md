@@ -10,6 +10,7 @@
 - removed deprecated folds argument in semtree.control()
 - removed unused fold option from semtree.control()
 - make semtree_control() the standard constructor
+- variable importance now automatically chooses the right permutation scheme based on the presence or absence of focus parameters
 
 # semtree 0.9.23 (2025)
 
