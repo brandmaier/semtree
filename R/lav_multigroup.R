@@ -12,7 +12,7 @@ lav_multigroup <- function(model, subset1, subset2, constraints) {
   stopifnot(is(subset2, "data.frame"))
   stopifnot(is(model, "lavaan"))
   
-  if (any(is.na(match(constraints, partable(model)$label)))) {
+  if (any(is.na(match(constraints, lavaan::partable(model)$label)))) {
     stop("Constraints are not labeled parameters in the model specification!")
   }
   

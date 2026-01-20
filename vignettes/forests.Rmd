@@ -79,7 +79,23 @@ print(control)
 
 Now, run the forest using the `control` object:
 
-```{r message=FALSE, echo=TRUE, warning=FALSE, results="hide"}
+```{r precompute, echo=FALSE, eval=FALSE}
+cat(getwd())
+cache_file <- "inst/extdata/cache.rds"
+if (!file.exists(cache_file)) {
+forest <- semforest( model=model,
+                     data = affect, 
+                     control = control,
+                     covariates = c("Film", "state1",
+                                    "PA2","NA2","TA2"))
+saveRDS(object=forest, file=cache_file)
+} else {
+  forest <- readRDS(cache_file)
+}
+
+```
+
+```{r forest, eval=TRUE, message=FALSE, echo=TRUE, warning=FALSE, results="hide"}
 forest <- semforest( model=model,
                      data = affect, 
                      control = control,
@@ -91,7 +107,7 @@ forest <- semforest( model=model,
 
 Next, we compute permutation-based variable importance. This may take some time.
 
-```{r}
+```{r varimp}
 vim <- varimp(forest)
 print(vim, sort.values=TRUE)
 plot(vim)
@@ -118,6 +134,8 @@ Partial dependence plots visualize the relationship of a predictor and a selecte
 
 ```{r pdp}
 pdp <- partialDependence(forest,reference.var = "TA2")
+```
 
+```{r plotpdp}
 plot(pdp, parameter="mu")
 ```

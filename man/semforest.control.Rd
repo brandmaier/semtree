@@ -26,6 +26,8 @@ semforest.control(
 \item{mtry}{Number of subsampled covariates at each node.}
 
 \item{remove_dead_trees}{Remove trees from forest that had runtime errors}
+
+\item{logfile}{Boolean/Character. If FALSE, no log file is written. Otherwise a logfile is written to the path given in this argument.}
 }
 \description{
 A SEM Forest control object to tune parameters of the forest learning

@@ -10,9 +10,9 @@
 varimp(
   forest,
   var.names = NULL,
-  verbose = F,
+  verbose = FALSE,
   eval.fun = evaluateTree,
-  method = "permutation",
+  method = NULL,
   conditional = FALSE,
   ...
 )
@@ -28,8 +28,7 @@ will be automatically filled in by the function.}
 \item{eval.fun}{Default is \code{\link{evaluateTree}} function. The value of
 the -2LL of the leaf nodes is compared to baseline overall model.}
 
-\item{method}{Experimental. Some alternative methods to compute importance.
-Default is "permutation".}
+\item{method}{Character. Define the method, with which importance is computed. The default is NULL and picks the appropriate permutation-based estimation method depending on whether no focus parameters are given ("permutation") or focus parameters are given ("permutationFocus")}
 
 \item{conditional}{Conditional variable importance if TRUE, otherwise
 marginal variable importance.}

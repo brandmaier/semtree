@@ -10,3 +10,4 @@ Meta
 cran_comments.md
 CRAN*
 .httr-oauth
+vignettes/vignette-cache
