@@ -1,8 +1,8 @@
 getParameterNames <- function(x)
 {
-  if (inherits(model,"MxModel") || inherits(model,"MxRAMModel")) {
+  if (inherits(x,"MxModel") || inherits(x,"MxRAMModel")) {
     return(names(OpenMx::omxGetParameters(x)))
-  } else  if (inherits(model,"lavaan")){
+  } else  if (inherits(x,"lavaan")){
     return(unique(partable(x)$label))
   } else {
    stop("getParameterNames() is not implemented!")
