@@ -13,6 +13,9 @@
 - variable importance now automatically chooses the right permutation scheme based on the presence or absence of focus parameters
 - aggregateVarimp() is now exported as a function to aggregate variable importance estimates across a forest
 - prune() supports pruning of non-converged daugther nodes
+- added thinOut() function
+- plot semtree has option to display a nonconvergence warning
+
 
 # semtree 0.9.23 (2025)
 
