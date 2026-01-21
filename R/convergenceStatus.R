@@ -2,7 +2,7 @@ convergenceStatus <- function(tree)
 {
   if (is.null(tree)) { return(c()); }
   
-  status <- hasConverged(x$model)
+  status <- hasConverged(tree$model)
 
   if (tree$caption=="TERMINAL") {
     return(status);

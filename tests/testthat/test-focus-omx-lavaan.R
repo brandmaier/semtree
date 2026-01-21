@@ -13,7 +13,7 @@ library(lavaan)
 data(lgcm)
 
 # create LGCM in OpenMx & run it
-model = omx_lgcm_helper(lgcm, homoscedastic_errors = FALSE)
+model = semtree:::omx_lgcm_helper(lgcm, homoscedastic_errors = FALSE)
 omx_fitted = mxRun(model)
 summary(omx_fitted)
 

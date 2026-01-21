@@ -306,7 +306,10 @@ fitSubmodels <- function(model,
       
       sharedRun <- mxRun(sharedModel, silent = TRUE,suppressWarnings = TRUE)
       
-      LL.sum <-  mxEval(h12, sharedRun)
+      if (!checkModel(sharedModel, control))
+        LL.sum <- NA
+      else
+        LL.sum <-  mxEval(h12, sharedRun)
       
       if (return.models) {
         result <- c()
@@ -323,6 +326,8 @@ fitSubmodels <- function(model,
     } else if (inherits(model, "lavaan")) {
  
       LL.sum <-  lav_multigroup(model, subset1, subset2, invariance)
+      
+      # TODO: Add check model code ; call to checkModel()
       
       if (return.models) {
         stop("Returning subgroup models is not implemented in lavaan")

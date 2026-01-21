@@ -12,6 +12,8 @@ aggregateVarimp(
 )
 }
 \arguments{
+\item{vimp}{Variable importance estimate from a SEM forest.}
+
 \item{aggregate}{Character. Either 'mean' or 'median' as function to aggregate estimates over a forest}
 
 \item{scale}{Character. Either 'absolute' or 'relative'.}

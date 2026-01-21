@@ -21,12 +21,11 @@ semtree(
 \arguments{
 \item{model}{A template model specification from \pkg{OpenMx} using
 the \code{\link[OpenMx]{mxModel}} function or a \pkg{lavaan} model
-using the \code{\link[lavaan]{lavaan}} function with option fit=FALSE).
+using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).
 Model must be syntactically correct within the framework chosen, and
 converge to a solution.}
 
-\item{data}{Data.frame used in the model creation using
-\code{\link[OpenMx]{mxModel}} or \code{\link[lavaan]{lavaan}} are input here. Order
+\item{data}{A \code{data.frame} used for building the tree. Order
 of modeled variables and predictors is not important when providing a
 dataset to \code{semtree}.}
 
@@ -42,7 +41,7 @@ exclusively go into the function evaluating splits). Also, options for
 measurement invariance testing in trees are included.}
 
 \item{predictors}{A vector of variable names matching variable names in
-dataset. If NULL (default) all variables that are in dataset and not part of
+data set. If NULL (default) all variables that are in data set and not part of
 the model are potential predictors. Optional function input to select a
 subset of the unmodeled variables to use as predictors in the \code{semtree}
 function.}
@@ -55,27 +54,26 @@ A \code{semtree} object is created which can be examined with
 }
 \description{
 Structural equation model (SEM) trees combine SEM with decision-tree style
-recursive partitioning. Starting from a single template SEM, \code{semtree}
-repeatedly searches for subgroups in which the model parameters differ and
-yields a tree of locally homogeneous SEMs.
+recursive partitioning. Starting from a single template SEM fit to a 
+complete data set, \code{semtree} recursively (over and over again) searches for 
+subgroups, in which the model parameters differ most wit
 }
 \details{
 Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
-\code{\link[lavaan]{lavaan}} model fits the template to the full dataset and
+\code{\link[lavaan]{lavaan}} model fits the template to the data set provided and
 then recurses over the following steps until no further meaningful partition
-is found:
+into sub groups is found:
 \enumerate{
-  \item Fit the model on the current node's data (respecting any predefined
-  constraints) and compute the baseline fit.
+  \item Fit the model on the current node's data and compute the model fit.
   \item For each predictor, generate candidate split points (or score tests)
-  and quantify the improvement in model fit using the chosen method in
+  and estimate the improvement in model fit using the chosen method in
   \code{\link{semtree.control}}.
   \item Select the best-performing predictor/split combination and apply it
   when it passes the statistical threshold (\code{alpha}) and satisfies the
   size limitations (\code{min.N}, \code{min.bucket}, \code{max.depth}, or a
   custom stopping rule).
   \item Continue the procedure independently on each resulting child node so
-  that terminal nodes (leaves) contain SEMs with subgroup-specific parameter
+  that terminal nodes (leafs) contain SEMs with subgroup-specific parameter
   estimates.
 }
 
@@ -98,8 +96,8 @@ candidates.
 while retaining favorable statistical properties for detecting parameter
 instabilities.
 
-All other parameters controlling the tree growing process are available
-through a separate \code{\link{semtree.control}} object.
+All other parameters controlling the tree growing process are adjusted
+in the \code{\link{semtree.control}} object.
 }
 \references{
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.

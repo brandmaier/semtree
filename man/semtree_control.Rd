@@ -31,7 +31,8 @@ semtree_control(
   strucchange.nrep = 50000,
   refit = TRUE,
   ctsem_sd = FALSE,
-  loglik = c("default", "model", "mvn")
+  loglik = c("default", "model", "mvn"),
+  check.convergence = TRUE
 )
 }
 \arguments{
@@ -117,6 +118,8 @@ other packages. 'model'refers to a model-based computation.
 This is preferable because it is more general. As an alternative, 'mvn' computes 
 the log likelihood based on the
 multivariate normal density and the model-implied mean and covariance matrix.}
+
+\item{check.convergence}{Boolean. Should convergence be checked when growing a tree. Default: TRUE}
 }
 \value{
 A control object containing a list of the above parameters.
