@@ -27,11 +27,11 @@ plot(tree_score)
 plot(tree_naive)
 plot(tree_fair)
 
-test_that("first split is identical across methods and correct",
+test_that("Trees have exactly one split and first split is identical across methods and correct",
           {
-            expect_true(getDepth(tree_score)==2)
-            expect_true(getDepth(tree_fair)==2)
-            expect_true(getDepth(tree_naive)==2)
+            expect_true(getDepth(tree_score)==1)
+            expect_true(getDepth(tree_fair)==1)
+            expect_true(getDepth(tree_naive)==1)
             expect_true(all(tree_fair$rule$value== tree_naive$rule$value))
             expect_true(all(tree_fair$rule$value== tree_score$rule$value))
             expect_true(tree_naive$rule$value=="green")

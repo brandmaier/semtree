@@ -1,5 +1,5 @@
 #' Perform some basic sanity checks on a fitted model
-#' Currently suppots lavaan and standard OpenMx models
+#' Currently supports lavaan and standard OpenMx models
 #' 
 #' First, check whether any variance estimates are negative (Heywood case)
 #' Second, check whether model converged
@@ -20,24 +20,24 @@ checkModel <- function(model, control)
   } 
   
   
-  if(inherits(model,"lavaan")){
-    if(!model@Fit@converged) {
-      if( control$verbose ) {
-        message("Model ignored because model did not converge")
-      }
-      return(FALSE)
-    }
-    return(TRUE)
+  if (inherits(model,"OpenMx")) {
+    
+    if (model@output$status[[1]] %in% control$exclude.code) {
+      message("Model ignored because of excluded status code")
+      return(FALSE);
+    } 
+    
+
   }
   
-  if (inherits(model,"OpenMx")) {
-	
-  if (model@output$status[[1]] %in% control$exclude.code) {
-    message("Model ignored because of excluded status code")
-    return(FALSE);
-  } 
+  if (control$check.convergence) {
+ 
+      if (!hasConverged(model)) return(FALSE)
     
   }
+ 
+  
+
   
   return(TRUE);
 }

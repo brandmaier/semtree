@@ -9,8 +9,10 @@
 - trees now store the number of comparisons per node (for later pruning)
 - removed deprecated folds argument in semtree.control()
 - removed unused fold option from semtree.control()
-- make semtree_control() the standard constructor
+- make semtree_control() the standard constructor instead of semtree.control()
 - variable importance now automatically chooses the right permutation scheme based on the presence or absence of focus parameters
+- aggregateVarimp() is now exported as a function to aggregate variable importance estimates across a forest
+- prune() supports pruning of non-converged daugther nodes
 
 # semtree 0.9.23 (2025)
 

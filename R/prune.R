@@ -13,12 +13,23 @@
 #' @aliases prune.semtree prune.semforest prune
 #' @param object A \code{\link{semtree}} or semforest object.
 #' @param \dots Optional parameters, such as \code{max.depth} the maximum depth
-#' of each tree, or also \code{num.trees} when pruning a forest.
+#' of each tree, \code{converged} indicating whether non-converged nodes should be pruned, or also \code{num.trees} when pruning a forest. 
 #' @return Returns a \code{\link{semtree}} object.
 #' @author Andreas M. Brandmaier, John J. Prindle
 #' @seealso \code{\link{semtree}}, \code{\link{semtree.control}}
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,
 #' U. (2013). Structural equation model trees. \emph{Psychological Methods},
 #' 18(1), 71-86.
+#' 
+#' @examples
+#' \dontrun{
+#' # prunes a tree to a maximum depth of five
+#' prune(tree, max.depth = 5)
+#' 
+#' # prunes a tree that removes all nodes that have at least one
+#' # non-converged daugther node
+#' prune(tree, converged = TRUE)
+#' 
+#' }
 #' @export
 prune <- function(object, ... ) UseMethod("prune")

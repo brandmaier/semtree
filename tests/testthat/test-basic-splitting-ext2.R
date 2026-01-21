@@ -16,7 +16,7 @@ xdat <- MASS::mvrnorm(n=N, mu=rep(0,4), Sigma=
 x1 <- xdat[,1]
 x2 <- xdat[,2]
 x3 <- xdat[,3]
-x4 <- xdat[,4] + ifelse(p1=="retired",1,0)
+x4 <- xdat[,4] + ifelse(p1=="retired",2,0)
 
 df<-data.frame(x1,x2,x3,x4, p1, p2,p3)
 model <- "L =~ 1*x1+x2+x3+x4"

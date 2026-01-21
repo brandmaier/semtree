@@ -2,6 +2,7 @@
 plot.semtree <- function(x,
                          type = 2,
                          no.plot = FALSE,
+                         show.nonconvergence = FALSE,
                          ...) {
   if (is.null(x)) {
     ui_error("Argument is not a SEM tree!")
@@ -26,6 +27,15 @@ plot.semtree <- function(x,
 
     # var   n  wt dev yval complexity ncompete nsurrogate
     if (x$caption == "TERMINAL") {
+      leaf_text <-  paste(paste(
+        x$param_names, "=", round(x$params, 3)
+      ), collapse = "\n")
+      
+      if (show.nonconvergence) {
+        convergence_message <- ifelse(hasConverged(x$model),"","* NOT CONVERGED *\n")
+        leaf_text <- paste(convergence_message, leaf_text)
+      }
+      
       #
       # create a data row for a terminal node
       #
@@ -40,9 +50,7 @@ plot.semtree <- function(x,
           0,
           0,
           num,
-          paste(paste(
-            x$param_names, "=", round(x$params, 3)
-          ), collapse = "\n"),
+         leaf_text,
           ""
         )
       data <- rbind(data, row)

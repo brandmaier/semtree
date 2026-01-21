@@ -15,20 +15,18 @@
 #' 18(1), 71-86.
 
 getHeight <- function(tree) {
+  # if node has no children:
   if ((is.null(tree$left_child)) && (is.null(tree$right_child))) {
     return(0)
   }
 
-  if (tree$left_child$caption != "TERMINAL") {
+  if (!is.null(tree$left_child)) {
     countl <- 1 + getHeight(tree$left_child)
-  } else {
-    countl <- 2
   }
-  if (tree$right_child$caption != "TERMINAL") {
+
+  if (!is.null(tree$right_child$caption)) {
     countr <- 1 + getHeight(tree$right_child)
-  } else {
-    countr <- 2
-  }
+  } 
 
   return(max(countl, countr))
 }

@@ -1,4 +1,4 @@
-skip_on_cran()
+testthat::skip_on_cran()
 
 if (require(future)) {
 
@@ -58,7 +58,7 @@ forest <- semforest(model=model, data=datf,
                     constraints = semtree.constraints(focus.parameters="mu2"),
                     control = 
                       semforest_control(num.trees = 30,
-                                        control=semtree_control(min.N = 50, min.bucket = 100,alpha=1,
+                                        control=semtree_control(min.N = 100, min.bucket = 50,alpha=1,
                                                                 method="score")))
 
 vim_naive <- varimp(forest)

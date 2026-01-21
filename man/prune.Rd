@@ -12,7 +12,7 @@ prune(object, ...)
 \item{object}{A \code{\link{semtree}} or semforest object.}
 
 \item{\dots}{Optional parameters, such as \code{max.depth} the maximum depth
-of each tree, or also \code{num.trees} when pruning a forest.}
+of each tree, \code{converged} indicating whether non-converged nodes should be pruned, or also \code{num.trees} when pruning a forest.}
 }
 \value{
 Returns a \code{\link{semtree}} object.
@@ -28,6 +28,17 @@ reduce tree complexity. If the user would like to alter the tree by
 increasing depth, then max.depth option must be adjusted in the
 \code{\link{semtree.control}} object (provided further splits are able to be
 computed).
+}
+\examples{
+\dontrun{
+# prunes a tree to a maximum depth of five
+prune(tree, max.depth = 5)
+
+# prunes a tree that removes all nodes that have at least one
+# non-converged daugther node
+prune(tree, converged = TRUE)
+
+}
 }
 \references{
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,

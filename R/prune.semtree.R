@@ -1,20 +1,27 @@
 #' @exportS3Method prune semtree
-prune.semtree <- function(object, max.depth=NULL, ...)
+prune.semtree <- function(object, max.depth=NULL, converged=FALSE, ...)
 {
-	if (is.null(max.depth)) { return(object);}
+	if (is.null(max.depth) && isFALSE(converged)) { return(object);}
 	
-	return(pruneSemtreeRec(object,max.depth, 0))
+	return(pruneSemtreeRec(tree=object,max.depth=max.depth, cur.depth=0, converged=converged))
 }
 
-pruneSemtreeRec <- function(tree, max.depth, cur.depth)
+pruneSemtreeRec <- function(tree, max.depth, cur.depth, converged)
 {
 	
 	if (tree$caption != "TERMINAL") {
+	  
+	  termination <- FALSE
+	  if (!is.null(max.depth))	termination <- cur.depth >= max.depth
+	  if (isTRUE(converged)) {
+	    not_converged <-  (!hasConverged(tree$model)) | (!hasConverged(tree$left_child$model)) | (!hasConverged(tree$right_child$model))
+	    termination <- termination | not_converged
+	  }
 		
-		if (cur.depth < max.depth) {
+		if (!termination) {
 			
-			tree$left_child <- pruneSemtreeRec(tree$left_child, max.depth, cur.depth+1)
-			tree$right_child <- pruneSemtreeRec(tree$right_child, max.depth, cur.depth+1)
+			tree$left_child <- pruneSemtreeRec(tree$left_child, max.depth, cur.depth+1, converged)
+			tree$right_child <- pruneSemtreeRec(tree$right_child, max.depth, cur.depth+1, converged)
 			
 		} else {
 			tree$caption = "TERMINAL";

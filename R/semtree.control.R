@@ -76,6 +76,7 @@
 #' This is preferable because it is more general. As an alternative, 'mvn' computes 
 #' the log likelihood based on the
 #' multivariate normal density and the model-implied mean and covariance matrix.
+#' @param check.convergence Boolean. Should convergence be checked when growing a tree. Default: TRUE
 #' @return A control object containing a list of the above parameters.
 #' @author Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 #' @seealso \code{\link{semtree}}
@@ -127,7 +128,8 @@ semtree_control <-
            strucchange.nrep = 50000,
            refit = TRUE,
            ctsem_sd = FALSE,
-           loglik = c("default", "model", "mvn"))
+           loglik = c("default", "model", "mvn"),
+           check.convergence = TRUE)
   {
     options <- list()
     # verbose output during generation of SEMTree
@@ -189,6 +191,8 @@ semtree_control <-
     options$ctsem_sd <- ctsem_sd
     # algorithm to compute log likelihood
     options$loglik <- match.arg(loglik)
+    # check convergence during tree growth
+    options$check.convergence = check.convergence
     
     class(options) <- "semtree.control"
     
