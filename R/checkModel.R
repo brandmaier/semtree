@@ -12,6 +12,8 @@
 #' @noRd
 checkModel <- function(model, control)
 {
+  if (is.null(model)) return(FALSE)
+  
   if (isTRUE(control$exclude.heywood) && containsHeywoodCases(model))  {
     if (control$verbose) {
       message("Model ignored because of Heywood Case")
@@ -31,8 +33,8 @@ checkModel <- function(model, control)
   }
   
   if (control$check.convergence) {
- 
-      if (!hasConverged(model)) return(FALSE)
+      
+      if (!isTRUE(hasConverged(model))) return(FALSE)
     
   }
  

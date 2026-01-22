@@ -306,7 +306,7 @@ fitSubmodels <- function(model,
       
       sharedRun <- mxRun(sharedModel, silent = TRUE,suppressWarnings = TRUE)
       
-      if (!checkModel(sharedModel, control))
+      if (!checkModel(sharedRun, control))
         LL.sum <- NA
       else
         LL.sum <-  mxEval(h12, sharedRun)

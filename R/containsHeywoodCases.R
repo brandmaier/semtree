@@ -6,6 +6,14 @@ function(sem)
 #message("checking for Heywood cases.")
 
 if (!(inherits(sem,"MxRAMModel")|| inherits(sem,"lavaan"))) {
+  
+  # Testing is possible if this a semtree-constructed model
+  if (inherits(sem,"MxModel") && (sem$name=="sharedModel")) {
+    return(
+      containsHeywoodCases(sem@submodels[[1]]) || containsHeywoodCases(sem@submodels[[2]]) 
+    )
+  }
+  
   warning("Checking Heywood cases was selected but impossible for Non-RAM/lavaan models.");
   return(FALSE);
 }
