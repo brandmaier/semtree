@@ -30,6 +30,7 @@ varimp <- function(forest,
                    eval.fun = evaluateTree,
                    method = NULL,
                    conditional = FALSE,
+                   strict = TRUE,
                    ...)
 {
   if (is.null(var.names)) {
@@ -76,7 +77,8 @@ varimp <- function(forest,
       eval.fun = eval.fun,
       method = method,
       constraints = forest$constraints,
-      loglik = forest$control$semtree.control$loglik
+      loglik = forest$control$semtree.control$loglik,
+      strict = strict
     ),
     SIMPLIFY = FALSE,
     USE.NAMES = TRUE,

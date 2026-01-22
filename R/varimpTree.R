@@ -7,7 +7,8 @@ varimpTree <- function(tree,
                        method = "permutation",
                        conditional = FALSE,
                        constraints = NULL,
-                       loglik = "model") {
+                       loglik = "model",
+                       strict = TRUE) {
   # prune tree back to given level if "max.level" is specified
   if (!is.na(max.level)) {
     tree <- prune(tree, max.level)
@@ -74,13 +75,21 @@ varimpTree <- function(tree,
           evaluateTreeConditional(tree, list(oob.data.permuted, oob.data))$deviance
         ll.diff <- -ll.baseline + ll.permuted
       } else if (method == "permutationFocus") {
-        ll.diff <-
+        result <-
           varimpFocus(
             tree = tree,
             data = data,
             cov.name = cov.name,
             constraints = constraints
           )
+        ll.diff <- result$ll.diff
+        num.failed <- result$num.failed
+        
+        if (isTRUE(strict)) {
+          if (num.failed > 0 ) ll.diff <- NA
+        }
+        
+        
       } else {
         stop(paste("Error. Method is not implemented: ", method))
       }

@@ -208,6 +208,10 @@ naiveSplit <-
         var.type <- .SCALE_METRIC
         v <- as.numeric(mydata[, cur_col])
         val.sets <- sort(unique(v))
+        
+        if (control$chunk.random.samples != 0) {
+          val.sets <- sample_from_chunks( val.sets, control$chunk.random.samples )
+        } 
 
         if (length(val.sets) > 1) {
           for (i in 2:(length(val.sets))) {

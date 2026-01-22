@@ -2,7 +2,12 @@
 # alternative estimator
 # of variable importance with focus parameter
 #
-# 
+# @param tree A SEM tree
+# @param data A data.frame
+# @param cov.name Character. Name of a predictor for which variable importance is estimated
+# @param constraints
+#
+# @return Numeric
 #
 varimpFocus <- function(tree, data, cov.name, constraints = NULL)
 {
@@ -36,6 +41,7 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
   # compute loss in fit from original to joint model
   total <- 0
   num.failed <- 0
+  num.evaluated <- 0
   
   unique.pairs <- unique(ids)
   
@@ -90,10 +96,16 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
     
     # re-evaluate data likelihood (NA if fit job exits)
     ll.focus <- NA
-    try({ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE], loglik=loglik)})
+    try({
+      ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE], loglik=loglik)
+      ll.diff <- ll.focus - ll.baseline
+    })
+    if (is.na(ll.focus)) num.failed <- num.failed + 1
     
-    ll.diff <- ll.focus - ll.baseline
+    
     # ------------------------ 8< -------------
+    
+    num.evaluated <- num.evaluated + 1
     
     # sum of loss of fit
     total <- total + ll.diff
@@ -105,11 +117,11 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
     num.total <- nrow(ids)
     percentage <- round(num.failed / num.total * 100)
     ui_warn(
-      "Warning. A total of ",
-      num.failed,
-      " joint models could not be evaluated. Importance values are possibly biased."
+      "A total of ",
+      num.failed, " out of ", num.evaluated, 
+      " joint models could not be evaluated due to model fit errors for covariate ",cov.name, " in tree",tree$name ,"."
     )
   }
   
-  return(total)
+  return(list(ll.diff=total,num.failed=num.failed))
 }
