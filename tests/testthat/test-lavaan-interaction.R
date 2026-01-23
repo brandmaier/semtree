@@ -12,6 +12,6 @@ run_lav_obj <- sem(model = lav_obj , data = Data)
 summary(run_lav_obj)
 
 tree <- semtree(model=run_lav_obj , data=Data,
-                verbose = TRUE, predictors=c('pred','pred2'))
+                verbose = FALSE, predictors=c('pred','pred2'))
 
 plot(tree)

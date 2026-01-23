@@ -36,8 +36,8 @@ plot(tree)
 plot(tree_bf)
 plot(tree_score)
 
-print(tree)
-print(tree_bf)
+#print(tree)
+#print(tree_bf)
 
   expect_equal(tree$rule$name,expected = "p1") # p1 is strongest predictor
   expect_equal(tree_bf$rule$name,expected="p1") # p1 is strongest predictor

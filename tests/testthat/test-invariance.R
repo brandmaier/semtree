@@ -25,7 +25,7 @@ model <- "L =~ 1*x1+a*x2+b*x3+c*x4"
 
 fit_model <- lavaan::cfa(model, df)
 
-tree<-semtree(fit_model, df, control = semtree_control(verbose=TRUE),
+tree<-semtree(fit_model, df, control = semtree_control(verbose=FALSE),
               constraints = semtree.constraints(local.invariance="a") )
 
 tree

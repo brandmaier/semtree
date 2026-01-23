@@ -25,7 +25,8 @@ plot_partialDependence <-
       if (!is_fac) {
         ggplot2::ggplot(
           x$samples,
-          ggplot2::aes_string(x = x$reference.var, y = parameter)
+          ggplot2::aes(x = .data[[x$reference.var]], 
+                       y = .data[[parameter]])
         ) +
           ggplot2::geom_line() +
           ggplot2::theme_light() +
@@ -33,10 +34,10 @@ plot_partialDependence <-
       } else {
         ggplot2::ggplot(
           x$samples,
-          ggplot2::aes_string(
-            x = x$reference.var,
-            y = parameter,
-            fill = x$reference.var
+          ggplot2::aes(
+            x = .data[[x$reference.var]],
+            y = .data[[parameter]],
+            fill = .data[[x$reference.var]]
           )
         ) +
           ggplot2::geom_bar(stat = "identity") +

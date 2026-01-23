@@ -4,8 +4,6 @@ if (require(future)) {
 
 N <- 2000
 
-library(semtree)
-
 library(future)
 future::plan(multisession, workers=5)
 
@@ -28,10 +26,10 @@ model <- "
 x1~~x1
 x2~~x2
 x1~~x2
-x1~1
-x2~1"
+x1~mu1*1
+x2~mu2*1"
 
-model_lav <- lavaan(model, datf)
+model_lav <- lavaan::lavaan(model, datf)
 
 # ---
 
