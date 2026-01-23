@@ -82,7 +82,7 @@ lav_multigroup <- function(model, subset1, subset2, constraints) {
   
   mg_fit <-
     try(suppressWarnings(eval(parse(
-      text = paste(
+      text = paste("lavaan::",
         model@Options$model.type,
         '(jpart,data=joinset, group = grpname,missing=\'',
         model@Options$missing,

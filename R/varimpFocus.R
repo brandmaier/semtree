@@ -96,6 +96,7 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
     
     # re-evaluate data likelihood (NA if fit job exits)
     ll.focus <- NA
+    ll.diff <- NA
     try({
       ll.focus <- evaluateDataLikelihood(temp_model, oob.data[data.rows, , drop = FALSE], loglik=loglik)
       ll.diff <- ll.focus - ll.baseline

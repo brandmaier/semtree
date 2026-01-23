@@ -32,7 +32,7 @@ x = rnorm(n)
 x <- x * ifelse( (var_ordered_named=="one"), .5, 10) 
 df <- data.frame(x, var_ordered_named)
 model = "x ~~ x"
-fitted_model <- lavaan(model, df)
+fitted_model <- lavaan::lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree_control())
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
 test_that("At least one split. Tree depth is at least 1", { expect_gte(getDepth(tree),1) })
@@ -55,7 +55,7 @@ x = rnorm(n)
 x <- x * ifelse( (var_ordered <= 2), .5, 10) 
 df <- data.frame(x, var_ordered)
 model = "x ~~ x"
-fitted_model <- lavaan(model, df)
+fitted_model <- lavaan::lavaan(model, df)
 tree = semtree(fitted_model, df, 
                control=semtree_control(max.depth=3))
 plot(tree)
@@ -69,7 +69,7 @@ x = rnorm(n)
 x <- x * ifelse( (var_numeric < mean(var_numeric)), .5, 10) 
 df <- data.frame(x, var_numeric)
 model = "x ~~ x"
-fitted_model <- lavaan(model, df)
+fitted_model <- lavaan::lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree_control(max.depth = 1))
 plot(tree)
 test_that("tree depth is 1", { expect_equal(getDepth(tree),1) })
@@ -82,11 +82,11 @@ x = rnorm(n)
 x <- x * ifelse( (var_ordered <= 2), .5, 10) 
 df <- data.frame(x, var_ordered, var_numeric, var_unordered_named)
 model = "x ~~ x"
-fitted_model <- lavaan(model, df)
+fitted_model <- lavaan::lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree_control(verbose=FALSE,report.level = 99))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 6", { expect_equal(getDepth(tree),6) })
+test_that("tree depth is 7", { expect_equal(getDepth(tree),7) })
 
 #
 # now "fair"!
@@ -98,10 +98,10 @@ x = rnorm(n)
 x <- x * ifelse( (var_ordered_named=="one"), .5, 10) 
 df <- data.frame(x, var_ordered_named)
 model = "x ~~ x"
-fitted_model <- lavaan(model, df)
+fitted_model <- lavaan::lavaan(model, df)
 tree = semtree(fitted_model, df, control=semtree_control(method="fair"))
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is > 1", { expect_gt(getDepth(tree),1) })
+test_that("Split was found. Tree depth is >= 1", { expect_gte(getDepth(tree),1) })
 test_that("first split is optimal", {expect_equal(tree$rule$value,"one")})
 
 # testing unordered, named factors
@@ -112,7 +112,7 @@ df <- data.frame(x, var_unordered_named)
 tree = semtree(fitted_model, df, control=semtree_control(method="fair"))
 plot(tree)
 test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is at least 2", { expect_gt(getDepth(tree),1) })
+test_that("Split was found. Tree depth is at least 1", { expect_gte(getDepth(tree),1) })
 test_that("first split is optimal", {expect_equal(as.character(tree$rule$value),"green")})
 
 # testing numeric

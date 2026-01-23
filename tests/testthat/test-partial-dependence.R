@@ -77,6 +77,7 @@ test_that("partial dependence works for ordered predictors", {
 #                                                  
 
 pd = partialDependence(forest, reference.var = "pred2")
+plot(pd,parameter="mu")
 
 testthat::expect_equal(class(forest), "semforest")
 testthat::expect_s3_class(pd, "partialDependence")

@@ -1,7 +1,13 @@
-# skip long running tests on CRAN
-testthat::skip_on_cran()
+#'
+#' This is a set of tests that checks whether basic splitting
+#' works across different types of predictors
+#'
+#'
 
-testthat::test_that("Trees worked",{
+# skip long running tests on CRAN
+skip_on_cran()
+
+test_that("Trees worked",{
   
 set.seed(345)
 N <- 2000
@@ -30,11 +36,11 @@ plot(tree)
 plot(tree_bf)
 plot(tree_score)
 
-plot(prune(tree,2))
+print(tree)
+print(tree_bf)
 
-
-  testthat::expect_equal(tree$rule$name,"p1") # p1 is strongest predictor
-  testthat::expect_equal(tree_bf$rule$name,"p1") # p1 is strongest predictor
-  testthat::expect_equal(tree_score$rule$name,"p1") # p1 is strongest predictor
+  expect_equal(tree$rule$name,expected = "p1") # p1 is strongest predictor
+  expect_equal(tree_bf$rule$name,expected="p1") # p1 is strongest predictor
+  expect_equal(tree_score$rule$name,expected="p1") # p1 is strongest predictor
   
 })

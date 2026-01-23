@@ -153,7 +153,7 @@ fitSubmodels <- function(model,
       #if (control$verbose) {message("Evaluating Subset 1")}
       model1 <-
         try(suppressWarnings(eval(parse(
-          text = paste(
+          text = paste("lavaan::",
             model@Options$model.type,
             '(lavaan::parTable(model),data=subset1,missing=\'',
             model@Options$missing,
@@ -180,7 +180,7 @@ fitSubmodels <- function(model,
       #other groups are compared to the chosen value and LL stored
       model2 <-
         try(suppressWarnings(eval(parse(
-          text = paste(
+          text = paste("lavaan::",
             model@Options$model.type,
             '(lavaan::parTable(model),data=subset2,missing=\'',
             model@Options$missing,

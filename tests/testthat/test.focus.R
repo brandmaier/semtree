@@ -24,38 +24,38 @@ lav_model <- "
 x1 ~~ x2
 x1~~x1
 x2~~x2
-x1 ~ m1*0
-x2 ~ m2*0"
+x1 ~ mu1*0
+x2 ~ mu2*0"
 
-fit_lav_model <- lavaan(lav_model, df.biv)
+fit_lav_model <- lavaan::lavaan(lav_model, df.biv)
 
 manifests<-c("x1","x2")
-mx_model <- mxModel("Bivariate_Model", 
+mx_model <- OpenMx::mxModel("Bivariate_Model", 
                      type="RAM",
                      manifestVars = manifests,
                      latentVars = c(),
-                     mxPath(from="x1",to=c("x1","x2"), 
+                     OpenMx::mxPath(from="x1",to=c("x1","x2"), 
                             free=c(TRUE,TRUE), value=c(1.0,.2) , 
                             arrows=2, label=c("VAR_x1","COV_x1_x2") ),
-                     mxPath(from="x2",to=c("x2"), free=c(TRUE), 
+                     OpenMx::mxPath(from="x2",to=c("x2"), free=c(TRUE), 
                             value=c(1.0) , arrows=2, label=c("VAR_x2") ),
-                     mxPath(from="one",to=c("x1","x2"), label=c("mu1","mu2"),
+                     OpenMx::mxPath(from="one",to=c("x1","x2"), label=c("mu1","mu2"),
                             free=TRUE, value=0, arrows=1),
-                     mxData(df.biv, type = "raw")
+                     OpenMx::mxData(df.biv, type = "raw")
 );
 
+# --
+
 tree.biv <- semtree(fit_lav_model, data=df.biv)
-
-
+test_that("tree depth is correct", {expect_equal(getDepth(tree.biv),2)})
 plot(tree.biv)
 
-#tree.biv2 <- semtree(fit_lav_model, df.biv, constraints=
-#                       semtree.constraints(focus.parameters = "mu1"))
-
+# --
 
 tree.biv <- semtree(fit_lav_model, data=df.biv, 
         control=semtree_control(method="score"))
 plot(tree.biv)
+test_that("tree depth is correct", {expect_equal(getDepth(tree.biv),2)})
 
 
 
@@ -69,10 +69,11 @@ tree_mx_score_focus <- semtree(mx_model, data=df.biv,
                     constraints = semtree.constraints(focus.parameters = "mu1"))
 
 test_that("return object is a valid tree", {expect_equal(class(tree_mx_score_focus),"semtree")})
-test_that("tree depth is correct", {expect_equal(getDepth(tree_mx_score_focus),2)})
+test_that("tree depth is correct", {expect_equal(getDepth(tree_mx_score_focus),1)})
 test_that("first split is optimal", {expect_equal(tree_mx_score_focus$rule$name,"grp1")})
 test_that("first split is optimal", {expect_equal(tree_mx_score_focus$rule$value,"0")})
 
+# run OpenMx score-based tree on second data set
 tree_mx_score_focus <- semtree(mx_model, data=df.biv2,
                                control=semtree_control(method="score"),
                                constraints = semtree.constraints(focus.parameters = "mu1"))

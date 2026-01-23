@@ -1,3 +1,8 @@
+#' variable importance estimate for a SEM tree
+#' 
+#' @param strict Boolean. Strict (default) estimation means that only estimates are used if all involved submodels converged. Otherwise, partial estimates are used that are potentially downward biased
+#'
+#' @noRd
 varimpTree <- function(tree,
                        data,
                        var.names = NULL,
