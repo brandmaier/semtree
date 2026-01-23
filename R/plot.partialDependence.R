@@ -5,6 +5,11 @@ plot_partialDependence <-
            xlab = NULL,
            ylab = NULL,
            ...) {
+    
+    # weird hack to stop CRAN from complaining about
+    # ggplot2 .data[[...]] argument
+    .data <- NULL
+    
     if (is.null(parameter)) {
       stop("Please specify argument 'parameter'!")
     }

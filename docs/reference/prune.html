@@ -96,7 +96,7 @@ conjunction with plot commands to view various pruning levels.</p>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Optional parameters, such as <code>max.depth</code> the maximum depth
-of each tree, or also <code>num.trees</code> when pruning a forest.</p></dd>
+of each tree, <code>converged</code> indicating whether non-converged nodes should be pruned, or also <code>num.trees</code> when pruning a forest.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -109,7 +109,7 @@ of each tree, or also <code>num.trees</code> when pruning a forest.</p></dd>
 This function does not reevaluate the data, but provides alternatives to
 reduce tree complexity. If the user would like to alter the tree by
 increasing depth, then max.depth option must be adjusted in the
-<code><a href="semtree.control.html">semtree.control</a></code> object (provided further splits are able to be
+<code><a href="semtree_control.html">semtree.control</a></code> object (provided further splits are able to be
 computed).</p>
     </div>
     <div id="references">
@@ -120,13 +120,26 @@ U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="semtree.html">semtree</a></code>, <code><a href="semtree.control.html">semtree.control</a></code></p></div>
+    <div class="dont-index"><p><code><a href="semtree.html">semtree</a></code>, <code><a href="semtree_control.html">semtree.control</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>
     <p>Andreas M. Brandmaier, John J. Prindle</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># prunes a tree to a maximum depth of five</span></span></span>
+<span class="r-in"><span><span class="fu">prune</span><span class="op">(</span><span class="va">tree</span>, max.depth <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># prunes a tree that removes all nodes that have at least one</span></span></span>
+<span class="r-in"><span><span class="co"># non-converged daugther node</span></span></span>
+<span class="r-in"><span><span class="fu">prune</span><span class="op">(</span><span class="va">tree</span>, converged <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

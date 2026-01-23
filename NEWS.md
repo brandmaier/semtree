@@ -15,7 +15,8 @@
 - prune() supports pruning of non-converged daugther nodes
 - added thinOut() function
 - plot semtree has option to display a nonconvergence warning
-
+- various safety checks and better warnings/errors
+- ggplot2 deprecated aes_string(), so we now require version 3.3.0 to use the replacement
 
 # semtree 0.9.23 (2025)
 

@@ -86,10 +86,11 @@ splits over a <code><a href="semforest.html">semforest</a></code> object.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">varimp</span><span class="op">(</span></span>
 <span>  <span class="va">forest</span>,</span>
 <span>  var.names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  eval.fun <span class="op">=</span> <span class="va">evaluateTree</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"permutation"</span>,</span>
+<span>  method <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  conditional <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  strict <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -117,13 +118,16 @@ the -2LL of the leaf nodes is compared to baseline overall model.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Experimental. Some alternative methods to compute importance.
-Default is "permutation".</p></dd>
+<dd><p>Character. Define the method, with which importance is computed. The default is NULL and picks the appropriate permutation-based estimation method depending on whether no focus parameters are given ("permutation") or focus parameters are given ("permutationFocus")</p></dd>
 
 
 <dt id="arg-conditional">conditional<a class="anchor" aria-label="anchor" href="#arg-conditional"></a></dt>
 <dd><p>Conditional variable importance if TRUE, otherwise
 marginal variable importance.</p></dd>
+
+
+<dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
+<dd><p>Boolean. Default is TRUE. Only consider estimates from models if there were no model convergence problems. Otherwise, partial results are used, which may incur some downward bias.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

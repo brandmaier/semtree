@@ -14,6 +14,7 @@ varimp(
   eval.fun = evaluateTree,
   method = NULL,
   conditional = FALSE,
+  strict = TRUE,
   ...
 )
 }
@@ -32,6 +33,8 @@ the -2LL of the leaf nodes is compared to baseline overall model.}
 
 \item{conditional}{Conditional variable importance if TRUE, otherwise
 marginal variable importance.}
+
+\item{strict}{Boolean. Default is TRUE. Only consider estimates from models if there were no model convergence problems. Otherwise, partial results are used, which may incur some downward bias.}
 
 \item{\dots}{Optional arguments.}
 }

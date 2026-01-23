@@ -32,7 +32,8 @@ semtree_control(
   refit = TRUE,
   ctsem_sd = FALSE,
   loglik = c("default", "model", "mvn"),
-  check.convergence = TRUE
+  check.convergence = TRUE,
+  chunk.random.samples = 0
 )
 }
 \arguments{
@@ -120,6 +121,8 @@ the log likelihood based on the
 multivariate normal density and the model-implied mean and covariance matrix.}
 
 \item{check.convergence}{Boolean. Should convergence be checked when growing a tree. Default: TRUE}
+
+\item{chunk.random.samples}{Integer. Default 0 means that}
 }
 \value{
 A control object containing a list of the above parameters.

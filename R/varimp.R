@@ -15,6 +15,7 @@
 #' the -2LL of the leaf nodes is compared to baseline overall model.
 #' @param conditional Conditional variable importance if TRUE, otherwise
 #' marginal variable importance.
+#' @param strict Boolean. Default is TRUE. Only consider estimates from models if there were no model convergence problems. Otherwise, partial results are used, which may incur some downward bias.
 #' @param \dots Optional arguments.
 #' @author Andreas M. Brandmaier, John J. Prindle
 #' @references Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger,

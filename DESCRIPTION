@@ -16,7 +16,7 @@ Imports:
     rpart.plot (>= 3.0.6),
     lavaan,
     cluster,
-    ggplot2,
+    ggplot2 (>= 3.3.0),
     tidyr,
     dplyr,
     methods,
@@ -38,6 +38,7 @@ Suggests:
     psychTools,
     testthat,
     future,
+    ctsem,
     ctsemOMX
 Description: SEM Trees and SEM Forests -- an extension of model-based decision
     trees and forests to Structural Equation Models (SEM). SEM trees hierarchically
@@ -53,7 +54,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.10.0
-Date: 2025-11-28
+Date: 2026-01-23
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 BugReports: https://github.com/brandmaier/semtree/issues

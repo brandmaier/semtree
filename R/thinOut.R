@@ -3,7 +3,7 @@
 #' This is a function that removes all "empty" trees, that is, those
 #' that contain only the root node and no splits
 #' 
-#' @parameter x A SEM forest
+#' @param x A SEM forest
 #' 
 #' @export
 thinOut <- function(x)

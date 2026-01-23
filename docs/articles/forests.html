@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Andreas
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2025-11-28</h4>
+            <h4 data-toc-skip class="date">2026-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/forests.Rmd" class="external-link"><code>vignettes/forests.Rmd</code></a></small>
       <div class="hidden name"><code>forests.Rmd</code></div>
@@ -127,13 +127,13 @@ dimensions.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">affect</span> <span class="op">&lt;-</span> <span class="va">affect</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html" class="external-link">complete.cases</a></span><span class="op">(</span><span class="va">affect</span><span class="op">$</span><span class="va">state2</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">affect</span><span class="op">$</span><span class="va">BDI</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span><span class="va">affect</span><span class="op">$</span><span class="va">BDI</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Drop affect because it is NA</span></span>
+<span><span class="va">affect</span><span class="op">$</span><span class="va">Study</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># Drop Study because it is constant</span></span>
 <span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">affect</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="4%">
-<col width="6%">
 <col width="5%">
 <col width="4%">
 <col width="5%">
@@ -155,7 +155,6 @@ dimensions.</p>
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="left">Study</th>
 <th align="right">Film</th>
 <th align="right">ext</th>
 <th align="right">neur</th>
@@ -178,7 +177,6 @@ dimensions.</p>
 <tbody>
 <tr class="odd">
 <td align="left">161</td>
-<td align="left">flat</td>
 <td align="right">4</td>
 <td align="right">7</td>
 <td align="right">19</td>
@@ -200,7 +198,6 @@ dimensions.</p>
 </tr>
 <tr class="even">
 <td align="left">162</td>
-<td align="left">flat</td>
 <td align="right">1</td>
 <td align="right">10</td>
 <td align="right">16</td>
@@ -222,7 +219,6 @@ dimensions.</p>
 </tr>
 <tr class="odd">
 <td align="left">163</td>
-<td align="left">flat</td>
 <td align="right">1</td>
 <td align="right">11</td>
 <td align="right">7</td>
@@ -244,7 +240,6 @@ dimensions.</p>
 </tr>
 <tr class="even">
 <td align="left">164</td>
-<td align="left">flat</td>
 <td align="right">1</td>
 <td align="right">10</td>
 <td align="right">22</td>
@@ -266,7 +261,6 @@ dimensions.</p>
 </tr>
 <tr class="odd">
 <td align="left">165</td>
-<td align="left">flat</td>
 <td align="right">1</td>
 <td align="right">8</td>
 <td align="right">6</td>
@@ -288,7 +282,6 @@ dimensions.</p>
 </tr>
 <tr class="even">
 <td align="left">166</td>
-<td align="left">flat</td>
 <td align="right">4</td>
 <td align="right">17</td>
 <td align="right">14</td>
@@ -365,8 +358,8 @@ sample:</p>
 <span><span class="co">#&gt; AIC:       953.1576               1293.158                 1293.229</span></span>
 <span><span class="co">#&gt; BIC:       426.3434               1299.429                 1293.096</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2025-11-28 09:38:59 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.04942608 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2026-01-23 13:22:57 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.05539393 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.22.9 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -399,7 +392,6 @@ the trees.</p>
 <span><span class="co">#&gt; ● Bonferroni Correction:FALSE</span></span>
 <span><span class="co">#&gt; ● Minimum Number of Cases: NULL</span></span>
 <span><span class="co">#&gt; ● Maximum Tree Depth: NA</span></span>
-<span><span class="co">#&gt; ● Number of CV Folds: 5</span></span>
 <span><span class="co">#&gt; ● Exclude Heywood Cases: FALSE</span></span>
 <span><span class="co">#&gt; ● Test Invariance Alpha Level: NA</span></span>
 <span><span class="co">#&gt; ● Use all Cases: FALSE</span></span>
@@ -411,7 +403,7 @@ the trees.</p>
 <code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span><span class="op">(</span> model<span class="op">=</span><span class="va">model</span>,</span>
 <span>                     data <span class="op">=</span> <span class="va">affect</span>, </span>
 <span>                     control <span class="op">=</span> <span class="va">control</span>,</span>
-<span>                     covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Study"</span>,<span class="st">"Film"</span>, <span class="st">"state1"</span>,</span>
+<span>                     covariates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Film"</span>, <span class="st">"state1"</span>,</span>
 <span>                                    <span class="st">"PA2"</span>,<span class="st">"NA2"</span>,<span class="st">"TA2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -423,16 +415,35 @@ some time.</p>
 <code class="sourceCode R"><span><span class="va">vim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/varimp.html">varimp</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vim</span>, sort.values<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Variable Importance</span></span>
-<span><span class="co">#&gt;    Study     Film      PA2      TA2   state1      NA2 </span></span>
-<span><span class="co">#&gt;       NA 13.08676 27.08155 34.23430 44.80428 76.12460</span></span>
+<span><span class="co">#&gt;     Film      PA2   state1      TA2      NA2 </span></span>
+<span><span class="co">#&gt; 18.96673 19.57564 42.70838 54.45031 93.98933</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vim</span><span class="op">)</span></span></code></pre></div>
-<p><img src="forests_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="forests_files/figure-html/varimp-1.png" width="700"></p>
 <p>From this, we can learn that variables such as <code>NA2</code>
 representing negative affect (after the movie), <code>TA2</code>
 representing tense arousal (after the movie), and <code>state1</code>
 representing the state anxiety before having watched the movie, are the
 best predictors of difference in the distribution of state anxiety (in
 either mean, variance or both) after having watched the movie.</p>
+<p>Variable importance estimates are averaged across all trees by taking
+the mean importance of each variable over all trees. Sometimes, these
+estimates may be distorted if a single tree produces unstable estimates.
+To obtain a more robust estimate, it may make sense to take the median
+across all trees to obtain the variable importance estimates:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">vim</span>, sort.values<span class="op">=</span><span class="cn">TRUE</span>, aggregate<span class="op">=</span><span class="st">"median"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Variable Importance</span></span>
+<span><span class="co">#&gt;      Film       PA2    state1       TA2       NA2 </span></span>
+<span><span class="co">#&gt;  7.539784 14.847694 39.679982 48.626777 73.758051</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vim</span>, aggregate<span class="op">=</span><span class="st">"median"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="forests_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p>To inspect, how well these estimates converged, we can look at the
+convergence plot that shows the estimates as a function of the number of
+trees considered:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">vim</span>, convergence<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="forests_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; NULL</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="partial-dependence">Partial Dependence<a class="anchor" aria-label="anchor" href="#partial-dependence"></a>
@@ -440,11 +451,11 @@ either mean, variance or both) after having watched the movie.</p>
 <p>Partial dependence plots visualize the relationship of a predictor
 and a selected model parameter. This is a powerful tool to help with
 interpreting SEM forests.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pdp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partialDependence.html">partialDependence</a></span><span class="op">(</span><span class="va">forest</span>,reference.var <span class="op">=</span> <span class="st">"TA2"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pdp</span>, parameter<span class="op">=</span><span class="st">"mu"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="forests_files/figure-html/pdp-1.png" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pdp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partialDependence.html">partialDependence</a></span><span class="op">(</span><span class="va">forest</span>,reference.var <span class="op">=</span> <span class="st">"TA2"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pdp</span>, parameter<span class="op">=</span><span class="st">"mu"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="forests_files/figure-html/plotpdp-1.png" width="700"></p>
 </div>
   </div>
 

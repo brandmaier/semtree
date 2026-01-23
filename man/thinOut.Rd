@@ -6,6 +6,9 @@
 \usage{
 thinOut(x)
 }
+\arguments{
+\item{x}{A SEM forest}
+}
 \description{
 This is a function that removes all "empty" trees, that is, those
 that contain only the root node and no splits
