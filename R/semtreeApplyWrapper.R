@@ -39,8 +39,10 @@ semtreeApplyWrapper <- function(data,
       if (isFALSE(logfile)) {
         ui_error(errmsg)
       } else {
-        stopifnot(is(logfile, "character"))
-        write(errmsg, file = logfile, append = TRUE)
+        if (is(logfile, "character"))
+          { write(errmsg, file = logfile, append = TRUE) }
+        else
+        {  ui_error(errmsg) }
       }
       
       
