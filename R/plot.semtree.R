@@ -33,7 +33,7 @@ plot.semtree <- function(x,
       if (inherits(x$model, "lavaan")) {
         param <- x$params[!duplicated(names(x$params))]
         param_names <- names(param)
-        param_values <- round(unique(param), digits = 3)
+        param_values <- round(param, digits = 3)
       } else {
         param_names <- x$param_names
         param_values <- round(x$params, digits = 3)
