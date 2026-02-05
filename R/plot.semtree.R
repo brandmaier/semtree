@@ -36,7 +36,7 @@ plot.semtree <- function(x,
         param_values <- round(unique(param), digits = 3)
       } else {
         param_names <- x$param_names
-        param_values <- round(param_values, digits = 3)
+        param_values <- round(x$params, digits = 3)
       }
     
     # var   n  wt dev yval complexity ncompete nsurrogate
