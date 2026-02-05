@@ -31,9 +31,9 @@ plot.semtree <- function(x,
       
       # delete duplicate paramters in lavaan model with equality constraints
       if (inherits(x$model, "lavaan")) {
-        param <- x$params[!duplicated(names(x$params))]
-        param_names <- names(param)
-        param_values <- round(param, digits = 3)
+        unique_params <- !duplicated(names(x$params))
+        param_names <- names(x$params)[unique_params]
+        param_values <- round(x$params[unique_params], digits = 3)
       } else {
         param_names <- x$param_names
         param_values <- round(x$params, digits = 3)
