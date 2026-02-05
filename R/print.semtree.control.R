@@ -8,10 +8,7 @@ print.semtree.control <- function(x, ...)
 	ui_bullet("Splitting Method: ", x$method,"\n")
 	
 	if(x$method == "score"){
-	  ui_bullet("Score Tests:  ", "nominal = ", x$score.tests[[1]], ", ordinal = ",
-	      x$score.tests[[2]], ", metric = ", x$score.tests[[3]],"\n", sep = "")
 	  ui_bullet("Information Matrix: ", x$information.matrix, "\n")
-	  ui_bullet("Scaled Score: ", x$scaled_scores, "\n")
 	  ui_bullet("Linear OpenMx model: ", x$linear)
 	}
 	
