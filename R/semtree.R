@@ -191,11 +191,12 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   # check whether data is complete for score-tests
   # this probably should be a more fine-grained check some day
   # that tests only model variables and selected predictors
-  if (control$method == "score") {
+  if (control$method == "score" & (inherits(model, "MxModel") |
+                                   inherits(model, "MxRAMModel"))) {
     check_complete <- all(stats::complete.cases(data))
     if (!check_complete) {
-      ui_stop("If score tests are used, data must not contain N/A in either the
-           predictors or model variables.")
+      ui_stop("If score tests are used to investigate OpenMx models, data must
+      not contain N/A in either the predictors or model variables.")
     }
   }
   
