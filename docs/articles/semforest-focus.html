@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2025-11-28</h4>
+            <h4 data-toc-skip class="date">2026-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/semforest-focus.Rmd" class="external-link"><code>vignettes/semforest-focus.Rmd</code></a></small>
       <div class="hidden name"><code>semforest-focus.Rmd</code></div>
@@ -177,8 +177,8 @@ parameters:</p>
 <span><span class="co">#&gt; AIC:       4241.944               8241.944                 8242.004</span></span>
 <span><span class="co">#&gt; BIC:      -5549.028               8266.483                 8250.602</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2025-11-28 09:44:03 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.05003405 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2026-01-23 13:28:26 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.05419707 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
 <span><span class="co">#&gt; OpenMx version number: 2.22.9 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
@@ -206,7 +206,7 @@ is what we see in a single tree.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semforest.html">semforest</a></span><span class="op">(</span><span class="va">model.biv</span>, data<span class="op">=</span><span class="va">df.biv</span>,</span>
 <span>                    constraints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>focus.parameters<span class="op">=</span><span class="va">fp</span><span class="op">)</span>,</span>
-<span>                    control<span class="op">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest.control</a></span><span class="op">(</span>num.trees<span class="op">=</span><span class="fl">10</span>, control<span class="op">=</span><span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span>,alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                    control<span class="op">=</span><span class="fu"><a href="../reference/semforest.control.html">semforest_control</a></span><span class="op">(</span>num.trees<span class="op">=</span><span class="fl">10</span>, control<span class="op">=</span><span class="fu"><a href="../reference/semtree_control.html">semtree_control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span>,alpha<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>By default, we see that individual trees are fully grown (without a
 p-value threshold). The first split is according to <code>grp2</code>
 because it best explains the group differences. Subsequent splits are

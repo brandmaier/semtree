@@ -100,7 +100,7 @@ Structure in the spi Dataset</h1>
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2025-11-28</h4>
+            <h4 data-toc-skip class="date">2026-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/spi-semtree.Rmd" class="external-link"><code>vignettes/spi-semtree.Rmd</code></a></small>
       <div class="hidden name"><code>spi-semtree.Rmd</code></div>
@@ -223,7 +223,7 @@ variables automatically serve as candidate splitting variables.</p>
 <code class="sourceCode R"><span><span class="va">spi_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">two_dim_fit</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">spi_analysis</span>,</span>
-<span>  control <span class="op">=</span> <span class="fu"><a href="../reference/semtree.control.html">semtree_control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span><span class="op">)</span></span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="../reference/semtree_control.html">semtree_control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The resulting tree captures how demographic variables partition the
 sample into groups with distinct estimates for the two personality
@@ -237,7 +237,7 @@ multiple candidate split variables, enable the Bonferroni correction in
 the control settings. This reduces the per-test significance
 threshold.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bonf_ctrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.control.html">semtree.control</a></span><span class="op">(</span>bonferroni <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<code class="sourceCode R"><span><span class="va">bonf_ctrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree_control.html">semtree_control</a></span><span class="op">(</span>bonferroni <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>                             alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>                             method <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span></span>
 <span><span class="va">spi_tree_bonf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span></span>

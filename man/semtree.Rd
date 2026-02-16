@@ -53,12 +53,17 @@ A \code{semtree} object is created which can be examined with
 \code{summary}, \code{plot}, and \code{print}.
 }
 \description{
-Structural equation model (SEM) trees combine SEM with decision-tree style
-recursive partitioning. Starting from a single template SEM fit to a 
-complete data set, \code{semtree} recursively (over and over again) searches for 
-subgroups, in which the model parameters differ most wit
+Structural equation model (SEM) trees combine SEM with decision-trees (a paradigm also known as
+recursive partitioning).
 }
 \details{
+Core idea:
+Instead of assuming that one SEM fits all individuals equally well, SEM Trees recursively split the sample into subgroups based on covariates (e.g., age, gender, SES) such that model parameters differ between subgroups.
+This results in a tree where each node contains an SEM, revealing heterogeneity in model structure or parameters across groups.
+
+The package supports model specification in lavaan and OpenMx.
+
+
 Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
 \code{\link[lavaan]{lavaan}} model fits the template to the data set provided and
 then recurses over the following steps until no further meaningful partition
@@ -98,6 +103,9 @@ instabilities.
 
 All other parameters controlling the tree growing process are adjusted
 in the \code{\link{semtree.control}} object.
+
+In order to get robust estimates of the importance of predictors,
+consider growing a \code{\link{semforest}}
 }
 \references{
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.

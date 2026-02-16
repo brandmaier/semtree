@@ -81,6 +81,19 @@
 <li>default construction method for forests changed from “fair” to maxLR-based computation</li>
 <li>bugfix in toTable() which would sometimes not show the decisions properly; also introduced default rounding of estimates</li>
 <li>fixed bug in counting depth of a tree</li>
+<li>convergence warnings in OpenMx models with focus parameter are now suppressed</li>
+<li>the feature global invariance was removed because it was just a wrapper to fix parameters at their ML estimate</li>
+<li>trees now store the number of comparisons per node (for later pruning)</li>
+<li>removed deprecated folds argument in semtree.control()</li>
+<li>removed unused fold option from semtree.control()</li>
+<li>make semtree_control() the standard constructor instead of semtree.control()</li>
+<li>variable importance now automatically chooses the right permutation scheme based on the presence or absence of focus parameters</li>
+<li>aggregateVarimp() is now exported as a function to aggregate variable importance estimates across a forest</li>
+<li>prune() supports pruning of non-converged daugther nodes</li>
+<li>added thinOut() function</li>
+<li>plot semtree has option to display a nonconvergence warning</li>
+<li>various safety checks and better warnings/errors</li>
+<li>ggplot2 deprecated aes_string(), so we now require version 3.3.0 to use the replacement</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.9.23" id="semtree-0923-2025">semtree 0.9.23 (2025)<small>2025-11-26</small><a class="anchor" aria-label="anchor" href="#semtree-0923-2025"></a></h2>
@@ -106,7 +119,7 @@
 <h2 class="page-header" data-toc-text="0.9.20" id="semtree-0920-2024">semtree 0.9.20 (2024)<small>2024-04-08</small><a class="anchor" aria-label="anchor" href="#semtree-0920-2024"></a></h2>
 <ul><li>added an error handler for score-based tests when the vcov matrix cannot be computed (e.g., models with Heywood cases)</li>
 <li>leaner package imports: removed dependency on bitops and stringr package</li>
-<li>prefer <code><a href="../reference/semforest.control.html">semforest_control()</a></code> over <code><a href="../reference/semforest.control.html">semforest.control()</a></code> and <code><a href="../reference/semtree.control.html">semtree_control()</a></code> over <code><a href="../reference/semtree.control.html">semtree.control()</a></code>
+<li>prefer <code><a href="../reference/semforest.control.html">semforest_control()</a></code> over <code><a href="../reference/semforest.control.html">semforest.control()</a></code> and <code><a href="../reference/semtree_control.html">semtree_control()</a></code> over <code><a href="../reference/semtree_control.html">semtree.control()</a></code>
 </li>
 <li>added heuristics for choosing <code>mtry</code> in forests (if <code>NULL</code>) and for choosing <code>min.N</code> and <code>min.bucket</code> (if <code>NULL</code>)</li>
 <li>moved dependency on <code>ctsemOMX</code> to suggested package</li>

@@ -15,10 +15,12 @@
 <url><loc>/index.html</loc></url>
 <url><loc>/LICENSE.html</loc></url>
 <url><loc>/news/index.html</loc></url>
+<url><loc>/reference/aggregateVarimp.html</loc></url>
 <url><loc>/reference/biodiversity.html</loc></url>
 <url><loc>/reference/boruta.html</loc></url>
 <url><loc>/reference/coef.semtree.html</loc></url>
 <url><loc>/reference/computePval_maxLR.html</loc></url>
+<url><loc>/reference/countPredictors.html</loc></url>
 <url><loc>/reference/distances.html</loc></url>
 <url><loc>/reference/diversityMatrix.html</loc></url>
 <url><loc>/reference/evaluate.html</loc></url>
@@ -57,11 +59,12 @@
 <url><loc>/reference/semforest.html</loc></url>
 <url><loc>/reference/semtree-package.html</loc></url>
 <url><loc>/reference/semtree.constraints.html</loc></url>
-<url><loc>/reference/semtree.control.html</loc></url>
 <url><loc>/reference/semtree.html</loc></url>
+<url><loc>/reference/semtree_control.html</loc></url>
 <url><loc>/reference/strip.html</loc></url>
 <url><loc>/reference/subforest.html</loc></url>
 <url><loc>/reference/subtree.html</loc></url>
+<url><loc>/reference/thinOut.html</loc></url>
 <url><loc>/reference/toTable.html</loc></url>
 <url><loc>/reference/varimp.html</loc></url>
 </urlset>

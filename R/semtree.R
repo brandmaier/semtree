@@ -1,9 +1,13 @@
 #' SEM Tree: Recursive Partitioning for Structural Equation Models
 #'
-#' Structural equation model (SEM) trees combine SEM with decision-tree style
-#' recursive partitioning. Starting from a single template SEM fit to a 
-#' complete data set, \code{semtree} recursively (over and over again) searches for 
-#' subgroups, in which the model parameters differ most wit
+#' Structural equation model (SEM) trees combine SEM with decision-trees (a paradigm also known as
+#' recursive partitioning).
+#' 
+#' Core idea:
+#' Instead of assuming that one SEM fits all individuals equally well, SEM Trees recursively split the sample into subgroups based on covariates (e.g., age, gender, SES) such that model parameters differ between subgroups.
+#' This results in a tree where each node contains an SEM, revealing heterogeneity in model structure or parameters across groups.
+#'
+#' The package supports model specification in lavaan and OpenMx.
 #'
 #' @details
 #' Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
@@ -45,6 +49,9 @@
 #'
 #' All other parameters controlling the tree growing process are adjusted
 #' in the \code{\link{semtree.control}} object.
+#' 
+#' In order to get robust estimates of the importance of predictors,
+#' consider growing a \code{\link{semforest}}
 #'
 #' @aliases semtree plot.semtree print.semtree summary.semtree toLatex.semtree
 #' nodeFunSemtree
@@ -83,6 +90,22 @@
 #' @references
 #' Arnold, M., Voelkle, M. C., & Brandmaier, A. M. (2021). Score-guided structural equation model trees. \emph{Frontiers in Psychology}, 11, Article 564403. https://doi.org/10.3389/fpsyg.2020.564403
 #'
+#' @examples{
+#' 
+#' model <- lavaan::lavaan("bwt~~bwt; bwt~1")
+#' ctrl <- semtree_control(method="score", max.depth = 2, alpha = 0.01)
+#' bw <- with(MASS::birthwt, {
+#'  ui <- factor(ui, labels=c("no","yes"))
+#'  ht <- factor(ht, labels=c("no","yes"))
+#'  smoke <- factor(smoke, labels=c("no","yes"))
+#'  data.frame( bwt, uterine_irritability=ui, hypertension=ht, smoke, num_premature_labours=ptl, physician_visits=ftv )
+#' })
+#'  
+#' })
+#' tree <- semtree(model = model, data = bw, control = ctrl)
+#' plot(tree)
+#' }
+#' 
 #' @keywords tree models multivariate
 #'
 #' @export
