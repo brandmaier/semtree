@@ -101,7 +101,6 @@ plot(tree)
 
 ```
 
-![](README_files/birthwt-1.png)
 
 ## Robustness checklist for end users
 
