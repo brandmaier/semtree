@@ -1,127 +1,148 @@
-#context("test basic splitting based on level of covariate")
+# Basic splitting behavior across predictor types.
 
-library(lavaan)
-# skip long running tests on CRAN
 testthat::skip_on_cran()
 
-#
-# test basic splitting
-#
-set.seed(9358)
+generate_base_covariates <- function(n) {
+  list(
+    var_numeric = seq_len(n),
+    var_ordered = ordered(sample(c(1, 2, 3, 4), size = n, prob = rep(0.25, 4), replace = TRUE)),
+    var_ordered_named = ordered(
+      sample(c(1, 2, 3, 4), size = n, prob = rep(0.25, 4), replace = TRUE),
+      labels = c("one", "two", "three", "four")
+    ),
+    var_unordered_named = factor(
+      sample(c("red", "green", "blue", "teal with a little bit of rosé"),
+        size = n,
+        prob = rep(0.25, 4),
+        replace = TRUE
+      )
+    )
+  )
+}
+
+fit_tree <- function(data, control = semtree_control()) {
+  fitted_model <- lavaan::lavaan("x ~~ x", data = data)
+  semtree(fitted_model, data = data, control = control)
+}
+
+expect_tree_class <- function(tree) {
+  expect_equal(class(tree), "semtree")
+}
+
 n <- 500
-var_numeric <- 1:n
-var_ordered <- ordered( sample(c(1,2,3,4), 
-                               size=n, prob=rep(.25,4), 
-                               replace = TRUE))
-var_ordered_named <- ordered( sample(c(1,2,3,4), 
-                                     size=n, prob=rep(.25,4),
-                                     replace = TRUE),
-                              labels=c("one","two","three","four"))
+set.seed(9358)
+covariates <- generate_base_covariates(n)
 
-var_unordered_named <- factor(sample(c("red","green","blue","teal with a little bit of rosé"),
-                              size=n, prob=rep(.25,4), replace = TRUE))
+testthat::test_that("ordered named factors yield a split on the manipulated level", {
+  set.seed(233453)
+  x <- rnorm(n)
+  x <- x * ifelse(covariates$var_ordered_named == "one", 0.5, 10)
 
-var_unordered <- factor(sample(c(10713, 10720, 81247, 80337),
-                              size=n, prob=rep(.25,4), replace = TRUE))
+  tree <- fit_tree(data.frame(x = x, var_ordered_named = covariates$var_ordered_named))
 
+  expect_tree_class(tree)
+  expect_gte(getDepth(tree), 1)
+  expect_equal(tree$rule$value, "one")
+})
 
-# testing ordered, named factors
+testthat::test_that("unordered named factors choose the manipulated category", {
+  set.seed(3490843)
+  x <- rnorm(n)
+  x <- x * ifelse(covariates$var_unordered_named == "green", 1, 10)
 
-set.seed(233453)
-x = rnorm(n)
-x <- x * ifelse( (var_ordered_named=="one"), .5, 10) 
-df <- data.frame(x, var_ordered_named)
-model = "x ~~ x"
-fitted_model <- lavaan::lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree_control())
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("At least one split. Tree depth is at least 1", { expect_gte(getDepth(tree),1) })
-test_that("first split is optimal (selected 'one' as splitting rule)", {expect_equal(tree$rule$value,"one")})
+  tree <- fit_tree(
+    data.frame(x = x, var_unordered_named = covariates$var_unordered_named),
+    control = semtree_control(verbose = FALSE, report.level = 99)
+  )
 
-# testing unordered, named factors
-set.seed(3490843)
-x <- rnorm(n)
-x <- x * ifelse( var_unordered_named=="green" , 1, 10)
-df <- data.frame(x, var_unordered_named)
-tree = semtree(fitted_model, df, control=semtree_control(verbose=FALSE,report.level = 99))
-plot(tree)
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is at least 1", { expect_gte(getDepth(tree),1) })
-test_that("first split is optimal", {expect_equal(as.character(tree$rule$value),"green")})
+  expect_tree_class(tree)
+  expect_gte(getDepth(tree), 1)
+  expect_equal(as.character(tree$rule$value), "green")
+})
 
-# testing ordered, numeric
-set.seed(2333463)
-x = rnorm(n)
-x <- x * ifelse( (var_ordered <= 2), .5, 10) 
-df <- data.frame(x, var_ordered)
-model = "x ~~ x"
-fitted_model <- lavaan::lavaan(model, df)
-tree = semtree(fitted_model, df, 
-               control=semtree_control(max.depth=3))
-plot(tree)
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 2", { expect_equal(getDepth(tree),2) })
-test_that("split is optimal", { expect_equal(tree$caption, "var_ordered > 2")})
+testthat::test_that("ordered numeric predictors split at the expected threshold", {
+  set.seed(2333463)
+  x <- rnorm(n)
+  x <- x * ifelse(covariates$var_ordered <= 2, 0.5, 10)
 
-# testing numeric  (this takes long, so only run 1 level of the tree)
-set.seed(23334653)
-x = rnorm(n)
-x <- x * ifelse( (var_numeric < mean(var_numeric)), .5, 10) 
-df <- data.frame(x, var_numeric)
-model = "x ~~ x"
-fitted_model <- lavaan::lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree_control(max.depth = 1))
-plot(tree)
-test_that("tree depth is 1", { expect_equal(getDepth(tree),1) })
-test_that("split is optimal", { expect_equal(tree$caption, "var_numeric >= 251.5")})
+  tree <- fit_tree(
+    data.frame(x = x, var_ordered = covariates$var_ordered),
+    control = semtree_control(max.depth = 3)
+  )
 
-# all of them
-df <- data.frame(x,  var_ordered, var_ordered_named, var_unordered_named)
-set.seed(23334653)
-x = rnorm(n)
-x <- x * ifelse( (var_ordered <= 2), .5, 10) 
-df <- data.frame(x, var_ordered, var_numeric, var_unordered_named)
-model = "x ~~ x"
-fitted_model <- lavaan::lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree_control(verbose=FALSE,report.level = 99))
-plot(tree)
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("tree depth is 7", { expect_equal(getDepth(tree),7) })
+  expect_tree_class(tree)
+  expect_equal(getDepth(tree), 2)
+  expect_equal(tree$caption, "var_ordered > 2")
+})
 
-#
-# now "fair"!
-#
-# testing ordered, named factors
+testthat::test_that("numeric predictors split near the engineered mean difference", {
+  set.seed(23334653)
+  x <- rnorm(n)
+  x <- x * ifelse(covariates$var_numeric < mean(covariates$var_numeric), 0.5, 10)
 
-set.seed(233453)
-x = rnorm(n)
-x <- x * ifelse( (var_ordered_named=="one"), .5, 10) 
-df <- data.frame(x, var_ordered_named)
-model = "x ~~ x"
-fitted_model <- lavaan::lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree_control(method="fair"))
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("Split was found. Tree depth is >= 1", { expect_gte(getDepth(tree),1) })
-test_that("first split is optimal", {expect_equal(tree$rule$value,"one")})
+  tree <- fit_tree(
+    data.frame(x = x, var_numeric = covariates$var_numeric),
+    control = semtree_control(max.depth = 1)
+  )
 
-# testing unordered, named factors
-set.seed(3490843)
-x <- rnorm(n)
-x <- x * ifelse( var_unordered_named=="green" , 1, 10)
-df <- data.frame(x, var_unordered_named)
-tree = semtree(fitted_model, df, control=semtree_control(method="fair"))
-plot(tree)
-test_that("result is a tree",{ expect_equal(class(tree),"semtree")})
-test_that("Split was found. Tree depth is at least 1", { expect_gte(getDepth(tree),1) })
-test_that("first split is optimal", {expect_equal(as.character(tree$rule$value),"green")})
+  expect_equal(getDepth(tree), 1)
+  expect_equal(tree$caption, "var_numeric >= 251.5")
+})
 
-# testing numeric
-set.seed(23334653)
-x = rnorm(n)
-x <- x * ifelse( (var_numeric < mean(var_numeric)), .5, 10) 
-df <- data.frame(x, var_numeric)
-model = "x ~~ x"
-fitted_model <- lavaan(model, df)
-tree = semtree(fitted_model, df, control=semtree_control(max.depth = 3, method="fair"))
-plot(tree)
-test_that("split is optimal", { expect_equal(tree$caption, "var_numeric >= 251.5")})
+testthat::test_that("multiple predictors can produce a deep tree", {
+  set.seed(23334653)
+  x <- rnorm(n)
+  x <- x * ifelse(covariates$var_ordered <= 2, 0.5, 10)
+
+  tree <- fit_tree(
+    data.frame(
+      x = x,
+      var_ordered = covariates$var_ordered,
+      var_numeric = covariates$var_numeric,
+      var_unordered_named = covariates$var_unordered_named
+    ),
+    control = semtree_control(verbose = FALSE, report.level = 99)
+  )
+
+  expect_tree_class(tree)
+  expect_equal(getDepth(tree), 7)
+})
+
+testthat::test_that("method = fair supports the same basic split patterns", {
+  set.seed(233453)
+  x_ordered <- rnorm(n)
+  x_ordered <- x_ordered * ifelse(covariates$var_ordered_named == "one", 0.5, 10)
+
+  ordered_tree <- fit_tree(
+    data.frame(x = x_ordered, var_ordered_named = covariates$var_ordered_named),
+    control = semtree_control(method = "fair")
+  )
+
+  expect_tree_class(ordered_tree)
+  expect_gte(getDepth(ordered_tree), 1)
+  expect_equal(ordered_tree$rule$value, "one")
+
+  set.seed(3490843)
+  x_unordered <- rnorm(n)
+  x_unordered <- x_unordered * ifelse(covariates$var_unordered_named == "green", 1, 10)
+
+  unordered_tree <- fit_tree(
+    data.frame(x = x_unordered, var_unordered_named = covariates$var_unordered_named),
+    control = semtree_control(method = "fair")
+  )
+
+  expect_tree_class(unordered_tree)
+  expect_gte(getDepth(unordered_tree), 1)
+  expect_equal(as.character(unordered_tree$rule$value), "green")
+
+  set.seed(23334653)
+  x_numeric <- rnorm(n)
+  x_numeric <- x_numeric * ifelse(covariates$var_numeric < mean(covariates$var_numeric), 0.5, 10)
+
+  numeric_tree <- fit_tree(
+    data.frame(x = x_numeric, var_numeric = covariates$var_numeric),
+    control = semtree_control(max.depth = 3, method = "fair")
+  )
+
+  expect_equal(numeric_tree$caption, "var_numeric >= 251.5")
+})
