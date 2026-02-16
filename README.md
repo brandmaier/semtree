@@ -55,6 +55,47 @@ package:
 
     browseVignettes("semtree")
 
+## Example
+
+First, we load the `birthwt` data frame from the `MASS` package, which
+contains risk factors associated with low infant birth weight. We
+extract the variables presence of uterine irritability (ui), history of
+hypertension (ht), smoke status during pregnancy (smoke) and birth
+weight (btw):
+
+     library(semtree)
+    #> Lade nötiges Paket: OpenMx
+
+      bw <- with(MASS::birthwt, {
+      ui <- factor(ui, labels=c("no","yes"))
+      ht <- factor(ht, labels=c("no","yes"))
+      smoke <- factor(smoke, labels=c("no","yes"))
+      data.frame( bwt, uterine_irritability=ui, hypertension=ht, smoke, num_premature_labours=ptl, physician_visits=ftv )
+     })
+
+Next, we set up a simple univariate `model` that estimates mean and
+variance of birth weight
+
+     model <- lavaan::lavaan("bwt~~bwt; bwt~1")
+
+Last, we estimate a SEM tree with a maximum depth of two, a significance
+criterion of 1% and splits based on score-based tests, and plot the
+resulting tree:
+
+    ctrl <- semtree_control(method="score", max.depth = 2, alpha = 0.01)
+
+    tree <- semtree(model = model, data = bw, control = ctrl)
+    plot(tree)
+     
+
+    #> ✖ Variable num_premature_labours is numeric but has only few unique values. Consider recoding as ordered factor.
+    #> ✖ Variable physician_visits is numeric but has only few unique values. Consider recoding as ordered factor.
+    #> ✔ Tree construction finished [took less than a second].
+
+![](man/figures/birthwt-1.png)
+
+![](man/figures/birthwt-1.png)
+
 ## Robustness checklist for end users
 
 To make analyses with `semtree` more robust and reproducible, we
