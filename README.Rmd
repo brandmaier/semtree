@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE
 )
 
-knitr::opts_chunk$set(fig.path = "man/figures/")
+knitr::opts_chunk$set(fig.path = "README_files/")
 ```
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1116294.svg)](https://doi.org/10.5281/zenodo.1116294)
@@ -101,7 +101,7 @@ plot(tree)
 
 ```
 
-![](man/figures/birthwt-1.png)
+![](README_files/birthwt-1.png)
 
 ## Robustness checklist for end users
 

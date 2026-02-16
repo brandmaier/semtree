@@ -92,9 +92,9 @@ resulting tree:
     #> ✖ Variable physician_visits is numeric but has only few unique values. Consider recoding as ordered factor.
     #> ✔ Tree construction finished [took less than a second].
 
-![](man/figures/birthwt-1.png)
+![](README_files/birthwt-1.png)
 
-![](man/figures/birthwt-1.png)
+![](README_files/birthwt-1.png)
 
 ## Robustness checklist for end users
 
