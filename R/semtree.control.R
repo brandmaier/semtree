@@ -117,9 +117,6 @@ semtree_control <-
            mtry = NA,
            report.level = 0,
            exclude.code = NA,
-           #score.tests = list(nominal = 'LMuo',  # currently only LMuo, maxLMo
-           #                   ordinal = 'maxLMo', # and maxLM are available
-           #                   metric = 'maxLM'),
            linear = TRUE,
            min.bucket = NULL,
            missing = 'ignore',

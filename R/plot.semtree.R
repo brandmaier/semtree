@@ -24,11 +24,25 @@ plot.semtree <- function(x,
     num <- num + level
 
     data <- c()
-
+      
+      #
+      # create a data row for a terminal node
+      #
+      
+      # delete duplicate paramters in lavaan model with equality constraints
+      if (inherits(x$model, "lavaan")) {
+        unique_params <- !duplicated(names(x$params))
+        param_names <- names(x$params)[unique_params]
+        param_values <- round(x$params[unique_params], digits = 3)
+      } else {
+        param_names <- x$param_names
+        param_values <- round(x$params, digits = 3)
+      }
+    
     # var   n  wt dev yval complexity ncompete nsurrogate
     if (x$caption == "TERMINAL") {
       leaf_text <-  paste(paste(
-        x$param_names, "=", round(x$params, 3)
+        param_names, "=", param_values
       ), collapse = "\n")
       
       if (show.nonconvergence) {
@@ -36,9 +50,6 @@ plot.semtree <- function(x,
         leaf_text <- paste(convergence_message, leaf_text)
       }
       
-      #
-      # create a data row for a terminal node
-      #
       row <-
         c(
           "<leaf>",

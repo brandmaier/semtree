@@ -33,6 +33,13 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                    "lavaan" = lavScores(model),
                    "ctsem" = ctsemScores(model))
   
+  # label scores from lavaan models
+  # removes duplicate parameter names
+  if (control$sem.prog == "lavaan") {
+    unique_par_names <- unique(names(lavaan:::coef(model)))
+    colnames(Scores) <- unique_par_names
+  }
+  
   # Number of cases in the node
   n_obs <- nobs(model)
   
