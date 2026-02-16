@@ -33,7 +33,7 @@ n <- 500
 set.seed(9358)
 covariates <- generate_base_covariates(n)
 
-testthat::test_that("ordered named factors yield a split on the manipulated level", {
+test_that("ordered named factors yield a split on the manipulated level", {
   set.seed(233453)
   x <- rnorm(n)
   x <- x * ifelse(covariates$var_ordered_named == "one", 0.5, 10)

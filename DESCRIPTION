@@ -54,7 +54,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyLoad: yes
 Version: 0.10.0
-Date: 2026-01-23
+Date: 2026-02-16
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 BugReports: https://github.com/brandmaier/semtree/issues

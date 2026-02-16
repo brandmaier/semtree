@@ -125,6 +125,33 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">browseVignettes</span>(<span class="st">"semtree"</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="robustness-checklist-for-end-users">Robustness checklist for end users<a class="anchor" aria-label="anchor" href="#robustness-checklist-for-end-users"></a>
+</h2>
+<p>To make analyses with <code>semtree</code> more robust and reproducible, we recommend the following:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Set a seed in <code>semtree_control(seed = ...)</code></strong> before tree growth so randomized split procedures are reproducible.</li>
+<li>
+<strong>Set explicit stopping rules</strong> (<code>min.N</code>, optionally <code>min.bucket</code>, and <code>max.depth</code>) instead of relying on defaults.</li>
+<li>
+<strong>Choose split method intentionally</strong> (<code>naive</code>, <code>fair</code>, or <code>score</code>) and report the choice in manuscripts.</li>
+<li>
+<strong>Use conservative split testing where appropriate</strong> with <code>bonferroni = TRUE</code> when many predictors are screened.</li>
+<li>
+<strong>Inspect convergence behavior</strong> by keeping <code>check.convergence = TRUE</code> and increasing <code>report.level</code> for diagnostics.</li>
+<li>
+<strong>Handle missing split variables explicitly</strong> (<code>missing</code>, <code>use.all</code>) and document your choice.</li>
+<li>
+<strong>Pick and report likelihood computation</strong> (<code>loglik = "model"</code> vs <code>"mvn"</code>) especially when comparing engines.</li>
+<li>
+<strong>Use pruning for interpretation</strong> to avoid over-reading deep, unstable branches (<code>prune(tree, max.depth = ...)</code>).</li>
+<li>
+<strong>Validate findings with forests</strong> (<code>semforest</code>) to check whether important predictors recur across trees.</li>
+<li>
+<strong>Archive session metadata</strong> (at the very least document <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>, package versions, and control settings) alongside analysis outputs, or use packages such as <code>reproducibleRchunks</code> or <code>repro</code> to improve reproducibility chances.</li>
+</ol>
+</div>
+<div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <p>Theory and method:</p>

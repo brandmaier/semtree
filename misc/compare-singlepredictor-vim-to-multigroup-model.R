@@ -1,3 +1,4 @@
+
 library(lavaan)
 library(semtree)
 set.seed(1238)
@@ -39,3 +40,5 @@ chi2 <- lrt$`Chisq diff`[2]
 
 cat("Importance: ", zimp,"\n")
 cat("MG Chi^2: ",chi2,"\n")
+
+
