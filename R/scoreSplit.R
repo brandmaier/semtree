@@ -36,7 +36,7 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   # label scores from lavaan models
   # removes duplicate parameter names
   if (control$sem.prog == "lavaan") {
-    unique_par_names <- unique(names(lavaan:::coef(model)))
+    unique_par_names <- unique(names(lavaan::coef(model)))
     colnames(Scores) <- unique_par_names
   }
   

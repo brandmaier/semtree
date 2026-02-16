@@ -54,6 +54,22 @@ Package vignettes (shipped with the package) contain documentation on how to use
 browseVignettes("semtree")
 ```
 
+## Robustness checklist for end users
+
+To make analyses with `semtree` more robust and reproducible, we recommend the following:
+
+1. **Set a seed in `semtree_control(seed = ...)`** before tree growth so randomized split procedures are reproducible.
+2. **Set explicit stopping rules** (`min.N`, optionally `min.bucket`, and `max.depth`) instead of relying on defaults.
+3. **Choose split method intentionally** (`naive`, `fair`, or `score`) and report the choice in manuscripts.
+4. **Use conservative split testing where appropriate** with `bonferroni = TRUE` when many predictors are screened.
+5. **Inspect convergence behavior** by keeping `check.convergence = TRUE` and increasing `report.level` for diagnostics.
+6. **Handle missing split variables explicitly** (`missing`, `use.all`) and document your choice.
+7. **Pick and report likelihood computation** (`loglik = "model"` vs `"mvn"`) especially when comparing engines.
+8. **Use pruning for interpretation** to avoid over-reading deep, unstable branches (`prune(tree, max.depth = ...)`).
+9. **Validate findings with forests** (`semforest`) to check whether important predictors recur across trees.
+10. **Archive session metadata** (at the very least document `sessionInfo()`, package versions, and control settings) alongside analysis outputs, or use packages such as `reproducibleRchunks` or `repro` to improve reproducibility chances.
+
+
 ## References
 
 Theory and method:
