@@ -1,0 +1,143 @@
+---
+title: "Scaling SEM forests with a large CRAN dataset"
+author: "Andreas M. Brandmaier"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Scaling SEM forests with a large CRAN dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(semtree)
+library(OpenMx)
+```
+
+Most existing vignettes in **semtree** focus on split discovery, variable importance,
+and focus parameters. This vignette highlights a less covered, but highly practical
+workflow: fitting and deploying a SEM forest on a **large, real-world CRAN dataset**
+while monitoring memory usage.
+
+We use `ggplot2::diamonds` (`n = 53,940`) and show three steps:
+
+1. fit a semforest with a simple SEM,
+2. evaluate out-of-sample deviance,
+3. strip the forest object for memory-efficient deployment.
+
+## Load and prepare a large CRAN dataset
+
+```{r}
+data("diamonds", package = "ggplot2")
+
+# Keep variables used in this vignette and remove physically implausible values
+# (x, y, z are 0 for a small number of entries)
+df <- subset(
+  diamonds,
+  select = c(price, carat, depth, table, x, y, z, cut, color, clarity)
+)
+df <- subset(df, x > 0 & y > 0 & z > 0)
+
+# A log-transformation stabilizes scale and makes a univariate Gaussian model
+# more appropriate for the response.
+df$log_price <- log(df$price)
+
+# Keep a manageable but still large sample for quick vignette runtime.
+set.seed(2026)
+idx <- sample(seq_len(nrow(df)), size = 12000)
+df <- df[idx, ]
+
+str(df)
+```
+
+## Specify a simple SEM for log-price
+
+For this vignette we use a univariate normal model for `log_price` with free mean and variance.
+Predictors are only used by the tree/forest splitting mechanism.
+
+```{r}
+model <- mxModel(
+  "DiamondPriceModel",
+  type = "RAM",
+  manifestVars = "log_price",
+  latentVars = character(0),
+  mxPath(from = "one", to = "log_price", free = TRUE, value = 8, arrows = 1, label = "mu"),
+  mxPath(from = "log_price", to = "log_price", free = TRUE, value = 0.2, arrows = 2, label = "sigma2"),
+  mxData(df, type = "raw")
+)
+
+mxRun(model)
+```
+
+## Train/test split and forest estimation
+
+```{r}
+set.seed(2026)
+train_id <- sample(seq_len(nrow(df)), size = floor(0.8 * nrow(df)))
+train <- df[train_id, ]
+test  <- df[-train_id, ]
+
+covariates <- c("carat", "depth", "table", "x", "y", "z", "cut", "color", "clarity")
+
+control <- semforest_score_control(
+  num.trees = 20,
+  control = semtree_control(
+    method = "score",
+    alpha = 0.05,
+    min.N = 400,
+    max.depth = 3
+  )
+)
+
+forest <- semforest(
+  model = model,
+  data = train,
+  covariates = covariates,
+  control = control
+)
+forest
+```
+
+## Out-of-sample evaluation
+
+`evaluate()` returns average deviance (`-2LL`) for a given dataset.
+Comparing train and test sets helps gauge generalization.
+
+```{r}
+train_dev <- evaluate(forest, train)
+test_dev <- evaluate(forest, test)
+
+cat("Average deviance on training data:", round(train_dev, 3), "\n")
+cat("Average deviance on test data:    ", round(test_dev, 3), "\n")
+```
+
+## Variable importance
+
+```{r}
+vim <- varimp(forest)
+print(vim, sort.values = TRUE)
+plot(vim)
+```
+
+## Memory footprint and stripped forest objects
+
+Large forests can consume substantial memory because each node contains rich model objects.
+`strip()` removes heavy internals while retaining tree structure and terminal parameters.
+
+```{r}
+full_size_mb <- as.numeric(object.size(forest)) / (1024^2)
+forest_stripped <- strip(forest)
+stripped_size_mb <- as.numeric(object.size(forest_stripped)) / (1024^2)
+
+cat("Full forest size (MB):    ", round(full_size_mb, 2), "\n")
+cat("Stripped forest size (MB):", round(stripped_size_mb, 2), "\n")
+cat("Relative size:", round(100 * stripped_size_mb / full_size_mb, 1), "% of original\n")
+```
+
+Stripped forests remain useful for downstream tasks such as prediction and partial dependence,
+which makes them suitable for memory-constrained pipelines and deployment scenarios.
