@@ -1,5 +1,7 @@
 library(OpenMx)
 
+set.seed(98325)
+
 data(myGrowthMixtureData)
 names(myGrowthMixtureData)
 
