@@ -25,31 +25,27 @@ using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).
 Model must be syntactically correct within the framework chosen, and
 converge to a solution.}
 
-\item{data}{A \code{data.frame} used for building the tree. Order
-of modeled variables and predictors is not important when providing a
-dataset to \code{semtree}.}
+\item{data}{A \code{data.frame} used for growing the tree. The order
+of manifest variables and predictors is not important when providing a
+dataset to \code{semtree}. Use the argument 'predictors' to explicitly
+specify which variables should be considered as split candidates.}
 
-\item{control}{\code{\link{semtree}} model specifications from
-\code{\link{semtree.control}} are input here. Any changes from the default
-setting can be specified here.}
+\item{control}{A \code{\link{semtree_control}} object contains all hyper-parameters that govern the splitting procedure.}
 
 \item{constraints}{A \code{\link{semtree.constraints}} object setting model
 parameters as constrained from the beginning of the \code{semtree}
-computation. This includes options to globally or locally set equality
-constraints and to specify focus parameters (i.e., parameter subsets that
+computation. This includes the specification of focus parameters (i.e., parameter subsets that
 exclusively go into the function evaluating splits). Also, options for
 measurement invariance testing in trees are included.}
 
-\item{predictors}{A vector of variable names matching variable names in
+\item{predictors}{A vector of variable names matching variable names in the
 data set. If NULL (default) all variables that are in data set and not part of
-the model are potential predictors. Optional function input to select a
-subset of the unmodeled variables to use as predictors in the \code{semtree}
-function.}
+the model are potential predictors.}
 
-\item{\dots}{Optional arguments passed to the tree growing function.}
+\item{\dots}{Optional arguments.}
 }
 \value{
-A \code{semtree} object is created which can be examined with
+A \code{semtree} object. This can be further examined with
 \code{summary}, \code{plot}, and \code{print}.
 }
 \description{
@@ -65,21 +61,20 @@ The package supports model specification in lavaan and OpenMx.
 
 
 Calling \code{semtree} with an \code{\link[OpenMx]{mxModel}} or
-\code{\link[lavaan]{lavaan}} model fits the template to the data set provided and
+\code{\link[lavaan]{lavaan}} model fits the template model to the entire data set and
 then recurses over the following steps until no further meaningful partition
 into sub groups is found:
 \enumerate{
-  \item Fit the model on the current node's data and compute the model fit.
-  \item For each predictor, generate candidate split points (or score tests)
-  and estimate the improvement in model fit using the chosen method in
-  \code{\link{semtree.control}}.
-  \item Select the best-performing predictor/split combination and apply it
-  when it passes the statistical threshold (\code{alpha}) and satisfies the
-  size limitations (\code{min.N}, \code{min.bucket}, \code{max.depth}, or a
-  custom stopping rule).
-  \item Continue the procedure independently on each resulting child node so
-  that terminal nodes (leafs) contain SEMs with subgroup-specific parameter
-  estimates.
+  \item Fit the model on the current node's data and compute model fit.
+  \item For each predictor, find the split point that best 
+ improves model fit --  this is either done by likelihood ratio tests or
+ score-based tests as determined in the   \code{\link{semtree.control}}.
+  \item Select the best-performing predictor/split combination unless
+  a stopping rule applies, e.g., split is not significant given a
+  significance criterion (\code{alpha}), there are too few observations in
+  a node (\code{min.N}, \code{min.bucket}, a maximum depth is reached, \code{max.depth}, or a
+  custom stopping rule applies.
+  \item Continue the procedure independently on each resulting sub group
 }
 
 Predictors can be categorical (ordered or unordered) or continuous. When

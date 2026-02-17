@@ -28,7 +28,7 @@
 #' limiting tree growth.
 #' @param alpha Numeric. Default: 0.05. Significance level for splitting at a given
 #' node.
-#' @param Numeric. alpha.invariance Default: NA. Significance level for invariance
+#' @param alpha.invariance Numeric. alpha.invariance Default: NA. Significance level for invariance
 #' tests. If NA, the value of alpha is used.
 #' @param exclude.heywood Default: TRUE. Reports whether there is an
 #' identification problem in the covariance structure of an SEM tested.
@@ -50,11 +50,11 @@
 #' analysis.
 #' @param report.level Integer. Default: 0. Values up to 99 increase console reporting
 #' detail during tree growth and can help diagnose fitting or split-selection
-#' issues.
+#' issues. This is rather appropriate for debugging than for end users.
 #' @param use.all Boolean. Treatment of missing variables. By default, missing values
 #' stay in a decision node. If TRUE, cases are distributed according to a
 #' maximum likelihood principle to the child nodes.
-#' @param linear If TRUE (default), the structural equation model is assumed to
+#' @param linear Boolean. If TRUE (default), the structural equation model is assumed to
 #' not contain any nonlinear parameter constraints and scores are computed
 #' analytically, resulting in a shorter runtime. Only relevant for models fitted
 #' with OpenMx.

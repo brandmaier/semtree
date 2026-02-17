@@ -113,7 +113,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
       stop("Error with 'data' argument: semtree currently only supports data frames.")
     }
   }
-  if (inherits(data,"tbl")) {
+  if (inherits(data,"tbl_df")) {
     stop("Tibbles are currently not supported. Please convert your data to data.frame.")
   }
   

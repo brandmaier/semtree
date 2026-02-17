@@ -17,8 +17,8 @@
 - plot semtree has option to display a nonconvergence warning
 - various safety checks and better warnings/errors
 - ggplot2 deprecated aes_string(), so we now require version 3.3.0 to use the replacement
-- removed duplicate labels in semtree plot() when lavaan models have equality constraints
-- removed outdated information from semtree.control print function 
+- removed duplicate labels in semtree plot() when lavaan models have equality constraints (thanks to Manuel Arnold)
+- removed outdated information from semtree.control print function (thanks to Manuel Arnold)
 
 # semtree 0.9.23 (2025)
 
