@@ -25,7 +25,7 @@ y2 ~~ y1
 y2 ~~ y2
 
 y1 ~ 1
-y2 ~ 2
+y2 ~ 1
 '
 
 fit_mx <- OpenMx::mxRun(m_mx)
