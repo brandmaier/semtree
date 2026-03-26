@@ -49,7 +49,7 @@ gefp_semtree <- function(..., fit = NULL, scores, vcov = NULL,
   }
   colnames(process) <- colnames(scores)
   if (!is.null(parm)) {
-    if (!parm %in% colnames(process))
+    if (!all(parm %in% colnames(process)))
       stop("Unknown parameter chosen for score process computation: ",parm,". Compare to your model parameters: ", paste0(colnames(process),collapse=","),".")
     process <- process[, parm]
   }
