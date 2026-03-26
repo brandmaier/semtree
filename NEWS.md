@@ -19,6 +19,7 @@
 - ggplot2 deprecated aes_string(), so we now require version 3.3.0 to use the replacement
 - removed duplicate labels in semtree plot() when lavaan models have equality constraints (thanks to Manuel Arnold)
 - removed outdated information from semtree.control print function (thanks to Manuel Arnold)
+- fixed bug with more than one focus parameter in score-based tests (thanks to Leonie Hagitte)
 
 # semtree 0.9.23 (2025)
 
