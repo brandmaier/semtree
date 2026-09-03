@@ -12,7 +12,8 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  cache.path = "vignette-cache/future-parallel-semforest/"
 )
 ```
 
@@ -137,7 +138,11 @@ With the plan in place, we can grow a forest. We keep the number of trees modest
 for the sake of a fast example; in practice, increase `num.trees` (e.g., 200--500)
 for stable variable importance estimates.
 
-```{r runforest, message=FALSE, warning=FALSE, echo=FALSE}
+The fitted forest and its variable importance are cached on disk for subsequent
+vignette builds. Including the semtree package version in the cache key prevents
+results from an earlier release being reused accidentally.
+
+```{r runforest, cache=TRUE, cache.extra=utils::packageVersion("semtree"), message=FALSE, warning=FALSE, echo=FALSE}
 set.seed(99)
 control <- semforest_control(num.trees = 20, 
                              mtry = 1)
@@ -155,7 +160,7 @@ importance results confirm that this variable drives heterogeneity in the model
 parameters. Parallel evaluation speeds up the permutation step when multiple
 predictors are present.
 
-```{r}
+```{r future-varimp, cache=TRUE, dependson="runforest", cache.extra=utils::packageVersion("semtree")}
 vim <- varimp(forest)
 print(vim, sort.values = TRUE)
 plot(vim)

@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   dpi=300,
-  out.width="50%"
+  out.width="50%",
+  cache.path="vignette-cache/semforest-focus/"
 )
 
 
@@ -93,7 +94,12 @@ plot(tree.biv)
 
 Now, we are repeating the same analysis in a forest.
 
-```{r message=FALSE, warning=FALSE,results="hide"}
+The computationally expensive forest and variable importance chunks are cached
+on disk. Rebuilding this vignette reuses them until either the chunk code or the
+installed semtree version changes.
+
+```{r forest, cache=TRUE, cache.extra=utils::packageVersion("semtree"), message=FALSE, warning=FALSE,results="hide"}
+set.seed(123)
 forest <- semforest(model.biv, data=df.biv,
                     constraints = list(focus.parameters=fp),
                     control=semforest_control(num.trees=10, control=semtree_control(method="score",alpha=1)))
@@ -102,13 +108,13 @@ forest <- semforest(model.biv, data=df.biv,
 
 By default, we see that individual trees are fully grown (without a p-value threshold). The first split is according to `grp2` because it best explains the group differences. Subsequent splits are according to `grp1` even though the chi2 values are close to zero. They only appear because there is no p-value-based stopping criterion. 
 
-```{r}
+```{r plot-first-forest}
 plot(forest$forest[[1]])
 ```
 
 Now, let us investigate the permutation-based variable importance:
 
-```{r}
+```{r focus-varimp, cache=TRUE, dependson="forest", cache.extra=utils::packageVersion("semtree")}
 
 vim <- varimp(forest, method="permutationFocus")
 
