@@ -102,6 +102,26 @@ in the \code{\link{semtree.control}} object.
 In order to get robust estimates of the importance of predictors,
 consider growing a \code{\link{semforest}}
 }
+\examples{
+{
+
+model <- lavaan::lavaan("bwt~~bwt; bwt~1")
+ctrl <- semtree_control(method="score", 
+ max.depth = 2, alpha = 0.01)
+bw <- with(MASS::birthwt, {
+ ui <- factor(ui, labels=c("no","yes"))
+ ht <- factor(ht, labels=c("no","yes"))
+ smoke <- factor(smoke, labels=c("no","yes"))
+ data.frame( bwt, uterine_irritability=ui, 
+ hypertension=ht, smoke, num_premature_labours=ptl, 
+ physician_visits=ftv )
+})
+
+tree <- semtree(model = model, data = bw, control = ctrl)
+plot(tree)
+}
+
+}
 \references{
 Brandmaier, A.M., Oertzen, T. v., McArdle, J.J., & Lindenberger, U. (2013). Structural equation model trees. \emph{Psychological Methods}, 18(1), 71-86.
 

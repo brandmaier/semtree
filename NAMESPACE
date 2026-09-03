@@ -2,6 +2,7 @@
 
 S3method("[",semforest)
 S3method("[",semtree)
+S3method(coef,semtree)
 S3method(countPredictors,semforest)
 S3method(countPredictors,semtree)
 S3method(evaluate,semforest)

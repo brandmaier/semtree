@@ -4,9 +4,10 @@ traverse.rec <- function(row, tree)
   if (tree$caption == "TERMINAL")
     return(tree$node_id)
   
+  rule <- tree$rule
   
   value <- tryCatch({
-    row[[tree$rule$name]]
+    row[[rule$name]]
   }, error = function(cond) {
     message("ERROR! Incomplete dataset!")
     stop()
@@ -15,7 +16,17 @@ traverse.rec <- function(row, tree)
   
   if (is.na(value)) {
     if (is.null(tree$missing.model)) {
-      return(tree$node_id)
+      
+      if (is.null(tree$rule_surrogates)) return(tree$node_id)
+      else {
+        i <- 1
+        while(is.na(value)) {
+          rule = tree$rule_surrogates[[i]]
+          value = row[[rule$name]]
+          i <- i + 1
+          if (i > length(tree$rule_surrogates)) return(tree$node_id)
+        }  
+      }
       
     } else {
       value = predict(tree$missing.model, newdata = row)
@@ -24,28 +35,8 @@ traverse.rec <- function(row, tree)
     
     
   }
-  
-  log.val <- NA
-  
- # if (tree$rule$relation == ">=") {
-    #if (is.ordered(value)) { value <- as.numeric(as.character(value)) }
-    # CJ: I think ordered factors are handled incorrectly,
-    # because you can have:
-    # ses <- ordered(c(1,2,2,3,1,2), labels = c("low", "middle", "high"))
-    # as.numeric(as.character(ses))
-    # [1] NA NA NA NA NA NA
-    # But this works:
-    # ses[2] >= "high"
-    # [1] FALSE
-    # ses[2] >= "low"
-    # [1] TRUE
-  #  log.val <- value >= tree$rule$value
-  #} else if (tree$rule$relation == "%in%") {
-  #  log.val <- value %in% tree$rule$value
-  #} else {
-  #  stop("Comparison not supported in traverse.rec():", tree$rule)
-  #}
-  log.val = do.call(tree$rule$relation, list(value, tree$rule$value))
+
+  log.val = do.call(rule$relation, list(value, rule$value))
   
   if (!log.val)
   {

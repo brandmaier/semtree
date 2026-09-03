@@ -35,6 +35,9 @@ addTraverseFun <- function(tree) {
   tree$traverseRow.fun <- traverse.fun.generator(tree)
   tree$traverse.fun <- function(data) {
     apply(X=data, MARGIN=1, FUN=tree$traverseRow.fun)
+    # use a typed vapply() instead ?
+    #vapply(seq_len(nrow(data)), function(i) tree$traverseRow.fun(data[i, , drop = FALSE]), numeric(1))
   }
+
   return(tree)
 }

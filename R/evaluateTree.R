@@ -37,7 +37,11 @@ evaluateTree <-
     
     # get a mapping of dataset rows to leaf ids
     if (is.null(leaf_ids)) {
-      leaf_ids <- traverse(tree, test_set)
+      if (is.null(tree$tf)) {
+        leaf_ids <- traverse(tree, test_set)
+      } else {
+        leaf_ids <- traverse_fast(tree$tf, test_set)
+      }
     }
     
     # for each leaf, calculate deviance of each data row

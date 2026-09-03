@@ -77,7 +77,10 @@ summary(gmmFit)
 
 library(semtree)
 
-ctrl <- semtree_control(check.convergence = FALSE, progress.bar = TRUE,max.depth = 1)
+ctrl <- semtree_control(check.convergence = FALSE, 
+                        progress.bar = TRUE,
+                        max.depth = 1,
+                        exclude.heywood = FALSE) # this is a non-RAM model
 
 tree <- semtree(model = gmmFit, 
                 data = myGrowthMixtureData, 

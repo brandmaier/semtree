@@ -9,7 +9,7 @@ testthat::test_that("Likelihood estimates with focus parameters are identical in
 library(semtree)
 library(lavaan)
 
-# load demo ata file
+# load demo data file
 data(lgcm)
 
 # create LGCM in OpenMx & run it
@@ -58,3 +58,4 @@ testthat::expect_equal(omx_tree$right_child$lr, lav_tree$right_child$lr, tollera
 
 
 })
+

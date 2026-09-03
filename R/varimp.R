@@ -4,8 +4,7 @@
 #' splits over a \code{\link{semforest}} object.
 #' 
 #' 
-#' @aliases varimp plot.semforest.varimp varimpConvergencePlot
-#' print.semforest.varimp
+#' @aliases varimp plot.semforest.varimp varimpConvergencePlot print.semforest.varimp
 #' @param forest A \code{\link{semforest}} object
 #' @param var.names Covariates used in the forest creation process. NULL value
 #' will be automatically filled in by the function.

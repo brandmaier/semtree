@@ -9,9 +9,7 @@
 \arguments{
 \item{object}{semtree. A SEM tree node.}
 
-\item{\dots}{Extra arguments. Currently unused.
-
- @exportS3Method coef semtree}
+\item{\dots}{Extra arguments. Currently unused.}
 }
 \description{
 Return the parameter estimates of a given leaf of a SEM tree

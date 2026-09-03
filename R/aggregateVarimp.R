@@ -8,14 +8,14 @@
 #' @param aggregate Character. Either 'mean' or 'median' as function to aggregate estimates over a forest
 #' @param scale Character. Either 'absolute' or 'relative'.
 #' @param omit.na Boolean. By default TRUE, which ignores NA estimates when aggregating. Otherwise they are interpreted as zero.
-#' 
+#' @param scale.by Integer. By default 1. Scaling parameter.
 #' @export
 #' 
 aggregateVarimp <-
   function(vimp,
            aggregate = c("mean","median"),
            scale = c("absolute","relative.baseline"),
-           omit.na = TRUE)
+           omit.na = TRUE, scale.by=1)
   {
     aggregate <- match.arg(aggregate)
     scale <- match.arg(scale)
@@ -30,7 +30,12 @@ aggregateVarimp <-
     if (!omit.na) {
       datamat[is.na(datamat)] <- 0
     }
-    
+  
+    if (scale.by!=1) {
+      datamat <- datamat * scale.by
+      vimp$ll.baseline <- vimp$ll.baseline * scale.by
+    }
+      
     # rescale ?
     if (scale == "absolute") {
       data <- datamat
@@ -41,9 +46,12 @@ aggregateVarimp <-
           ncol = dim(datamat)[2],
           byrow = T
         )
-      #data <- 100-baseline.matrix*100/(vim$importance + baseline.matrix)
+      
+
+      
       data <-
-        -100 + (datamat + baseline.matrix) * 100 / baseline.matrix
+#        -100 + (datamat + baseline.matrix) * 100 / baseline.matrix
+      datamat / baseline.matrix * 100
     } else {
       stop("Unknown scale. Use 'absolute' or 'relative.baseline'.")
       
@@ -57,6 +65,8 @@ aggregateVarimp <-
       stop("Unknown aggregation function. Use mean or median")
       
     }
+    
+    
     
     return(x)
     

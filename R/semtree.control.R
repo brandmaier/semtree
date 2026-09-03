@@ -79,10 +79,11 @@
 #' using model-implied means and covariance matrices.
 #' multivariate normal density and the model-implied mean and covariance matrix.
 #' @param check.convergence Boolean. Should convergence be checked when growing a tree. Default: TRUE
-#' @param chunk.random.samples Integer. Controlling split-point subsampling for
+#' @param chunk.random.samples Integer. Experimental feature. Not for productive use. Controlling split-point subsampling for
 #' `method = "naive"`. `0` (default) evaluates all eligible split points.
 #' Values `> 0` evaluate random chunks of split points, which can speed up tree
 #' growth on very large datasets at the cost of a less exhaustive search.
+#' @param num_surrogates Integer. Experimental feature. Not for productive use. Number of surrogates for surrogate splitting
 #' @return A control object containing a list of the above parameters.
 #' @author Andreas M. Brandmaier, John J. Prindle, Manuel Arnold
 #' @seealso \code{\link{semtree}}
@@ -133,7 +134,8 @@ semtree_control <-
            ctsem_sd = FALSE,
            loglik = c("default", "model", "mvn"),
            check.convergence = TRUE,
-           chunk.random.samples = 0)
+           chunk.random.samples = 0,
+           num_surrogates = 0)
   {
     options <- list()
     # verbose output during generation of SEMTree
@@ -199,12 +201,16 @@ semtree_control <-
     options$check.convergence = check.convergence
     # should split points in naive splitting be selected from random subsets?
     options$chunk.random.samples =  chunk.random.samples
+    # number of surrogates
+    options$num_surrogates = num_surrogates
+    
     class(options) <- "semtree.control"
     
     return(options)
   }
 
-#' @deprecated since version 0.10.0
+#' deprecated since version 0.10.0
+#' @noRd
 #' @export
 semtree.control <- function(...) {
   warning("Calling semtree.control() is deprecated! Please use semtree_control() instead.")

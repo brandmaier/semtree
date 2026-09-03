@@ -1,4 +1,4 @@
-# semtree 0.10.0 (2025)
+# semtree 0.10.0 (2026)
 
 - semtree now supports focus parameters in lavaan (but not for "fair" rule, yet)
 - default construction method for forests changed from "fair" to maxLR-based computation
@@ -20,6 +20,7 @@
 - removed duplicate labels in semtree plot() when lavaan models have equality constraints (thanks to Manuel Arnold)
 - removed outdated information from semtree.control print function (thanks to Manuel Arnold)
 - fixed bug with more than one focus parameter in score-based tests (thanks to Leonie Hagitte)
+- semtree_control() has a new option "check.convergence" (default: true) that checks whether a model converged properly before it is considered for a valid split
 
 # semtree 0.9.23 (2025)
 

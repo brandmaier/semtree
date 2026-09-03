@@ -8,7 +8,8 @@ aggregateVarimp(
   vimp,
   aggregate = c("mean", "median"),
   scale = c("absolute", "relative.baseline"),
-  omit.na = TRUE
+  omit.na = TRUE,
+  scale.by = 1
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ aggregateVarimp(
 \item{scale}{Character. Either 'absolute' or 'relative'.}
 
 \item{omit.na}{Boolean. By default TRUE, which ignores NA estimates when aggregating. Otherwise they are interpreted as zero.}
+
+\item{scale.by}{Integer. By default 1. Scaling parameter.}
 }
 \description{
 This function aggregates variable importance estimates over

@@ -52,8 +52,7 @@
 #' In order to get robust estimates of the importance of predictors,
 #' consider growing a \code{\link{semforest}}
 #'
-#' @aliases semtree plot.semtree print.semtree summary.semtree toLatex.semtree
-#' nodeFunSemtree
+#' @aliases semtree plot.semtree print.semtree summary.semtree toLatex.semtree nodeFunSemtree
 #' @param model A template model specification from \pkg{OpenMx} using
 #' the \code{\link[OpenMx]{mxModel}} function or a \pkg{lavaan} model
 #' using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).
@@ -88,15 +87,17 @@
 #' @examples{
 #' 
 #' model <- lavaan::lavaan("bwt~~bwt; bwt~1")
-#' ctrl <- semtree_control(method="score", max.depth = 2, alpha = 0.01)
+#' ctrl <- semtree_control(method="score", 
+#'  max.depth = 2, alpha = 0.01)
 #' bw <- with(MASS::birthwt, {
 #'  ui <- factor(ui, labels=c("no","yes"))
 #'  ht <- factor(ht, labels=c("no","yes"))
 #'  smoke <- factor(smoke, labels=c("no","yes"))
-#'  data.frame( bwt, uterine_irritability=ui, hypertension=ht, smoke, num_premature_labours=ptl, physician_visits=ftv )
+#'  data.frame( bwt, uterine_irritability=ui, 
+#'  hypertension=ht, smoke, num_premature_labours=ptl, 
+#'  physician_visits=ftv )
 #' })
-#'  
-#' })
+#' 
 #' tree <- semtree(model = model, data = bw, control = ctrl)
 #' plot(tree)
 #' }

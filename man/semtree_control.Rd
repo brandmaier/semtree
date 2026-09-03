@@ -33,7 +33,8 @@ semtree_control(
   ctsem_sd = FALSE,
   loglik = c("default", "model", "mvn"),
   check.convergence = TRUE,
-  chunk.random.samples = 0
+  chunk.random.samples = 0,
+  num_surrogates = 0
 )
 }
 \arguments{
@@ -50,6 +51,9 @@ limiting tree growth.}
 
 \item{alpha}{Numeric. Default: 0.05. Significance level for splitting at a given
 node.}
+
+\item{alpha.invariance}{Numeric. alpha.invariance Default: NA. Significance level for invariance
+tests. If NA, the value of alpha is used.}
 
 \item{exclude.heywood}{Default: TRUE. Reports whether there is an
 identification problem in the covariance structure of an SEM tested.}
@@ -79,13 +83,13 @@ analysis.}
 
 \item{report.level}{Integer. Default: 0. Values up to 99 increase console reporting
 detail during tree growth and can help diagnose fitting or split-selection
-issues.}
+issues. This is rather appropriate for debugging than for end users.}
 
 \item{exclude.code}{Default: NA. NPSOL error code for exclusion from model
 fit evaluations when finding best split. Default: Models with errors during
 fitting are retained.}
 
-\item{linear}{If TRUE (default), the structural equation model is assumed to
+\item{linear}{Boolean. If TRUE (default), the structural equation model is assumed to
 not contain any nonlinear parameter constraints and scores are computed
 analytically, resulting in a shorter runtime. Only relevant for models fitted
 with OpenMx.}
@@ -121,13 +125,12 @@ multivariate normal density and the model-implied mean and covariance matrix.}
 
 \item{check.convergence}{Boolean. Should convergence be checked when growing a tree. Default: TRUE}
 
-\item{chunk.random.samples}{Integer. Controlling split-point subsampling for
+\item{chunk.random.samples}{Integer. Experimental feature. Not for productive use. Controlling split-point subsampling for
 `method = "naive"`. `0` (default) evaluates all eligible split points.
 Values `> 0` evaluate random chunks of split points, which can speed up tree
 growth on very large datasets at the cost of a less exhaustive search.}
 
-\item{Numeric.}{alpha.invariance Default: NA. Significance level for invariance
-tests. If NA, the value of alpha is used.}
+\item{num_surrogates}{Integer. Experimental feature. Not for productive use. Number of surrogates for surrogate splitting}
 }
 \value{
 A control object containing a list of the above parameters.

@@ -3,7 +3,7 @@
 #' @param object semtree. A SEM tree node.
 #' @param \dots Extra arguments. Currently unused.
 #'
-#'  @exportS3Method coef semtree
+#' @exportS3Method coef semtree
 #'
 coef.semtree <- function(object, ...) {
   model <- object$model
