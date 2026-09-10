@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2026-02-16</h4>
+            <h4 data-toc-skip class="date">2026-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/constraints.Rmd" class="external-link"><code>vignettes/constraints.Rmd</code></a></small>
       <div class="hidden name"><code>constraints.Rmd</code></div>
@@ -206,7 +206,7 @@ a tree with weakly measurement-invariant leafs.</p>
 <span>                     local.invariance<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F__x1"</span>,<span class="st">"F__x2"</span>,<span class="st">"F__x3"</span>,<span class="st">"F__x4"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
 <span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=1298.9451536784, new current best! (was 23577.0760914388)                                                                            &gt; No Invariance alpha selected. alpha.invariance set to:0.05</span></span>
-<span><span class="co">#&gt; Beginning initial fit attempt                             Beginning initial fit attemptFit attempt 0, fit=-1283.02560315233, new current best! (was 621.360407936133)                                                                              Beginning initial fit attemptFit attempt 0, fit=-790.650598262703, new current best! (was -667.657401072649)                                                                               Beginning initial fit attemptFit attempt 0, fit=-736.010057168879, new current best! (was -615.36820207966)                                                                              Beginning initial fit attemptFit attempt 0, fit=-1332.12327007281, new current best! (was 677.584745742238)                                                                              Beginning initial fit attemptFit attempt 0, fit=-795.443714634396, new current best! (was -676.959406258319)                                                                               Beginning initial fit attemptFit attempt 0, fit=-784.971830514303, new current best! (was -655.163863814537)                                                                               <span style="color: #00BB00;">✔</span> Tree construction finished [took 3s].</span></span></code></pre></div>
+<span><span class="co">#&gt; Beginning initial fit attempt                             Beginning initial fit attemptFit attempt 0, fit=-1283.02560315233, new current best! (was 621.360407936133)                                                                              Beginning initial fit attemptFit attempt 0, fit=-790.650598262703, new current best! (was -667.657401072649)                                                                               Beginning initial fit attemptFit attempt 0, fit=-736.010057168879, new current best! (was -615.36820207966)                                                                              Beginning initial fit attemptFit attempt 0, fit=-1332.12327007281, new current best! (was 677.584745742238)                                                                              Beginning initial fit attemptFit attempt 0, fit=-795.443714634396, new current best! (was -676.959406258319)                                                                               Beginning initial fit attemptFit attempt 0, fit=-784.971830514303, new current best! (was -655.163863814537)                                                                               <span style="color: #00BB00;">✔</span> Tree construction finished [took 7s].</span></span></code></pre></div>
 <p>Now we find <code>p1</code> as the only predictor that yields
 subgroups that pass the measurement invariance test. Even though we have
 chosen the four factor loadings as <code>local.invariance</code>
@@ -214,7 +214,7 @@ constraint, they are allowed to differ numerically but there was no
 significant difference between them.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.lc</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="focus-parameters">Focus Parameters<a class="anchor" aria-label="anchor" href="#focus-parameters"></a>
@@ -286,17 +286,17 @@ bivariate model:</p>
 <span><span class="co">#&gt; AIC:       4243.926               8243.926                 8243.986</span></span>
 <span><span class="co">#&gt; BIC:      -5547.046               8268.465                 8252.584</span></span>
 <span><span class="co">#&gt; To get additional fit indices, see help(mxRefModels)</span></span>
-<span><span class="co">#&gt; timestamp: 2026-02-16 15:35:08 </span></span>
-<span><span class="co">#&gt; Wall clock time: 0.0235641 secs </span></span>
+<span><span class="co">#&gt; timestamp: 2026-09-07 08:24:03 </span></span>
+<span><span class="co">#&gt; Wall clock time: 0.07718301 secs </span></span>
 <span><span class="co">#&gt; optimizer:  SLSQP </span></span>
-<span><span class="co">#&gt; OpenMx version number: 2.22.9 </span></span>
+<span><span class="co">#&gt; OpenMx version number: 2.22.11 </span></span>
 <span><span class="co">#&gt; Need help?  See help(mxSummary)</span></span></code></pre></div>
 <p>Now, we grow a tree without constraints:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">tree.biv</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span><span class="va">model.biv</span>, data<span class="op">=</span><span class="va">df.biv</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
-<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3454.12434636158, new current best! (was 4066.88531956853)                                                                             Beginning initial fit attemptFit attempt 0, fit=1555.54412300078, new current best! (was 1720.05414323717)                                                                             Beginning initial fit attemptFit attempt 0, fit=1569.26472590267, new current best! (was 1734.07020312441)                                                                             Beginning initial fit attemptFit attempt 0, fit=3566.5692080098, new current best! (was 4167.0405062829)                                                                           Beginning initial fit attemptFit attempt 0, fit=1593.91684303245, new current best! (was 1780.60715329424)                                                                             Beginning initial fit attemptFit attempt 0, fit=1576.27862642528, new current best! (was 1785.96205471556)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 2s].</span></span></code></pre></div>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3454.12434636158, new current best! (was 4066.88531956853)                                                                             Beginning initial fit attemptFit attempt 0, fit=1555.54412300078, new current best! (was 1720.05414323717)                                                                             Beginning initial fit attemptFit attempt 0, fit=1569.26472590267, new current best! (was 1734.07020312441)                                                                             Beginning initial fit attemptFit attempt 0, fit=3566.5692080098, new current best! (was 4167.0405062829)                                                                           Beginning initial fit attemptFit attempt 0, fit=1593.91684303245, new current best! (was 1780.60715329424)                                                                             Beginning initial fit attemptFit attempt 0, fit=1576.27862642528, new current best! (was 1785.96205471556)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 6s].</span></span></code></pre></div>
 <p>As expected, we obtain a tree structure that has both <code>p1</code>
 and <code>p2</code> (here we use the viridis colors to give each leaf
 node a different frame color, which we’ll use later again):</p>
@@ -306,7 +306,7 @@ node a different frame color, which we’ll use later again):</p>
 <span><span class="va">cols</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="fu">semtree</span><span class="fu">:::</span><span class="fu"><a href="../reference/getTerminalNodes.html">getTerminalNodes</a></span><span class="op">(</span><span class="va">tree.biv</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">viridis</span><span class="fu">:::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/viridis_pal.html" class="external-link">viridis_pal</a></span><span class="op">(</span><span class="op">)</span><span class="op">(</span><span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.biv</span>, border.col<span class="op">=</span><span class="va">cols</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 <p>Let us visualize what this tree is doing. Here is the empirical joint
 distribution of both <code>x1</code> and <code>x2</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -314,7 +314,7 @@ distribution of both <code>x1</code> and <code>x2</code>:</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df.biv</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x1</span>, y<span class="op">=</span><span class="va">x2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html" class="external-link">geom_density_2d</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700"></p>
 <p>And here is the partition of the observed two-dimensional space
 implied by the leafs of the tree (compare the density colors to the
 colors of the leaf nodes in the earlier dendrogram):</p>
@@ -325,7 +325,7 @@ colors of the leaf nodes in the earlier dendrogram):</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html" class="external-link">geom_density_2d</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>colour<span class="op">=</span><span class="va">leaf</span><span class="op">)</span><span class="op">)</span><span class="op">+</span> </span>
 <span>  <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridis/reference/scale_viridis.html" class="external-link">scale_color_viridis</a></span><span class="op">(</span>discrete<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 <p>What if we were interested only in splits with respect to one of the
 two dimensions? In this case, we can set a <code>focus.parameter</code>.
 Focus parameters change the split evaluation such that only splits are
@@ -338,10 +338,10 @@ parameters given in <code>focus.parameter</code>.</p>
 <span><span class="va">tree.biv2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span><span class="va">model.biv</span>, <span class="va">df.biv</span>, constraints<span class="op">=</span></span>
 <span>                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span><span class="op">(</span>focus.parameters <span class="op">=</span> <span class="st">"mu1"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
-<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3740.92185296731, new current best! (was 4086.36288912548)                                                                             Beginning initial fit attemptFit attempt 0, fit=3795.16307144921, new current best! (was 4147.56293672595)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 1s].</span></span></code></pre></div>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3740.92185296731, new current best! (was 4086.36288912548)                                                                             Beginning initial fit attemptFit attempt 0, fit=3795.16307144921, new current best! (was 4147.56293672595)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 6s].</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.biv2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/plbv2-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/plbv2-1.png" class="r-plt" alt="" width="700"></p>
 <p>As expected, the resulting tree structure only has <code>grp1</code>
 as predictor because <code>grp1</code> predicts differences in
 <code>mu1</code>. Predictor <code>grp2</code> did not come up anymore.
@@ -352,12 +352,12 @@ picture:</p>
 <span><span class="va">tree.biv3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span><span class="va">model.biv</span>, <span class="va">df.biv</span>, constraints<span class="op">=</span></span>
 <span>                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span><span class="op">(</span>focus.parameters <span class="op">=</span> <span class="st">"mu2"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
-<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3454.12434636158, new current best! (was 4066.88531956853)                                                                             Beginning initial fit attemptFit attempt 0, fit=3566.5692080098, new current best! (was 4167.0405062829)                                                                           <span style="color: #00BB00;">✔</span> Tree construction finished [took 1s].</span></span></code></pre></div>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             Beginning initial fit attemptFit attempt 0, fit=3454.12434636158, new current best! (was 4066.88531956853)                                                                             Beginning initial fit attemptFit attempt 0, fit=3566.5692080098, new current best! (was 4167.0405062829)                                                                           <span style="color: #00BB00;">✔</span> Tree construction finished [took 6s].</span></span></code></pre></div>
 <p>And, indeed, we see only <code>grp2</code> as predictor whereas
 <code>grp1</code> was not selected this time.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.biv3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="700"></p>
 <p>Finally, we set the <code>focus.parameter</code> to one of the
 variance parameters. None of the predictors predicts differences in the
 variance, so we expect an empty tree (only the root node; no predictors
@@ -367,10 +367,10 @@ selected):</p>
 <span><span class="va">tree.biv4</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span><span class="va">model.biv</span>, <span class="va">df.biv</span>, constraints<span class="op">=</span></span>
 <span>                      <span class="fu"><a href="../reference/semtree.constraints.html">semtree.constraints</a></span><span class="op">(</span>focus.parameters <span class="op">=</span> <span class="st">"VAR_x2"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &gt; Model was not run. Estimating parameters now.</span></span>
-<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took less than a second].</span></span>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=8233.92582585158, new current best! (was 14528.4141425595)                                                                             Beginning initial fit attemptFit attempt 0, fit=8233.92582585143, new current best! (was 8233.92582585158)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 2s].</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree.biv4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="constraints_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="constraints_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
   </div>
@@ -390,7 +390,7 @@ selected):</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

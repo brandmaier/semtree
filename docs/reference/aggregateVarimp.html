@@ -89,7 +89,8 @@ on a variable importance estimate from a SEM forest.</p>
 <span>  <span class="va">vimp</span>,</span>
 <span>  aggregate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>,</span>
 <span>  scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"absolute"</span>, <span class="st">"relative.baseline"</span><span class="op">)</span>,</span>
-<span>  omit.na <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  omit.na <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scale.by <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -112,6 +113,10 @@ on a variable importance estimate from a SEM forest.</p>
 <dt id="arg-omit-na">omit.na<a class="anchor" aria-label="anchor" href="#arg-omit-na"></a></dt>
 <dd><p>Boolean. By default TRUE, which ignores NA estimates when aggregating. Otherwise they are interpreted as zero.</p></dd>
 
+
+<dt id="arg-scale-by">scale.by<a class="anchor" aria-label="anchor" href="#arg-scale-by"></a></dt>
+<dd><p>Integer. By default 1. Scaling parameter.</p></dd>
+
 </dl></div>
 
   </div>
@@ -126,7 +131,7 @@ on a variable importance estimate from a SEM forest.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

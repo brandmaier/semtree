@@ -99,7 +99,7 @@
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2026-02-16</h4>
+            <h4 data-toc-skip class="date">2026-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="hidden name"><code>getting-started.Rmd</code></div>
@@ -116,6 +116,7 @@ Brandmaier</h4>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/brandmaier/semtree" class="external-link">semtree</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: OpenMx</span></span>
+<span><span class="co">#&gt; Warning: package 'OpenMx' was built under R version 4.5.3</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://openmx.ssri.psu.edu/" class="external-link">OpenMx</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -230,7 +231,7 @@ are not observed variables in the dataset are potential predictors.</p>
 <p>Once the tree is grown, we can plot it:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="table">Table<a class="anchor" aria-label="anchor" href="#table"></a>
@@ -336,7 +337,7 @@ nodes until a leaf is reached. For example, <code>max.depth=1</code>
 results in trees that only show one or zero decision nodes.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span> <span class="fu"><a href="../reference/prune.html">prune</a></span><span class="op">(</span><span class="va">tree</span>, max.depth<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="hyper-parameters">Hyper-parameters<a class="anchor" aria-label="anchor" href="#hyper-parameters"></a>
@@ -366,10 +367,10 @@ splits</li>
 <code class="sourceCode R"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/semtree.html">semtree</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">growthCurveModel</span>, </span>
 <span>                data <span class="op">=</span> <span class="va">growth_data</span>,</span>
 <span>                control <span class="op">=</span> <span class="va">tree_control</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=7745.53852713508, new current best! (was 7745.53852713964)                                                                             Beginning initial fit attemptFit attempt 0, fit=2836.90806227974, new current best! (was 3687.59332338577)                                                                             Beginning initial fit attemptFit attempt 0, fit=1713.80837616561, new current best! (was 1739.87876535343)                                                                             Beginning initial fit attemptFit attempt 0, fit=1061.98006591109, new current best! (was 1097.02929672133)                                                                             Beginning initial fit attemptFit attempt 0, fit=3206.09542712537, new current best! (was 4057.94520393808)                                                                             Beginning initial fit attemptFit attempt 0, fit=2454.87187575858, new current best! (was 2466.44438222973)                                                                             Beginning initial fit attemptFit attempt 0, fit=691.794906946785, new current best! (was 739.651045009226)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 3s].</span></span>
+<span><span class="co">#&gt; Beginning initial fit attemptFit attempt 0, fit=7745.53852713508, new current best! (was 7745.53852713964)                                                                             Beginning initial fit attemptFit attempt 0, fit=2836.90806227974, new current best! (was 3687.59332338577)                                                                             Beginning initial fit attemptFit attempt 0, fit=1713.80837616561, new current best! (was 1739.87876535343)                                                                             Beginning initial fit attemptFit attempt 0, fit=1061.98006591109, new current best! (was 1097.02929672133)                                                                             Beginning initial fit attemptFit attempt 0, fit=3206.09542712537, new current best! (was 4057.94520393808)                                                                             Beginning initial fit attemptFit attempt 0, fit=2454.87187575858, new current best! (was 2466.44438222973)                                                                             Beginning initial fit attemptFit attempt 0, fit=691.794906946785, new current best! (was 739.651045009226)                                                                             <span style="color: #00BB00;">✔</span> Tree construction finished [took 10s].</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div>
-<p><img src="getting-started_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="getting-started_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700"></p>
 </div>
   </div>
 
@@ -388,7 +389,7 @@ splits</li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

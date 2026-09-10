@@ -106,41 +106,37 @@ converge to a solution.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A <code>data.frame</code> used for building the tree. Order
-of modeled variables and predictors is not important when providing a
-dataset to <code>semtree</code>.</p></dd>
+<dd><p>A <code>data.frame</code> used for growing the tree. The order
+of manifest variables and predictors is not important when providing a
+dataset to <code>semtree</code>. Use the argument 'predictors' to explicitly
+specify which variables should be considered as split candidates.</p></dd>
 
 
 <dt id="arg-control">control<a class="anchor" aria-label="anchor" href="#arg-control"></a></dt>
-<dd><p><code>semtree</code> model specifications from
-<code><a href="semtree_control.html">semtree.control</a></code> are input here. Any changes from the default
-setting can be specified here.</p></dd>
+<dd><p>A <code><a href="semtree_control.html">semtree_control</a></code> object contains all hyper-parameters that govern the splitting procedure.</p></dd>
 
 
 <dt id="arg-constraints">constraints<a class="anchor" aria-label="anchor" href="#arg-constraints"></a></dt>
 <dd><p>A <code><a href="semtree.constraints.html">semtree.constraints</a></code> object setting model
 parameters as constrained from the beginning of the <code>semtree</code>
-computation. This includes options to globally or locally set equality
-constraints and to specify focus parameters (i.e., parameter subsets that
+computation. This includes the specification of focus parameters (i.e., parameter subsets that
 exclusively go into the function evaluating splits). Also, options for
 measurement invariance testing in trees are included.</p></dd>
 
 
 <dt id="arg-predictors">predictors<a class="anchor" aria-label="anchor" href="#arg-predictors"></a></dt>
-<dd><p>A vector of variable names matching variable names in
+<dd><p>A vector of variable names matching variable names in the
 data set. If NULL (default) all variables that are in data set and not part of
-the model are potential predictors. Optional function input to select a
-subset of the unmodeled variables to use as predictors in the <code>semtree</code>
-function.</p></dd>
+the model are potential predictors.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Optional arguments passed to the tree growing function.</p></dd>
+<dd><p>Optional arguments.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>semtree</code> object is created which can be examined with
+    <p>A <code>semtree</code> object. This can be further examined with
 <code>summary</code>, <code>plot</code>, and <code>print</code>.</p>
     </div>
     <div id="details">
@@ -151,19 +147,18 @@ This results in a tree where each node contains an SEM, revealing heterogeneity 
 <p>The package supports model specification in lavaan and OpenMx.</p>
 
 <p>Calling <code>semtree</code> with an <code><a href="https://rdrr.io/pkg/OpenMx/man/mxModel.html" class="external-link">mxModel</a></code> or
-<code><a href="https://rdrr.io/pkg/lavaan/man/lavaan.html" class="external-link">lavaan</a></code> model fits the template to the data set provided and
+<code><a href="https://rdrr.io/pkg/lavaan/man/lavaan.html" class="external-link">lavaan</a></code> model fits the template model to the entire data set and
 then recurses over the following steps until no further meaningful partition
-into sub groups is found:</p><ol><li><p>Fit the model on the current node's data and compute the model fit.</p></li>
-<li><p>For each predictor, generate candidate split points (or score tests)
-  and estimate the improvement in model fit using the chosen method in
-  <code><a href="semtree_control.html">semtree.control</a></code>.</p></li>
-<li><p>Select the best-performing predictor/split combination and apply it
-  when it passes the statistical threshold (<code>alpha</code>) and satisfies the
-  size limitations (<code>min.N</code>, <code>min.bucket</code>, <code>max.depth</code>, or a
-  custom stopping rule).</p></li>
-<li><p>Continue the procedure independently on each resulting child node so
-  that terminal nodes (leafs) contain SEMs with subgroup-specific parameter
-  estimates.</p></li>
+into sub groups is found:</p><ol><li><p>Fit the model on the current node's data and compute model fit.</p></li>
+<li><p>For each predictor, find the split point that best
+ improves model fit –  this is either done by likelihood ratio tests or
+ score-based tests as determined in the   <code><a href="semtree_control.html">semtree.control</a></code>.</p></li>
+<li><p>Select the best-performing predictor/split combination unless
+  a stopping rule applies, e.g., split is not significant given a
+  significance criterion (<code>alpha</code>), there are too few observations in
+  a node (<code>min.N</code>, <code>min.bucket</code>, a maximum depth is reached, <code>max.depth</code>, or a
+  custom stopping rule applies.</p></li>
+<li><p>Continue the procedure independently on each resulting sub group</p></li>
 </ol><p>Predictors can be categorical (ordered or unordered) or continuous. When
 using unordered categorical predictors with many levels, the number of
 candidate partitions grows quickly, so limiting the predictor set can reduce
@@ -200,6 +195,32 @@ consider growing a <code><a href="semforest.html">semforest</a></code></p>
     <p>Andreas M. Brandmaier, John J. Prindle, Manuel Arnold</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/lavaan.html" class="external-link">lavaan</a></span><span class="op">(</span><span class="st">"bwt~~bwt; bwt~1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ctrl</span> <span class="op">&lt;-</span> <span class="fu"><a href="semtree_control.html">semtree_control</a></span><span class="op">(</span>method<span class="op">=</span><span class="st">"score"</span>, </span></span>
+<span class="r-in"><span> max.depth <span class="op">=</span> <span class="fl">2</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/birthwt.html" class="external-link">birthwt</a></span>, <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ui</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>,<span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">ht</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">ht</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>,<span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="va">smoke</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">smoke</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>,<span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span> <span class="va">bwt</span>, uterine_irritability<span class="op">=</span><span class="va">ui</span>, </span></span>
+<span class="r-in"><span> hypertension<span class="op">=</span><span class="va">ht</span>, <span class="va">smoke</span>, num_premature_labours<span class="op">=</span><span class="va">ptl</span>, </span></span>
+<span class="r-in"><span> physician_visits<span class="op">=</span><span class="va">ftv</span> <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu">semtree</span><span class="op">(</span>model <span class="op">=</span> <span class="va">model</span>, data <span class="op">=</span> <span class="va">bw</span>, control <span class="op">=</span> <span class="va">ctrl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">✖</span> Variable num_premature_labours is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">✖</span> Variable physician_visits is numeric but has only few unique values. Consider recoding as ordered factor.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Tree construction finished [took 2s].</span>
+<span class="r-plt img"><img src="semtree-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -212,7 +233,7 @@ consider growing a <code><a href="semforest.html">semforest</a></code></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

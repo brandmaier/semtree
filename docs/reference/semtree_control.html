@@ -136,7 +136,8 @@ implements modern score-based statistics.</p>
 <span>  ctsem_sd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  loglik <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"model"</span>, <span class="st">"mvn"</span><span class="op">)</span>,</span>
 <span>  check.convergence <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  chunk.random.samples <span class="op">=</span> <span class="fl">0</span></span>
+<span>  chunk.random.samples <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  num_surrogates <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -164,6 +165,11 @@ limiting tree growth.</p></dd>
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
 <dd><p>Numeric. Default: 0.05. Significance level for splitting at a given
 node.</p></dd>
+
+
+<dt id="arg-alpha-invariance">alpha.invariance<a class="anchor" aria-label="anchor" href="#arg-alpha-invariance"></a></dt>
+<dd><p>Numeric. alpha.invariance Default: NA. Significance level for invariance
+tests. If NA, the value of alpha is used.</p></dd>
 
 
 <dt id="arg-exclude-heywood">exclude.heywood<a class="anchor" aria-label="anchor" href="#arg-exclude-heywood"></a></dt>
@@ -211,7 +217,7 @@ analysis.</p></dd>
 <dt id="arg-report-level">report.level<a class="anchor" aria-label="anchor" href="#arg-report-level"></a></dt>
 <dd><p>Integer. Default: 0. Values up to 99 increase console reporting
 detail during tree growth and can help diagnose fitting or split-selection
-issues.</p></dd>
+issues. This is rather appropriate for debugging than for end users.</p></dd>
 
 
 <dt id="arg-exclude-code">exclude.code<a class="anchor" aria-label="anchor" href="#arg-exclude-code"></a></dt>
@@ -221,7 +227,7 @@ fitting are retained.</p></dd>
 
 
 <dt id="arg-linear">linear<a class="anchor" aria-label="anchor" href="#arg-linear"></a></dt>
-<dd><p>If TRUE (default), the structural equation model is assumed to
+<dd><p>Boolean. If TRUE (default), the structural equation model is assumed to
 not contain any nonlinear parameter constraints and scores are computed
 analytically, resulting in a shorter runtime. Only relevant for models fitted
 with OpenMx.</p></dd>
@@ -279,15 +285,14 @@ multivariate normal density and the model-implied mean and covariance matrix.</p
 
 
 <dt id="arg-chunk-random-samples">chunk.random.samples<a class="anchor" aria-label="anchor" href="#arg-chunk-random-samples"></a></dt>
-<dd><p>Integer. Controlling split-point subsampling for
+<dd><p>Integer. Experimental feature. Not for productive use. Controlling split-point subsampling for
 `method = "naive"`. `0` (default) evaluates all eligible split points.
 Values `&gt; 0` evaluate random chunks of split points, which can speed up tree
 growth on very large datasets at the cost of a less exhaustive search.</p></dd>
 
 
-<dt id="arg-numeric-">Numeric.<a class="anchor" aria-label="anchor" href="#arg-numeric-"></a></dt>
-<dd><p>alpha.invariance Default: NA. Significance level for invariance
-tests. If NA, the value of alpha is used.</p></dd>
+<dt id="arg-num-surrogates">num_surrogates<a class="anchor" aria-label="anchor" href="#arg-num-surrogates"></a></dt>
+<dd><p>Integer. Experimental feature. Not for productive use. Number of surrogates for surrogate splitting</p></dd>
 
 </dl></div>
     <div id="value">
@@ -351,7 +356,7 @@ U. (2013). Structural equation model trees. <em>Psychological Methods</em>,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

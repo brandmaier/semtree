@@ -76,7 +76,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.10.0" id="semtree-0100-2025">semtree 0.10.0 (2025)<a class="anchor" aria-label="anchor" href="#semtree-0100-2025"></a></h2>
+<h2 class="page-header" data-toc-text="0.10.0" id="semtree-0100-2026">semtree 0.10.0 (2026)<a class="anchor" aria-label="anchor" href="#semtree-0100-2026"></a></h2>
 <ul><li>semtree now supports focus parameters in lavaan (but not for “fair” rule, yet)</li>
 <li>default construction method for forests changed from “fair” to maxLR-based computation</li>
 <li>bugfix in toTable() which would sometimes not show the decisions properly; also introduced default rounding of estimates</li>
@@ -94,6 +94,10 @@
 <li>plot semtree has option to display a nonconvergence warning</li>
 <li>various safety checks and better warnings/errors</li>
 <li>ggplot2 deprecated aes_string(), so we now require version 3.3.0 to use the replacement</li>
+<li>removed duplicate labels in semtree plot() when lavaan models have equality constraints (thanks to Manuel Arnold)</li>
+<li>removed outdated information from semtree.control print function (thanks to Manuel Arnold)</li>
+<li>fixed bug with more than one focus parameter in score-based tests (thanks to Leonie Hagitte)</li>
+<li>semtree_control() has a new option “check.convergence” (default: true) that checks whether a model converged properly before it is considered for a valid split</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.9.23" id="semtree-0923-2025">semtree 0.9.23 (2025)<small>2025-11-26</small><a class="anchor" aria-label="anchor" href="#semtree-0923-2025"></a></h2>
@@ -209,7 +213,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>

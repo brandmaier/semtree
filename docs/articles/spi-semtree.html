@@ -100,7 +100,7 @@ Structure in the spi Dataset</h1>
                         <h4 data-toc-skip class="author">Andreas M.
 Brandmaier</h4>
             
-            <h4 data-toc-skip class="date">2026-01-23</h4>
+            <h4 data-toc-skip class="date">2026-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/brandmaier/semtree/blob/HEAD/vignettes/spi-semtree.Rmd" class="external-link"><code>vignettes/spi-semtree.Rmd</code></a></small>
       <div class="hidden name"><code>spi-semtree.Rmd</code></div>
@@ -128,6 +128,7 @@ that captures their variances and covariance,</li>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/" class="external-link">psychTools</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/" class="external-link">psych</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://openmx.ssri.psu.edu/" class="external-link">OpenMx</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'OpenMx' was built under R version 4.5.3</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'OpenMx'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:psych':</span></span>
@@ -250,10 +251,10 @@ version to see how stricter multiplicity control affects the discovered
 subgroups.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">spi_tree</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spi-semtree_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="spi-semtree_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">spi_tree_bonf</span><span class="op">)</span></span></code></pre></div>
-<p><img src="spi-semtree_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
+<p><img src="spi-semtree_files/figure-html/unnamed-chunk-6-2.png" class="r-plt" alt="" width="700"></p>
 <p>The Bonferroni-adjusted tree will typically be smaller or include
 fewer splits because candidate partitions must meet the more
 conservative significance threshold.</p>
@@ -275,7 +276,7 @@ conservative significance threshold.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

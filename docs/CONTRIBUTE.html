@@ -82,11 +82,13 @@
 </div>
 <div class="section level2">
 <h2 id="some-notes">Some notes<a class="anchor" aria-label="anchor" href="#some-notes"></a></h2>
-<ul><li>Please make sure that all tests pass before you create a pull request with a new feature or a bug fix, e.g., by running this in your local semtree directory: <code>{r} devtools::test(".")</code>
-</li>
-<li>Please make sure that the package passes all checks that are required by CRAN before you create a pull request with a new feature or a bug fix, e.g., by running this in your local semtree directory: <code>{r} devtools::check(".")</code>
-</li>
-<li>please use camel case for function names indicating the separation of words with a single capitalized letter, and the first word starting with lower case, e.g., <code>checkBinSize()</code> or <code>getExpectedMean()</code>.</li>
+<ul><li>Please make sure that all tests pass before you create a pull request with a new feature or a bug fix, e.g., by running this in your local semtree directory: ```{r} devtools::test(“.”)</li>
+</ul><pre><code>- Please make sure that the package passes all checks that are required by CRAN
+before you create a pull request with a new feature or a bug fix, e.g., by running
+this in your local semtree directory:
+```{r}
+devtools::check(".")</code></pre>
+<ul><li>please use camel case for function names indicating the separation of words with a single capitalized letter, and the first word starting with lower case, e.g., <code>checkBinSize()</code> or <code>getExpectedMean()</code>.</li>
 </ul></div>
 
 
@@ -105,7 +107,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>
