@@ -86,9 +86,9 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
       ids <- temp_model@ParTable$label == focus_parameter_names
       if (!any(ids)) ui_fail("Error with focus parameter specification!")
       
-      focus_parameter_values <- resampled.node$model@parTable$est[ids]
+      focus_parameter_values <- resampled.node$model@ParTable$est[ids]
       
-      temp_model@parTable$est[ids] <- focus_parameter_values
+      temp_model@ParTable$est[ids] <- focus_parameter_values
       
     } else {
       ui_fail("Focus variable importance not implemented for this type of model.")

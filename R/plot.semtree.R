@@ -3,6 +3,7 @@ plot.semtree <- function(x,
                          type = 2,
                          no.plot = FALSE,
                          show.nonconvergence = FALSE,
+                         filter.parameters = NULL,
                          ...) {
   if (is.null(x)) {
     ui_error("Argument is not a SEM tree!")
@@ -38,6 +39,16 @@ plot.semtree <- function(x,
         param_names <- x$param_names
         param_values <- round(x$params, digits = 3)
       }
+    
+    if (!is.null(filter.parameters)) {
+      mtchs <-  param_names %in% filter.parameters 
+      if (all(mtchs==FALSE)) {
+        stop("No filter.parameter matched a parameter in the model") 
+      } else {
+        param_names <- param_names[mtchs]
+        param_values <- param_values[mtchs]
+      }
+    }
     
     # var   n  wt dev yval complexity ncompete nsurrogate
     if (x$caption == "TERMINAL") {
