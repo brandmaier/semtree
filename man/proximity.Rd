@@ -28,7 +28,7 @@ SEM Forest Case Proximity
 }
 \examples{
 nodeids <- structure(c(9, 3, 5, 7, 10, 4, 6, 8, 9, 3, 5, 7, 10, 4, 6, 8),
-.Dim = c(4L, 4L))
+dim = c(4L, 4L))
 class(nodeids) <- "semforest_node_id"
 sims <- proximity(nodeids)
 dd <- as.dist(1-sims)

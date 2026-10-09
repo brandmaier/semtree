@@ -148,7 +148,7 @@ partialDependence_growth <- function(x, data, reference.var, support = 20, point
 #' . Use this argument to provide specific points for which to obtain marginal
 #' dependence values; for example, the mean and +/- 1SD of \code{reference.var}.
 #' @param mc Integer. If \code{mc} is not \code{NULL}, the function will sample
-#' \code{mc} number of rows from \code{data} with replacement, to estimate
+#' \code{mc} number of rows from \code{data} without replacement, to estimate
 #' @param keep_id Boolean. Default is false. Should output contain a row id column?
 #' marginal dependency using Monte Carlo integration. This is less
 #' computationally expensive.
@@ -175,7 +175,7 @@ partialDependence_data <- function(data, reference.var, support = 20,
 
   if (!is.null(mc)) {
     int.points <-
-      data.table(id = 1, data[sample(seq_len(nrow(data)), min(mc, nrow(data))), !colnames(data) %in% reference.var, drop = FALSE])
+      data.table(id = 1, data[sample(seq_len(nrow(data)), min(mc, nrow(data)), replace = FALSE), !colnames(data) %in% reference.var, drop = FALSE])
   } else {
     int.points <-
       data.table(id = 1, data[, !colnames(data) %in% reference.var, drop = FALSE])

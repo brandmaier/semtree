@@ -37,7 +37,7 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
   ids <-
     cbind(traverse(tree, oob.data), traverse(tree, oob.data.permuted))
   colnames(ids) <- c("Original", "Permuted")
-  
+
   # compute loss in fit from original to joint model
   total <- 0
   num.failed <- 0
@@ -81,14 +81,20 @@ varimpFocus <- function(tree, data, cov.name, constraints = NULL)
       temp_model <- omxSetParameters(original.node$model, labels = focus_parameter_names,values = focus_parameter_values)
     
     } else if (getModelType(resampled.node$model) == "lavaan") {
-      
+
       temp_model <- original.node$model
-      ids <- temp_model@ParTable$label == focus_parameter_names
-      if (!any(ids)) ui_fail("Error with focus parameter specification!")
+      fids <- temp_model@ParTable$label == focus_parameter_names
+      if (!any(fids)) ui_fail("Error with focus parameter specification!")
       
-      focus_parameter_values <- resampled.node$model@ParTable$est[ids]
+      focus_parameter_values <- resampled.node$model@ParTable$est[fids]
       
-      temp_model@ParTable$est[ids] <- focus_parameter_values
+      # set the focus parameter estimates from resampled model to original model
+      temp_model@ParTable$est[fids] <- focus_parameter_values
+      
+      # enforce model-based recomputation of likelihood
+      # because model-implied matrices are not recomputed by
+      # this hack above
+      loglik = "model"
       
     } else {
       ui_fail("Focus variable importance not implemented for this type of model.")

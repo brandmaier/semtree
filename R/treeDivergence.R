@@ -1,4 +1,6 @@
-
+#
+# work in progress; do not use in production
+#
 treeDivergence <- function(tree1, tree2, data, divergence=klsym) {
   
   # similarity of two trees, sampling-based

@@ -1,5 +1,5 @@
 sctest_dummy <- function(cov_sort, scus, min.bucket) {
-  
+
   cov_sort <- droplevels(cov_sort) # drop unused levels
   levels_cov <- levels(cov_sort)
   n_levels <- length(levels_cov)

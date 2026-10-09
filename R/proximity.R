@@ -34,7 +34,11 @@ proximity <- function(x, data, ...){
 #' @export
 proximity.semforest <- function(x, data, ...){
   forest_stripped <- strip(x)
-  preds <- predict(forest_stripped, data = x$data, type = "node_id")
+  if (is.null(data)) {
+    if (!utils::hasName(x,"data")) stop("No data object given or available.")
+    data <- x$data
+  }
+  preds <- predict(forest_stripped, data = data, type = "node_id")
   proximity(preds)
 }
 #' @method proximity semforest_stripped

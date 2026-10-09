@@ -1,7 +1,7 @@
 ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                        invariance = NULL, meta = NULL,  pp = FALSE,
                        constraints = NULL, ...) {
-  
+
   # TODO
   # - test for invariance
   # - test for constraints

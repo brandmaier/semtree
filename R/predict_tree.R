@@ -1,3 +1,6 @@
+#
+# this is work in progress; do not use in production
+#
 evaluateTreePrediction <- function(tree, test_set, leaf_ids=NULL)
 {
   
@@ -30,7 +33,7 @@ evaluateTreePrediction <- function(tree, test_set, leaf_ids=NULL)
     for (j in 1:templen)
     {
       row.value <- temp_set[j,model@manifestVars]
-      localerror <- sum(row.value-ram.mean, na.rm=T)^2
+      localerror <- sum( (row.value-ram.mean)^2 , na.rm=T)
       error <- error + localerror
       cnt <- cnt + length(row.value)-is.na(row.value)
     }

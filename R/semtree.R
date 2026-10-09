@@ -117,9 +117,6 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   if (inherits(data,"tbl_df")) {
     stop("Tibbles are currently not supported. Please convert your data to data.frame.")
   }
-  
-  # TODO: change this throughout
-  dataset <- data
 
   # obtain dots arguments and test for deprecated use of arguments
   arguments <- list(...)
@@ -157,7 +154,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   if (is.null(control)) {
     control <- semtree_control()
     if (control$verbose) {
-      ui_message("Default SEMtree settings established since no Controls provided.")
+      ui_message("Default SEM tree settings established since no Controls provided.")
     }
   } else {
     if (checkControl(control) != TRUE) {
@@ -252,8 +249,8 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
   # some checks
   if (!is.null(constraints$focus.parameters)) {
-    if (!control$sem.prog %in% c("OpenMx","lavaan")) {
-      ui_stop("Focus parameters are only supported with OpenMx or lavaan!")
+    if (!control$sem.prog %in% c("OpenMx")) {
+      ui_stop("Focus parameters are only supported with OpenMx!")
     }
 
     if (control$sem.prog == "OpenMx")
@@ -280,7 +277,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
       ## 11.08.2022: check data format. Currently, only wide format is supported.
       if (all(is.na(match(
         paste0(model$ctmodelobj$manifestNames, "_T0"),
-        colnames(dataset)
+        colnames(data)
       )))) {
         stop("Long format data detected. Data need to be in wide format.")
         # Check if the model unsupported components
@@ -298,33 +295,33 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
       mxmodel <- model
     }
 
-    if (is.null(dataset)) {
+    if (is.null(data)) {
       if (is.null(mxmodel@data)) {
         stop("MxModel has no data associated!")
       }
-      dataset <- mxmodel@data@observed
+      data <- mxmodel@data@observed
     }
 
     # sanity check
-    if (any(!(covariates %in% names(dataset)))) {
+    if (any(!(covariates %in% names(data)))) {
       stop(
         paste(
           "Some of the specified predictors are not in the dataset provided: ",
-          paste(covariates[(!(covariates %in% names(dataset)))], sep = "", collapse = ",")
+          paste(covariates[(!(covariates %in% names(data)))], sep = "", collapse = ",")
         )
       )
     }
 
-    tmp <- getPredictorsOpenMx(mxmodel, dataset, covariates)
+    tmp <- getPredictorsOpenMx(mxmodel, data, covariates)
     model.ids <- tmp[[1]]
     covariate.ids <- tmp[[2]]
 
     # check whether character columns are given as predictors
     for (i in covariate.ids) {
-      if (!is.factor(dataset[, i]) && !is.numeric(dataset[, i])) {
+      if (!is.factor(data[, i]) && !is.numeric(data[, i])) {
         # this column is neither numeric or a factor, thus cannot be handled
         # probably a vector of strings
-        ui_stop("Predictor '", colnames(dataset)[i], "' is neither a factor nor numeric. This is likely causing trouble. Please remove or specify as factor or ordered.")
+        ui_stop("Predictor '", colnames(data)[i], "' is neither a factor nor numeric. This is likely causing trouble. Please remove or specify as factor or ordered.")
       }
     }
 
@@ -333,11 +330,11 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
     # unstable
     if (control$method == "score") {
       for (i in covariate.ids) {
-        if (!is.factor(dataset[, i]) && is.numeric(dataset[, i])) {
+        if (!is.factor(data[, i]) && is.numeric(data[, i])) {
           # this column is numeric, should have more than 9 unique values!
-          check_9levels <- length(unique(dataset[, i])) > 9
+          check_9levels <- length(unique(data[, i])) > 9
           if (!check_9levels) {
-            ui_warn("Predictor '", colnames(dataset)[i], "' has 9 or fewer unique values. Consider coding as ordinal to avoid instability with score-based tests.")
+            ui_warn("Predictor '", colnames(data)[i], "' has 9 or fewer unique values. Consider coding as ordinal to avoid instability with score-based tests.")
           }
         }
       }
@@ -369,11 +366,11 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   ###               lavaan USED HERE                      ###
   ###########################################################
   if (control$sem.prog == "lavaan") {
-    if (is.null(dataset)) {
+    if (is.null(data)) {
       ui_stop("Must include data for analysis!")
     }
 
-    tmp <- getPredictorsLavaan(model, dataset, covariates)
+    tmp <- getPredictorsLavaan(model, data, covariates)
     model.ids <- tmp[[1]]
     covariate.ids <- tmp[[2]]
   }
@@ -412,10 +409,10 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   # heuristic checks whether variables are correctly coded
   # to avoid problems in the computation of test statistics
   for (cid in covariate.ids) {
-    column <- dataset[, cid]
+    column <- data[, cid]
     if (is.numeric(column)) {
       if (length(unique(column)) <= 10) {
-        ui_warn("Variable ", names(dataset)[cid], " is numeric but has only few unique values. Consider recoding as ordered factor.")
+        ui_warn("Variable ", names(data)[cid], " is numeric but has only few unique values. Consider recoding as ordered factor.")
       }
     }
   }
@@ -423,9 +420,9 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   # check for no missing data in covariates if score statistics are used
   if (control$method == "score") {
     for (cid in covariate.ids) {
-      column <- dataset[, cid]
+      column <- data[, cid]
       if (sum(is.na(column)) > 0) {
-        ui_stop("Variable ", names(dataset)[cid], " has missing values. Computation of score statistic not possible.")
+        ui_stop("Variable ", names(data)[cid], " has missing values. Computation of score statistic not possible.")
         return(NULL)
       }
     }
@@ -440,12 +437,12 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   }
 
   # if this is still null, no data was given
-  if (is.null(dataset)) {
+  if (is.null(data)) {
     ui_stop("No data were provided!")
   }
 
   # sanity checks, duplicated col names?
-  if (any(duplicated(names(dataset)))) {
+  if (any(duplicated(names(data)))) {
     ui_stop("Dataset contains duplicated columns names!")
   }
 
@@ -483,7 +480,7 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
   # start the recursive growTree() function to do the
   # actual heavy lifting
   tree <- growTree(
-    model = model, mydata = dataset, control = control,
+    model = model, mydata = data, control = control,
     invariance = invariance, meta = meta,
     constraints = constraints, ...
   )

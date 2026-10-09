@@ -1,5 +1,7 @@
 testthat::skip_on_cran()
 
+library(semtree)
+
 if (require(future)) {
 
 N <- 2000

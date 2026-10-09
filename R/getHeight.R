@@ -22,11 +22,15 @@ getHeight <- function(tree) {
 
   if (!is.null(tree$left_child)) {
     countl <- 1 + getHeight(tree$left_child)
+  } else {
+    countl <- 1
   }
 
   if (!is.null(tree$right_child$caption)) {
     countr <- 1 + getHeight(tree$right_child)
-  } 
+  } else {
+    countr <- 1
+  }
 
   return(max(countl, countr))
 }
