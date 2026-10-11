@@ -15,6 +15,10 @@ semforest.control(
   remove_dead_trees = TRUE,
   logfile = FALSE
 )
+
+semforest_score_control(...)
+
+semforest_control(...)
 }
 \arguments{
 \item{num.trees}{Number of trees.}

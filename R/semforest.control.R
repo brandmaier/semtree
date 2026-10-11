@@ -50,6 +50,7 @@ semforest.control <-
     return(options)
   }
 
+#' @rdname semforest.control
 #' @export
 semforest_score_control <- function(...)
 {
@@ -59,6 +60,7 @@ semforest_score_control <- function(...)
   return(ctrl)
 }
 
+#' @rdname semforest.control
 #' @export
 semforest_control <- function(...)
 {

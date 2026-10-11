@@ -49,10 +49,13 @@
 #' All other parameters controlling the tree growing process are adjusted
 #' in the \code{\link{semtree.control}} object.
 #' 
+#' Use \code{\link{plot.semtree}} to plot a SEM tree. Use \code{\link{summary.semtree}}
+#' to get a summary.
+#' 
 #' In order to get robust estimates of the importance of predictors,
 #' consider growing a \code{\link{semforest}}
 #'
-#' @aliases semtree plot.semtree print.semtree summary.semtree toLatex.semtree nodeFunSemtree
+#' @aliases semtree print.semtree summary.semtree toLatex.semtree nodeFunSemtree
 #' @param model A template model specification from \pkg{OpenMx} using
 #' the \code{\link[OpenMx]{mxModel}} function or a \pkg{lavaan} model
 #' using the \code{\link[lavaan]{lavaan}} function with option do.fit=FALSE).

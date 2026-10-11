@@ -1,7 +1,9 @@
+#' @noRd
 getData <- function(x, ...) {
   UseMethod("getData")
 }
 
+#' @noRd
 getData.tree <- function(x, ...) {
   if (!inherits(x, "tree")) {
     stop("x must inherit from class 'tree'")

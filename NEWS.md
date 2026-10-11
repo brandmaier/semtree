@@ -22,6 +22,7 @@
 - semtree_control() has a new option "check.convergence" (default: true) that checks whether a model converged properly before it is considered for a valid split
 - fixed a bug with incorrect thining out of forests in thinOut()
 - new plot arguments for sem trees: show.nonconvergence und filter.parameters
+- semtree.plot() got its own Rd file
 
 # semtree 0.9.23 (2025)
 

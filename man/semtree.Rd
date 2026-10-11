@@ -2,7 +2,6 @@
 % Please edit documentation in R/semtree.R
 \name{semtree}
 \alias{semtree}
-\alias{plot.semtree}
 \alias{print.semtree}
 \alias{summary.semtree}
 \alias{toLatex.semtree}
@@ -98,6 +97,9 @@ instabilities.
 
 All other parameters controlling the tree growing process are adjusted
 in the \code{\link{semtree.control}} object.
+
+Use \code{\link{plot.semtree}} to plot a SEM tree. Use \code{\link{summary.semtree}}
+to get a summary.
 
 In order to get robust estimates of the importance of predictors,
 consider growing a \code{\link{semforest}}

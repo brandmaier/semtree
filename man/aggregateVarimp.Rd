@@ -17,7 +17,7 @@ aggregateVarimp(
 
 \item{aggregate}{Character. Either 'mean' or 'median' as function to aggregate estimates over a forest}
 
-\item{scale}{Character. Either 'absolute' or 'relative'.}
+\item{scale}{Character. Either 'absolute' or 'relative.baseline'.}
 
 \item{omit.na}{Boolean. By default TRUE, which ignores NA estimates when aggregating. Otherwise they are interpreted as zero.}
 

@@ -6,7 +6,7 @@
 #' 
 #' @param vimp Variable importance estimate from a SEM forest.
 #' @param aggregate Character. Either 'mean' or 'median' as function to aggregate estimates over a forest
-#' @param scale Character. Either 'absolute' or 'relative'.
+#' @param scale Character. Either 'absolute' or 'relative.baseline'.
 #' @param omit.na Boolean. By default TRUE, which ignores NA estimates when aggregating. Otherwise they are interpreted as zero.
 #' @param scale.by Integer. By default 1. Scaling parameter.
 #' @export

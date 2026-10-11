@@ -1,3 +1,25 @@
+#' Plot a SEM Tree
+#'
+#' Plot the structure of a SEM tree and parameter estimates in its terminal nodes.
+#'
+#' @method plot semtree
+#' @param x A \code{\link{semtree}} object.
+#' @param type Tree layout type passed to \code{\link[rpart.plot]{prp}}. Default is 2.
+#' @param no.plot If TRUE, return the converted \code{rpart} object without drawing a plot.
+#' @param show.nonconvergence If TRUE, mark terminal nodes whose models did not converge.
+#' @param filter.parameters Character vector of parameter names to display in terminal nodes. If NULL, display all parameters. An error is raised if no names match a node's model parameters.
+#' @param ... Additional arguments passed to \code{\link[rpart.plot]{prp}}.
+#' @return If \code{no.plot = TRUE}, an \code{rpart} object representing the tree. Otherwise, the result of \code{\link[rpart.plot]{prp}} is returned invisibly and a plot is drawn.
+#' @seealso \code{\link{semtree}}, \code{\link{plotTreeStructure}},
+#'   \code{\link[rpart.plot]{prp}}
+#' @examples
+#' data(lgcm)
+#' model <- lavaan::lavaan("o1 ~ mu*1; o1 ~~ v*o1", data = lgcm)
+#' tree <- semtree(model, data = lgcm, predictors = "training",
+#'                 control = semtree_control(max.depth = 1))
+#' plot(tree)
+#' plot(tree, filter.parameters = "mu")
+#'
 #' @exportS3Method plot semtree
 plot.semtree <- function(x,
                          type = 2,
@@ -5,7 +27,7 @@ plot.semtree <- function(x,
                          show.nonconvergence = FALSE,
                          filter.parameters = NULL,
                          ...) {
-  if (is.null(x)) {
+  if (is.null(x) || !inherits(x,"semtree")) {
     ui_error("Argument is not a SEM tree!")
 
     return(NULL)
