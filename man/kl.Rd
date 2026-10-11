@@ -2,9 +2,7 @@
 % Please edit documentation in R/kl.R
 \name{kl}
 \alias{kl}
-\alias{hellinger}
-\alias{klsym}
-\title{Distances}
+\title{Kullback-Leiber Divergence}
 \usage{
 kl(mu1, cov1, mu2, cov2)
 }

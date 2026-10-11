@@ -98,7 +98,11 @@ The computationally expensive forest and variable importance chunks are cached
 on disk. Rebuilding this vignette reuses them until either the chunk code or the
 installed semtree version changes.
 
-```{r forest, cache=TRUE, cache.extra=utils::packageVersion("semtree"), message=FALSE, warning=FALSE,results="hide"}
+```{r forest_load, eval=TRUE, echo=FALSE}
+forest <- readRDS("precomputed/semforest-focus_rmd_forest.rds")
+```
+
+```{r forest, eval=FALSE, message=FALSE, warning=FALSE,results="hide"}
 set.seed(123)
 forest <- semforest(model.biv, data=df.biv,
                     constraints = list(focus.parameters=fp),
@@ -114,7 +118,11 @@ plot(forest$forest[[1]])
 
 Now, let us investigate the permutation-based variable importance:
 
-```{r focus-varimp, cache=TRUE, dependson="forest", cache.extra=utils::packageVersion("semtree")}
+```{r focus-varimp_load, eval=TRUE, echo=FALSE}
+vim <- readRDS("precomputed/semforest-focus_rmd_vim.rds")
+```
+
+```{r focus-varimp, eval=FALSE}
 
 vim <- varimp(forest, method="permutationFocus")
 

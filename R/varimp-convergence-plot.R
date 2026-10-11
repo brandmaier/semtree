@@ -6,6 +6,31 @@ nacumsum <- function(x) {
 	return(cumsum(x))
 }
 
+#' Variable Importance Convergence Plot
+#'
+#' Plot cumulative variable importance estimates as trees are added to a forest.
+#'
+#' @param x A variable importance object returned by \code{\link{varimp}}.
+#' @param lty Line types for the covariates. If NULL, selected automatically.
+#' @param idx Tree indices to display. If NULL, all trees are displayed.
+#' @param legend.x Legend position, or NULL to omit the legend.
+#' @param clw Numeric. Line width.
+#' @param legend.cex Character expansion factor for the legend.
+#' @param ylim Vertical axis limits. If NULL, selected automatically.
+#' @param cex.lab Character expansion factor for axis labels.
+#' @param xlim Horizontal axis limits. If NULL, selected automatically.
+#' @param xlab Horizontal axis label. If NULL, uses "Number of Trees".
+#' @param ylab Vertical axis label. If NULL, uses "Absolute Increase in Misfit".
+#' @param legend.bg Legend background color.
+#' @param legend.bty Legend box type.
+#' @param na.omit Boolean. If TRUE, missing estimates are excluded from cumulative means. If FALSE, they are replaced by zero.
+#' @param extra.legend Additional right margin for a legend outside the plotting region, or NULL.
+#' @param aggregate Aggregation method: "mean" or "median". Missing estimates are replaced by zero for cumulative medians.
+#' @param ... Additional arguments passed to \code{graphics::plot()}.
+#' 
+#' @return Draws a plot as a side effect.
+#' @seealso \code{\link{varimp}}
+#' 
 #' @export
 varimpConvergencePlot <- function( x, lty=NULL, idx=NULL, 
                                      legend.x="topright", clw=4, 

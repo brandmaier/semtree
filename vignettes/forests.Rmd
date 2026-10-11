@@ -86,7 +86,11 @@ forest and variable-importance computation during iterative local or pkgdown
 builds. The package version is part of the cache key, so a new semtree release
 automatically invalidates stale results.
 
-```{r forest, cache=TRUE, cache.extra=utils::packageVersion("semtree"), message=FALSE, echo=TRUE, warning=FALSE, results="hide"}
+```{r forest_load, eval=TRUE, echo=FALSE, message=FALSE}
+forest <- readRDS("precomputed/forests_rmd_forest.rds")
+```
+
+```{r forest, eval=FALSE, message=FALSE, echo=TRUE, warning=FALSE, results="hide"}
 set.seed(123)
 forest <- semforest( model=model,
                      data = affect, 
@@ -99,7 +103,11 @@ forest <- semforest( model=model,
 
 Next, we compute permutation-based variable importance. This may take some time.
 
-```{r varimp, cache=TRUE, dependson="forest", cache.extra=utils::packageVersion("semtree")}
+```{r varimp_load, eval=TRUE, echo=FALSE, message=FALSE}
+vim <- readRDS("precomputed/forests_rmd_vim.rds")
+```
+
+```{r varimp, cache=TRUE, dependson="forest", eval=FALSE}
 vim <- varimp(forest)
 print(vim, sort.values=TRUE)
 plot(vim)
@@ -124,7 +132,11 @@ plot(vim, convergence=TRUE)
 
 Partial dependence plots visualize the relationship of a predictor and a selected model parameter. This is a powerful tool to help with interpreting SEM forests. 
 
-```{r pdp, cache=TRUE, dependson="forest", cache.extra=utils::packageVersion("semtree")}
+```{r pdp_load, eval=TRUE, echo=FALSE, message=FALSE}
+pdp <- readRDS("precomputed/forests_rmd_pdp.rds")
+```
+
+```{r pdp, cache=TRUE, dependson="forest", eval=FALSE}
 pdp <- partialDependence(forest,reference.var = "TA2")
 ```
 

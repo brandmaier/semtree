@@ -1,17 +1,25 @@
 
-# symmetric version of kl divergence
-# @export
+#' Symmetric version of Kullback-Leiber Divergence 
+#' 
+#' Distance measures for multivariate normal distributions as used in the
+#' diversityMatrix function.
+#' 
+#' 
+#' @param mu1 Mean vector
+#' @param mu2 Mean vector
+#' @param cov1 Covariance matrix
+#' @param cov2 Covariance matrix
+#' @export
 klsym <- function(mu1, cov1, mu2, cov2) {
   return( kl(mu1, cov1, mu2, cov2)+kl(mu2, cov2,mu1, cov1))
 }
 
-#' Distances
+#' Kullback-Leiber Divergence 
 #' 
 #' Divergence measures for multivariate normal distributions as used in the
 #' diversityMatrix function.
 #' 
 #' 
-#' @aliases hellinger klsym
 #' @param mu1 Mean vector
 #' @param mu2 Mean vector
 #' @param cov1 Covariance matrix
