@@ -125,15 +125,18 @@ growTree <- function(model = NULL, mydata = NULL,
       )
     }
     # lavaan
+    # lavaan
     if (control$sem.prog == "lavaan") {
-      ## 11.08.2022 Note: fits lavaan model on mydata
-      node$model <- try(suppressWarnings(eval(
-        parse(text = paste("lavaan::", model@Options$model.type,
-          "(lavaan::parTable(model),data=mydata,missing='",
-          model@Options$missing, "')",
-          sep = ""
-        ))
-      )), silent = T)
+      ## refit on node data, keeping estimator and ordinal declarations
+      fitfun <- getExportedValue("lavaan", model@Options$model.type)
+      node$model <- try(suppressWarnings(
+        fitfun(lavaan::parTable(model),
+               data             = mydata,
+               ordered          = lavaan::lavNames(model, "ov.ord"),
+               estimator        = model@Options$estimator,
+               parameterization = model@Options$parameterization,
+               missing          = model@Options$missing)
+      ), silent = TRUE)
     }
     ## 26.06.2022: Added code for ctsem models
     if (control$sem.prog == "ctsem") {

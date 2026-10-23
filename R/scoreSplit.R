@@ -44,18 +44,20 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
   n_obs <- nobs(model)
   
   # get covariance matrix of the model parameters
-  vcov. <- tryCatch({
-     solve(vcov_semtree(model) * n_obs)
-  }, error=function(e){
-    ui_fail("An error occured inverting the vcov model matrix when computing scores! Nobs=",n_obs," Aborting.")
-     NULL
-  })
-  
-  if (is.null(vcov.)) {
-    return(NULL) 
+  # non-ML lavaan fits (e.g. WLS): decorrelate with the empirical
+  # covariance of the scores (OPG), as strucchange::gefp() does by default
+  if (control$sem.prog == "lavaan" && model@Options$estimator != "ML") {
+    vcov. <- NULL
+  } else {
+    vcov. <- tryCatch({
+      solve(vcov_semtree(model) * n_obs)
+    }, error = function(e) {
+      ui_fail("An error occured inverting the vcov model matrix when computing scores! Nobs=", n_obs, " Aborting.")
+      NULL
+    })
+    if (is.null(vcov.)) return(NULL)
+    vcov. <- strucchange::root.matrix(vcov.)
   }
-  
-  vcov. <- strucchange::root.matrix(vcov.)
   
   ############################################
   # main loop with calls to sctest_semtree() #
@@ -135,7 +137,13 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
                              ))
       
       # 26.08.2022: Perform likelihood ratio test if p = 0
-      if (test.results$p.value == 0) {
+      # (only possible with a likelihood; for WLS etc. keep p = 0 and
+      #  break ties between covariates via the score test statistic)
+      has_loglik <- control$sem.prog != "lavaan" ||
+        model@Options$estimator == "ML"
+      if (test.results$p.value == 0 && !has_loglik) {
+        LL.ratio <- test.results$statistic
+      } else if (test.results$p.value == 0) {
         LL.baseline <- minus2logLik_from_fitted_models(model)
         if (level == "multinomial") {
           subset1 <- mydata[!test.results$best_partition, -meta$covariate.ids,
@@ -145,14 +153,14 @@ ScoreSplit <- function(model = NULL, mydata = NULL, control = NULL,
         } else {
           subset1 <- mydata_sorted[mydata_sorted[, cur_col] <= test.results$cutpoint,
                                    -meta$covariate.ids, drop = FALSE]
-          subset2 <- mydata_sorted[mydata_sorted[, cur_col] > test.results$cutpoint, 
+          subset2 <- mydata_sorted[mydata_sorted[, cur_col] > test.results$cutpoint,
                                    -meta$covariate.ids, drop = FALSE]
         }
         LL.return <- fitSubmodels(model = model, subset1 = subset1,
                                   subset2 = subset2, control = control,
                                   invariance = invariance)
         LL.ratio <- LL.baseline - LL.return
-        test.results$p.value <- pchisq(q = LL.ratio[1], df = scus$nreg, # check scus$nreg
+        test.results$p.value <- pchisq(q = LL.ratio[1], df = scus$nreg,
                                        lower.tail = FALSE)
       } else {
         LL.ratio <- NA
