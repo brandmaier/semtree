@@ -9,3 +9,5 @@
 * Caspar van Lissa (contributor)
 
 * Moritz John (contributor)
+
+* Franz Classe (contributor) 
