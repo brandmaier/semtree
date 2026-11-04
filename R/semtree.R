@@ -252,22 +252,24 @@ semtree <- function(model, data = NULL, control = NULL, constraints = NULL,
 
   # some checks
   if (!is.null(constraints$focus.parameters)) {
-    if (!control$sem.prog %in% c("OpenMx")) {
-      ui_stop("Focus parameters are only supported with OpenMx!")
+    # lavaan: focus parameters are supported for score-based splitting only
+    # (naive/fair refit invariance-constrained models, which is OpenMx-specific)
+    if (control$sem.prog == "lavaan" && control$method != "score") {
+      ui_stop("Focus parameters with lavaan are only supported with method = 'score'!")
     }
-
-    if (control$sem.prog == "OpenMx")
-     num.match <- length(constraints$focus.parameters %in%
-      OpenMx::omxGetParameters(model))
-    else if (control$sem.prog == "lavaan") {
-      num.match <- length(constraints$focus.parameters %in% 
-                           lavaan::parameterTable(model)$label)
-    } else {
-      stop("This type of SEM is not supported with focus parameters.")
+    if (!control$sem.prog %in% c("OpenMx", "lavaan")) {
+      ui_stop("This type of SEM is not supported with focus parameters.")
     }
     
-    if (num.match != length(constraints$focus.parameters)) {
-      ui_stop("Error! Not all focus parameters are free parameters in the model!")
+    free_pars <- if (control$sem.prog == "OpenMx") {
+      names(OpenMx::omxGetParameters(model))
+    } else {
+      names(lavaan::coef(model))   # e.g. "simuvar1|t1", "Eta1=~simuvar2"
+    }
+    
+    if (!all(constraints$focus.parameters %in% free_pars)) {
+      ui_stop("Error! Not all focus parameters are free parameters in the model: ",
+              paste(setdiff(constraints$focus.parameters, free_pars), collapse = ", "))
     }
   }
 
